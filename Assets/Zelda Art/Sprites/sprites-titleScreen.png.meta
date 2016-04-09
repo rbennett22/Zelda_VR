@@ -1,0 +1,119 @@
+fileFormatVersion: 2
+guid: a194d47c796f21c4da6d71ee142f7657
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: titleScreen_1
+    21300002: titleScreen_2
+    21300004: titleScreen_3
+    21300006: titleScreen_4
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 1
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 1
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 1
+    aniso: 4
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 16
+  alphaIsTransparency: 1
+  textureType: 5
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: titleScreen_1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 2
+        width: 256
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -128, y: 120}
+        - {x: -128, y: -120}
+        - {x: 128, y: -120}
+        - {x: 128, y: 120}
+    - name: titleScreen_2
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 2
+        width: 256
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -128, y: 120}
+        - {x: -128, y: -120}
+        - {x: 128, y: -120}
+        - {x: 128, y: 120}
+    - name: titleScreen_3
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 2
+        width: 256
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -128, y: 120}
+        - {x: -128, y: -120}
+        - {x: 128, y: -120}
+        - {x: 128, y: 120}
+    - name: titleScreen_4
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 2
+        width: 256
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -128, y: 120}
+        - {x: -128, y: -120}
+        - {x: 128, y: -120}
+        - {x: 128, y: 120}
+    outline: []
+  spritePackingTag: titleScreen
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

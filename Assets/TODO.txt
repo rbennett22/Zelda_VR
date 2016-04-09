@@ -1,0 +1,90 @@
+--- TODO ---
+
+- Possible memory leak.  When using renderer.material, be sure to call DestroyImmediate(renderer.material) in OnDestroy().
+
+- Lost Hills
+- Waterfall cave
+- D6 OW Entrance
+- D1 NPC room seals
+- Grotto Warps
+- Fog disappears abruptly in grottos close to Lost Woods
+- Update Controls image
+- LoadSelectScreen - Choose Name, Elimination Mode, Name text align
+- Pause Menu - Positioning; Remove unused options
+- "Continue or Save & Quit?" GUI
+- Gannon - Intro, Death
+- Ending
+- Credits
+
+- Pause Menu - View Controls
+- Pause Menu - Edit Look Sensitivity
+- Bow Crosshair
+- Make Map display an arrow for Link instead of a square
+- LikeLike - Show an effect to indicate what's happening when player is trapped
+- Use "screen tile" Boundaries for OW enemies
+- Whistle Warp - Wait for blocks to instantiate before opening shutters
+- Texture blocks correctly (use BoxMesh.cs)
+- Texture OW DungeonEntrances correctly.
+- SubDungeon Warps - Mirror effect
+- Medicine - Animate HeartRestore
+- Hold up HeartContainer if received in Grotto
+- Allow Multiple directions for PushableBlocks
+- Black Shutters should close vertically onDeath
+- Leevers - Emerge anim should only play through once
+- Boss Death anim (blink 2-3 times, then "poof")
+- Gleeok Heads Poof onDeath
+
+- Place "signs" above Grottos indicating type
+- Inventory Cursor should blink red/blue
+- Have Statues charge upeach shot with a sound effect so player knows when to dodge
+- Allow pushback force to send enemies flying upwards
+- Have Enemy's pushBack force applied in weapon's moveDirection. (Have all weapons/projectiles transform.forward point in their direction of travel.)
+- Music Fade In/Out
+- Have enemies make some noise to alert you of their presence
+- Show Shield, indicate MagicShield?
+- When WandProjectile hits Link's shield you should see it reflect off 
+- Particles for MagicSword, MagicBoomerang, SilverArrow
+- Cannon transportation
+
+-- Other --
+- Use Zelda Font for Controls text
+- Non-Oculus Support
+- Latest Oculus Unity SDK?
+
+-- BUGS --
+- BUG: If you Pause during music opening, the loop won't play automatically when the opening finishes
+- BUG: Moldorm looks crazy when resuming after pause
+- BUG: Enemies can end up walking through walls in Lost Woods
+- BUG: Enemies that spawn after clock has activated aren't paralyzed
+- BUG: Vire can jump through wall
+
+-- Optimizations --
+- Store blocks in 2D Array
+- Use Mesh.CombineMeshes on blocks
+- Spawn LostWoods only when needed
+- material vs sharedmaterial?
+- Only update HUD text when info changes (i.e. keys, bombs, rupees, level)
+
+
+--- NEEDS TESTING  ---
+
+- LikeLike MagicShield stealing
+- Bait
+- Darknut shields against MagicWand (no flame)
+- Vires - No redKeese if MagicSword or magicSwordProjectile kills
+- Wand Flame should light up dark room
+- Playing flute, gameOver, or triforceFanfare should stop music
+
+
+--- NOTES ---
+
+- Enemy Type Count:  
+   Overworld - 4 small, 5 big.  
+   Dungeon   - 5 small, 6 big.  
+   Bosses    - 8
+
+
+- Credits:
+Ramón A Olivares - "zeldaCollage_25Aniv"
+Michael Gallagher - "Zelda VR" promo artwork
+http://gamingaddictmike125.deviantart.com/art/The-Legend-of-Zelda-8-Bit-90311894

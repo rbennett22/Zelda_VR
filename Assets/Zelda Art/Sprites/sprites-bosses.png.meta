@@ -1,0 +1,898 @@
+fileFormatVersion: 2
+guid: fdfbec27975fad543937becb8af6ef45
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: aquamentus_1
+    21300002: aquamentus_2
+    21300004: aquamentus_3
+    21300006: aquamentus_4
+    21300008: digdogger_small_1
+    21300010: digdogger_small_2
+    21300012: digdogger_big_1
+    21300014: digdogger_big_2
+    21300016: gleeok_body_1
+    21300018: gleeok_body_2
+    21300020: gleeok_body_3
+    21300022: gleeok_shot
+    21300024: gleeok_head
+    21300026: gleeok_head_red
+    21300028: dodongo_D_1
+    21300030: dodongo_L_1
+    21300032: dodongo_U_1
+    21300034: dodongo_R_1
+    21300036: gohma_red_open_1
+    21300038: gohma_red_closed_1
+    21300040: gohma_red_closed_3
+    21300042: gohma_red_closing_1
+    21300044: dodongo_D_2
+    21300046: dodongo_L_2
+    21300048: dodongo_U_2
+    21300050: dodongo_R_2
+    21300052: gohma_red_open_2
+    21300054: gohma_red_closed_2
+    21300056: gohma_red_closed_4
+    21300058: gohma_red_closing_2
+    21300060: dodongo_D_3
+    21300062: dodongo_L_3
+    21300064: dodongo_U_3
+    21300066: dodongo_R_3
+    21300068: gohma_blue_open_1
+    21300070: gohma_blue_closed_1
+    21300072: gohma_blue_closed_3
+    21300074: gohma_blue_closing_1
+    21300076: gohma_blue_open_2
+    21300078: gohma_blue_closed_2
+    21300080: gohma_blue_closed_4
+    21300082: gohma_blue_closing_2
+    21300084: manhandla_1
+    21300086: manhandla_2
+    21300088: manhandla_3
+    21300090: manhandla_4
+    21300092: manhandla_5
+    21300094: manhandla_6
+    21300096: manhandla_7
+    21300098: manhandla_8
+    21300100: manhandla_9
+    21300102: gannon_1
+    21300104: gannon_2
+    21300106: gannon_3
+    21300108: gannon_4
+    21300110: gannon_5
+    21300112: gannon_red_1
+    21300114: gannon_red_2
+    21300116: gannon_dust
+    21300118: gannon_triforce_1
+    21300120: gannon_triforce_2
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -2
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: 0
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 16
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: aquamentus_1
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 311
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: aquamentus_2
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 311
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: aquamentus_3
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 311
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: aquamentus_4
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 311
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: digdogger_small_1
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 319
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: digdogger_small_2
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 319
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: digdogger_big_1
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 311
+        width: 28
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: digdogger_big_2
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 311
+        width: 28
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_body_1
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 264
+        width: 24
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_body_2
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 265
+        width: 24
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_body_3
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 264
+        width: 24
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_shot
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 291
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_head
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 263
+        width: 8
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_head_red
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 263
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_D_1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 236
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_L_1
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 237
+        width: 28
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_U_1
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 236
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_R_1
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 237
+        width: 28
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_red_open_1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 236
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_red_closed_1
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 236
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_red_closed_3
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 236
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_red_closing_1
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 236
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_D_2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 206
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_L_2
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 206
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_U_2
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 206
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_R_2
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 206
+        width: 28
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_red_open_2
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 206
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_red_closed_2
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 206
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_red_closed_4
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 206
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_red_closing_2
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 206
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_D_3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_L_3
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 176
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_U_3
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: dodongo_R_3
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 176
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_blue_open_1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 176
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_blue_closed_1
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 176
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_blue_closed_3
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 176
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_blue_closing_1
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 176
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_blue_open_2
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 146
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_blue_closed_2
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 146
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_blue_closed_4
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 146
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gohma_blue_closing_2
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 146
+        width: 47
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: manhandla_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 91
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 24}
+        - {x: -24, y: 16}
+        - {x: -24, y: -12}
+        - {x: -15, y: -24}
+        - {x: 15, y: -24}
+        - {x: 24, y: -9}
+        - {x: 24, y: 12}
+        - {x: 5, y: 24}
+    - name: manhandla_2
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 92
+        width: 47
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14.5, y: 23}
+        - {x: -23.5, y: 11}
+        - {x: -23.5, y: -15}
+        - {x: -13.5, y: -23}
+        - {x: 18.5, y: -23}
+        - {x: 23.5, y: -14}
+        - {x: 23.5, y: 17}
+        - {x: 11.5, y: 23}
+    - name: manhandla_3
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 91
+        width: 47
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9.5, y: 24}
+        - {x: -23.5, y: 8}
+        - {x: -23.5, y: -8}
+        - {x: -7.5, y: -24}
+        - {x: 14.5, y: -24}
+        - {x: 23.5, y: -10}
+        - {x: 23.5, y: 13}
+        - {x: 5.5, y: 24}
+    - name: manhandla_4
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 92
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17, y: 23}
+        - {x: -24, y: 18}
+        - {x: -24, y: -8}
+        - {x: -23, y: -8}
+        - {x: -7, y: -23}
+        - {x: 14, y: -23}
+        - {x: 24, y: -7}
+        - {x: 24, y: 16}
+        - {x: 18, y: 23}
+    - name: manhandla_5
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 91
+        width: 47
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23.5, y: 24}
+        - {x: -23.5, y: -24}
+        - {x: 5.5, y: -24}
+        - {x: 23.5, y: -11}
+        - {x: 23.5, y: 9}
+        - {x: 8.5, y: 24}
+    - name: manhandla_6
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 39
+        width: 46
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 17, y: 22}
+        - {x: -16, y: 22}
+        - {x: -23, y: 11}
+        - {x: -23, y: -11}
+        - {x: -12, y: -22}
+        - {x: 11, y: -22}
+        - {x: 23, y: -10}
+        - {x: 23, y: 9}
+    - name: manhandla_7
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 39
+        width: 47
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12.5, y: 22}
+        - {x: -23.5, y: 10}
+        - {x: -23.5, y: -11}
+        - {x: -12.5, y: -22}
+        - {x: 12.5, y: -22}
+        - {x: 23.5, y: -12}
+        - {x: 23.5, y: 12}
+        - {x: 13.5, y: 22}
+    - name: manhandla_8
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 38
+        width: 47
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10.5, y: 23}
+        - {x: -23.5, y: 11}
+        - {x: -23.5, y: -7}
+        - {x: -22.5, y: -8}
+        - {x: -8.5, y: -21}
+        - {x: -4.5, y: -23}
+        - {x: 7.5, y: -23}
+        - {x: 23.5, y: -6}
+        - {x: 23.5, y: 9}
+        - {x: 15.5, y: 23}
+    - name: manhandla_9
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 39
+        width: 48
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13, y: 22}
+        - {x: -24, y: 13}
+        - {x: -24, y: -7}
+        - {x: -13, y: -22}
+        - {x: 13, y: -22}
+        - {x: 24, y: -12}
+        - {x: 24, y: 14}
+        - {x: 17, y: 22}
+    - name: gannon_1
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13, y: 16}
+        - {x: -16, y: 11}
+        - {x: -16, y: -13}
+        - {x: -13, y: -16}
+        - {x: 15, y: -16}
+        - {x: 16, y: -15}
+        - {x: 16, y: 16}
+    - name: gannon_2
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 16}
+        - {x: -16, y: 11}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
+    - name: gannon_3
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
+    - name: gannon_4
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10, y: 16}
+        - {x: -16, y: 7}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
+    - name: gannon_5
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13, y: 16}
+        - {x: -16, y: 8}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 9}
+        - {x: 9, y: 16}
+    - name: gannon_red_1
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 16}
+        - {x: -16, y: 11}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
+    - name: gannon_red_2
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13, y: 16}
+        - {x: -16, y: 8}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 9}
+        - {x: 9, y: 16}
+    - name: gannon_dust
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 12
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gannon_triforce_1
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 8
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gannon_triforce_2
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 8
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: bosses
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

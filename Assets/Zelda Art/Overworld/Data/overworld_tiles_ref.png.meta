@@ -1,0 +1,1341 @@
+fileFormatVersion: 2
+guid: 55883661a12024a4f888d5492939bd33
+TextureImporter:
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 1
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 512
+  textureSettings:
+    filterMode: 0
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 0
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spritePixelsToUnits: 16
+  alphaIsTransparency: 1
+  textureType: 5
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: overworld_tiles_labeled_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_1
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_2
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_3
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_4
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_5
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_6
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_7
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_8
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_9
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_10
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_11
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_12
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_13
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_14
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_15
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_16
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_17
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_19
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_20
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_21
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_22
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_23
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_24
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_25
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_26
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_27
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_28
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_29
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_30
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_31
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_32
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_33
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_34
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_35
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_37
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_38
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_39
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_40
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_41
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_42
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_43
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_44
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_45
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_46
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_47
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_48
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_49
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_50
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_51
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_52
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_53
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_54
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_55
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_56
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_57
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_58
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_59
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_60
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_61
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_62
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_63
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_64
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_65
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_66
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_67
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_68
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_69
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_70
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_71
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_72
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_73
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_74
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_75
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_76
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_77
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_78
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_79
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_80
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_81
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_82
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_83
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_84
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_85
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_86
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_87
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_88
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_89
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_90
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_91
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_92
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_93
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_94
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_95
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_96
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_97
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_98
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_99
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_100
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_101
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_102
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_103
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_104
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_105
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_106
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_107
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_108
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_109
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_110
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_111
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_112
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_113
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_114
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_115
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_116
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_117
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_118
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_119
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_120
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_121
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_122
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_123
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_124
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_125
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_126
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_127
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_128
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_129
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_130
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_131
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_132
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_133
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_134
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_135
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_136
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_137
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_138
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_139
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_140
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_141
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_142
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworld_tiles_labeled_143
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+  spritePackingTag: 
+  userData: 

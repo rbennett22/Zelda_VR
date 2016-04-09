@@ -1,0 +1,487 @@
+fileFormatVersion: 2
+guid: 5675ccac33a8ac44fa8ceffd3fee3b75
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: zol_D1_1
+    21300002: zol_D2_1
+    21300004: zol_D3_1
+    21300006: zol_D4_1
+    21300008: zol_D5_1
+    21300010: zol_D6_1
+    21300012: zol_D7_1
+    21300014: zol_D8_1
+    21300016: zol_D9_1
+    21300018: zol_D1_2
+    21300020: zol_D2_2
+    21300022: zol_D3_2
+    21300024: zol_D4_2
+    21300026: zol_D5_2
+    21300028: zol_D6_2
+    21300030: zol_D7_2
+    21300032: zol_D8_2
+    21300034: zol_D9_2
+    21300036: gel_D1_1
+    21300038: gel_D2_1
+    21300040: gel_D3_1
+    21300042: gel_D4_1
+    21300044: gel_D5_1
+    21300046: gel_D6_1
+    21300048: gel_D7_1
+    21300050: gel_D8_1
+    21300052: gel_D9_1
+    21300054: gel_D1_2
+    21300056: gel_D2_2
+    21300058: gel_D3_2
+    21300060: gel_D4_2
+    21300062: gel_D5_2
+    21300064: gel_D6_2
+    21300066: gel_D7_2
+    21300068: gel_D8_2
+    21300070: gel_D9_2
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -2
+  maxTextureSize: 256
+  textureSettings:
+    filterMode: 0
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 16
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: zol_D1_1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 60
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D2_1
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 60
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D3_1
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 60
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D4_1
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 60
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D5_1
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 60
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D6_1
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 60
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D7_1
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 60
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D8_1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 60
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D9_1
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 60
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D1_2
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 37
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D2_2
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 37
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D3_2
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 37
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D4_2
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 37
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D5_2
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 37
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D6_2
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 37
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D7_2
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 37
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D8_2
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 37
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_D9_2
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 37
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D1_1
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 18
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D2_1
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 18
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D3_1
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 18
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D4_1
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 18
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D5_1
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 18
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D6_1
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 18
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D7_1
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 18
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D8_1
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 18
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D9_1
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 18
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D1_2
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 2
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D2_2
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 2
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D3_2
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 2
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D4_2
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 2
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D5_2
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 2
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D6_2
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 2
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D7_2
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 2
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D8_2
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 2
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_D9_2
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 2
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: zolGel
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,2335 @@
+fileFormatVersion: 2
+guid: c1c18749a0da1b749adedf19f1c94dfa
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: octorok_red_D_1
+    21300002: octorok_red_L_1
+    21300004: octorok_red_U_1
+    21300006: octorok_red_R_1
+    21300008: octorok_blue_D_1
+    21300010: octorok_blue_L_1
+    21300012: octorok_blue_U_1
+    21300014: octorok_blue_R_1
+    21300016: wallmaster_L_1
+    21300018: wallmaster_R_1
+    21300020: flame_1
+    21300022: moldorm_A_1
+    21300024: moldorm_B_1
+    21300026: moldorm_C_1
+    21300028: bubble_red
+    21300030: octorok_red_D_2
+    21300032: octorok_red_L_2
+    21300034: octorok_red_U_2
+    21300036: octorok_red_R_2
+    21300038: octorok_blue_D_2
+    21300040: octorok_blue_L_2
+    21300042: octorok_blue_U_2
+    21300044: octorok_blue_R_2
+    21300046: wallmaster_L_2
+    21300048: wallmaster_R_2
+    21300050: flame_2
+    21300052: moldorm_A_2
+    21300054: moldorm_B_2
+    21300056: moldorm_C_2
+    21300058: bubble_blue
+    21300060: goriya_red_D_1
+    21300062: goriya_red_L_1
+    21300064: goriya_red_U_1
+    21300066: goriya_red_R_1
+    21300068: goriya_blue_D_1
+    21300070: goriya_blue_L_1
+    21300072: goriya_blue_U_1
+    21300074: goriya_blue_R_1
+    21300076: wizzrobe_red_L_1
+    21300078: wizzrobe_red_U_1
+    21300080: wizzrobe_red_R_1
+    21300082: wizzrobe_blue_L_1
+    21300084: wizzrobe_blue_U_1
+    21300086: wizzrobe_blue_R_1
+    21300088: bubble_yellow
+    21300090: goriya_red_D_2
+    21300092: goriya_red_L_2
+    21300094: goriya_red_U_2
+    21300096: goriya_red_R_2
+    21300098: goriya_blue_D_2
+    21300100: goriya_blue_L_2
+    21300102: goriya_blue_U_2
+    21300104: goriya_blue_R_2
+    21300106: wizzrobe_red_L_2
+    21300108: wizzrobe_red_U_2
+    21300110: wizzrobe_red_R_2
+    21300112: wizzrobe_blue_L_2
+    21300114: wizzrobe_blue_U_2
+    21300116: wizzrobe_blue_R_2
+    21300118: bubble_green
+    21300120: moblin_red_D_1
+    21300122: moblin_red_L_1
+    21300124: moblin_red_U_1
+    21300126: moblin_red_R_1
+    21300128: moblin_blue_D_1
+    21300130: moblin_blue_L_1
+    21300132: moblin_blue_U_1
+    21300134: moblin_blue_R_1
+    21300136: vire_D_1
+    21300138: vire_U_1
+    21300140: ghini_L_front
+    21300142: ghini_R_front
+    21300144: armos_D_1
+    21300146: armos_U_1
+    21300148: stalfos_1
+    21300150: moblin_red_D_2
+    21300152: moblin_red_L_2
+    21300154: moblin_red_U_2
+    21300156: moblin_red_R_2
+    21300158: moblin_blue_D_2
+    21300160: moblin_blue_L_2
+    21300162: moblin_blue_U_2
+    21300164: moblin_blue_R_2
+    21300166: vire_D_2
+    21300168: vire_U_2
+    21300170: ghini_L_back
+    21300172: ghini_R_back
+    21300174: armos_D_2
+    21300176: armos_U_2
+    21300178: stalfos_2
+    21300180: darknut_red_D_2
+    21300182: darknut_red_D_1
+    21300184: lynel_red_D_1
+    21300186: lynel_red_L_1
+    21300188: darknut_red_L_2
+    21300190: darknut_red_L_1
+    21300192: darknut_red_U_2
+    21300194: darknut_red_U_1
+    21300196: lynel_red_U_1
+    21300198: darknut_red_R_2
+    21300200: darknut_red_R_1
+    21300202: lynel_red_R_1
+    21300204: darknut_blue_D_1
+    21300206: darknut_blue_D_2
+    21300208: lynel_blue_D_1
+    21300210: lynel_blue_L_1
+    21300212: darknut_blue_L_2
+    21300214: darknut_blue_L_1
+    21300216: darknut_blue_U_1
+    21300218: darknut_blue_U_2
+    21300220: lynel_blue_U_1
+    21300222: darknut_blue_R_2
+    21300224: darknut_blue_R_1
+    21300226: lynel_blue_R_1
+    21300228: tektite_red_2
+    21300230: likelike_1
+    21300232: tektite_red_1
+    21300234: likelike_2
+    21300236: tektite_blue_2
+    21300238: tektite_blue_1
+    21300240: likelike_3
+    21300242: polsvoice_2
+    21300244: polsvoice_1
+    21300246: Lanmola_Red_Head
+    21300248: gibdo_1
+    21300250: gibdo_2
+    21300252: Lanmola_Red_Segment
+    21300254: Lanmola_Blue_Head
+    21300256: zol_gray_1
+    21300258: zol_gray_2
+    21300260: Lanmola_Blue_Segment
+    21300262: zol_green_1
+    21300264: zol_green_2
+    21300266: gel_green_1
+    21300268: gel_black_1
+    21300270: lynel_red_D_2
+    21300272: lynel_red_L_2
+    21300274: lynel_red_U_2
+    21300276: lynel_red_R_2
+    21300278: lynel_blue_D_2
+    21300280: lynel_blue_L_2
+    21300282: lynel_blue_U_2
+    21300284: lynel_blue_R_2
+    21300286: keese_blue_1
+    21300288: keese_blue_2
+    21300290: keese_red_1
+    21300292: keese_red_2
+    21300294: peahat_1
+    21300296: peahat_2
+    21300298: boomerang_red_1
+    21300300: boomerang_red_3
+    21300302: boomerang_blue_1
+    21300304: boomerang_blue_3
+    21300306: boomerang_red_7
+    21300308: boomerang_red_5
+    21300310: boomerang_blue_7
+    21300312: boomerang_blue_5
+    21300314: rope_L_1
+    21300316: rope_R_1
+    21300318: boulder_1
+    21300320: boulder_2
+    21300322: riverzora_pre_1
+    21300324: leever_red_pre_1
+    21300326: leever_red_pre_4
+    21300328: leever_red
+    21300330: patra_1
+    21300332: patra_2
+    21300334: rope_L_2
+    21300336: rope_R_2
+    21300338: bladetrap
+    21300340: leever_blue_pre_3
+    21300342: leever_blue_pre_4
+    21300344: leever_blue
+    21300346: patra_small_1
+    21300348: patra_small_2
+    21300350: gel_green_2
+    21300352: gel_black_2
+    21300354: boomerang_red_2
+    21300356: boomerang_blue_2
+    21300358: boomerang_red_8
+    21300360: boomerang_red_4
+    21300362: boomerang_blue_8
+    21300364: boomerang_blue_4
+    21300366: boomerang_red_6
+    21300368: boomerang_blue_6
+    21300370: riverzora_pre_2
+    21300372: leever_red_pre_2
+    21300374: leever_red_pre_3
+    21300376: leever_blue_pre_2
+    21300378: leever_blue_pre_1
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -2
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: 0
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 16
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: octorok_red_D_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 331
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_red_L_1
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 330
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_red_U_1
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 331
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_red_R_1
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 330
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_blue_D_1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 331
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_blue_L_1
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 330
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_blue_U_1
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 331
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_blue_R_1
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 330
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wallmaster_L_1
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 331
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wallmaster_R_1
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 331
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: flame_1
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 330
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moldorm_A_1
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 333
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moldorm_B_1
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 333
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moldorm_C_1
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 333
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: bubble_red
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 330
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_red_D_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_red_L_2
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 300
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_red_U_2
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 300
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_red_R_2
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 300
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_blue_D_2
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 300
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_blue_L_2
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 300
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_blue_U_2
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 300
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: octorok_blue_R_2
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 300
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wallmaster_L_2
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 300
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wallmaster_R_2
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 300
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: flame_2
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 300
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moldorm_A_2
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 303
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moldorm_B_2
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 303
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moldorm_C_2
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 303
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: bubble_blue
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 300
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_red_D_1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 270
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_red_L_1
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 270
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_red_U_1
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 270
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_red_R_1
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 270
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_blue_D_1
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 270
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_blue_L_1
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 270
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_blue_U_1
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 270
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_blue_R_1
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 270
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_red_L_1
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 271
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_red_U_1
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 270
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_red_R_1
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 271
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_blue_L_1
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 271
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_blue_U_1
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 270
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_blue_R_1
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 271
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: bubble_yellow
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 270
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_red_D_2
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 240
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_red_L_2
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 241
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_red_U_2
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 240
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_red_R_2
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 241
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_blue_D_2
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 240
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_blue_L_2
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 241
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_blue_U_2
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 240
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: goriya_blue_R_2
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 241
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_red_L_2
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 240
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_red_U_2
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 241
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_red_R_2
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 240
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_blue_L_2
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 240
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_blue_U_2
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 241
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: wizzrobe_blue_R_2
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 240
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: bubble_green
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 240
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_red_D_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 210
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_red_L_1
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 211
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_red_U_1
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 210
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_red_R_1
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 210
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_blue_D_1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 210
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_blue_L_1
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 211
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_blue_U_1
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 210
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_blue_R_1
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 210
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: vire_D_1
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 211
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: vire_U_1
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 211
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: ghini_L_front
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 210
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: ghini_R_front
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 210
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: armos_D_1
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 210
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: armos_U_1
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 210
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: stalfos_1
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 210
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_red_D_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 180
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_red_L_2
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 180
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_red_U_2
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 180
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_red_R_2
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 181
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_blue_D_2
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 180
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_blue_L_2
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 180
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_blue_U_2
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 180
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: moblin_blue_R_2
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 181
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: vire_D_2
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 181
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: vire_U_2
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 181
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: ghini_L_back
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 180
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: ghini_R_back
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 180
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: armos_D_2
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 180
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: armos_U_2
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 180
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: stalfos_2
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 180
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_red_D_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 120
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_red_D_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 150
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_red_D_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 90
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_red_L_1
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 91
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_red_L_2
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 121
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_red_L_1
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 150
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_red_U_2
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 120
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_red_U_1
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 150
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_red_U_1
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 90
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_red_R_2
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 121
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_red_R_1
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 150
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_red_R_1
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 91
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_blue_D_1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 150
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_blue_D_2
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 120
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_blue_D_1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 90
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_blue_L_1
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 91
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_blue_L_2
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 121
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_blue_L_1
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 151
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_blue_U_1
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 150
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_blue_U_2
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 120
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_blue_U_1
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 90
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_blue_R_2
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 121
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: darknut_blue_R_1
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 150
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_blue_R_1
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 91
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: tektite_red_2
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 121
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: likelike_1
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 93
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: tektite_red_1
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 152
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: likelike_2
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 92
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: tektite_blue_2
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 121
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: tektite_blue_1
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 152
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: likelike_3
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 90
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: polsvoice_2
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 120
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: polsvoice_1
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 151
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Lanmola_Red_Head
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 91
+        width: 8
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gibdo_1
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 150
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gibdo_2
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 120
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Lanmola_Red_Segment
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 92
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Lanmola_Blue_Head
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 91
+        width: 8
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_gray_1
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 151
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_gray_2
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 120
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: Lanmola_Blue_Segment
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 92
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_green_1
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 151
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: zol_green_2
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 120
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_green_1
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 154
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_black_1
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 154
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_red_D_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 60
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_red_L_2
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 61
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_red_U_2
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 60
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_red_R_2
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 61
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_blue_D_2
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 60
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_blue_L_2
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 61
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_blue_U_2
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 60
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: lynel_blue_R_2
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 61
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: keese_blue_1
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 64
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: keese_blue_2
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 63
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: keese_red_1
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 64
+        width: 16
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: keese_red_2
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 63
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: peahat_1
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 60
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: peahat_2
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 61
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_red_1
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 69
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_red_3
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 69
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_blue_1
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 69
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_blue_3
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 69
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_red_7
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 59
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_red_5
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 59
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_blue_7
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 59
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_blue_5
+      rect:
+        serializedVersion: 2
+        x: 429
+        y: 59
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: rope_L_1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 31
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: rope_R_1
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 31
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boulder_1
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 30
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boulder_2
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 30
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: riverzora_pre_1
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 36
+        width: 12
+        height: 4
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: leever_red_pre_1
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 36
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: leever_red_pre_4
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 30
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: leever_red
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 30
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: patra_1
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 33
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: patra_2
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 33
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: rope_L_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: rope_R_2
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 1
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: bladetrap
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: leever_blue_pre_3
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 3
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: leever_blue_pre_4
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 0
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: leever_blue
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: patra_small_1
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 4
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: patra_small_2
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 4
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_green_2
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 124
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gel_black_2
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 124
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_red_2
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 103
+        width: 8
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_blue_2
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 103
+        width: 8
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_red_8
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 94
+        width: 5
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_red_4
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 94
+        width: 5
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_blue_8
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 94
+        width: 5
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_blue_4
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 94
+        width: 5
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_red_6
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 88
+        width: 8
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: boomerang_blue_6
+      rect:
+        serializedVersion: 2
+        x: 424
+        y: 88
+        width: 8
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: riverzora_pre_2
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 36
+        width: 10
+        height: 5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: leever_red_pre_2
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 36
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: leever_red_pre_3
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 33
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: leever_blue_pre_2
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 36
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: leever_blue_pre_1
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 36
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: enemies
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

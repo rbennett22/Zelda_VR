@@ -1,0 +1,1341 @@
+fileFormatVersion: 2
+guid: 6302ca3a3a1f6244e84efc78ef227f53
+TextureImporter:
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 1
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 1
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 512
+  textureSettings:
+    filterMode: 0
+    aniso: 4
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 0
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 5
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: overworldtiles_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_1
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_2
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_3
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_4
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_5
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_6
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_7
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_8
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_9
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_10
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_11
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_12
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_13
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_14
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_15
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_16
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_17
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 120
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_19
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_20
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_21
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_22
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_23
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_24
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_25
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_26
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_27
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_28
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_29
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_30
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_31
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_32
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_33
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_34
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_35
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 103
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_37
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_38
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_39
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_40
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_41
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_42
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_43
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_44
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_45
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_46
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_47
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_48
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_49
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_50
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_51
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_52
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_53
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 86
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_54
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_55
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_56
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_57
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_58
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_59
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_60
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_61
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_62
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_63
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_64
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_65
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_66
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_67
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_68
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_69
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_70
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_71
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 69
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_72
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_73
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_74
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_75
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_76
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_77
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_78
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_79
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_80
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_81
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_82
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_83
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_84
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_85
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_86
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_87
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_88
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_89
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 52
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_90
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_91
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_92
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_93
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_94
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_95
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_96
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_97
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_98
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_99
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_100
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_101
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_102
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_103
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_104
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_105
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_106
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_107
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 35
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_108
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_109
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_110
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_111
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_112
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_113
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_114
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_115
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_116
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_117
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_118
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_119
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_120
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_121
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_122
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_123
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_124
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_125
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 18
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_126
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_127
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_128
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_129
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_130
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_131
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_132
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_133
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_134
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_135
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_136
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_137
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_138
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_139
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_140
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_141
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_142
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: overworldtiles_143
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 1
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+  spritePackingTag: 
+  userData: 

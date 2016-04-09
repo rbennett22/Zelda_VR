@@ -1,0 +1,175 @@
+fileFormatVersion: 2
+guid: feaa8aaef51c1c241a18abd86ffdbd71
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: gleeok_D_1
+    21300002: gleeok_D_2
+    21300004: gleeok_D_3
+    21300006: gleeok_neck
+    21300008: gleeok_head
+    21300010: gleeok_firehead
+    21300012: gleeok_L_1
+    21300014: gleeok_R_1
+    21300016: gleeok_L_2
+    21300018: gleeok_R_2
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -2
+  maxTextureSize: 256
+  textureSettings:
+    filterMode: 0
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 16
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: gleeok_D_1
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 71
+        width: 26
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_D_2
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 71
+        width: 26
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_D_3
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 71
+        width: 26
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_neck
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 86
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_head
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 58
+        width: 8
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_firehead
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 58
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_L_1
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 33
+        width: 34
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_R_1
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 33
+        width: 34
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_L_2
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 2
+        width: 34
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: gleeok_R_2
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 2
+        width: 34
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: gleeok
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

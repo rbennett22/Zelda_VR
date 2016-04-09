@@ -1,0 +1,419 @@
+fileFormatVersion: 2
+guid: 02cfab359fba02d4ba52c9091c5d180b
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: floor
+    21300002: door_open_D
+    21300004: door_open_up
+    21300006: door_open_left
+    21300008: door_open_right
+    21300010: door_closed_D
+    21300012: door_closed_U
+    21300014: door_closed_L
+    21300016: door_closed_R
+    21300018: door_locked_D
+    21300020: door_locked_U
+    21300022: door_locked_L
+    21300024: door_locked_R
+    21300026: hole_D
+    21300028: hole_U
+    21300030: hole_L
+    21300032: hole_R
+    21300034: block_2
+    21300036: block_1
+    21300038: statue_R_1
+    21300040: statue_L_1
+    21300042: statue_L_2
+    21300044: statue_R_2
+    21300046: floor_tile_A
+    21300048: floor_tile_B
+    21300050: floor_tile_black
+    21300052: stairs
+    21300054: floor_tile_sand_A
+    21300056: floor_tile_sand_B
+    21300058: floor_tile_sand_C
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 1
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: 5
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: 0
+    aniso: 4
+    mipBias: -1
+    wrapMode: -1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 16
+  alphaIsTransparency: 1
+  textureType: 5
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: floor
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 240
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -120, y: 80}
+        - {x: -120, y: -80}
+        - {x: 120, y: -80}
+        - {x: 120, y: 80}
+    - name: door_open_D
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 140
+        width: 32
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: door_open_up
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 140
+        width: 32
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: door_open_left
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 140
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: door_open_right
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 140
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: door_closed_D
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 103
+        width: 32
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: door_closed_U
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 103
+        width: 32
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: door_closed_L
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 103
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: door_closed_R
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 102
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: door_locked_D
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 66
+        width: 32
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: door_locked_U
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 66
+        width: 32
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: door_locked_L
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 66
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: door_locked_R
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 66
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hole_D
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 46
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hole_U
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 46
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hole_L
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 47
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: hole_R
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 46
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: block_2
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 27
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: block_1
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 27
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: statue_R_1
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 27
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: statue_L_1
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 27
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: statue_L_2
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 27
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: statue_R_2
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 27
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: floor_tile_A
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 8
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: floor_tile_B
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 8
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: floor_tile_black
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 8
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: stairs
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 8
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: floor_tile_sand_A
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 8
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: floor_tile_sand_B
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 8
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - name: floor_tile_sand_C
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 8
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: dungeon
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
