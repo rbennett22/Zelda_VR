@@ -9,9 +9,7 @@ public class Pause : Singleton<Pause>
 
 
     public bool IsAllowed { get; set; }
-
     public bool IsTimeFrozen { get; private set; }
-
     public bool IsInventoryShowing { get; private set; }
     public bool IsMenuShowing { get; private set; }
 
@@ -98,6 +96,8 @@ public class Pause : Singleton<Pause>
     {
         if (IsInventoryShowing || !IsAllowed) { return; }
 
+        // TODO
+
         IsInventoryShowing = true;
     }
 
@@ -107,6 +107,8 @@ public class Pause : Singleton<Pause>
         {
             if (!IsInventoryShowing || !IsAllowed) { return; }
         }
+
+        // TODO
 
         IsInventoryShowing = false;
     }

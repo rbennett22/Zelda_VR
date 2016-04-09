@@ -1,61 +1,22 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(InventoryView))]
 
-public class InventoryGUI : MonoBehaviour
+public class InventoryViewController : MonoBehaviour
 {
-    public GameplayHUD gameplayHUD;
-    public Texture bgImageOverworld, bgImageDungeon;
-    public Texture refImageOverworld, refImageDungeon;
-    public Texture cursorImage;
-    public Texture triforceLarge_1_image, triforceLarge_2_image, triforceLarge_3_image;
-
-    public bool showRefImage = false;
-    public bool showBlackBackground = false;
-    public float alpha = 1.0f;
-    public float stretch = 1.0f;           // Amount by which to multiple Sprite's position and renderSize (not the bgImage though).
-    public bool showOnPauseOnly = true;
-
-
-    Texture _blackTexture;
-    Vector2 _showcaseItemCenter = new Vector2(72, 55);
-
+    InventoryView _view;
     Inventory _inventory;
 
-    int _cursorIndex_X, _cursorIndex_Y;
     bool _cursorCooldownActive = false;
     int _cursorCooldownDuration = 6;
     int _cursorCooldownCounter = 0;
 
 
-    public Texture BgImage  { get { return WorldInfo.Instance.IsInDungeon ? bgImageDungeon : bgImageOverworld; } }
-    public Texture RefImage { get { return WorldInfo.Instance.IsInDungeon ? refImageDungeon : refImageOverworld; } }
-
-    public void SetCursorIndex(Vector2 idx)
+    void Awake()
     {
-        SetCursorIndex(Mathf.RoundToInt(idx.x), Mathf.RoundToInt(idx.y));
-    }
-    public void SetCursorIndex(int x, int y)
-    {
-        _cursorIndex_X = x;
-        _cursorIndex_Y = y;
-    }
-
-
-    /*void Awake()
-    {
+        _view = GetComponent<InventoryView>();
         _inventory = Inventory.Instance;
-
-        CreateTextures();
-    }
-
-    void CreateTextures()
-    {
-        _blackTexture = StereoscopicGUI.CreateBlackTexture();
-
-        _dungeonMapLinkTexture = GfxHelper.CreateColoredTexture(_dungeonMapLinkColor);
-        _dungeonMapBossTexture = GfxHelper.CreateColoredTexture(_dungeonMapBossColor);
     }
 
 
@@ -99,55 +60,20 @@ public class InventoryGUI : MonoBehaviour
             }
         }
     }
-
     void MoveCursor(Vector2 direction)
     {
-        if (direction.x < 0)            { _cursorIndex_X--; }
-        else if (direction.x > 0)       { _cursorIndex_X++; }
-        if (_cursorIndex_X < 0)         { _cursorIndex_X += 4; }
-        else if (_cursorIndex_X >= 4)   { _cursorIndex_X -= 4; }
+        _view.MoveCursor(direction);
 
-        if (direction.y < 0)            { _cursorIndex_Y--; }
-        else if (direction.y > 0)       { _cursorIndex_Y++; }
-        if (_cursorIndex_Y < 0)         { _cursorIndex_Y += 2; }
-        else if (_cursorIndex_Y >= 2)   { _cursorIndex_Y -= 2; }
-
-        _inventory.EquippedItemB = _inventory.GetEquippableSecondaryItem(_cursorIndex_X, _cursorIndex_Y);
+        Vector2 cursorIndices = _view.CursorIndices;
+        _inventory.EquippedItemB = _inventory.GetEquippableSecondaryItem((int)cursorIndices.x, (int)cursorIndices.y);
 
         SoundFx sfx = SoundFx.Instance;
         sfx.PlayOneShot(sfx.cursor);
-
-        _cursorCooldownActive = true;
-        _cursorCooldownCounter = 0;
     }
+    
 
-
-    StereoscopicGUI _stereoscopicGUI;
-    void OnStereoscopicGUI(StereoscopicGUI stereoscopicGUI)
-    {
-        _stereoscopicGUI = stereoscopicGUI;
-
-        if (showOnPauseOnly && !Pause.Instance.IsInventoryShowing) { return; }
-
-        GUIShowInventory();
-    }
-
-    Rect _inventoryArea;
     void GUIShowInventory()
     {
-        Rect r = _inventoryArea = CalcInventoryArea();
-        //print(" _inventoryArea: " + _inventoryArea);
-
-        if (showBlackBackground)
-        {
-            GUIShowBlackBackground();
-        }
-
-        Color color = Color.white;
-        color.a = alpha;
-        Texture image = showRefImage ? RefImage : BgImage;
-        _stereoscopicGUI.GuiHelper.StereoDrawTexture((int)r.x, (int)r.y, (int)r.width, (int)r.height, ref image, color);
-
         GUIShowItems();
 
         if (Pause.Instance.IsInventoryShowing)
@@ -157,29 +83,18 @@ public class InventoryGUI : MonoBehaviour
 
         if (WorldInfo.Instance.IsOverworld)
         {
-            GUIShowTriforce(color);
+            GUIShowTriforce();
         }
         else if (WorldInfo.Instance.IsInDungeon)
         {
-            GUIShowMap(color);
+            GUIShowMap();
             GUIShowMapAndCompassIcons();
         }
     }
 
 
-    void GUIShowBlackBackground()
-    {
-        Rect r = _inventoryArea;
-        Color bgColor = Color.black;
-        bgColor.a = alpha;
-        _stereoscopicGUI.GuiHelper.StereoDrawTexture((int)r.x, (int)r.y, (int)r.width, (int)r.height, ref _blackTexture, bgColor);
-    }
-
     void GUIShowItems()
     {
-        Color color = Color.white;
-        color.a = alpha;
-
         Texture tex = null;
         foreach (KeyValuePair<string, Item> entry in _inventory.Items)
         {
@@ -238,13 +153,8 @@ public class InventoryGUI : MonoBehaviour
 
     #region Triforce, Map, Compass
 
-    Vector2[] _triforcePositions = {
-        new Vector2(224, 222), new Vector2(256, 222),
-        new Vector2(192, 254), new Vector2(288, 254),
-        new Vector2(224, 254), new Vector2(224, 254),
-        new Vector2(256, 254), new Vector2(256, 254) };
 
-    void GUIShowTriforce(Color color)
+    void GUIShowTriforce()
     {
         for (int i = 0; i < 8; i++)
 		{
@@ -285,7 +195,13 @@ public class InventoryGUI : MonoBehaviour
 
     Texture _dungeonMapBossTexture, _dungeonMapLinkTexture;
 
-    void GUIShowMap(Color color)
+    void CreateDungeonMapTextures()
+    {
+        _dungeonMapLinkTexture = GfxHelper.CreateColoredTexture(_dungeonMapLinkColor);
+        _dungeonMapBossTexture = GfxHelper.CreateColoredTexture(_dungeonMapBossColor);
+    }
+
+    void GUIShowMap()
     {
         int dungeonNum = WorldInfo.Instance.DungeonNum;
         bool hasMap = _inventory.HasMapForDungeon(dungeonNum);
@@ -387,37 +303,4 @@ public class InventoryGUI : MonoBehaviour
     }
 
     #endregion
-
-
-    void StereoDrawTexture(Rect rect, ref Texture image, Color color, bool withStretch = true)
-    {
-        float appliedStretch = withStretch ? stretch : 1;
-
-        int x = (int)(_inventoryArea.xMin + rect.x * appliedStretch);
-        int y = (int)(_inventoryArea.yMin + rect.y * appliedStretch);
-        int w = (int)(rect.width * appliedStretch);
-        int h = (int)(rect.height * appliedStretch);
-
-        _stereoscopicGUI.GuiHelper.StereoDrawTexture(x, y, w, h, ref image, color);
-    }
-    void StereoDrawTexture(Vector2 pos, ref Texture image, Color color, bool withStretch = true)
-    {
-        float appliedStretch = withStretch ? stretch : 1;
-
-        int x = (int)(_inventoryArea.xMin + pos.x * appliedStretch);
-        int y = (int)(_inventoryArea.yMin + pos.y * appliedStretch);
-        int w = (int)(image.width * appliedStretch);
-        int h = (int)(image.height * appliedStretch);
-
-        _stereoscopicGUI.GuiHelper.StereoDrawTexture(x, y, w, h, ref image, color);
-    }
-
-    Rect CalcInventoryArea()
-    {
-        Rect r = gameplayHUD.RenderArea;
-        float h = BgImage.height;
-        float w = BgImage.width; //r.width;
-        return new Rect(r.x, r.y - h, w, h);
-    }
-    */
 }
