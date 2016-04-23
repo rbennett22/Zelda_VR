@@ -7,7 +7,6 @@ public class Item : MonoBehaviour
     const string GuiSpriteGameObjectName = "GuiSprite";
 
 
-    public Vector2 guiInventoryPosition;
     public int count, maxCount = 1;
     public bool AppearsInInventoryGUI;
     public GameObject weaponPrefab;
@@ -50,6 +49,11 @@ public class Item : MonoBehaviour
     }
 
 
+    public Sprite GetGuiSprite()
+    {
+        if (_guiSprite == null) { FindGuiSprite(); }
+        return _guiSprite;
+    }
     public Texture GetGuiTexture()
     {
         if (_guiSprite == null) { FindGuiSprite(); }

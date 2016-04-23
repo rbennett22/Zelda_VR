@@ -60,10 +60,10 @@ public class LoadSelectScreen : MonoBehaviour
             LoadSelectedEntry();
         }
 
-        /*if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Extra))      // TODO
+        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Extra))      // TODO
         {
             DeleteSelectedEntry();
-        }*/
+        }
 	}
 
     void UpdateSelection()

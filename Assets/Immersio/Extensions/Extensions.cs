@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -207,32 +208,25 @@ public static class Extensions
     }
 
     // Vector2
-    public static Vector2 GetNearestNormalizedAxisDirection(this Vector2 dir)
+    public static Vector2 GetNearestNormalizedAxisDirection(this Vector2 dir, float threshold = 0.0f)
     {
         Vector2 unitDirection = dir;
 
-        if (dir.x == 0 && dir.y == 0) 
+        if(Mathf.Abs(dir.x) <= Mathf.Abs(dir.y))
         {
-            unitDirection = Vector2.zero;
-        }
-        else if (dir.y == 0)
-        {
-            unitDirection.y = 0;
+            unitDirection.x = 0;
+
+            int sign = unitDirection.y < 0 ? -1 : 1;
+            unitDirection.y = (Mathf.Abs(unitDirection.y) >= threshold) ? sign : 0;
         }
         else
         {
-            float r = Mathf.Abs(dir.x / dir.y);
-            if (r < 1)
-            {
-                unitDirection.x = 0;
-            }
-            else
-            {
-                unitDirection.y = 0;
-            }
+            unitDirection.y = 0;
+
+            int sign = unitDirection.x < 0 ? -1 : 1;
+            unitDirection.x = (Mathf.Abs(unitDirection.x) >= threshold) ? sign : 0;
         }
 
-        unitDirection.Normalize();
         return unitDirection;
     }
 
@@ -305,6 +299,23 @@ public static class Extensions
     public static bool FlipCoin(float chanceOfTrue = 0.5f)
     {
         return (UnityEngine.Random.Range(0.0f, 1.0f) < chanceOfTrue);
+    }
+
+    // RawImage
+    public static void SetNativeSizeWhileRespectingAnchors(this RawImage rawImage)
+    {
+        RectTransform rt = rawImage.rectTransform;
+        Vector2 anchorMin = rt.anchorMin;
+        Vector2 anchorMax = rt.anchorMax;
+
+        rawImage.SetNativeSize();
+
+        rt.anchorMin = anchorMin;
+        rt.anchorMax = anchorMax;
+
+        Vector2 sizeDelta = rt.sizeDelta;
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, sizeDelta.x);
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, sizeDelta.y);
     }
 
     #region Untested

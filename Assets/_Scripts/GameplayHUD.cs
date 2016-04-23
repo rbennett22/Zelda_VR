@@ -206,10 +206,10 @@ public class GameplayHUD : Singleton<GameplayHUD>
         text = "x" + bombs.ToString();
         StereoDrawZeldaFontLabel(new Rect(x, 38, w, h), ref text, color);
     }
-
+    */
 
     #region Overworld Map
-
+/*
     const int MapX = 16, MapY = 12;
     const int MapWidth = 64, MapHeight = 32;
 
@@ -244,11 +244,11 @@ public class GameplayHUD : Singleton<GameplayHUD>
             StereoDrawTexture(new Rect(x, y, w, h), ref _owMapSectorTexture, color);
         }
     }
-
+    */
     #endregion
 
     #region Dungeon Map
-
+/*
     const int DungeonSectorWidth = 7, DungeonSectorHeight = 3;
     const int DungeonBossWidth = 3, DungeonBossHeight = 3;
     const int DungeonLinkWidth = 3, DungeonLinkHeight = 3;
@@ -303,10 +303,10 @@ public class GameplayHUD : Singleton<GameplayHUD>
             }
         }
     }
-
+    */
     #endregion
 
-
+/*
     void StereoDrawTexture(Rect rect, ref Texture image, Color color)
     {
         int x = (int)(RenderArea.xMin + rect.x * stretch);

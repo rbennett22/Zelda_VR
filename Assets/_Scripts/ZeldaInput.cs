@@ -11,7 +11,7 @@ public class ZeldaInput : Singleton<ZeldaInput>
 
 
     //bool GameControllerAvailable { get { return OVRGamepadController.GPC_IsAvailable(); } }
-    bool XBoxControllerAvailable { get; set; }
+    public bool XBoxControllerAvailable { get; set; }
 
 
     Dictionary<Axis, string> _zeldaAxisToXBox = new Dictionary<Axis, string>()

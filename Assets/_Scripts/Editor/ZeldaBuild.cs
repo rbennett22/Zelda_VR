@@ -47,7 +47,7 @@ class ZeldaBuild
 
    
     // Build the standalone Windows game and place into main project folder
-	[MenuItem ("Zelda/Build/StandaloneWindows")]	
+	[MenuItem ("Zelda/Build/Win")]	
 	static void PerformBuildStandaloneWindows ()
 	{
         BuildPipeline.BuildPlayer(_scenes, BuiltApplicationPath, BuildTarget.StandaloneWindows, BuildOptions.None);
@@ -55,7 +55,7 @@ class ZeldaBuild
 	}
 	
 	// Build the standalone Windows game, place into main project folder, and then run
-    [MenuItem("Zelda/Build/StandaloneWindows - Run %DOWN")]	
+    [MenuItem("Zelda/Build/Win - Run %DOWN")]	
 	static void PerformBuildStandaloneWindowsRun ()
 	{
         EditorApplication.SaveScene();
@@ -64,52 +64,52 @@ class ZeldaBuild
     }
 
 
-    [MenuItem("Zelda/Build/StandaloneWindows - Run %UP+ALPHA_0")]
+    [MenuItem("Zelda/Build/Win - Run %UP+ALPHA_0")]
     static void Dungeon0BuildAndRun()
     {
         SingleDungeonBuildAndRun(0);
     }
-    [MenuItem("Zelda/Build/StandaloneWindows - Run %UP+ALPHA_1")]
+    [MenuItem("Zelda/Build/Win - Run %UP+ALPHA_1")]
     static void Dungeon1BuildAndRun()
     {
         SingleDungeonBuildAndRun(1);
     }
-    [MenuItem("Zelda/Build/StandaloneWindows - Run %UP+ALPHA_2")]
+    [MenuItem("Zelda/Build/Win - Run %UP+ALPHA_2")]
     static void Dungeon2BuildAndRun()
     {
         SingleDungeonBuildAndRun(2);
     }
-    [MenuItem("Zelda/Build/StandaloneWindows - Run %UP+ALPHA_3")]
+    [MenuItem("Zelda/Build/Win - Run %UP+ALPHA_3")]
     static void Dungeon3BuildAndRun()
     {
         SingleDungeonBuildAndRun(3);
     }
-    [MenuItem("Zelda/Build/StandaloneWindows - Run %UP+ALPHA_4")]
+    [MenuItem("Zelda/Build/Win - Run %UP+ALPHA_4")]
     static void Dungeon4BuildAndRun()
     {
         SingleDungeonBuildAndRun(4);
     }
-    [MenuItem("Zelda/Build/StandaloneWindows - Run %UP+ALPHA_5")]
+    [MenuItem("Zelda/Build/Win - Run %UP+ALPHA_5")]
     static void Dungeon5BuildAndRun()
     {
         SingleDungeonBuildAndRun(5);
     }
-    [MenuItem("Zelda/Build/StandaloneWindows - Run %UP+ALPHA_6")]
+    [MenuItem("Zelda/Build/Win - Run %UP+ALPHA_6")]
     static void Dungeon6BuildAndRun()
     {
         SingleDungeonBuildAndRun(6);
     }
-    [MenuItem("Zelda/Build/StandaloneWindows - Run %UP+ALPHA_7")]
+    [MenuItem("Zelda/Build/Win - Run %UP+ALPHA_7")]
     static void Dungeon7BuildAndRun()
     {
         SingleDungeonBuildAndRun(7);
     }
-    [MenuItem("Zelda/Build/StandaloneWindows - Run %UP+ALPHA_8")]
+    [MenuItem("Zelda/Build/Win - Run %UP+ALPHA_8")]
     static void Dungeon8BuildAndRun()
     {
         SingleDungeonBuildAndRun(8);
     }
-    [MenuItem("Zelda/Build/StandaloneWindows - Run %UP+ALPHA_9")]
+    [MenuItem("Zelda/Build/Win - Run %UP+ALPHA_9")]
     static void Dungeon9BuildAndRun()
     {
         SingleDungeonBuildAndRun(9);

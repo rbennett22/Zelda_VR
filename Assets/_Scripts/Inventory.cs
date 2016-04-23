@@ -12,7 +12,7 @@ public class Inventory : Singleton<Inventory>
     const string ItemPrefabsPath = "ZeldaItemPrefabs";
 
 
-    public InventoryGUI inventoryGui;
+    //public InventoryGUI inventoryGui;
     public Transform itemsContainer;
 
 
@@ -110,7 +110,7 @@ public class Inventory : Singleton<Inventory>
             _equippedItemB = value;
             if (_equippedItemB != null)
             {
-                inventoryGui.SetCursorIndex(GetCursorIndexForItem(_equippedItemB));
+                //inventoryGui.SetCursorIndex(GetCursorIndexForItem(_equippedItemB));
                 CommonObjects.Player_C.EquipSecondaryItem(_equippedItemB.name);
             }
             else

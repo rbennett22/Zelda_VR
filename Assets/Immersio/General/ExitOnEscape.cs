@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEditor;
 
 public class ExitOnEscape : MonoBehaviour 
 {
@@ -23,7 +22,7 @@ public class ExitOnEscape : MonoBehaviour
     void Quit()
     {
 #if UNITY_EDITOR
-        EditorApplication.isPlaying = false;
+        UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
