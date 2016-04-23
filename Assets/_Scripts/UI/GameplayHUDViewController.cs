@@ -34,7 +34,7 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     void UpdateView()
     {
         UpdateView_EquippedItemSlots();
-        //GUIShowHearts();
+        UpdateView_Hearts();
         //GUIShowItemCounts();
 
         /*if (WorldInfo.Instance.IsOverworld)
@@ -61,9 +61,9 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
         _view.SetTextureForEquippedItemSlotB(texture);
     }
 
-    /*void GUIShowHearts()
+    void UpdateView_Hearts()
     {
-        Item heartContainer = Inventory.Instance.GetItem("HeartContainer");
+        /*Item heartContainer = Inventory.Instance.GetItem("HeartContainer");
 
         int halfHearts = CommonObjects.Player_C.HealthInHalfHearts;
         int fullHearts = (int)(halfHearts * 0.5f);
@@ -106,8 +106,8 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
                 x = xMin;
                 y = yMin;    // (move up to first row)
             }
-        }
-    }*/
+        }*/
+    }
 
     void GUIShowItemCounts()
     {

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 
-public class Heart : MonoBehaviour
+public class HeartSprite : MonoBehaviour
 {
-
     public Sprite emptySprite, halfFullSprite, fullSprite;
 
 
@@ -14,6 +14,15 @@ public class Heart : MonoBehaviour
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
 	}
+
+    void OnEnable()
+    {
+        _spriteRenderer.enabled = true;
+    }
+    void OnDisable()
+    {
+        _spriteRenderer.enabled = false;
+    }
 
 
     public void SetToEmpty()
@@ -28,5 +37,4 @@ public class Heart : MonoBehaviour
     {
         _spriteRenderer.sprite = fullSprite;
     }
-
 }

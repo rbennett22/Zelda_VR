@@ -31,9 +31,8 @@ public class GameplayHUDView : MonoBehaviour
     [SerializeField]
     GameObject _equippedItemA, _equippedItemB;
 
-
     [SerializeField]
-    Sprite _fullHeartSprite, _halfHeartSprite, _emptyHeartSprite;
+    HeartsView _heartsView;
 
 
     public float alpha = 1.0f;
@@ -47,15 +46,8 @@ public class GameplayHUDView : MonoBehaviour
     }
 
 
-    Texture _fullHeartImage, _halfHeartImage, _emptyHeartImage;
-
-
     void Awake()
     {
-        _fullHeartImage = _fullHeartSprite.GetTextureSegment();
-        _halfHeartImage = _halfHeartSprite.GetTextureSegment();
-        _emptyHeartImage = _emptyHeartSprite.GetTextureSegment();
-
         SetTextureForEquippedItemSlotA(null);
         SetTextureForEquippedItemSlotB(null);
 

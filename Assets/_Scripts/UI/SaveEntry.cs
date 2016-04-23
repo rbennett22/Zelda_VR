@@ -112,7 +112,7 @@ public class SaveEntry : MonoBehaviour
         for (int i = 0; i < numHeartContainers; i++)
         {
             GameObject g = Instantiate(heartPrefab) as GameObject;
-            Heart heart = g.GetComponent<Heart>();
+            HeartSprite heart = g.GetComponent<HeartSprite>();
 
             heart.transform.parent = heartsContainer;
 
