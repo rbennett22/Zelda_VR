@@ -49,8 +49,8 @@ public class InventoryView : MonoBehaviour
     int _cursorIndexX, _cursorIndexY;
 
 
-    public bool ShouldDungeonMapRenderMapIcon { get { return _dungeonMapView.DoRenderMapIcon; } set { _dungeonMapView.DoRenderMapIcon = value; } }
-    public bool ShouldDungeonMapRenderCompassIcon { get { return _dungeonMapView.DoRenderCompassIcon; } set { _dungeonMapView.DoRenderCompassIcon = value; } }
+    public bool ShouldDungeonMapRevealUnvisitedRooms { set { _dungeonMapView.DoRenderUnvisitedRooms = value; } }
+    public bool ShouldDungeonMapRevealTriforceRoom { set { _dungeonMapView.DoRenderTriforceSymbol = value; } }
 
 
     void Awake()
@@ -191,8 +191,8 @@ public class InventoryView : MonoBehaviour
     }
 
 
-    public void ShowDungeonMap()
+    public void UpdateDungeonMap()
     {
-        _dungeonMapView.RenderMap();
+        _dungeonMapView.UpdateDungeonMap();
     }
 }

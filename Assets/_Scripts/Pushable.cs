@@ -48,7 +48,7 @@ public class Pushable : MonoBehaviour
 
         if (requiresPowerBracelet)
         {
-            if (Inventory.Instance.GetItem("PowerBracelet").count == 0)
+            if (!Inventory.Instance.HasItem("PowerBracelet"))
             {
                 return;
             }

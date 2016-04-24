@@ -34,7 +34,7 @@ public class RaftBlock : MonoBehaviour
         if (!CommonObjects.IsPlayer(other)) { return; }
         //print("RaftBlock --> OnTriggerEnter: " + other.name);
 
-        if (Inventory.Instance.GetItem("Raft").count > 0)
+        if (Inventory.Instance.HasItem("Raft"))
         {
             TravelToDestination();
         }

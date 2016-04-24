@@ -570,7 +570,7 @@ public class DungeonRoom : MonoBehaviour
     }
 
 
-    public Vector2 GetGridIndices()
+    public Vector2 GetSectorIndices()
     {
         Vector3 pos = transform.position;
         int x = (int)(pos.x / TilesWide_WithHalls);

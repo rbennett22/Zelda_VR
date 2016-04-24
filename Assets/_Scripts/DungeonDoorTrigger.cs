@@ -15,11 +15,11 @@ public class DungeonDoorTrigger : MonoBehaviour
 
         if (dungeonRoom.IsDoorLocked(wallDirection))
         {
-            if (CommonObjects.Player_C.Inventory.GetItem("MagicKey").count > 0)
+            if (CommonObjects.Player_C.Inventory.HasItem("MagicKey"))
             {
                 dungeonRoom.UnlockDoor(wallDirection);
             }
-            else if (CommonObjects.Player_C.Inventory.GetItem("Key").count > 0)
+            else if (CommonObjects.Player_C.Inventory.HasItem("Key"))
             {
                 CommonObjects.Player_C.Inventory.UseItem("Key");
                 dungeonRoom.UnlockDoor(wallDirection);

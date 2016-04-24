@@ -518,7 +518,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
 
         foreach (var room in _dungeonRoomsList)
         {
-            Vector2 gridPos = room.GetGridIndices();
+            Vector2 gridPos = room.GetSectorIndices();
             int x = (int)(gridPos.x + float.Epsilon);
             int y = (int)(gridPos.y + float.Epsilon);
             _dungeonRoomsGrid[y, x] = room;

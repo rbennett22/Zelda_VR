@@ -260,9 +260,9 @@ public class Player : Singleton<Player>
         Bow bow = _secondaryItem.GetComponent<Bow>();
         if (bow != null)
         {
-            if (_inventory.GetItem("WoodenArrow").count > 0 || _inventory.GetItem("SilverArrow").count > 0)
+            if (_inventory.HasItem("WoodenArrow") || _inventory.HasItem("SilverArrow"))
             {
-                if (bow.CanUse && _inventory.GetItem("Rupee").count > 0)
+                if (bow.CanUse && _inventory.HasItem("Rupee"))
                 {
                     bow.Fire();
                     _inventory.UseItem("Rupee");
@@ -276,7 +276,7 @@ public class Player : Singleton<Player>
         {
             if (wand.CanUse)
             {
-                wand.spawnFlame = Inventory.Instance.GetItem("MagicBook").count > 0;
+                wand.spawnFlame = Inventory.Instance.HasItem("MagicBook");
                 wand.Fire();
             }
             return;
@@ -376,11 +376,11 @@ public class Player : Singleton<Player>
     public float GetDamageModifier()
     {
         float mod = 1;
-        if (_inventory.GetItem("RedRing").count > 0)
+        if (_inventory.HasItem("RedRing"))
         {
             mod = 0.25f;
         }
-        else if (_inventory.GetItem("BlueRing").count > 0)
+        else if (_inventory.HasItem("BlueRing"))
         {
             mod = 0.5f;
         }
@@ -399,11 +399,11 @@ public class Player : Singleton<Player>
         bool attackIsDirectlyInFrontOfPlayer = Vector3.Dot(playerController.ForwardDirection, -attacksForwardDirection) > ShieldBlockDotThreshold;
         if (attackIsDirectlyInFrontOfPlayer)
         {
-            if (isBlockableByWoodenShield && _inventory.GetItem("WoodenShield").count > 0)
+            if (isBlockableByWoodenShield && _inventory.HasItem("WoodenShield"))
             {
                 canBlock = true;
             }
-            else if (isBlockableByMagicShield && _inventory.GetItem("MagicShield").count > 0)
+            else if (isBlockableByMagicShield && _inventory.HasItem("MagicShield"))
             {
                 canBlock = true;
             }

@@ -26,7 +26,7 @@ public class HazardBlock : MonoBehaviour
 
         if (CommonObjects.IsPlayer(other))
         {
-            if (Inventory.Instance.GetItem("Ladder").count > 0)
+            if (Inventory.Instance.HasItem("Ladder"))
             {
                 if (LadderBlock == null)
                 {
@@ -48,7 +48,7 @@ public class HazardBlock : MonoBehaviour
 
         if (CommonObjects.IsPlayer(other))
         {
-            if (Inventory.Instance.GetItem("Ladder").count > 0)
+            if (Inventory.Instance.HasItem("Ladder"))
             {
                 RemoveLadder();
             }

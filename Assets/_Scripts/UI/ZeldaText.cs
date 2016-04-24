@@ -1,27 +1,17 @@
 ﻿using UnityEngine;
-
-
-[RequireComponent(typeof(SpriteRenderer))]
+using UnityEngine.UI;
 
 public class ZeldaText : MonoBehaviour
 {
-
-    public string text;
-    public string Text { get { return text; } set { text = value; AssignSpriteFromText(text); } }
-
-
-    SpriteRenderer _spriteRenderer;
-
-
-    void Awake()
-    {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        if (text != null)
-        {
-            AssignSpriteFromText(text);
+    [SerializeField]
+    string _text;
+    public string Text {
+        get { return _text; }
+        set {
+            _text = value;
+            AssignSpriteFromText(_text);
         }
     }
-
     void AssignSpriteFromText(string text)
     {
         Texture2D tex = ZeldaFont.Instance.TextureForString(text);
@@ -30,7 +20,27 @@ public class ZeldaText : MonoBehaviour
         Rect r = new Rect(0, 0, tex.width, tex.height);
         Vector2 pivot = new Vector2(0.5f, 0.5f);
 
-        _spriteRenderer.sprite = Sprite.Create(tex, r, pivot);
+        Sprite sprite = Sprite.Create(tex, r, pivot);
+        if (_image != null)
+        {
+            _image.sprite = sprite;
+        }
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.sprite = sprite;
+        }
     }
 
+
+    Image _image;
+    SpriteRenderer _spriteRenderer;
+
+
+    void Awake()
+    {
+        _image = GetComponent<Image>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+
+        AssignSpriteFromText(_text);
+    }
 }

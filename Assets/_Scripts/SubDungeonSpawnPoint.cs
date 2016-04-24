@@ -51,7 +51,7 @@ public class SubDungeonSpawnPoint : MonoBehaviour
         if (collectiblePrefab != null)
         {
             Inventory inv = Inventory.Instance;
-            if (inv.GetItem(collectiblePrefab.itemPrefab.name).count == 0)
+            if (!inv.HasItem(collectiblePrefab.itemPrefab.name))
             {
                 Collectible uniqueItem = (Instantiate(collectiblePrefab.gameObject) as GameObject).GetComponent<Collectible>();
                 uniqueItem.transform.parent = _spawnedSubDungeon.uniqueItemContainer;

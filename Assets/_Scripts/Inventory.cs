@@ -19,22 +19,27 @@ public class Inventory : Singleton<Inventory>
     Dictionary<string, Item> _items;
     public Dictionary<string, Item> Items { get { return _items; } private set { _items = value; } }
     public Item GetItem(string name) { return (name == null) ? null : Items[name]; }
+    public bool HasItem(string name)
+    {
+        Item item = GetItem(name);
+        return (item != null) && (item.count > 0);
+    }
 
 
     public int GetArmorLevel()
     {
         int level = 0;
-        if (GetItem("BlueRing").count > 0) { level = 2; }
-        else if (GetItem("RedRing").count > 0) { level = 1; }
+        if (HasItem("BlueRing")) { level = 2; }
+        else if (HasItem("RedRing")) { level = 1; }
         return level;
     }
 
     public int GetSwordLevel()
     {
         int level = 0;
-        if (GetItem("MagicSword").count > 0) { level = 3; }
-        else if (GetItem("WhiteSword").count > 0) { level = 2; }
-        else if (GetItem("WoodenSword").count > 0) { level = 1; }
+        if (HasItem("MagicSword")) { level = 3; }
+        else if (HasItem("WhiteSword")) { level = 2; }
+        else if (HasItem("WoodenSword")) { level = 1; }
         return level;
     }
 

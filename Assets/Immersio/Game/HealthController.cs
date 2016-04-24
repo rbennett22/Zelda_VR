@@ -114,7 +114,8 @@ public class HealthController : MonoBehaviour
 
 	#region Public Actions
 
-	public bool RestoreHealth (uint healAmount = 999999) {
+	public bool RestoreHealth (uint healAmount = 999999)
+    {
 		if(!_isAlive || healAmount == 0)
 			return false;
 		SetHealth(_health + (int)healAmount);

@@ -9,7 +9,37 @@ public class GameplayHUDView : MonoBehaviour
         Dungeon
     }
 
+
+    [SerializeField]
+    DungeonMapView _dungeonMapView;
+    //[SerializeField]
+    //OverworldMapView _overworldMapView;
+    [SerializeField]
+    GameObject _equippedItemA, _equippedItemB;
+    [SerializeField]
+    HeartsView _heartsView;
+    [SerializeField]
+    ZeldaText _rupeesText, _keysText, _bombsText;
+    [SerializeField]
+    ZeldaText _levelNumText;
+
+
     DisplayModeEnum _displayMode;
+
+
+    void Awake()
+    {
+        UpdateTextureForEquippedItemSlotA(null);
+        UpdateTextureForEquippedItemSlotB(null);
+
+        UpdateRupeesCountText(0);
+        UpdateKeysCountText(0);
+        UpdateBombsCountText(0);
+
+        DisplayMode = _displayMode;
+    }
+
+
     public DisplayModeEnum DisplayMode
     {
         get { return _displayMode; }
@@ -22,47 +52,52 @@ public class GameplayHUDView : MonoBehaviour
         }
     }
 
-
-    [SerializeField]
-    DungeonMapView _dungeonMapView;
-    //[SerializeField]
-    //OverworldMapView _overworldMapView;
-
-    [SerializeField]
-    GameObject _equippedItemA, _equippedItemB;
-
-    [SerializeField]
-    HeartsView _heartsView;
-
-
-    public float alpha = 1.0f;
-    public int vertShiftSpeed = 600;
-
-
-    float _yBaseOffset = 300;
-    public int PausedYVal           // Where to vertically position HUD when game is Paused
-    {
-        get { return (int)(Screen.height * 0.7f + _yBaseOffset); }    
-    }
-
-
-    void Awake()
-    {
-        SetTextureForEquippedItemSlotA(null);
-        SetTextureForEquippedItemSlotB(null);
-
-        DisplayMode = _displayMode;
-    }
-
-
-    public void SetTextureForEquippedItemSlotA(Texture texture)
+    public void UpdateTextureForEquippedItemSlotA(Texture texture)
     {
         SetTextureForEquippedItemSlot(_equippedItemA, texture);
     }
-    public void SetTextureForEquippedItemSlotB(Texture texture)
+    public void UpdateTextureForEquippedItemSlotB(Texture texture)
     {
         SetTextureForEquippedItemSlot(_equippedItemB, texture);
     }
+
+    public void UpdateHeartContainerCount(int amount) { _heartsView.UpdateHeartContainerCount(amount); }
+    public void UpdateHeartContainersFillState(int numHalfHearts) { _heartsView.UpdateHeartContainersFillState(numHalfHearts); }
+
+    public void UpdateRupeesCountText(int amount)
+    {
+        string amountStr = amount.ToString();
+        _rupeesText.Text = (amount < 100) ? "x" + amountStr : amountStr;
+    }
+    
+    public void UpdateKeysCountText(int amount)
+    {
+        _keysText.Text = "x" + amount.ToString();
+    }
+    public void UpdateKeysCountText_SetToInfinite()
+    {
+        _keysText.Text = "xA";
+    }
+
+    public void UpdateBombsCountText(int amount)
+    {
+        _bombsText.Text = "x" + amount.ToString();
+    }
+
+    public void UpdateLevelNumText(int num)
+    {
+        _levelNumText.Text = "LEVEL-" + num.ToString();
+    }
+
+
+    public bool ShouldDungeonMapRevealUnvisitedRooms { set { _dungeonMapView.DoRenderUnvisitedRooms = value; } }
+    public bool ShouldDungeonMapRevealTriforceRoom { set { _dungeonMapView.DoRenderTriforceSymbol = value; } }
+
+    public void UpdateDungeonMap()
+    {
+        _dungeonMapView.UpdateDungeonMap();
+    }
+
 
     void SetTextureForEquippedItemSlot(GameObject itemSlot, Texture texture)
     {

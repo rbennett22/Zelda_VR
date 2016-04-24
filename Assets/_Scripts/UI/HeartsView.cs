@@ -10,27 +10,9 @@ public class HeartsView : MonoBehaviour
 
 
     HeartImage[] _heartImages = new HeartImage[MAX_NUM_HEARTS];
-
-
     int _numHeartContainers;
-    public int NumHeartContainers {
-        get { return _numHeartContainers; }
-        set
-        {
-            if(value == _numHeartContainers)
-            {
-                return;
-            }
-            _numHeartContainers = value;
-
-            for (int i = 0; i < _heartImages.Length; i++)
-            {
-                _heartImages[i].gameObject.SetActive(i < _numHeartContainers);
-            }
-        }
-    }
-
-
+    
+    
     void Awake ()
     {
         InstantiateHeartImages();
@@ -52,5 +34,46 @@ public class HeartsView : MonoBehaviour
         t.localScale = Vector3.one;
         
         return g.GetComponent<HeartImage>();
+    }
+
+
+    public void UpdateHeartContainerCount(int amount)
+    {
+        amount = Mathf.Clamp(amount, 0, MAX_NUM_HEARTS);
+        if (amount == _numHeartContainers)
+        {
+            return;
+        }
+        _numHeartContainers = amount;
+
+        for (int i = 0; i < _heartImages.Length; i++)
+        {
+            _heartImages[i].gameObject.SetActive(i < _numHeartContainers);
+        }
+    }
+    public void UpdateHeartContainersFillState(int numHalfHearts)
+    {
+        numHalfHearts = Mathf.Clamp(numHalfHearts, 0, _numHeartContainers * 2);
+
+        int numFullHearts = (int)(numHalfHearts * 0.5f);
+        bool plusHalfHeart = numHalfHearts % 2 == 1;
+
+        for (int i = 0; i < _numHeartContainers; i++)
+        {
+            HeartImage heartImage = _heartImages[i].GetComponent<HeartImage>();
+
+            if (i < numFullHearts)
+            {
+                heartImage.SetToFull();
+            }
+            else if (i == numFullHearts && plusHalfHeart)
+            {
+                heartImage.SetToHalfFull();
+            }
+            else
+            {
+                heartImage.SetToEmpty();
+            }
+        }
     }
 }

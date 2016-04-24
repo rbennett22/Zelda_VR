@@ -35,217 +35,102 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     {
         UpdateView_EquippedItemSlots();
         UpdateView_Hearts();
-        //GUIShowItemCounts();
+        UpdateView_ItemCounts();
 
-        /*if (WorldInfo.Instance.IsOverworld)
+        if (WorldInfo.Instance.IsOverworld)
         {
-            GUIShowOverworldMap();
+            _view.DisplayMode = GameplayHUDView.DisplayModeEnum.Overworld;
+
+            UpdateView_OverworldMap();
         }
         else if (WorldInfo.Instance.IsInDungeon)
         {
-            GUIShowDungeonMap();
+            _view.DisplayMode = GameplayHUDView.DisplayModeEnum.Dungeon;
 
-            string text = "LEVEL-" + WorldInfo.Instance.DungeonNum.ToString();
-            StereoDrawZeldaFontLabel(new Rect(20, 3, 56, 6), ref text, Color.white);
-        }*/
+            UpdateView_DungeonMap();
+
+            _view.UpdateLevelNumText(WorldInfo.Instance.DungeonNum);
+        }
     }
 
     void UpdateView_EquippedItemSlots()
     {
         Item itemA = _inventory.EquippedItemA;
         Texture texture = (itemA == null) ? null : itemA.GetGuiTexture();
-        _view.SetTextureForEquippedItemSlotA(texture);
+        _view.UpdateTextureForEquippedItemSlotA(texture);
 
         Item ItemB = _inventory.EquippedItemB;
         texture = (ItemB == null) ? null : ItemB.GetGuiTexture();
-        _view.SetTextureForEquippedItemSlotB(texture);
+        _view.UpdateTextureForEquippedItemSlotB(texture);
     }
 
     void UpdateView_Hearts()
     {
-        /*Item heartContainer = Inventory.Instance.GetItem("HeartContainer");
+        Item heartContainer = Inventory.Instance.GetItem("HeartContainer");
 
-        int halfHearts = CommonObjects.Player_C.HealthInHalfHearts;
-        int fullHearts = (int)(halfHearts * 0.5f);
-        bool plusHalfHeart = halfHearts % 2 == 1;
-        int maxHearts = heartContainer.count;
-
-        int xMin = 0; //(int)(heartContainer.guiInventoryPosition.x);
-        int yMin = 0; //(int)(heartContainer.guiInventoryPosition.y);
-
-        const int MaxHeartsPerRow = 8;
-        const int vPad = 0;
-        const int hPad = 1;
-
-        int w = _fullHeartImage.width;
-        int h = _fullHeartImage.height;
-        int x = xMin;
-        int y = yMin + h + vPad;     // (we begin on bottom row)
-
-        Texture heartTexture;
-        for (int i = 0; i < maxHearts; i++)
-        {
-            if (i < fullHearts)
-            {
-                heartTexture = _fullHeartImage;
-            }
-            else if (i == fullHearts && plusHalfHeart)
-            {
-                heartTexture = _halfHeartImage;
-            }
-            else
-            {
-                heartTexture = _emptyHeartImage;
-            }
-
-            //StereoDrawTexture(new Vector2(x, y), ref heartTexture, color);
-
-            x += w + hPad;
-            if (i == MaxHeartsPerRow - 1)
-            {
-                x = xMin;
-                y = yMin;    // (move up to first row)
-            }
-        }*/
+        _view.UpdateHeartContainerCount(heartContainer.count);
+        _view.UpdateHeartContainersFillState(CommonObjects.Player_C.HealthInHalfHearts);
     }
 
-    void GUIShowItemCounts()
+    void UpdateView_ItemCounts()
     {
-        int x = 98;
-        int w = 18;
-        int h = 6;
-
         Inventory inv = Inventory.Instance;
 
         // Rupees
-        int rupees = inv.GetItem("Rupee").count;
-        string text = "x" + rupees.ToString();
-        //StereoDrawZeldaFontLabel(new Rect(x, 14, w, h), ref text, color);
+        int numRupees = inv.GetItem("Rupee").count;
+        _view.UpdateRupeesCountText(numRupees);
 
         // Keys
-        if (inv.GetItem("MagicKey").count > 0)
+        if (inv.HasItem("MagicKey"))
         {
-            text = "xA";
+            _view.UpdateKeysCountText_SetToInfinite();
         }
         else
         {
             int numKeys = inv.GetItem("Key").count;
-            text = "x" + numKeys.ToString();
+            _view.UpdateKeysCountText(numKeys);
         }
-        //StereoDrawZeldaFontLabel(new Rect(x, 30, w, h), ref text, color);
 
         // Bombs
         int bombs = inv.GetItem("Bomb").count;
-        text = "x" + bombs.ToString();
-        //StereoDrawZeldaFontLabel(new Rect(x, 38, w, h), ref text, color);
+        _view.UpdateBombsCountText(bombs);
     }
-    
 
-    void StereoDrawZeldaFontLabel(Rect rect, ref string text, Color color)
+
+    const int MapX = 16, MapY = 12;
+    const int MapWidth = 64, MapHeight = 32;
+
+    Color _owMapBgColor = new Color(0.2f, 0.2f, 0.2f);
+    Color _owMapSectorColor = Color.green;
+
+    void UpdateView_OverworldMap()
     {
-        Texture tex = ZeldaFont.Instance.TextureForString(text);
-        //StereoDrawTexture(rect, ref tex, color);
-        Destroy(tex);
+        /*
+        //StereoDrawTexture(new Rect(MapX, MapY, MapWidth, MapHeight), ref _owMapBgTexture, color);
+
+        TileMap tileMap = TileProliferator.Instance.tileMap;
+
+        Vector2 sector = tileMap.GetSectorForPosition(CommonObjects.PlayerController_G.transform.position);
+        if (sector != WorldInfo.Instance.lostWoodsSector)
+        {
+            int w = (int)(MapWidth / tileMap.SectorsWide);
+            int h = (int)(MapHeight / tileMap.SectorsLong);
+            int x = (int)(MapX + w * sector.x);
+            int y = (int)(MapY + h * sector.y);
+            //StereoDrawTexture(new Rect(x, y, w, h), ref _owMapSectorTexture, color);
+        }*/
     }
 
+    void UpdateView_DungeonMap()
+    {
+        int dungeonNum = WorldInfo.Instance.DungeonNum;
+        bool hasMap = _inventory.HasMapForDungeon(dungeonNum);
+        bool hasCompass = _inventory.HasCompassForDungeon(dungeonNum);
 
-    #region Overworld Map
-    /*
-        const int MapX = 16, MapY = 12;
-        const int MapWidth = 64, MapHeight = 32;
-
-        Color _owMapBgColor = new Color(0.2f, 0.2f, 0.2f);
-        Color _owMapSectorColor = Color.green;
-        Texture _owMapBgTexture, _owMapSectorTexture;
-
-        void CreateMapTextures()
-        {
-            _owMapBgTexture = GfxHelper.CreateColoredTexture(_owMapBgColor);
-            _owMapSectorTexture = GfxHelper.CreateColoredTexture(_owMapSectorColor);
-
-            _dungeonMapBgTexture = GfxHelper.CreateColoredTexture(_dungeonMapBgColor);
-            _dungeonMapSectorTexture = GfxHelper.CreateColoredTexture(_dungeonMapSectorColor);
-            _dungeonMapLinkTexture = GfxHelper.CreateColoredTexture(_dungeonMapLinkColor);
-            _dungeonMapBossTexture = GfxHelper.CreateColoredTexture(_dungeonMapBossColor);
-        }
-
-        void GUIShowOverworldMap(Color color)
-        {
-            StereoDrawTexture(new Rect(MapX, MapY, MapWidth, MapHeight), ref _owMapBgTexture, color);
-
-            TileMap tileMap = TileProliferator.Instance.tileMap;
-
-            Vector2 sector = tileMap.GetSectorForPosition(CommonObjects.PlayerController_G.transform.position);
-            if (sector != WorldInfo.Instance.lostWoodsSector)
-            {
-                int w = (int)(MapWidth / tileMap.SectorsWide);
-                int h = (int)(MapHeight / tileMap.SectorsLong);
-                int x = (int)(MapX + w * sector.x);
-                int y = (int)(MapY + h * sector.y);
-                StereoDrawTexture(new Rect(x, y, w, h), ref _owMapSectorTexture, color);
-            }
-        }
-        */
-    #endregion
-
-    #region Dungeon Map
-    /*
-        const int DungeonSectorWidth = 7, DungeonSectorHeight = 3;
-        const int DungeonBossWidth = 3, DungeonBossHeight = 3;
-        const int DungeonLinkWidth = 3, DungeonLinkHeight = 3;
-
-        Color _dungeonMapBgColor = Color.black;
-        Color _dungeonMapSectorColor = Color.blue;
-        Color _dungeonMapBossColor = Color.red;
-        Color _dungeonMapLinkColor = Color.green;
-
-        Texture _dungeonMapBgTexture, _dungeonMapSectorTexture, _dungeonMapBossTexture, _dungeonMapLinkTexture;
-
-        void GUIShowDungeonMap(Color color)
-        {
-            // Background
-            StereoDrawTexture(new Rect(MapX, MapY, MapWidth, MapHeight), ref _dungeonMapBgTexture, color);
-
-            int dungeonNum = WorldInfo.Instance.DungeonNum;
-            bool hasMap = Inventory.Instance.HasMapForDungeon(dungeonNum);
-            bool hasCompass = Inventory.Instance.HasCompassForDungeon(dungeonNum);
-
-            int indent;
-            Rect rect;
-            foreach (var room in DungeonFactory.Instance.Rooms)
-            {
-                Vector2 sector = room.GetGridIndices();
-                sector.y = DungeonFactory.MaxDungeonLengthInRooms - sector.y - 1;
-                int sectorX = (int)(MapX + (DungeonSectorWidth + 1) * sector.x);
-                int sectorY = (int)(MapY + (DungeonSectorHeight + 1) * sector.y);
-
-                // Sector
-                if (!room.HideOnMap && (hasMap || room.PlayerHasVisited))
-                {
-                    rect = new Rect(sectorX, sectorY, DungeonSectorWidth, DungeonSectorHeight);
-                    StereoDrawTexture(rect, ref _dungeonMapSectorTexture, color);
-                }
-
-                // Boss
-                if (hasCompass && room.ContainsTriforce)
-                {
-                    indent = (int)(0.5f * (DungeonSectorWidth - DungeonBossWidth)) + 1;
-                    rect = new Rect(sectorX + indent, sectorY, DungeonBossWidth, DungeonBossHeight);
-                    StereoDrawTexture(rect, ref _dungeonMapBossTexture, color);
-                }
-
-                // Link
-                Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
-                if (room == DungeonRoom.GetRoomForPosition(playerPos))
-                {
-                    indent = (int)(0.5f * (DungeonSectorWidth - DungeonLinkWidth)) + 1;
-                    rect = new Rect(sectorX + indent, sectorY, DungeonLinkWidth, DungeonLinkHeight);
-                    StereoDrawTexture(rect, ref _dungeonMapLinkTexture, color);
-                }
-            }
-        }
-        */
-    #endregion
+        _view.ShouldDungeonMapRevealUnvisitedRooms = hasMap;
+        _view.ShouldDungeonMapRevealTriforceRoom = hasCompass;
+        _view.UpdateDungeonMap();
+    }
 
 
     /*Rect CalcHudRenderArea()

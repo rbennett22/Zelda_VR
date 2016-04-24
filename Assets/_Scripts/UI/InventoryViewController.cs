@@ -141,9 +141,9 @@ public class InventoryViewController : MonoBehaviour
         }
 
         // Dungeon Map
-        _view.ShouldDungeonMapRenderMapIcon = hasMap;
-        _view.ShouldDungeonMapRenderCompassIcon = hasCompass;
-        _view.ShowDungeonMap();
+        _view.ShouldDungeonMapRevealUnvisitedRooms = hasMap;
+        _view.ShouldDungeonMapRevealTriforceRoom = hasCompass;
+        _view.UpdateDungeonMap();
     }
 
 
