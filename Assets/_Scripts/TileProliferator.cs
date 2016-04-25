@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using Immersio.Utility;
 
@@ -14,13 +12,10 @@ public class TileProliferator : Singleton<TileProliferator>
 
 
     Transform _playerTransform;
-    int _tileRemovalDistanceSq;
 
 
     void Awake()
     {
-        _tileRemovalDistanceSq = tileRemovalDistance * tileRemovalDistance;
-
         _playerTransform = CommonObjects.PlayerController_G.transform;
     }
 
@@ -54,13 +49,15 @@ public class TileProliferator : Singleton<TileProliferator>
         Vector3 playerPos = _playerTransform.position;
         Transform blockContainer = GameObject.Find("Blocks").transform;
 
+        int tileRemovalDistanceSqr = tileRemovalDistance * tileRemovalDistance;
+
         // Remove blocks
         foreach (Transform block in blockContainer)
         {
             Vector3 blockPos = block.position;
             Vector3 toPlayer = playerPos - blockPos;
             float distToPlayerSqr = toPlayer.sqrMagnitude;
-            if (distToPlayerSqr > _tileRemovalDistanceSq)
+            if (distToPlayerSqr > tileRemovalDistanceSqr)
             {
                 tileMap.RemoveBlock((int)blockPos.x, (int)blockPos.z, block.gameObject);
             }
@@ -84,7 +81,7 @@ public class TileProliferator : Singleton<TileProliferator>
             if (csp == null) { continue; }
 
             float distSqr = (csp.transform.position - playerPos).sqrMagnitude;
-            if (distSqr > _tileRemovalDistanceSq)
+            if (distSqr > tileRemovalDistanceSqr)
             {
                 if (csp.SpawnedCollectible != null)
                 {

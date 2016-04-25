@@ -12,8 +12,8 @@ public class GameplayHUDView : MonoBehaviour
 
     [SerializeField]
     DungeonMapView _dungeonMapView;
-    //[SerializeField]
-    //OverworldMapView _overworldMapView;
+    [SerializeField]
+    OverworldMapView _overworldMapView;
     [SerializeField]
     GameObject _equippedItemA, _equippedItemB;
     [SerializeField]
@@ -47,7 +47,7 @@ public class GameplayHUDView : MonoBehaviour
         {
             _displayMode = value;
 
-            //_overworldMapView.gameObject.SetActive(_displayMode == DisplayModeEnum.Overworld);
+            _overworldMapView.gameObject.SetActive(_displayMode == DisplayModeEnum.Overworld);
             _dungeonMapView.gameObject.SetActive(_displayMode == DisplayModeEnum.Dungeon);
         }
     }
@@ -90,12 +90,26 @@ public class GameplayHUDView : MonoBehaviour
     }
 
 
+    public void InitOverworldMap(int sectorsWide, int sectorsHigh)
+    {
+        _overworldMapView.Init(sectorsWide, sectorsHigh);
+    }
+    public void UpdateOverworldMap(Vector2 playerOccupiedSector)
+    {
+        _overworldMapView.UpdateMap(playerOccupiedSector);
+    }
+    
+
     public bool ShouldDungeonMapRevealUnvisitedRooms { set { _dungeonMapView.DoRenderUnvisitedRooms = value; } }
     public bool ShouldDungeonMapRevealTriforceRoom { set { _dungeonMapView.DoRenderTriforceSymbol = value; } }
 
+    public void InitDungeonMap(int sectorsWide, int sectorsHigh)
+    {
+        _dungeonMapView.Init(sectorsWide, sectorsHigh);
+    }
     public void UpdateDungeonMap()
     {
-        _dungeonMapView.UpdateDungeonMap();
+        _dungeonMapView.UpdateMap();
     }
 
 

@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class DungeonMapView : MonoBehaviour
 {
-    const int DUNGEON_WIDTH_IN_SECTORS = 8;
-    const int DUNGEON_HEIGHT_IN_SECTORS = 8;
-
-
     // The following are all measured in pixels
     [SerializeField]
     int _sectorWidth = 8, _sectorHeight = 8,
@@ -33,28 +29,40 @@ public class DungeonMapView : MonoBehaviour
     int _triforceSymbolIndentX, _triforceSymbolIndentY;
     int _linkSymbolIndentX, _linkSymbolIndentY;
 
+    int _sectorsWide, _sectorsHigh;
+
 
     public bool DoRenderUnvisitedRooms { private get; set; }
     public bool DoRenderTriforceSymbol { private get; set; }
 
 
-    void Awake()
+    public void Init(int sectorsWide, int sectorsHigh)
     {
-        int mapWidthInPixels = DUNGEON_WIDTH_IN_SECTORS * _sectorWidth;
-        int mapHeightInPixels = DUNGEON_HEIGHT_IN_SECTORS * _sectorHeight;
+        _sectorsWide = Mathf.Max(0, sectorsWide);
+        _sectorsHigh = Mathf.Max(0, sectorsHigh);
+
+
+        if (_mapTexture != null)
+        {
+            Destroy(_mapTexture);
+        }
+
+        int mapWidthInPixels = _sectorsWide * _sectorWidth;
+        int mapHeightInPixels = _sectorsHigh * _sectorHeight;
 
         _mapTexture = new Texture2D(mapWidthInPixels, mapHeightInPixels);
+        _mapTexture.Clear(_bgColor);
+
         _rawImage = GetComponent<RawImage>();
         _rawImage.texture = _mapTexture;
 
-        ClearMapTexture(_bgColor);
 
         _triforceSymbolIndentX = (int)(0.5f * (_sectorWidth - _triforceSymbolWidth));
         _triforceSymbolIndentY = (int)(0.5f * (_sectorHeight - _triforceSymbolHeight));
         _linkSymbolIndentX = (int)(0.5f * (_sectorWidth - _linkSymbolWidth));
         _linkSymbolIndentY = (int)(0.5f * (_sectorHeight - _linkSymbolHeight));
 
-        if(!_doRenderHalls)
+        if (!_doRenderHalls)
         {
             _triforceSymbolIndentX++;
             _triforceSymbolIndentY = 0;
@@ -63,28 +71,23 @@ public class DungeonMapView : MonoBehaviour
         }
     }
 
-
-    public void UpdateDungeonMap()
+    public void UpdateMap()
     {
-        ClearMapTexture(_bgColor);
+        if (_mapTexture == null)
+        {
+            Debug.Log("_mapTexture is null.  You probably need to call Init");
+            return;
+        }
+
+        _mapTexture.Clear(_bgColor);
 
         Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
 
         foreach (var room in DungeonFactory.Instance.Rooms)
         {
             Vector2 sector = room.GetSectorIndices();
-            int sX, sY;
-
-            //if(_doRenderHalls)
-            {
-                sX = (int)(_sectorWidth * sector.x);
-                sY = (int)(_sectorHeight * sector.y);
-            }
-            /*else
-            {
-                sX = (int)((_sectorWidth + 1) * sector.x);
-                sY = (int)((_sectorHeight + 1) * sector.y);
-            }*/
+            int sX = (int)(_sectorWidth * sector.x);
+            int sY = (int)(_sectorHeight * sector.y);
 
             // Sector
             if (!room.HideOnMap && (DoRenderUnvisitedRooms || room.PlayerHasVisited))
@@ -92,26 +95,26 @@ public class DungeonMapView : MonoBehaviour
                 if (_doRenderHalls)
                 {
                     int hh = _hallHeight;
-                    SetColorForArea(sX + hh, sY + hh, _sectorWidth - 2 * hh, _sectorHeight - 2 * hh, _roomColor);
+                    _mapTexture.SetColorForArea(sX + hh, sY + hh, _sectorWidth - 2 * hh, _sectorHeight - 2 * hh, _roomColor);
 
                     RenderHallsForRoom(room);
                 }
                 else
                 {
-                    SetColorForArea(sX, sY, _sectorWidth - 1, _sectorHeight - 1, _roomColor);
+                    _mapTexture.SetColorForArea(sX, sY, _sectorWidth - 1, _sectorHeight - 1, _roomColor);
                 }
             }
 
-            // Boss
+            // Triforce
             if (DoRenderTriforceSymbol && room.ContainsTriforce)
             {
-                SetColorForArea(sX + _triforceSymbolIndentX, sY + _triforceSymbolIndentY, _triforceSymbolWidth, _triforceSymbolHeight, _triforceSymbolColor);
+                _mapTexture.SetColorForArea(sX + _triforceSymbolIndentX, sY + _triforceSymbolIndentY, _triforceSymbolWidth, _triforceSymbolHeight, _triforceSymbolColor);
             }
 
             // Link
             if (room == DungeonRoom.GetRoomForPosition(playerPos))
             {
-                SetColorForArea(sX + _linkSymbolIndentX, sY + _linkSymbolIndentY, _linkSymbolWidth, _linkSymbolHeight, _linkSymbolColor);
+                _mapTexture.SetColorForArea(sX + _linkSymbolIndentX, sY + _linkSymbolIndentY, _linkSymbolWidth, _linkSymbolHeight, _linkSymbolColor);
             }
         }
 
@@ -132,38 +135,19 @@ public class DungeonMapView : MonoBehaviour
 
         if (room.CanPassThrough(DungeonRoomInfo.WallDirection.West))
         {
-            SetColorForArea(sX, EW_Y, hh, hw, _hallColor);
+            _mapTexture.SetColorForArea(sX, EW_Y, hh, hw, _hallColor);
         }
         if (room.CanPassThrough(DungeonRoomInfo.WallDirection.East))
         {
-            SetColorForArea(sX + _sectorWidth - hh, EW_Y, hh, hw, _hallColor);
+            _mapTexture.SetColorForArea(sX + _sectorWidth - hh, EW_Y, hh, hw, _hallColor);
         }
         if (room.CanPassThrough(DungeonRoomInfo.WallDirection.South)) 
         {
-            SetColorForArea(NS_X, sY, hw, hh, _hallColor);
+            _mapTexture.SetColorForArea(NS_X, sY, hw, hh, _hallColor);
         }
         if (room.CanPassThrough(DungeonRoomInfo.WallDirection.North))
         {
-            SetColorForArea(NS_X, sY + _sectorHeight - hh, hw, hh, _hallColor);
+            _mapTexture.SetColorForArea(NS_X, sY + _sectorHeight - hh, hw, hh, _hallColor);
         }
-    }
-
-
-    void SetColorForArea(Rect block, Color color)
-    {
-        SetColorForArea((int)block.xMin, (int)block.yMin, (int)block.width, (int)block.height, color);
-    }
-    void SetColorForArea(int x, int y, int blockWidth, int blockHeight, Color color)
-    {
-        Color[] colors = new Color[blockWidth * blockHeight];
-        for (int i = 0; i < colors.Length; i++)
-        {
-            colors[i] = color;
-        }
-        _mapTexture.SetPixels(x, y, blockWidth, blockHeight, colors);
-    }
-    void ClearMapTexture(Color color)
-    {
-        SetColorForArea(0, 0, _mapTexture.width, _mapTexture.height, color);
     }
 }

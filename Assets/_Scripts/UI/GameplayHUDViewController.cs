@@ -9,19 +9,16 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     Inventory _inventory;
 
 
-    public int vertShiftSpeed = 600;
-
-
-    float _yBaseOffset = 300;
-    public int PausedYVal           // Where to vertically position HUD when game is Paused
-    {
-        get { return (int)(Screen.height * 0.7f + _yBaseOffset); }    
-    }
-
-
     void Awake()
     {
         _inventory = Inventory.Instance;
+    }
+
+    void Start()
+    {
+        ZeldaVRSettings s = ZeldaVRSettings.Instance;
+        InitOverworldMap(s.overworldWidthInSectors, s.overworldHeightInSectors);
+        InitDungeonMap(s.dungeonWidthInSectors, s.dungeonHeightInSectors);
     }
 
 
@@ -33,6 +30,8 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
 
     void UpdateView()
     {
+        // TODO: Only update views when data changes (instead of every frame)
+
         UpdateView_EquippedItemSlots();
         UpdateView_Hearts();
         UpdateView_ItemCounts();
@@ -51,6 +50,8 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
 
             _view.UpdateLevelNumText(WorldInfo.Instance.DungeonNum);
         }
+
+        UpdateViewPosition();
     }
 
     void UpdateView_EquippedItemSlots()
@@ -97,30 +98,22 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     }
 
 
-    const int MapX = 16, MapY = 12;
-    const int MapWidth = 64, MapHeight = 32;
-
-    Color _owMapBgColor = new Color(0.2f, 0.2f, 0.2f);
-    Color _owMapSectorColor = Color.green;
-
+    void InitOverworldMap(int sectorsWide, int sectorsHigh)
+    {
+        _view.InitOverworldMap(sectorsWide, sectorsHigh);
+    }
     void UpdateView_OverworldMap()
     {
-        /*
-        //StereoDrawTexture(new Rect(MapX, MapY, MapWidth, MapHeight), ref _owMapBgTexture, color);
+        Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
+        Vector2 playerOccupiedSector = TileProliferator.Instance.tileMap.GetSectorForPosition(playerPos);
 
-        TileMap tileMap = TileProliferator.Instance.tileMap;
-
-        Vector2 sector = tileMap.GetSectorForPosition(CommonObjects.PlayerController_G.transform.position);
-        if (sector != WorldInfo.Instance.lostWoodsSector)
-        {
-            int w = (int)(MapWidth / tileMap.SectorsWide);
-            int h = (int)(MapHeight / tileMap.SectorsLong);
-            int x = (int)(MapX + w * sector.x);
-            int y = (int)(MapY + h * sector.y);
-            //StereoDrawTexture(new Rect(x, y, w, h), ref _owMapSectorTexture, color);
-        }*/
+        _view.UpdateOverworldMap(playerOccupiedSector);
     }
 
+    void InitDungeonMap(int sectorsWide, int sectorsHigh)
+    {
+        _view.InitDungeonMap(sectorsWide, sectorsHigh);
+    }
     void UpdateView_DungeonMap()
     {
         int dungeonNum = WorldInfo.Instance.DungeonNum;
@@ -133,25 +126,31 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     }
 
 
-    /*Rect CalcHudRenderArea()
+    const float Y_BASE_OFFSET = 400;
+
+    [SerializeField]
+    Transform _pausedTransform;
+    public int vertShiftSpeed = 1200;
+
+    void UpdateViewPosition()
     {
-        int w = hudImage.width;
-        int h = hudImage.height;
-        int x = (int)((Screen.width - w) * 0.5f);
-
-        Vector3 camForward = CommonObjects.PlayerController_C.LineOfSight;
-
-        float dot = Vector3.Dot(camForward, Vector3.up);
-        int y = Mathf.RoundToInt(_yBaseOffset + dot * vertShiftSpeed);
+        // As player tilts head upwards, the gameplayHUD moves downwards
 
         if (Pause.Instance.IsInventoryShowing)
         {
-            y = PausedYVal;
+            //int y = (int)(Screen.height * 0.7f + Y_BASE_OFFSET);
+            //_view.transform.SetLocalY(y);
+            _view.transform.position = _pausedTransform.position;
+            _view.transform.rotation = _pausedTransform.rotation;
+        }
+        else
+        {
+            Vector3 camForward = CommonObjects.PlayerController_C.LineOfSight;
+            float dot = Vector3.Dot(camForward, Vector3.up);
+            int y = Mathf.RoundToInt(Y_BASE_OFFSET - dot * vertShiftSpeed);
+            _view.transform.SetLocalY(y);
         }
 
-        //print("w, h: " + w + ", " + h);
-        //print("SCREEN: " + Screen.width + ", " + Screen.height);
-
-        return new Rect(x, y, w, h);
-    }*/
+        
+    }
 }

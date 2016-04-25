@@ -16,7 +16,7 @@ public class OverlayGui : Singleton<OverlayGui>
     
     void Start()
     {
-        _whiteTexture = GfxHelper.CreateColoredTexture(Color.white);
+        _whiteTexture = GfxHelper.CreateUnitTexture(Color.white);
     }
 
 

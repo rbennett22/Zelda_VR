@@ -193,6 +193,6 @@ public class InventoryView : MonoBehaviour
 
     public void UpdateDungeonMap()
     {
-        _dungeonMapView.UpdateDungeonMap();
+        _dungeonMapView.UpdateMap();
     }
 }

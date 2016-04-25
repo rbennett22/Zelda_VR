@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.IO;
-using System.Collections;
 using System.Globalization;
-using Immersio.Utility;
 
 
 public class TileMap : MonoBehaviour
