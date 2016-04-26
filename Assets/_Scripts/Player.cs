@@ -173,7 +173,7 @@ public class Player : Singleton<Player>
 
     void Update()
     {
-        if (Pause.Instance.IsTimeFrozen) { return; }
+        if (PauseManager.Instance.IsPaused_Any) { return; }
         if (IsDead) { return; }
 
         if (IsInLikeLikeTrap)

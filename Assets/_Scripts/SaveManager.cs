@@ -5,22 +5,24 @@ using Immersio.Utility;
 
 public class SaveManager : Singleton<SaveManager>
 {
-    const string NewGameFileName = "NewGame";
-    const string NewGameEntryDataFileName = "NewGameEntryData";
-    const string GameFileNameBase = "SavedGame_";
-    const string EntryDataFileNameBase = "SavedEntryData_";
+    public const string NEW_GAME_DATA_FOLDER_NAME = "NewGame_Data";
+
+    const string NEW_GAME_FILE_NAME = "NewGame";
+    const string NEW_GAME_ENTRY_DATA_FILE_NAME = "NewGameEntryData";
+    const string GAME_FILE_NAME_BASE = "SavedGame_";
+    const string ENTRY_DATA_FILE_NAME_BASE = "SavedEntryData_";
 
 
-    static string NewGameFilePath { get { return Application.dataPath + "/NewGame_Data/" + NewGameFileName + ".txt"; } }
-    static string NewGameEntryDataFilePath { get { return Application.dataPath + "/NewGame_Data/" + NewGameEntryDataFileName + ".txt"; } }
+    static string NewGameFilePath { get { return Application.dataPath + "/" + NEW_GAME_DATA_FOLDER_NAME + "/" + NEW_GAME_FILE_NAME + ".txt"; } }
+    static string NewGameEntryDataFilePath { get { return Application.dataPath + "/" + NEW_GAME_DATA_FOLDER_NAME + "/" + NEW_GAME_ENTRY_DATA_FILE_NAME + ".txt"; } }
 
     static string EntryDataFilePathForID(int id)
     {
-        return Application.persistentDataPath + "/" + EntryDataFileNameBase + id + ".txt";
+        return Application.persistentDataPath + "/" + ENTRY_DATA_FILE_NAME_BASE + id + ".txt";
     }
     static string GameFilePathForID(int id)
     {
-        return Application.persistentDataPath + "/" + GameFileNameBase + id + ".txt";
+        return Application.persistentDataPath + "/" + GAME_FILE_NAME_BASE + id + ".txt";
     }
     
     static bool DataExistsForID(int id)

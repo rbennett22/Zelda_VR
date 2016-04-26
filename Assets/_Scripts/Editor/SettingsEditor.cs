@@ -3,7 +3,7 @@ using UnityEditor;
 
 public class Menu
 {
-    const string MENU_NAME = "Zelda";
+    const string MENU_NAME = "ZeldaVR";
 
 
     [MenuItem(MENU_NAME + "/Settings")]

@@ -2,15 +2,26 @@
 using System.Collections.Generic;
 using Immersio.Utility;
 
-
 public class ZeldaFont : Singleton<ZeldaFont> 
 {
+    const int TILE_WIDTH = 48, TILE_HEIGHT = 48;
+    const int CHAR_WIDTH = 24, CHAR_HEIGHT = 24;
 
-    public Texture2D zeldaFontTexture;
-    public int tileWidth = 48, tileHeight = 48;
-    public int charWidth = 8;
-    public int charHeight = 8;
+    const string ZELDA_FONT_TEXTURE_PREFAB_PATH = "zeldaFontTexture";
 
+
+    Texture2D _fontTexture;
+    public Texture2D FontTexture { get { return _fontTexture ?? (_fontTexture = LoadZeldaFontTexture()); } }
+    Texture2D LoadZeldaFontTexture()
+    {
+        Texture2D t = Resources.Load<Texture2D>(ZELDA_FONT_TEXTURE_PREFAB_PATH);
+        if (t == null)
+        {
+            Debug.LogWarning("Texture2D asset not found in Resources: " + ZELDA_FONT_TEXTURE_PREFAB_PATH);
+            return null;
+        }
+        return t;
+    }
 
 
     Dictionary<char, int> _charToIndex = new Dictionary<char, int>()
@@ -33,6 +44,11 @@ public class ZeldaFont : Singleton<ZeldaFont>
 
     public Texture2D TextureForString(string str)
     {
+        if(FontTexture == null)
+        {
+            return null;
+        }
+
         if (string.IsNullOrEmpty(str)) { return null; }
 
         str = str.ToUpper();
@@ -45,8 +61,8 @@ public class ZeldaFont : Singleton<ZeldaFont>
             if (line.Length > longestLineLength) { longestLineLength = line.Length; }
         }
 
-        int texWidth = (int)(longestLineLength * charWidth);
-        int texHeight = (int)(lines.Length * charHeight);
+        int texWidth = (int)(longestLineLength * CHAR_WIDTH);
+        int texHeight = (int)(lines.Length * CHAR_HEIGHT);
        
         Texture2D tex = new Texture2D(texWidth, texHeight);
 
@@ -59,11 +75,11 @@ public class ZeldaFont : Singleton<ZeldaFont>
 
 
         int lineNum = 0;
-        int x = (int)((texWidth - (lines[lineNum].Length * charWidth)) * 0.5f);
-        int y = texHeight - charHeight;
-        int sampleY = (int)(0.5f * (tileHeight - charHeight));
+        int x = (int)((texWidth - (lines[lineNum].Length * CHAR_WIDTH)) * 0.5f);
+        int y = texHeight - CHAR_HEIGHT;
+        int sampleY = (int)(0.5f * (TILE_HEIGHT - CHAR_HEIGHT));
 
-        Color[] pixels = new Color[charWidth * charHeight];
+        Color[] pixels = new Color[CHAR_WIDTH * CHAR_HEIGHT];
         
         foreach (char c in str.ToCharArray())
         {
@@ -71,25 +87,26 @@ public class ZeldaFont : Singleton<ZeldaFont>
             if (c == '\n') 
             {
                 lineNum++;
-                y -= charHeight;
-                x = (int)((texWidth - (lines[lineNum].Length * charWidth)) * 0.5f);
+                y -= CHAR_HEIGHT;
+                x = (int)((texWidth - (lines[lineNum].Length * CHAR_WIDTH)) * 0.5f);
                 continue; 
             }
-            if (c == ' ') { x += charWidth; continue; }
+            if (c == ' ') { x += CHAR_WIDTH; continue; }
 
             int sampleX = GetSampleXForCharCode(c);
             if (sampleX < 0) { continue; }
 
-            pixels = zeldaFontTexture.GetPixels(sampleX, sampleY, charWidth, charHeight);
-            tex.SetPixels(x, y, charWidth, charHeight, pixels);
+            pixels = FontTexture.GetPixels(sampleX, sampleY, CHAR_WIDTH, CHAR_HEIGHT);
+            tex.SetPixels(x, y, CHAR_WIDTH, CHAR_HEIGHT, pixels);
 
-            x += charWidth;
+            x += CHAR_WIDTH;
         }
 
         tex.wrapMode = TextureWrapMode.Clamp;
         tex.Apply();
         return tex;
     }
+
 
     int GetSampleXForCharCode(char c)
     {
@@ -112,9 +129,8 @@ public class ZeldaFont : Singleton<ZeldaFont>
             return -1;
         }
 
-        int sampleX = (int)((sampleIndex * tileWidth) + 0.5f * (tileWidth - charWidth));
+        int sampleX = (int)((sampleIndex * TILE_WIDTH) + 0.5f * (TILE_WIDTH - CHAR_WIDTH));
 
         return sampleX;
     }
-	
 }

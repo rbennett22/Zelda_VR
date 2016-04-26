@@ -99,11 +99,11 @@ public class EnemyAnimation : MonoBehaviour
     {
         if (activate)
         {
-            gameObject.AddComponent<FlashColors>();
+            gameObject.AddComponent<FlashColorsSimple>();
         }
         else
         {
-            Destroy(GetComponent<FlashColors>());
+            Destroy(GetComponent<FlashColorsSimple>());
         }
     }
 

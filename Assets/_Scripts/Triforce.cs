@@ -21,7 +21,8 @@ public class Triforce : MonoBehaviour
         Music.Instance.Stop();
         SoundFx.Instance.PlayOneShot(SoundFx.Instance.triforceFanfare);
         CommonObjects.Player_C.IsParalyzed = true;
-        Pause.Instance.IsAllowed = false;
+        PauseManager.Instance.IsPauseAllowed_Inventory = false;
+        PauseManager.Instance.IsPauseAllowed_Options = false;
 
         iTween.MoveAdd(gameObject, new Vector3(0, 1, 0), fanfareDuration * 0.7f);
 
@@ -67,7 +68,8 @@ public class Triforce : MonoBehaviour
     void WarpToOverworld()
     {
         CommonObjects.Player_C.IsParalyzed = false;
-        Pause.Instance.IsAllowed = true;
+        PauseManager.Instance.IsPauseAllowed_Inventory = true;
+        PauseManager.Instance.IsPauseAllowed_Options = true;
 
         OverlayGui.Instance.WhiteFade(true, _fadeDuration);
         Destroy(gameObject, _fadeDuration + 0.1f);

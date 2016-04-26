@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class FlashColors : MonoBehaviour 
+public class FlashColorsSimple : MonoBehaviour 
 {
     int _flashIdx = 0;
     Color[] _flashColors = { 

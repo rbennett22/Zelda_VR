@@ -76,8 +76,8 @@ public class ZeldaSerializer : Singleton<ZeldaSerializer>
 
         data.invInfo = Inventory.Instance.GetInfo();
         data.owInfo = GameObject.FindGameObjectWithTag("OverworldInfo").GetComponent<OverworldInfo>().GetInfo();
-        data.dungInfo = new DungeonInfo.Serializable[WorldInfo.NumDungeons];
-        for (int i = 0; i < WorldInfo.NumDungeons; i++)
+        data.dungInfo = new DungeonInfo.Serializable[WorldInfo.NUM_DUNGEONS];
+        for (int i = 0; i < WorldInfo.NUM_DUNGEONS; i++)
 		{
 			 data.dungInfo[i] = WorldInfo.Instance.GetDungeon(i+1).GetComponent<DungeonInfo>().GetInfo();
 		}
@@ -108,7 +108,7 @@ public class ZeldaSerializer : Singleton<ZeldaSerializer>
 
         Inventory.Instance.InitWithInfo(data.invInfo);
         GameObject.FindGameObjectWithTag("OverworldInfo").GetComponent<OverworldInfo>().InitWithInfo(data.owInfo);
-        for (int i = 0; i < WorldInfo.NumDungeons; i++)
+        for (int i = 0; i < WorldInfo.NUM_DUNGEONS; i++)
 		{
 			 WorldInfo.Instance.GetDungeon(i+1).GetComponent<DungeonInfo>().InitWithInfo(data.dungInfo[i]);
 		}

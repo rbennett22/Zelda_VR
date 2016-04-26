@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
+
 public class ZeldaText : MonoBehaviour
 {
     [SerializeField]
@@ -12,6 +14,34 @@ public class ZeldaText : MonoBehaviour
             AssignSpriteFromText(_text);
         }
     }
+    
+
+    Image _image;
+    SpriteRenderer _spriteRenderer;
+
+
+    void Awake()
+    {
+        _image = GetComponent<Image>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+
+        AssignSpriteFromText(_text);
+    }
+
+
+    void Update()
+    {
+        if(!Application.isPlaying)
+        {
+            Update_EditModeOnly();
+        }
+    }
+    void Update_EditModeOnly()
+    {
+        AssignSpriteFromText(_text);
+    }
+
+
     void AssignSpriteFromText(string text)
     {
         Texture2D tex = ZeldaFont.Instance.TextureForString(text);
@@ -29,18 +59,5 @@ public class ZeldaText : MonoBehaviour
         {
             _spriteRenderer.sprite = sprite;
         }
-    }
-
-
-    Image _image;
-    SpriteRenderer _spriteRenderer;
-
-
-    void Awake()
-    {
-        _image = GetComponent<Image>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-
-        AssignSpriteFromText(_text);
     }
 }

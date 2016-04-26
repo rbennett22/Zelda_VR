@@ -25,17 +25,48 @@ public class InventoryViewController : MonoBehaviour
 
     void Update()
     {
-        if (Pause.Instance.IsMenuShowing) { return; }
+        if(PauseManager.Instance.IsPaused_Options)
+        {
+            return;
+        }
 
-        _view.gameObject.SetActive(Pause.Instance.IsInventoryShowing);
-
-        if (Pause.Instance.IsInventoryShowing)
+        if (IsViewShowing)
         {
             // TODO: Don't update every frame
 
+            UpdateCursor();
             UpdateView();
         }
     }
+
+    public bool IsViewShowing { get; private set; }
+    public void ShowView()
+    {
+        if (IsViewShowing)
+        {
+            return;
+        }
+        IsViewShowing = true;
+
+        _view.gameObject.SetActive(true);
+        PlayInventoryToggleSound();
+    }
+    public void HideView(bool force = false)
+    {
+        if (!IsViewShowing)
+        {
+            return;
+        }
+        IsViewShowing = false;
+
+        _view.gameObject.SetActive(false);
+        PlayInventoryToggleSound();
+    }
+    void PlayInventoryToggleSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.pause);
+    }
+
 
     void UpdateView()
     {
@@ -53,8 +84,6 @@ public class InventoryViewController : MonoBehaviour
 
             UpdateView_DungeonMapAndItems();
         }
-
-        UpdateCursor();
     }
 
     void UpdateView_Items()

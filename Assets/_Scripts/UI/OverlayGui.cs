@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Immersio.Utility;
 
-
 public class OverlayGui : Singleton<OverlayGui>
 {
     const string ShutersFinishedClosingCallbackName = "ShuttersFinishedClosing";

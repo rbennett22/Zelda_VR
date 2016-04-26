@@ -100,7 +100,8 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
         sfx.PlayLowHealth(false);
         sfx.PlayOneShot(sfx.die);
 
-        Pause.Instance.IsAllowed = false;
+        PauseManager.Instance.IsPauseAllowed_Inventory = false;
+        PauseManager.Instance.IsPauseAllowed_Options = false;
         GameplayHUD.Instance.enabled = false;
         _player.IsParalyzed = true;
 
@@ -135,7 +136,8 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
 
         _player.IsParalyzed = false;
         _player.EnableSwordProjectiles();
-        Pause.Instance.IsAllowed = true;
+        PauseManager.Instance.IsPauseAllowed_Inventory = true;
+        PauseManager.Instance.IsPauseAllowed_Options = true;
     }
 
 }

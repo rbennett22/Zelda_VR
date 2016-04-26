@@ -25,7 +25,8 @@ public class TitleScreen : MonoBehaviour
             }
         }
 
-        Pause.Instance.IsAllowed = false;
+        PauseManager.Instance.IsPauseAllowed_Inventory = false;
+        PauseManager.Instance.IsPauseAllowed_Options = false;
         CommonObjects.PlayerController_C.controlsEnabled = false;
         GameplayHUD.Instance.enabled = false;
     }

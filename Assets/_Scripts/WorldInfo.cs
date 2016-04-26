@@ -1,45 +1,49 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using Immersio.Utility;
 
 public class WorldInfo : Singleton<WorldInfo>
 {
-    public const int NumDungeons = 9;
+    public const int QUEST = 1;
+    public const int NUM_DUNGEONS = 9;
 
 
-    public int quest = 1;
-    public Vector2 lostWoodsSector = new Vector2(1, 6);
+    [SerializeField]
+    Vector2 _lostWoodsSector = new Vector2(1, 6);
+    public Vector2 LostWoodsSector { get { return _lostWoodsSector; } }
 
 
-    public bool IsEmptyScene { get { return Application.loadedLevelName == "_Empty"; } }
-    public bool IsCommonScene { get { return Application.loadedLevelName == "Common"; } }
-    public bool IsTitleScene { get { return Application.loadedLevelName == Locations.TitleSceneName; } }
-    public bool IsSpecial { get { return Application.loadedLevelName == Locations.SpecialSceneName; } }
-    public bool IsOverworld { get { return Application.loadedLevelName == "Overworld"; } }
+    public bool IsEmptyScene { get { return SceneManager.GetActiveScene().name == Locations.EMPTY_SCENE_NAME; } }
+    public bool IsCommonScene { get { return SceneManager.GetActiveScene().name == Locations.COMMON_SCENE_NAME; } }
+    public bool IsTitleScene { get { return SceneManager.GetActiveScene().name == Locations.TITLE_SCREEN_SCENE_NAME; } }
+    public bool IsSpecial { get { return SceneManager.GetActiveScene().name == Locations.SPECIAL_SCENE_NAME; } }
+    public bool IsOverworld { get { return SceneManager.GetActiveScene().name == Locations.OVERWORLD_SCENE_NAME; } }
     public bool IsInDungeon { get { return DungeonNum != -1; } }
     public int DungeonNum { 
         get {
             if (IsOverworld || IsSpecial || IsTitleScene || IsCommonScene || IsEmptyScene) { return -1; }
             else
             {
-                if (Application.loadedLevelName.Contains("Info")) { return -1; }
-                return int.Parse(Application.loadedLevelName.ToCharArray()[8].ToString());
+                if (SceneManager.GetActiveScene().name.Contains("Info")) { return -1; }
+                return int.Parse(SceneManager.GetActiveScene().name.ToCharArray()[8].ToString());
             }
         }
     }
 
-    public string GetSceneNameForDungeon(int dungeonNum)
+
+    public static string GetSceneNameForDungeon(int dungeonNum)
     {
-        return "Dungeon " + dungeonNum + " Q" + quest;
+        return "Dungeon " + dungeonNum + " Q" + QUEST;
     }
-    public string GetSceneNameForDungeonInfo(int dungeonNum)
+    public static string GetSceneNameForDungeonInfo(int dungeonNum)
     {
-        return "Dungeon " + dungeonNum + " Q" + quest + " Info";
+        return "Dungeon " + dungeonNum + " Q" + QUEST + " Info";
     }
-    public string GetSceneNameForOverworld()
+    public static string GetSceneNameForOverworld()
     {
-        return "Overworld";
+        return Locations.OVERWORLD_SCENE_NAME;      // TODO: Quest 2 will use different OW scene...
     }
-    public string GetSceneNameForOverworldInfo()
+    public static string GetSceneNameForOverworldInfo()
     {
         return "Overworld Info";
     }

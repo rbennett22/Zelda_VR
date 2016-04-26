@@ -19,8 +19,10 @@ public class Patrol : MonoBehaviour
         Vector3 dir = dest - pos;
         float distSqr = dir.sqrMagnitude;
         dir.Normalize();
+
         Vector3 displacement = dir * speed * Time.deltaTime;
         pos += displacement;
+
         transform.position = pos;
         transform.forward = dir;
 

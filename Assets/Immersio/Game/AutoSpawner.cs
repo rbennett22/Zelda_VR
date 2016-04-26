@@ -1,13 +1,14 @@
 using UnityEngine;
-using System.Collections;
 
-public interface IAutoSpawnerDelegate {
+
+public interface IAutoSpawnerDelegate
+{
 	bool ShouldObjectSpawn (AutoSpawner autoSpawner, ref Vector3 spawnPosition, ref Vector3 spawnVelocity);	// (The return value indicates whether the Spawn will happen)
 }
 
 
-public class AutoSpawner : MonoBehaviour, IAutoSpawner {
-
+public class AutoSpawner : MonoBehaviour, IAutoSpawner
+{
 	public IAutoSpawnerDelegate autoSpawnerDelegate;
 	public GameObject spawnObjectPrefab;
 
@@ -18,40 +19,45 @@ public class AutoSpawner : MonoBehaviour, IAutoSpawner {
 	public Transform spawnedObjectParent;
 	public bool doAutoSpawn = false;
 
+
 	float _cooldownTimer = 0.1f;
 	int _currNumObjects = 0;
 
+
 	public Vector3 spawnOrigin_Local = Vector3.zero;
-	public Vector3 spawnOrigin_World {
-		get { return transform.TransformPoint(spawnOrigin_Local); }
-	}
+	public Vector3 spawnOrigin_World { get { return transform.TransformPoint(spawnOrigin_Local); } }
 
 
-
-	void Start () {
+	void Start ()
+    {
 		if(!spawnedObjectParent)
 			spawnedObjectParent = transform.parent;
 	}
 
 
-	public GameObject RequestToSpawnObject () {
+	public GameObject RequestToSpawnObject ()
+    {
 		return RequestToSpawnObject(spawnOrigin_World, spawnedObjectMoveDirection * spawnedObjectSpeed);
 	}
-	public GameObject RequestToSpawnObject (Vector3 velocity) {
+	public GameObject RequestToSpawnObject (Vector3 velocity)
+    {
 		return RequestToSpawnObject(spawnOrigin_World, velocity);
 	}
-	public GameObject RequestToSpawnObject (Vector3 position, Vector3 velocity) {
+	public GameObject RequestToSpawnObject (Vector3 position, Vector3 velocity)
+    {
 		if(_cooldownTimer > 0 || _currNumObjects >= maxLiveObjects)
 			return null;
 
-		if(autoSpawnerDelegate != null) {
+		if(autoSpawnerDelegate != null)
+        {
 			if(!autoSpawnerDelegate.ShouldObjectSpawn(this, ref position, ref velocity))
 				return null;
 		}
 
 		return SpawnObject(position, velocity);
 	}
-	GameObject SpawnObject (Vector3 position, Vector3 velocity) {
+	GameObject SpawnObject (Vector3 position, Vector3 velocity)
+    {
 		GameObject spawnedObj = Instantiate(spawnObjectPrefab, position, Quaternion.identity) as GameObject;
 
 		if(spawnedObjectParent)
@@ -73,7 +79,8 @@ public class AutoSpawner : MonoBehaviour, IAutoSpawner {
 	}
 
 
-	void Update () {
+	void Update ()
+    {
 		_cooldownTimer -= Time.deltaTime;
 
 		if(doAutoSpawn)
@@ -83,7 +90,8 @@ public class AutoSpawner : MonoBehaviour, IAutoSpawner {
 
 	#region IAutoSpawner
 
-	void IAutoSpawner.OnSpawnedObjectDestroy (AutoSpawnedObject spawnedObj) {
+	void IAutoSpawner.OnSpawnedObjectDestroy (AutoSpawnedObject spawnedObj)
+    {
 		_currNumObjects--;
 	}
 

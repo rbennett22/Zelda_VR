@@ -134,23 +134,19 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
 
     void UpdateViewPosition()
     {
-        // As player tilts head upwards, the gameplayHUD moves downwards
-
-        if (Pause.Instance.IsInventoryShowing)
+        if (PauseManager.Instance.IsPaused_Inventory)
         {
-            //int y = (int)(Screen.height * 0.7f + Y_BASE_OFFSET);
-            //_view.transform.SetLocalY(y);
             _view.transform.position = _pausedTransform.position;
             _view.transform.rotation = _pausedTransform.rotation;
         }
         else
         {
+            // As player tilts head upwards, the gameplayHUD moves downwards
+
             Vector3 camForward = CommonObjects.PlayerController_C.LineOfSight;
             float dot = Vector3.Dot(camForward, Vector3.up);
             int y = Mathf.RoundToInt(Y_BASE_OFFSET - dot * vertShiftSpeed);
             _view.transform.SetLocalY(y);
         }
-
-        
     }
 }

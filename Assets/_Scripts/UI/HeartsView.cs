@@ -9,7 +9,7 @@ public class HeartsView : MonoBehaviour
     GameObject _heartImagePrefab;
 
 
-    HeartImage[] _heartImages = new HeartImage[MAX_NUM_HEARTS];
+    HeartImage[] _heartImages = { };
     int _numHeartContainers;
     
     
@@ -19,7 +19,9 @@ public class HeartsView : MonoBehaviour
     }
     void InstantiateHeartImages()
     {
-        for (int i = 0; i < MAX_NUM_HEARTS; i++)
+        _heartImages = new HeartImage[MAX_NUM_HEARTS];
+
+        for (int i = 0; i < _heartImages.Length; i++)
         {           
             _heartImages[i] = InstantiateHeartImage();
         }
@@ -58,7 +60,7 @@ public class HeartsView : MonoBehaviour
         int numFullHearts = (int)(numHalfHearts * 0.5f);
         bool plusHalfHeart = numHalfHearts % 2 == 1;
 
-        for (int i = 0; i < _numHeartContainers; i++)
+        for (int i = 0; i < _heartImages.Length; i++)
         {
             HeartImage heartImage = _heartImages[i].GetComponent<HeartImage>();
 

@@ -15,6 +15,8 @@ public class CommonObjects : Singleton<CommonObjects>
     public Player player_C;
     public OVRPlayerController playerController_C;
 
+    public Canvas headSpaceCanvas;
+
     public GameObject enemyDeathAnimation;
     public Material[] enemyStatueMaterials;
     public GameObject invisibleBlockStatuePrefab;

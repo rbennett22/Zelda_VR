@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Immersio.Utility;
 
-
 public class ZeldaInput : Singleton<ZeldaInput>
 {
 
@@ -10,7 +9,6 @@ public class ZeldaInput : Singleton<ZeldaInput>
     public enum Button { SwordAttack, UseItemB, Run, Jump, Extra, Start, Select, Pause, L1, R1, L2, R2 };
 
 
-    //bool GameControllerAvailable { get { return OVRGamepadController.GPC_IsAvailable(); } }
     public bool XBoxControllerAvailable { get; set; }
 
 
@@ -20,13 +18,6 @@ public class ZeldaInput : Singleton<ZeldaInput>
         { Axis.MoveVertical, "XBox LS Vertical" },
         { Axis.LookHorizontal, "XBox RS Horizontal" }
     };
-
-    /*Dictionary<Axis, OVRGamepadController.Axis> _zeldaAxisToXBox = new Dictionary<Axis, OVRGamepadController.Axis>()
-    {
-        { Axis.MoveHorizontal, OVRGamepadController.Axis.LeftXAxis },
-        { Axis.MoveVertical, OVRGamepadController.Axis.LeftYAxis },
-        { Axis.LookHorizontal, OVRGamepadController.Axis.RightXAxis }
-    };*/
 
     Dictionary<Button, string> _zeldaButtonToXBox = new Dictionary<Button, string>()
     {
@@ -44,28 +35,11 @@ public class ZeldaInput : Singleton<ZeldaInput>
         { Button.R2, null }
     };
 
-    /*Dictionary<Button, OVRGamepadController.Button> _zeldaButtonToXBox = new Dictionary<Button, OVRGamepadController.Button>()
-    {
-        { Button.SwordAttack, OVRGamepadController.Button.A },
-        { Button.UseItemB, OVRGamepadController.Button.B },
-        { Button.Run, OVRGamepadController.Button.LStick },
-        { Button.Jump, OVRGamepadController.Button.X },
-        { Button.Extra, OVRGamepadController.Button.Y },
-        { Button.Start, OVRGamepadController.Button.Start },
-        { Button.Select, OVRGamepadController.Button.Back },
-        { Button.Pause, OVRGamepadController.Button.Start },
-        { Button.L1, OVRGamepadController.Button.L1 },
-        { Button.R1, OVRGamepadController.Button.R1 }
-        //{ Button.L2, null },
-        //{ Button.R2, null },
-    };*/
-
-
-    bool _controllerWasAvailable;
+    
     bool _hasDeterminedContollerAvailablity;
 
-
-    /*void Update()
+    /*bool _controllerWasAvailable;
+    void Update()
     {
         print("XBoxControllerAvailable: " + XBoxControllerAvailable);
         if (GameControllerAvailable != _controllerWasAvailable)
@@ -78,8 +52,8 @@ public class ZeldaInput : Singleton<ZeldaInput>
 
     float GetAxis_(Axis axis)
     {
-        //return XBoxControllerAvailable ? OVRGamepadController.GPC_GetAxis((int)axis) : Input.GetAxis(axis.ToString());
-        return XBoxControllerAvailable ? Input.GetAxis(_zeldaAxisToXBox[axis].ToString()) : Input.GetAxis(axis.ToString());
+        string axisName = XBoxControllerAvailable ? _zeldaAxisToXBox[axis] : axis.ToString();
+        return (string.IsNullOrEmpty(axisName)) ? 0 : Input.GetAxis(axisName);
     }
 
     // TODO: GetButton is not available for XBox controller
@@ -87,36 +61,24 @@ public class ZeldaInput : Singleton<ZeldaInput>
     {
         if (!_hasDeterminedContollerAvailablity) { DetermineControllerAvailability(button); }
 
-        //return XBoxControllerAvailable ? false : Input.GetButton(button.ToString());
-
-        if (XBoxControllerAvailable && _zeldaButtonToXBox[button] == null) { return false; }
-
         string btnName = XBoxControllerAvailable ? _zeldaButtonToXBox[button] : button.ToString();
-        return XBoxControllerAvailable ? Input.GetButton(btnName) : Input.GetButton(btnName);
+        return (string.IsNullOrEmpty(btnName)) ? false : Input.GetButton(btnName);
     }
 
     bool GetButtonDown_(Button button)
     {
         if (!_hasDeterminedContollerAvailablity) { DetermineControllerAvailability(button); }
 
-        //return XBoxControllerAvailable ? OVRGamepadController.GPC_GetButton((int)_zeldaButtonToXBox[button]) : Input.GetButtonDown(button.ToString());
-
-        if (XBoxControllerAvailable && _zeldaButtonToXBox[button] == null) { return false; }
-
         string btnName = XBoxControllerAvailable ? _zeldaButtonToXBox[button] : button.ToString();
-        return XBoxControllerAvailable ? Input.GetButtonDown(btnName) : Input.GetButtonDown(btnName);
+        return (string.IsNullOrEmpty(btnName)) ? false : Input.GetButtonDown(btnName);
     }
 	
     bool GetButtonUp_(Button button)
     {
         if (!_hasDeterminedContollerAvailablity) { DetermineControllerAvailability(button); }
 
-        //return XBoxControllerAvailable ? OVRGamepadController.GPC_GetButton((int)_zeldaButtonToXBox[button]) : Input.GetButtonUp(button.ToString());
-
-        if (XBoxControllerAvailable && _zeldaButtonToXBox[button] == null) { return false; }
-
         string btnName = XBoxControllerAvailable ? _zeldaButtonToXBox[button] : button.ToString();
-        return XBoxControllerAvailable ? Input.GetButtonUp(btnName) : Input.GetButtonUp(btnName);
+        return (string.IsNullOrEmpty(btnName)) ? false : Input.GetButtonUp(btnName);
     }
 
 
@@ -144,14 +106,5 @@ public class ZeldaInput : Singleton<ZeldaInput>
         }
 
         _hasDeterminedContollerAvailablity = true;
-
-        /*if (!GameControllerAvailable) { return; }
-        
-        if (Input.GetButton(testButton.ToString()))
-        {
-            XBoxControllerAvailable = OVRGamepadController.GPC_GetButton((int)_zeldaButtonToXBox[testButton]);
-            _hasDeterminedContollerAvailablity = true;
-        }*/
     }
-
 }

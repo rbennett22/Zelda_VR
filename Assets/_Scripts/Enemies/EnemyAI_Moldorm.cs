@@ -127,7 +127,7 @@ public class EnemyAI_Moldorm : EnemyAI
         bool isPreoccupied = (_enemy.IsAttacking || _enemy.IsJumping || _enemy.IsSpawning || _enemy.IsParalyzed || _enemy.IsStunned);
         if (isPreoccupied) { return; }
 
-        if (Pause.Instance.IsTimeFrozen) { return; }
+        if (PauseManager.Instance.IsPaused_Any) { return; }
 
         if (IsHead)
         {

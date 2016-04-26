@@ -5,9 +5,11 @@ using Immersio.Utility;
 
 public class Locations : Singleton<Locations>
 {
-    public const string EmptySceneName = "_Empty";
-    public const string TitleSceneName = "TitleScreen";
-    public const string SpecialSceneName = "Special";
+    public const string EMPTY_SCENE_NAME = "_Empty";
+    public const string COMMON_SCENE_NAME = "Common";
+    public const string TITLE_SCREEN_SCENE_NAME = "TitleScreen";
+    public const string SPECIAL_SCENE_NAME = "Special";
+    public const string OVERWORLD_SCENE_NAME = "Overworld";
 
 
     public bool skipTitleScreen = false;
@@ -78,7 +80,7 @@ public class Locations : Singleton<Locations>
     public void LoadTitleScreen()
     {
         spawnLocation = titleScreen;
-        LoadScene(TitleSceneName);
+        LoadScene(TITLE_SCREEN_SCENE_NAME);
     }
 
     public void LoadInitialScene()
@@ -88,12 +90,12 @@ public class Locations : Singleton<Locations>
 
         if (startInSpecial)
         {
-            intitialScene = SpecialSceneName;
+            intitialScene = SPECIAL_SCENE_NAME;
             spawnLocation = special;
         }
         else if (startInDungeon == -1)
         {
-            intitialScene = w.GetSceneNameForOverworld();
+            intitialScene = WorldInfo.GetSceneNameForOverworld();
             if (spawnLocation == null)
             {
                 spawnLocation = overworldStart;
@@ -101,7 +103,7 @@ public class Locations : Singleton<Locations>
         }
         else
         {
-            intitialScene = w.GetSceneNameForDungeon(startInDungeon);
+            intitialScene = WorldInfo.GetSceneNameForDungeon(startInDungeon);
             if (spawnLocation == null)
             {
                 spawnLocation = GetDungeonEntranceStairsLocation(startInDungeon);
@@ -114,11 +116,11 @@ public class Locations : Singleton<Locations>
 
     void LoadInfoScenes()
     {
-        LoadScene(WorldInfo.Instance.GetSceneNameForOverworldInfo());
+        LoadScene(WorldInfo.GetSceneNameForOverworldInfo());
 		
-		for (int i = 0; i < WorldInfo.NumDungeons; i++)
+		for (int i = 0; i < WorldInfo.NUM_DUNGEONS; i++)
         {
-            LoadScene(WorldInfo.Instance.GetSceneNameForDungeonInfo(i + 1));
+            LoadScene(WorldInfo.GetSceneNameForDungeonInfo(i + 1));
         }
     }
 
@@ -141,7 +143,7 @@ public class Locations : Singleton<Locations>
     void ReloadCurrentScene()
     {
         _reloadingScene = Application.loadedLevelName;
-        LoadScene(EmptySceneName);
+        LoadScene(EMPTY_SCENE_NAME);
     }
 
 
@@ -154,7 +156,7 @@ public class Locations : Singleton<Locations>
         }
         else
         {
-            string sceneName = WorldInfo.Instance.GetSceneNameForOverworld();
+            string sceneName = WorldInfo.GetSceneNameForOverworld();
             //LoadScene(sceneName, true);
             LoadScene(sceneName, useShutters, onlyUseShutterOpen);
         }
@@ -177,7 +179,7 @@ public class Locations : Singleton<Locations>
         }
         else
         {
-            string sceneName = WorldInfo.Instance.GetSceneNameForDungeon(dungeonNum);
+            string sceneName = WorldInfo.GetSceneNameForDungeon(dungeonNum);
             LoadScene(sceneName, true);
         }
     }
@@ -213,7 +215,8 @@ public class Locations : Singleton<Locations>
     {
         if (useShutters)
         {
-            Pause.Instance.IsAllowed = false;
+            PauseManager.Instance.IsPauseAllowed_Inventory = false;
+            PauseManager.Instance.IsPauseAllowed_Options = false;
             CommonObjects.Player_C.IsParalyzed = true;
 
             _sceneToLoad = name;
@@ -253,7 +256,8 @@ public class Locations : Singleton<Locations>
     {
         if (!WorldInfo.Instance.IsTitleScene)
         {
-            Pause.Instance.IsAllowed = true;
+            PauseManager.Instance.IsPauseAllowed_Inventory = true;
+            PauseManager.Instance.IsPauseAllowed_Options = true;
         }
     }
 
