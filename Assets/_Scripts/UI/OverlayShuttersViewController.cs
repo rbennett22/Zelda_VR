@@ -20,6 +20,12 @@ public class OverlayShuttersViewController : Singleton<OverlayShuttersViewContro
     public bool AnySequenceIsPlaying { get { return CloseAndOpenSequenceIsPlaying || _view.IsOpening || _view.IsClosing; } }
 
 
+    void Awake()
+    {
+        _view.viewDelegate = this;
+    }
+
+
     public void Close(Action onCompleteCallback)
     {
         if (_view.IsClosing) { return; }

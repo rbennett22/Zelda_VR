@@ -10,73 +10,37 @@ public class OverlayShuttersView : MonoBehaviour
 {
     public IOverlayShutterViewDelegate viewDelegate;
 
-    public float shutterSpeed = 500.0f;
-
-
-    float _leftShutterX, _rightShutterX;
-    float _shutterWidth = Screen.width * 0.6f;
-    float _shutterHeight = Screen.height * 2;
-    float _screenCenterX = Screen.width * 0.5f;
-
-    float _realDeltaTime;
-    float _prevRealTime;
+    [SerializeField]
+    GameObject _shutterTop, _shutterBottom;
 
 
     public bool IsClosing { get; private set; }
     public bool IsOpening { get; private set; }
 
+
     public void Close()
     {
         if (IsClosing) { return; }
-
-        _leftShutterX = _screenCenterX - _shutterWidth * 2;
-        _rightShutterX = _screenCenterX + _shutterWidth;
-
         IsClosing = true;
+
+        DoTweenShutters("Close");
     }
 
     public void Open()
     {
         if (IsOpening) { return; }
-
-        _leftShutterX = _screenCenterX - _shutterWidth;
-        _rightShutterX = _screenCenterX;
-
         IsOpening = true;
+
+        DoTweenShutters("Open");
     }
 
-
-    void Update()
+    void DoTweenShutters(string tweenName)
     {
-        float realTime = Time.realtimeSinceStartup;
-        _realDeltaTime = realTime - _prevRealTime;
-
-        float deltaX = _realDeltaTime * shutterSpeed;
-
-        if (IsClosing)
-        {
-            _leftShutterX += deltaX;
-            _rightShutterX -= deltaX;
-
-            if (_leftShutterX > _screenCenterX - _shutterWidth + 25)
-            {
-                OnCloseFinished();
-            }
-        }
-        else if (IsOpening)
-        {
-            _leftShutterX -= deltaX;
-            _rightShutterX += deltaX;
-
-            if (_leftShutterX < _screenCenterX - 2 * _shutterWidth)
-            {
-                OnOpenFinished();
-            }
-        }
-
-        _prevRealTime = realTime;
+        iTweenEvent.GetEvent(_shutterTop, tweenName).Play();
+        iTweenEvent.GetEvent(_shutterBottom, tweenName).Play();
     }
 
+    // OnCloseFinished will be called by iTween
     void OnCloseFinished()
     {
         IsClosing = false;
@@ -86,6 +50,7 @@ public class OverlayShuttersView : MonoBehaviour
             viewDelegate.OnCloseFinished(this);
         }
     }
+    // OnOpenFinished will be called by iTween
     void OnOpenFinished()
     {
         IsOpening = false;

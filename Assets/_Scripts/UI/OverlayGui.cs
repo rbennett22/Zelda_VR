@@ -34,7 +34,7 @@ public class OverlayGui : Singleton<OverlayGui>
 
     void Update()
     {
-        UpdateOverlays();
+        //UpdateOverlays();
     }
 
     void UpdateOverlays()
