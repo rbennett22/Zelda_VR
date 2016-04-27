@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using Immersio.Utility;
 
-
 [RequireComponent(typeof(AudioSource))]
+
 public class SoundFx : Singleton<SoundFx> 
 {
+    [SerializeField]
+    GameObject _soundSourcePrefab;
 
-    public GameObject soundSourcePrefab;
-    public AudioClip stairs, unlock, key, secret, select, pause, cursor, enemyStun, lowHealth, shield, flame, text;
-    public AudioClip arrow, bombBlow, bombDrop, boomerang, maficalRod, sword, swordShoot, bossScream1, bossScream2;
-    public AudioClip heart, item, rupee, hit, hurt, kill, die, fanfare, sealDoor;
-    public AudioClip triforceFanfare, whistle, gameOver;
+    public AudioClip stairs, unlock, key, secret, select, pause, cursor, enemyStun, lowHealth, shield, flame, text,
+        arrow, bombBlow, bombDrop, boomerang, maficalRod, sword, swordShoot, bossScream1, bossScream2,
+        heart, item, rupee, hit, hurt, kill, die, fanfare, sealDoor,
+        triforceFanfare, whistle, gameOver;
 
 
     public void PlayOneShot(AudioClip clip)
@@ -22,7 +23,7 @@ public class SoundFx : Singleton<SoundFx>
     {
         if (clip == null) { return; }
 
-        GameObject g = Instantiate(soundSourcePrefab, pos, Quaternion.identity) as GameObject;
+        GameObject g = Instantiate(_soundSourcePrefab, pos, Quaternion.identity) as GameObject;
         g.name = "Temp AudioSource";
         g.GetComponent<AudioSource>().PlayOneShot(clip);
         Destroy(g, clip.length);
@@ -36,7 +37,7 @@ public class SoundFx : Singleton<SoundFx>
         {
             if (_lowHealthAudioSource == null)
             {
-                GameObject g = Instantiate(soundSourcePrefab) as GameObject;
+                GameObject g = Instantiate(_soundSourcePrefab) as GameObject;
                 _lowHealthAudioSource = g.GetComponent<AudioSource>();
             }
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class OptionsView : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class OptionsView : MonoBehaviour
     public Button MusicBtn { get { return _musicBtn; } }
     public Button ControlsBtn { get { return _controlsBtn; } }
     public Button QuitBtn { get { return _quitBtn; } }*/
+
+
+    void OnEnable()
+    {
+        EventSystem.current.SetSelectedGameObject(_resumeBtn.gameObject);
+    }
 
 
     public void AddListener_OnResumeClicked(UnityAction action)

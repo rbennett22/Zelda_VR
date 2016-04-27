@@ -48,6 +48,7 @@ public class WorldInfo : Singleton<WorldInfo>
         return "Overworld Info";
     }
 
+
     public GameObject GetDungeon(int dungeonNum)
     {
         string dungeonInfoName = "Dungeon Info " + dungeonNum;
@@ -74,4 +75,13 @@ public class WorldInfo : Singleton<WorldInfo>
         return cam;
     }
 
+    public bool ShouldShowGameplayHUDInCurrentScene()
+    {
+        return IsOverworld || IsInDungeon || IsSpecial;
+    }
+
+    public bool IsPausingAllowedInCurrentScene()
+    {
+        return IsOverworld || IsInDungeon || IsSpecial;
+    }
 }

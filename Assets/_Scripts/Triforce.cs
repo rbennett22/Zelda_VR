@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class Triforce : MonoBehaviour 
 {
-
     public Light light;
     public float fanfareDuration = 7.0f;
 
@@ -36,6 +34,7 @@ public class Triforce : MonoBehaviour
         yield return new WaitForSeconds(fanfareDuration);
 
         OverlayGui.Instance.WhiteFade(false, _fadeDuration);
+
         yield return new WaitForSeconds(_fadeDuration);
 		
         WarpToOverworld();
@@ -46,35 +45,11 @@ public class Triforce : MonoBehaviour
         light.intensity = intensity;
     }
 
-    void ShuttersFinishedClosing()
-    {
-        OverlayGui.Instance.ShowDemoThanksText();
-    }
-
-    void Update()
-    {
-        if (OverlayGui.Instance.IsDemoThanksTextShowing)
-        {
-            if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Start))
-            {
-                SoundFx.Instance.PlayOneShot(SoundFx.Instance.select);
-                OverlayGui.Instance.ShowDemoThanksText(false);
-
-                WarpToOverworld();
-            }
-        }
-    }
-
     void WarpToOverworld()
     {
-        CommonObjects.Player_C.IsParalyzed = false;
-        PauseManager.Instance.IsPauseAllowed_Inventory = true;
-        PauseManager.Instance.IsPauseAllowed_Options = true;
-
         OverlayGui.Instance.WhiteFade(true, _fadeDuration);
         Destroy(gameObject, _fadeDuration + 0.1f);
 
         Locations.Instance.WarpToOverworldDungeonEntrance(false);
     }
-
 }

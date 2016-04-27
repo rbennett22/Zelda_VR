@@ -4,6 +4,9 @@ using System.Collections;
 
 public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
 {
+    const float DEATH_SEQUENCE_DURATION = 2.0f;
+
+
     static int _healthToHeartRatio = 8;
     public static int HealthToHalfHearts(int health)
     {
@@ -21,6 +24,8 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     Player _player;
     Transform _playerController;
     HealthController _healthController;
+
+    Vector3 _playerDeathLocation;
 
 
     void Awake()
@@ -92,7 +97,6 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     }
 
 
-    float _deathSequenceDuration = 2.0f;
     IEnumerator DeathSequence()
     {
         Music.Instance.Stop();
@@ -100,28 +104,29 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
         sfx.PlayLowHealth(false);
         sfx.PlayOneShot(sfx.die);
 
+        GameplayHUDViewController.Instance.HideView();
         PauseManager.Instance.IsPauseAllowed_Inventory = false;
         PauseManager.Instance.IsPauseAllowed_Options = false;
-        GameplayHUD.Instance.enabled = false;
         _player.IsParalyzed = true;
 
-        yield return new WaitForSeconds(_deathSequenceDuration);
+        yield return new WaitForSeconds(DEATH_SEQUENCE_DURATION);
 
-        OverlayGui.Instance.PlayShutterCloseSequence(gameObject);
+        OverlayShuttersViewController.Instance.PlayCloseAndOpenSequence(RespawnPlayer, ShuttersFinishedOpening, 0.1f);
     }
-    Vector3 _playerDeathLocation;
-    IEnumerator ShuttersFinishedClosing()
+    
+    void RespawnPlayer()
+    {
+        StartCoroutine(RespawnPlayer_CR());
+    }
+    IEnumerator RespawnPlayer_CR()
     {
         _playerDeathLocation = _playerController.transform.position;
-
         Locations.Instance.RespawnPlayer();
 
         yield return new WaitForSeconds(0.1f);
 
         _healthController.Reset();
-        GameplayHUD.Instance.enabled = true;
-
-        OverlayGui.Instance.PlayShutterOpenSequence(gameObject);
+        GameplayHUDViewController.Instance.ShowView();
     }
     void ShuttersFinishedOpening()
     {
@@ -136,8 +141,11 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
 
         _player.IsParalyzed = false;
         _player.EnableSwordProjectiles();
-        PauseManager.Instance.IsPauseAllowed_Inventory = true;
-        PauseManager.Instance.IsPauseAllowed_Options = true;
-    }
 
+        if (WorldInfo.Instance.IsPausingAllowedInCurrentScene())
+        {
+            PauseManager.Instance.IsPauseAllowed_Inventory = true;
+            PauseManager.Instance.IsPauseAllowed_Options = true;
+        }
+    }
 }

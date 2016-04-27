@@ -20,6 +20,8 @@ public class InventoryViewController : MonoBehaviour
     {
         //_view = GetComponent<InventoryView>();
         _inventory = Inventory.Instance;
+
+        _view.gameObject.SetActive(false);
     }
 
 
@@ -51,7 +53,7 @@ public class InventoryViewController : MonoBehaviour
         _view.gameObject.SetActive(true);
         PlayInventoryToggleSound();
     }
-    public void HideView(bool force = false)
+    public void HideView()
     {
         if (!IsViewShowing)
         {
@@ -61,10 +63,6 @@ public class InventoryViewController : MonoBehaviour
 
         _view.gameObject.SetActive(false);
         PlayInventoryToggleSound();
-    }
-    void PlayInventoryToggleSound()
-    {
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.pause);
     }
 
 
@@ -214,8 +212,7 @@ public class InventoryViewController : MonoBehaviour
         Vector2 cursorIndices = _view.CursorIndices;
         _inventory.EquippedItemB = _inventory.GetEquippableSecondaryItem((int)cursorIndices.x, (int)cursorIndices.y);
 
-        SoundFx sfx = SoundFx.Instance;
-        sfx.PlayOneShot(sfx.cursor);
+        PlayCursorMoveSound();
 
         StartCursorCooldownTimer();
     }
@@ -232,5 +229,15 @@ public class InventoryViewController : MonoBehaviour
         {
             _cursorCooldownActive = false;
         }
+    }
+
+
+    void PlayInventoryToggleSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.pause);
+    }
+    void PlayCursorMoveSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.cursor);
     }
 }

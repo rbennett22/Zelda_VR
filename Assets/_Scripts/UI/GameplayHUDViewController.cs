@@ -14,11 +14,38 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
         _inventory = Inventory.Instance;
     }
 
+    void OnLevelWasLoaded(int level)
+    {
+        if(WorldInfo.Instance.ShouldShowGameplayHUDInCurrentScene())
+        {
+            ShowView();
+        }
+        else
+        {
+            HideView();
+        }
+    }
+
     void Start()
     {
         ZeldaVRSettings s = ZeldaVRSettings.Instance;
         InitOverworldMap(s.overworldWidthInSectors, s.overworldHeightInSectors);
         InitDungeonMap(s.dungeonWidthInSectors, s.dungeonHeightInSectors);
+    }
+
+
+    public bool IsViewShowing { get; private set; }
+    public void ShowView()
+    {
+        IsViewShowing = true;
+
+        _view.gameObject.SetActive(true);
+    }
+    public void HideView()
+    {
+        IsViewShowing = false;
+
+        _view.gameObject.SetActive(false);
     }
 
 

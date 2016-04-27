@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class EnemyAI_WallMaster : EnemyAI 
 {
@@ -36,7 +35,7 @@ public class EnemyAI_WallMaster : EnemyAI
     }
     State _state;
 
-    bool _hasPlayerInClutches;
+    bool _hasControlOfLink;
     
 
     public Vector3 MoveDirection 
@@ -82,7 +81,7 @@ public class EnemyAI_WallMaster : EnemyAI
             default: break;
         }
 
-        if (_hasPlayerInClutches)
+        if (_hasControlOfLink)
         {
             _enemy.PlayerController.transform.position = transform.position;
         }
@@ -160,18 +159,9 @@ public class EnemyAI_WallMaster : EnemyAI
             _moveDirection = -1 * _wallNormal;
             _targetPos = transform.position + (2 * _moveDirection);
 
-            if (_hasPlayerInClutches)
+            if (_hasControlOfLink)
             {
-                if (WorldInfo.Instance.IsInDungeon)
-                {
-                    WarpLinkToDungeonEntrance();
-                }
-                else
-                {
-                    CommonObjects.Player_C.IsParalyzed = false;
-                }
-                
-                _hasPlayerInClutches = false;
+                ReleaseControlOfLink();
             }
 
             _state = State.ExitingThroughWall;
@@ -200,20 +190,6 @@ public class EnemyAI_WallMaster : EnemyAI
         return hasReachedTarget;
     }
 
-    bool _storedGravityEnabledState;
-    void WarpLinkToDungeonEntrance()
-    {
-        OVRPlayerController pc = CommonObjects.PlayerController_C;
-        _storedGravityEnabledState = pc.gravityEnabled;
-        pc.gravityEnabled = false;
-        Locations.Instance.WarpToDungeonEntranceRoom(gameObject, true);
-    }
-    void FinishedWarpingPlayer()
-    {
-        CommonObjects.Player_C.IsParalyzed = false;
-        CommonObjects.PlayerController_C.gravityEnabled = _storedGravityEnabledState;
-    }
-
 
     void OnTriggerEnter(Collider otherCollider)
     {
@@ -221,9 +197,38 @@ public class EnemyAI_WallMaster : EnemyAI
 
         if (CommonObjects.IsPlayer(other))
         {
-            CommonObjects.Player_C.IsParalyzed = true;
-            _hasPlayerInClutches = true;
+            TakeControlOfLink();
         }
     }
 
+    void TakeControlOfLink()
+    {
+        CommonObjects.Player_C.IsParalyzed = true;
+        _hasControlOfLink = true;
+    }
+    void ReleaseControlOfLink()
+    {
+        _hasControlOfLink = false;
+        CommonObjects.Player_C.IsParalyzed = false;
+
+        if (WorldInfo.Instance.IsInDungeon)
+        {
+            // WallMaster teleports Link back to dungeon entrance - by far the most annoying enemy in the entire game.
+            WarpLinkToDungeonEntrance();
+        }
+    }
+
+    bool _storedGravityEnabledState;
+    void WarpLinkToDungeonEntrance()
+    {
+        OVRPlayerController pc = CommonObjects.PlayerController_C;
+        _storedGravityEnabledState = pc.gravityEnabled;
+        pc.gravityEnabled = false;
+
+        Locations.Instance.WarpToDungeonEntranceRoom(FinishedWarpingLinkToDungeonEntrance, true);
+    }
+    void FinishedWarpingLinkToDungeonEntrance()
+    {
+        CommonObjects.PlayerController_C.gravityEnabled = _storedGravityEnabledState;
+    }
 }

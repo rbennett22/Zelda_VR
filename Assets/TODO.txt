@@ -2,6 +2,8 @@
 
 - Possible memory leak.  When using renderer.material, be sure to call DestroyImmediate(renderer.material) in OnDestroy().
 
+- Fix issues caused by Positional Tracking
+- Scale PlayerController (0.5)
 - Lost Hills
 - Waterfall cave
 - D6 OW Entrance
@@ -10,14 +12,14 @@
 - Fog disappears abruptly in grottos close to Lost Woods
 - Update Controls image
 - LoadSelectScreen - Choose Name, Elimination Mode, Name text align
-- Pause Menu - Positioning; Remove unused options
+- OptionsMenu: Controls
+- OptionsMenu: Animate to beneath inventory view on Pause_Inventory
 - "Continue or Save & Quit?" GUI
 - Gannon - Intro, Death
 - Ending
 - Credits
 
-- Pause Menu - View Controls
-- Pause Menu - Edit Look Sensitivity
+
 - Bow Crosshair
 - Make Map display an arrow for Link instead of a square
 - LikeLike - Show an effect to indicate what's happening when player is trapped
@@ -49,7 +51,6 @@
 -- Other --
 - Use Zelda Font for Controls text
 - Non-Oculus Support
-- Latest Oculus Unity SDK?
 
 -- BUGS --
 - BUG: If you Pause during music opening, the loop won't play automatically when the opening finishes
@@ -74,6 +75,11 @@
 - Vires - No redKeese if MagicSword or magicSwordProjectile kills
 - Wand Flame should light up dark room
 - Playing flute, gameOver, or triforceFanfare should stop music
+
+
+--- DONE ---
+
+- DK2 Support
 
 
 --- NOTES ---

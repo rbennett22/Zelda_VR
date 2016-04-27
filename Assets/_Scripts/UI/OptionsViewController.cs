@@ -46,7 +46,7 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
 
         OptionsView view = g.GetComponent<OptionsView>();
-        AddViewListeners(view);
+        AddButtonClickListeners(view);
 
         return view;
     }
@@ -63,13 +63,31 @@ public class OptionsViewController : Singleton<OptionsViewController>
     {
         if (_view != null)
         {
-            AddViewListeners(_view);
+            AddButtonClickListeners(_view);
         }
 
         HideView();
     }
 
-    void AddViewListeners(OptionsView view)
+
+    public bool IsViewShowing { get; private set; }
+    public void ShowView()
+    {
+        IsViewShowing = true;
+
+        View.gameObject.SetActive(true);
+    }
+    public void HideView()
+    {
+        IsViewShowing = false;
+
+        View.gameObject.SetActive(false);
+    }
+
+
+    #region Button Click Handlers
+
+    void AddButtonClickListeners(OptionsView view)
     {
         view.AddListener_OnResumeClicked(Resume);
         view.AddListener_OnMusicClicked(ToggleMusic);
@@ -78,34 +96,9 @@ public class OptionsViewController : Singleton<OptionsViewController>
     }
 
 
-    public bool IsViewShowing { get; private set; }
-    public void ShowView()
-    {
-        if(IsViewShowing)
-        {
-            return;
-        }
-        IsViewShowing = true;
-
-        View.gameObject.SetActive(true);
-    }
-    public void HideView()
-    {
-        if (!IsViewShowing)
-        {
-            return;
-        }
-        IsViewShowing = false;
-
-        View.gameObject.SetActive(false);
-    }
-    
-
     public void Resume()
     {
         PauseManager.Instance.ResumeGame_Options();
-
-        HideView();
     }
 
     public void ToggleMusic()
@@ -124,9 +117,15 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
         PauseManager.Instance.ResumeGame_Options();
         PauseManager.Instance.ResumeGame_Inventory();
-
-        HideView();
         
         Locations.Instance.LoadTitleScreen();
+    }
+
+    #endregion
+
+
+    void PlayCursorMoveSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.cursor);
     }
 }

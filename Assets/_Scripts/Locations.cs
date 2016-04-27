@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
+using System;
 using Immersio.Utility;
-
 
 public class Locations : Singleton<Locations>
 {
@@ -26,6 +26,8 @@ public class Locations : Singleton<Locations>
 
 
     string _reloadingScene = null;
+
+    Action _warpCompleteCallback;
 
 
     public Transform GetOverworldDungeonEntranceLocation(int dungeonNum)
@@ -142,12 +144,19 @@ public class Locations : Singleton<Locations>
 
     void ReloadCurrentScene()
     {
-        _reloadingScene = Application.loadedLevelName;
+        _reloadingScene = SceneManager.GetActiveScene().name;
         LoadScene(EMPTY_SCENE_NAME);
     }
 
 
-    public void WarpToOverworldDungeonEntrance(int dungeonNum, bool useShutters = true, bool onlyUseShutterOpen = false)
+    public void WarpToOverworldDungeonEntrance(bool useShutters = true, bool closeShuttersInstantly = false)
+    {
+        int dungeonNum = WorldInfo.Instance.DungeonNum;
+        if (dungeonNum == -1) { return; }
+
+        WarpToOverworldDungeonEntrance(dungeonNum, useShutters, closeShuttersInstantly);
+    }
+    public void WarpToOverworldDungeonEntrance(int dungeonNum, bool useShutters = true, bool closeShuttersInstantly = false)
     {
         spawnLocation = GetOverworldDungeonEntranceLocation(dungeonNum);
         if (WorldInfo.Instance.IsOverworld)
@@ -156,20 +165,10 @@ public class Locations : Singleton<Locations>
         }
         else
         {
-            string sceneName = WorldInfo.GetSceneNameForOverworld();
-            //LoadScene(sceneName, true);
-            LoadScene(sceneName, useShutters, onlyUseShutterOpen);
+            LoadScene(WorldInfo.GetSceneNameForOverworld(), useShutters, closeShuttersInstantly);
         }
     }
-
-    public void WarpToOverworldDungeonEntrance(bool useShutters = true, bool onlyUseShutterOpen = false)
-    {
-        int dungeonNum = WorldInfo.Instance.DungeonNum;
-        if (dungeonNum == -1) { return; }
-
-        WarpToOverworldDungeonEntrance(dungeonNum, useShutters, onlyUseShutterOpen);
-    }
-
+    
     public void WarpToDungeonEntranceStairs(int dungeonNum)
     {
         spawnLocation = GetDungeonEntranceStairsLocation(dungeonNum);
@@ -179,103 +178,97 @@ public class Locations : Singleton<Locations>
         }
         else
         {
-            string sceneName = WorldInfo.GetSceneNameForDungeon(dungeonNum);
-            LoadScene(sceneName, true);
+            LoadScene(WorldInfo.GetSceneNameForDungeon(dungeonNum), true);
         }
     }
 
-    public void WarpToDungeonEntranceRoom(GameObject notifyOnFinish = null, bool useShutters = false)
+    public void WarpToDungeonEntranceRoom(Action onCompleteCallback = null, bool useShutters = false)
     {
         int dungeonNum = WorldInfo.Instance.DungeonNum;
         if (dungeonNum == -1) { return; }
 
-        WarpPlayerToLocation(GetDungeonEntranceRoomLocation(dungeonNum), notifyOnFinish, useShutters);
+        WarpPlayerToLocation(GetDungeonEntranceRoomLocation(dungeonNum), onCompleteCallback, useShutters);
     }
 
 
-    GameObject _warpDelegate;
-    void WarpPlayerToLocation(Transform location, GameObject notifyOnFinish = null, bool useShutters = false)
+    Transform _warpToLocation;
+    void WarpPlayerToLocation(Transform location, Action onCompleteCallback = null, bool useShutters = false, bool closeShuttersInstantly = false)
     {
-        _warpDelegate = notifyOnFinish;
+        _warpCompleteCallback = onCompleteCallback;
+        _warpToLocation = location;
 
         if (useShutters)
         {
-            spawnLocation = location;
-            _sceneToLoad = null;
-            OverlayGui.Instance.PlayShutterCloseSequence(gameObject);
+            PlayShutterSequence(DoWarpPlayerToLocation, closeShuttersInstantly);
         }
         else
         {
-            SetPlayerPosition(location);
+            DoWarpPlayerToLocation();
+        }
+    }
+    void DoWarpPlayerToLocation()
+    {
+        SetPlayerPosition(_warpToLocation);
+        _warpToLocation = null;
+
+        if (_warpCompleteCallback != null)
+        {
+            _warpCompleteCallback();
+            _warpCompleteCallback = null;
+        }
+    }
+    void SetPlayerPosition(Transform t, bool setRotation = true)
+    {
+        CommonObjects.PlayerController_G.transform.position = t.position;
+
+        if (setRotation)
+        {
+            CommonObjects.Player_C.ForceNewForwardDirection(t.forward);
         }
     }
 
     string _sceneToLoad;
-    void LoadScene(string name, bool useShutters = false, bool onlyUseShutterOpen = false)
+    void LoadScene(string scene, bool useShutters = false, bool closeShuttersInstantly = false)
     {
+        _sceneToLoad = scene;
+
         if (useShutters)
         {
-            PauseManager.Instance.IsPauseAllowed_Inventory = false;
-            PauseManager.Instance.IsPauseAllowed_Options = false;
-            CommonObjects.Player_C.IsParalyzed = true;
-
-            _sceneToLoad = name;
-            if (onlyUseShutterOpen)
-            {
-                StartCoroutine("ShuttersFinishedClosing");
-            }
-            else
-            {
-                OverlayGui.Instance.PlayShutterCloseSequence(gameObject);
-            }
+            PlayShutterSequence(DoLoadScene, closeShuttersInstantly);
         }
         else
         {
-            Application.LoadLevel(name);
+            DoLoadScene();
         }
     }
-
-    IEnumerator ShuttersFinishedClosing()
+    void DoLoadScene()
     {
-        //print("ShuttersFinishedClosing: " + _sceneToLoad);
-        if (_sceneToLoad != null)
-        {
-            Application.LoadLevel(_sceneToLoad);
-            yield return new WaitForSeconds(0.1f);
-            CommonObjects.Player_C.IsParalyzed = false;
-        }
-        else
-        {
-            SetPlayerPosition(spawnLocation);
-            CommonObjects.Player_C.IsParalyzed = false;
-        }
-
-        OverlayGui.Instance.PlayShutterOpenSequence(gameObject);
+        SceneManager.LoadScene(_sceneToLoad);
+        _sceneToLoad = null;
     }
-    void ShuttersFinishedOpening()
+
+    void PlayShutterSequence(Action onCloseCompleteCallback, bool closeInstantly = false)
     {
-        if (!WorldInfo.Instance.IsTitleScene)
+        const float INTERMISSION_DURATION = 0.1f;
+
+        LimitControls();
+
+        OverlayShuttersViewController.Instance.PlayCloseAndOpenSequence(onCloseCompleteCallback, RestoreControls, INTERMISSION_DURATION, closeInstantly);
+    }
+    void LimitControls()
+    {
+        PauseManager.Instance.IsPauseAllowed_Inventory = false;
+        PauseManager.Instance.IsPauseAllowed_Options = false;
+        CommonObjects.Player_C.IsParalyzed = true;
+    }
+    void RestoreControls()
+    {
+        CommonObjects.Player_C.IsParalyzed = false;
+
+        if (WorldInfo.Instance.IsPausingAllowedInCurrentScene())
         {
             PauseManager.Instance.IsPauseAllowed_Inventory = true;
             PauseManager.Instance.IsPauseAllowed_Options = true;
         }
     }
-
-    void SetPlayerPosition(Transform t, bool setRotation = true)
-    {
-        CommonObjects.PlayerController_G.transform.position = t.position;
-
-        // Rotation
-        if (setRotation)
-        {
-            CommonObjects.Player_C.ForceNewForwardDirection(t.forward);
-        }
-
-        if (_warpDelegate != null)
-        {
-            _warpDelegate.SendMessage("FinishedWarpingPlayer", SendMessageOptions.DontRequireReceiver);
-            _warpDelegate = null;
-        }
-    }
-
 }
