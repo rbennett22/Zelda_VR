@@ -1,8 +1,6 @@
 --- TODO ---
 
-- OVRPlayerController TODO's
 - Fix issues caused by Positional Tracking
-- Scale PlayerController (0.5)
 
 - Possible memory leak.  When using renderer.material, be sure to call DestroyImmediate(renderer.material) in OnDestroy().
 
@@ -82,6 +80,7 @@
 --- DONE ---
 
 - DK2 Support
+- Shrunk PlayerController (scaled from 1 to 0.5)
 
 
 --- NOTES ---

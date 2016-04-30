@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-
 public class SimpleProjectile : MonoBehaviour
 {
-
     public float speed;
     public Vector3 direction;
     public int damage = 1;

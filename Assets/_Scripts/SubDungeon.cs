@@ -33,7 +33,7 @@ public class SubDungeon : MonoBehaviour
 
     public void OnPlayerEnteredPortal(SubDungeonPortal portal)
     {
-        OVRPlayerController pc = CommonObjects.PlayerController_C;
+        ZeldaPlayerController pc = CommonObjects.PlayerController_C;
         Transform t = pc.transform;
 
         SubDungeon destinationSubDungeon = SpawnPoint.warpTo.SpawnSubDungeon();

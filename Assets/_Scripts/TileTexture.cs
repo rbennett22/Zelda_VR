@@ -1,18 +1,11 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections;
-
 
 public class TileTexture : MonoBehaviour
 {
-
     public Texture2D texture;
 
-    public int tileWidth;
-    public int tileHeight;
-
-    public int tilesWide;
-    public int tilesHigh;
+    public int tileWidth, tileHeight;
+    public int tilesWide, tilesHigh;
 
 
     public int Width { get { return tilesWide * tileWidth; } }

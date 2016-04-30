@@ -208,7 +208,6 @@ public class TileMap : MonoBehaviour
                 {
                     int tileCodeAbove = _tiles[z + 1, x];
                     CreateBlock(tileCodeAbove, x, z, blockPrefab, EntranceTileBlockHeight, EntranceTileYOffset);
-
                 }
                 else
                 {
@@ -350,7 +349,7 @@ public class TileMap : MonoBehaviour
         g.transform.parent = _blockContainer;
 
         SetBlockTexture(g, tileCode, prefab.GetComponent<Renderer>().sharedMaterial, actualBlockHeight);
-
+        
         _populationFlags[tileY, tileX] = true;
 
         return g;
@@ -377,8 +376,11 @@ public class TileMap : MonoBehaviour
         Material mat = new Material(sourceMaterial);
         tex.filterMode = FilterMode.Point;
         mat.SetTexture("_MainTex", tex);
-        block.GetComponent<Renderer>().material = mat;
-        block.GetComponent<Renderer>().material.mainTextureScale = new Vector2(1, actualBlockHeight);
+
+        Renderer r = block.GetComponent<Renderer>();
+        //Destroy(r.material);
+        r.material = mat;
+        r.material.mainTextureScale = new Vector2(1, actualBlockHeight);
     }
 
     int GetRandomHeight()
@@ -430,8 +432,8 @@ public class TileMap : MonoBehaviour
 
     public Vector2 GetSectorForPosition(Vector3 pos)
     {
-        int x = (int)(pos.x / sectorWidthInTiles);
-        int y = SectorsLong - 1 - (int)(pos.z / sectorLengthInTiles);
+        int x = Mathf.FloorToInt(pos.x / sectorWidthInTiles);
+        int y = Mathf.FloorToInt(pos.z / sectorLengthInTiles);
         return new Vector2(x, y);
     }
 

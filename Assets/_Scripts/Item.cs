@@ -21,6 +21,7 @@ public class Item : MonoBehaviour
 
 
     Sprite _guiSprite;
+    Texture _guiSpriteTexture, _hudSpriteTexture;
 
 
     void Awake()
@@ -45,6 +46,7 @@ public class Item : MonoBehaviour
         {
             if (sr.name != GuiSpriteGameObjectName) { continue; }
             _guiSprite = sr.sprite;
+            break;
         }
     }
 
@@ -56,12 +58,20 @@ public class Item : MonoBehaviour
     }
     public Texture GetGuiTexture()
     {
-        if (_guiSprite == null) { FindGuiSprite(); }
-        return _guiSprite == null ? null : _guiSprite.GetTextureSegment();
+        if (_guiSpriteTexture == null)
+        {
+            if (_guiSprite == null) { FindGuiSprite(); }
+            _guiSpriteTexture = (_guiSprite == null) ? null : _guiSprite.GetTextureSegment();
+        }
+        return _guiSpriteTexture;
     }
     public Texture GetHudTexture()
     {
-        return (hudSprite == null) ? GetGuiTexture() : hudSprite.GetTextureSegment();
+        if (_hudSpriteTexture == null)
+        {
+            _hudSpriteTexture = (hudSprite == null) ? GetGuiTexture() : hudSprite.GetTextureSegment();
+        }
+        return _hudSpriteTexture;
     }
 
 

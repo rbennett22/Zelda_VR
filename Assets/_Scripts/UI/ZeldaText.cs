@@ -10,6 +10,10 @@ public class ZeldaText : MonoBehaviour
     public string Text {
         get { return _text; }
         set {
+            if(value == _text)
+            {
+                return;
+            }
             _text = value;
             AssignSpriteFromText(_text);
         }
@@ -38,7 +42,7 @@ public class ZeldaText : MonoBehaviour
     }
     void Update_EditModeOnly()
     {
-        AssignSpriteFromText(_text);
+        Text = _text;
     }
 
 

@@ -35,6 +35,8 @@ public class TileProliferator : Singleton<TileProliferator>
             stopWatch.Start();
             {
                 UpdateTiles_Tick();
+
+                Resources.UnloadUnusedAssets();
             }
             stopWatch.Stop();
 

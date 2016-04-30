@@ -13,7 +13,7 @@ public class Player : Singleton<Player>
     const float WhistleMelodyDuration = 4.0f;
 
 
-    public OVRPlayerController playerController;
+    public ZeldaPlayerController playerController;
     public int jumpHeight = 0;
 
     

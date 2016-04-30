@@ -25,6 +25,34 @@ public class EnemyAI_Bladetrap : EnemyAI
     }
 
 
+    void DoTriggerIfPlayerDetected()
+    {
+        DungeonRoom playerDungeonRoom = null;
+        if (WorldInfo.Instance.IsInDungeon)
+        {
+            playerDungeonRoom = DungeonRoom.GetRoomForPosition(_enemy.PlayerController.transform.position);
+        }
+        
+        if (playerDungeonRoom == null || _enemy.DungeonRoomRef == playerDungeonRoom)
+        {
+            Vector3 pos = transform.position;
+            Vector3 toPlayer = _enemy.PlayerController.transform.position - pos;
+            if (Mathf.Abs(toPlayer.y) < 0.5f)
+            {
+                if (Mathf.Abs(toPlayer.x) < TileHalfWidth)
+                {
+                    toPlayer.x = 0;
+                    Trigger(toPlayer);
+                }
+                else if (Mathf.Abs(toPlayer.z) < TileHalfWidth)
+                {
+                    toPlayer.z = 0;
+                    Trigger(toPlayer);
+                }
+            }
+        }
+    }
+
     void Update()
     {
         if (!_doUpdate) { return; }
@@ -32,25 +60,7 @@ public class EnemyAI_Bladetrap : EnemyAI
 
         if (PoisedToTrigger)
         {
-            DungeonRoom playerDungeonRoom = DungeonRoom.GetRoomForPosition(_enemy.PlayerController.transform.position);
-            if (_enemy.DungeonRoomRef == playerDungeonRoom)
-            {
-                Vector3 pos = transform.position;
-                Vector3 toPlayer = _enemy.PlayerController.transform.position - pos;
-                if (Mathf.Abs(toPlayer.y) < 0.5f)
-                {
-                    if (Mathf.Abs(toPlayer.x) < TileHalfWidth)
-                    {
-                        toPlayer.x = 0;
-                        Trigger(toPlayer);
-                    }
-                    else if (Mathf.Abs(toPlayer.z) < TileHalfWidth)
-                    {
-                        toPlayer.z = 0;
-                        Trigger(toPlayer);
-                    }
-                }
-            }
+            DoTriggerIfPlayerDetected();
         }
         else
         {
@@ -115,5 +125,4 @@ public class EnemyAI_Bladetrap : EnemyAI
         _movingToPlayer = false;
         _returningToOrigin = true;
     }
-
 }

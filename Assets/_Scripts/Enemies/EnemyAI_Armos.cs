@@ -26,6 +26,10 @@ public class EnemyAI_Armos : MonoBehaviour
                 case StatueType.Green: _statue = greenStatue; break;
                 case StatueType.White: _statue = whiteStatue; break;
             }
+            if(_isInStatueMode)
+            {
+                StatueActive = true;
+            }
         }
     }
 
@@ -38,7 +42,7 @@ public class EnemyAI_Armos : MonoBehaviour
 
 
     bool _isInStatueMode = true;
-    OVRPlayerController _ovrPlayerController;
+    ZeldaPlayerController _playerController;
     GameObject _statue;
     int _meleeDamage;
 
@@ -48,7 +52,7 @@ public class EnemyAI_Armos : MonoBehaviour
 
     void Awake()
     {
-        _ovrPlayerController = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
+        _playerController = GameObject.Find("OVRPlayerController").GetComponent<ZeldaPlayerController>();
         enemyAI_Random.enabled = false;
         animator.gameObject.SetActive(false);
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
@@ -64,16 +68,19 @@ public class EnemyAI_Armos : MonoBehaviour
 
     void Start()
     {
-        _statue.SetActive(true);
+        StatueActive = true;
     }
 
+    public bool StatueActive {
+        get { return (_statue == null) ? false : _statue.activeSelf; }
+        set { if (_statue != null) { _statue.SetActive(value); } } }
 
     void OnTriggerEnter(Collider otherCollider)
     {
         if (_isInStatueMode)
         {
             GameObject other = otherCollider.gameObject;
-            if (other == _ovrPlayerController.gameObject)
+            if (other == _playerController.gameObject)
             {
                 StartCoroutine("ComeAlive");
             }
@@ -86,7 +93,7 @@ public class EnemyAI_Armos : MonoBehaviour
         _isInStatueMode = false;
         GetComponent<HealthController>().isIndestructible = false;
         
-        _statue.SetActive(false);
+        StatueActive = false;
         animator.gameObject.SetActive(true);
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 

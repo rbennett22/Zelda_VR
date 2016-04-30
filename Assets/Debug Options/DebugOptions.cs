@@ -74,24 +74,12 @@ public class DebugOptions : Singleton<DebugOptions>
         return true;
     }
 
-    /*static bool PlayerListingsUI_SetActive(bool value)
-    {
-        if (PlayerListings_UI == null)
-        {
-            return false;
-        }
-
-        PlayerListings_UI.SetActive(value);
-        return true;
-    }*/
-
     #endregion
 
 
     #region UI Stuff
 
     const string DebugOptionsUIPrefabPath = "DebugOptions UI";
-    //const string PlayerListingsUIPrefabPath = "PlayerListingsUI_uNet";
 
     const float CanvasWidth = 1920f;
     const float CanvasHeight = 1080f;
@@ -103,8 +91,6 @@ public class DebugOptions : Singleton<DebugOptions>
     static GameObject DebugCanvas { get { return _debugCanvas ?? (_debugCanvas = CreateCanvasOnVRCamera()); } }
     static GameObject _debugOptions_UI;
     static GameObject DebugOptions_UI { get { return _debugOptions_UI ?? (_debugOptions_UI = InstantiateUiPanel(DebugOptionsUIPrefabPath)); } }
-    //static GameObject _playerListings_UI;
-    //static GameObject PlayerListings_UI { get { return _playerListings_UI ?? (_playerListings_UI = InstantiateUiPanel(PlayerListingsUIPrefabPath)); } }
 
 
     static GameObject CreateCanvasOnVRCamera()
@@ -162,12 +148,11 @@ public class DebugOptions : Singleton<DebugOptions>
     #endregion
 
 
-    void OnLevelWasLoaded(int level)
+    /*void OnLevelWasLoaded(int level)
     {
         _debugCanvas = null;
         _debugOptions_UI = null;
-        //_playerListings_UI = null;
-    }
+    }*/
 
 
     void Update()

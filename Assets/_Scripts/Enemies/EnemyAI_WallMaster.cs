@@ -221,7 +221,7 @@ public class EnemyAI_WallMaster : EnemyAI
     bool _storedGravityEnabledState;
     void WarpLinkToDungeonEntrance()
     {
-        OVRPlayerController pc = CommonObjects.PlayerController_C;
+        ZeldaPlayerController pc = CommonObjects.PlayerController_C;
         _storedGravityEnabledState = pc.gravityEnabled;
         pc.gravityEnabled = false;
 

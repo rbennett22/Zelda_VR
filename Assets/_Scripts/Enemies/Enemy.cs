@@ -247,5 +247,4 @@ public class Enemy : MonoBehaviour
             SpawnPoint.OnSpawnedEnemyDeath();
         }
     }
-
 }

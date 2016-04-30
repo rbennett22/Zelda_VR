@@ -20,7 +20,6 @@ limitations under the License.
 ************************************************************************************/
 
 using UnityEngine;
-using System.Collections.Generic;
 
 /// <summary>
 /// Controls the player's movement in virtual reality.
@@ -28,26 +27,6 @@ using System.Collections.Generic;
 [RequireComponent(typeof(CharacterController))]
 public class OVRPlayerController : MonoBehaviour
 {
-    /////////////////////////////////////
-
-    // TODO: ~RJB
-
-    public bool gravityEnabled = true;
-    public bool airJumpingEnabled = false;
-    public float RunMultiplier = 1.0f;
-    
-    public Vector3 ForwardDirection { get { return transform.forward; } }
-    public Vector3 LineOfSight
-    {
-        get
-        {
-            return CameraRig.centerEyeAnchor.forward;
-        }
-    }
-
-    /////////////////////////////////////
-
-
     /// <summary>
     /// The rate acceleration during movement.
     /// </summary>
@@ -101,20 +80,26 @@ public class OVRPlayerController : MonoBehaviour
 	protected CharacterController Controller = null;
 	protected OVRCameraRig CameraRig = null;
 
-	private float MoveScale = 1.0f;
-	private Vector3 MoveThrottle = Vector3.zero;
-	private float FallSpeed = 0.0f;
-	private OVRPose? InitialPose;
-	private float InitialYRotation = 0.0f;
-	private float MoveScaleMultiplier = 1.0f;
-	private float RotationScaleMultiplier = 1.0f;
-	private bool  SkipMouseRotation = false;
-	private bool  HaltUpdateMovement = false;
-	private bool prevHatLeft = false;
-	private bool prevHatRight = false;
-	private float SimulationRate = 60f;
+    ////// Changed these from private to protected         ~RJB
 
-	void Start()
+    protected float MoveScale = 1.0f;
+    protected float MoveScaleMultiplier = 1.0f;
+    protected float RotationScaleMultiplier = 1.0f;
+    protected Vector3 MoveThrottle = Vector3.zero;  
+    protected float FallSpeed = 0.0f;                 
+    protected OVRPose? InitialPose;
+    protected bool SkipMouseRotation = false;
+    protected bool HaltUpdateMovement = false;
+    protected float SimulationRate = 60f;   
+    
+    //////         
+
+    private float InitialYRotation = 0.0f;
+    private bool prevHatLeft = false;
+	private bool prevHatRight = false;
+    
+
+    void Start()
 	{
 		// Add eye-depth as a camera offset from the player controller
 		var p = CameraRig.transform.localPosition;
@@ -204,13 +189,10 @@ public class OVRPlayerController : MonoBehaviour
 		moveDirection += MoveThrottle * SimulationRate * Time.deltaTime;
 
         // Gravity
-        if (gravityEnabled)     //// ~RJB
-        {
-            if (Controller.isGrounded && FallSpeed <= 0)
-                FallSpeed = ((Physics.gravity.y * (GravityModifier * 0.002f)));
-            else
-                FallSpeed += ((Physics.gravity.y * (GravityModifier * 0.002f)) * SimulationRate * Time.deltaTime);
-        }
+        if (Controller.isGrounded && FallSpeed <= 0)
+            FallSpeed = ((Physics.gravity.y * (GravityModifier * 0.002f)));
+        else
+            FallSpeed += ((Physics.gravity.y * (GravityModifier * 0.002f)) * SimulationRate * Time.deltaTime);
 
 		moveDirection.y += FallSpeed * SimulationRate * Time.deltaTime;
 
@@ -239,41 +221,24 @@ public class OVRPlayerController : MonoBehaviour
 		if (HaltUpdateMovement)
 			return;
 
-        ////// ~RJB
+        bool moveForward = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
+        bool moveLeft = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
+        bool moveRight = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
+        bool moveBack = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
 
-        bool moveForward = false;
-        bool moveLeft = false;
-        bool moveRight = false;
-        bool moveBack = false;
-
-        ////bool moveForward = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
-        ////bool moveLeft = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
-        ////bool moveRight = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
-        ////bool moveBack = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
-
-        /*bool dpad_move = false;
+        bool dpad_move = false;
 
 		if (OVRInput.Get(OVRInput.Button.DpadUp))
 		{
 			moveForward = true;
 			dpad_move   = true;
-
 		}
 
 		if (OVRInput.Get(OVRInput.Button.DpadDown))
 		{
 			moveBack  = true;
 			dpad_move = true;
-		}*/
-
-        float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
-        float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
-        if (moveVert > 0) moveForward = true;
-        if (moveHorz < 0) moveLeft = true;
-        if (moveVert < 0) moveBack = true;
-        if (moveHorz > 0) moveRight = true;
-
-        //////
+		}
 
         MoveScale = 1.0f;
 
@@ -281,31 +246,17 @@ public class OVRPlayerController : MonoBehaviour
 			 (moveBack && moveLeft)    || (moveBack && moveRight) )
 			MoveScale = 0.70710678f;
 
-        ////// ~RJB
-
 		// No positional movement if we are in the air
-		////if (!Controller.isGrounded)
-			////MoveScale = 0.0f;
-
-        //////
+		if (!Controller.isGrounded)
+			MoveScale = 0.0f;
 
 		MoveScale *= SimulationRate * Time.deltaTime;
 
 		// Compute this for key movement
 		float moveInfluence = Acceleration * 0.1f * MoveScale * MoveScaleMultiplier;
 
-        //////  ~RJB
-
-		// Run!
-        if (ZeldaInput.GetButton(ZeldaInput.Button.Run))
-        {
-            moveInfluence *= RunMultiplier;
-        }
-
-        ////if (dpad_move || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-            ////moveInfluence *= 2.0f;
-
-        //////
+        if (dpad_move || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            moveInfluence *= 2.0f;
 
         Quaternion ort = transform.rotation;
 		Vector3 ortEuler = ort.eulerAngles;
@@ -321,18 +272,9 @@ public class OVRPlayerController : MonoBehaviour
 		if (moveRight)
 			MoveThrottle += ort * (transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.right);
 
-        ////// Jump   ~RJB
-
-        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Jump))
-        {
-            Jump();
-        }
-
-        //////
-
         Vector3 euler = transform.rotation.eulerAngles;
 
-        /*bool curHatLeft = OVRInput.Get(OVRInput.Button.PrimaryShoulder);
+        bool curHatLeft = OVRInput.Get(OVRInput.Button.PrimaryShoulder);
 
 		if (curHatLeft && !prevHatLeft)
 			euler.y -= RotationRatchet;
@@ -351,7 +293,7 @@ public class OVRPlayerController : MonoBehaviour
 			euler.y -= RotationRatchet;
 
 		if (Input.GetKeyDown(KeyCode.E))
-			euler.y += RotationRatchet;*/
+			euler.y += RotationRatchet;
 
         float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
 
@@ -382,13 +324,7 @@ public class OVRPlayerController : MonoBehaviour
 
 		Vector2 secondaryAxis = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
 
-        ////// ~RJB
-
-        float deltaRotation = ZeldaInput.GetAxis(ZeldaInput.Axis.LookHorizontal) * rotateInfluence * 3.25f;
-        ////float deltaRotation = secondaryAxis.x * rotateInfluence;
-        euler.y += deltaRotation;
-
-        //////
+        euler.y += secondaryAxis.x * rotateInfluence;
         
         transform.rotation = Quaternion.Euler(euler);
     }
@@ -418,21 +354,8 @@ public class OVRPlayerController : MonoBehaviour
 	/// </summary>
 	public bool Jump()
 	{
-        //////
-
-        if (airJumpingEnabled)
-        {
-            FallSpeed = 0;
-        }
-        else if (!Controller.isGrounded)
-        {
+        if (!Controller.isGrounded)
             return false;
-        }
-
-        ////if (!Controller.isGrounded)     // ~ RJB
-            ////return false;
-
-        //////
 
         MoveThrottle += new Vector3(0, transform.lossyScale.y * JumpForce, 0);
 

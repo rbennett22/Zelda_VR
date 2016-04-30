@@ -14,7 +14,7 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
 
     DungeonEntrance _spawnedDungeonEntrance = null;
     Transform _dungeonEntranceContainer;
-    OVRPlayerController _ovrPlayerController;
+    ZeldaPlayerController _playerController;
 
     float _spawnDistanceSqd;
     float _destroyDistanceSqd;
@@ -23,7 +23,7 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
     void Awake()
     {
         _dungeonEntranceContainer = GameObject.Find("DungeonEntrances").transform;
-        _ovrPlayerController = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
+        _playerController = GameObject.Find("OVRPlayerController").GetComponent<ZeldaPlayerController>();
 
         _spawnDistanceSqd = spawnDistance * spawnDistance;
         _destroyDistanceSqd = _spawnDistanceSqd + 20;
@@ -34,7 +34,7 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
 
     void Update()
     {
-        Vector3 toPlayer = _ovrPlayerController.transform.position - marker.transform.position;
+        Vector3 toPlayer = _playerController.transform.position - marker.transform.position;
         float distanceToPlayerSqr = Vector3.SqrMagnitude(toPlayer);
 
         if (_spawnedDungeonEntrance == null)

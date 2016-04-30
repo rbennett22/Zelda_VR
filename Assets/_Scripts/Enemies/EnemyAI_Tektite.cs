@@ -57,9 +57,21 @@ public class EnemyAI_Tektite : EnemyAI
 
     bool IsBlockingAnExit()
     {
+        if(WorldInfo.Instance.IsSpecial)
+        {
+            return false;
+        }
+
+        TileMap tileMap = TileProliferator.Instance.tileMap;
+        if (tileMap == null)
+        {
+            return false;
+        }
+
         bool isBlocking = false;
-        int tileCode = TileProliferator.Instance.tileMap.Tile(_enemy.TileX, _enemy.TileZ);
+        int tileCode = tileMap.Tile(_enemy.TileX, _enemy.TileZ);
         isBlocking = TileInfo.IsTileAnEntrance(tileCode);
+
         return isBlocking;
     }
 
