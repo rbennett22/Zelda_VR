@@ -61,7 +61,6 @@
 - Store blocks in 2D Array
 - Use Mesh.CombineMeshes on blocks
 - Spawn LostWoods only when needed
-- material vs sharedmaterial?
 - Only update HUD text when info changes (i.e. keys, bombs, rupees, level)
 
 
