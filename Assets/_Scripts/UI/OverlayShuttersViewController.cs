@@ -23,6 +23,8 @@ public class OverlayShuttersViewController : Singleton<OverlayShuttersViewContro
     void Awake()
     {
         _view.viewDelegate = this;
+
+        _view.gameObject.SetActive(true);
     }
 
 

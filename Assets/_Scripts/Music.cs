@@ -2,11 +2,10 @@
 using System.Collections;
 using Immersio.Utility;
 
-
 public class Music : Singleton<Music>
 {
-
     public AudioClip intro, overworld_open, overworld_loop, labyrinth, deathMountain, ending;
+
 
     public void PlayIntro() { GetComponent<AudioSource>().loop = true; Play(intro); }
     public void PlayOverworld() { PlayOpeningThenLoop(overworld_open, overworld_loop); }
@@ -100,5 +99,4 @@ public class Music : Singleton<Music>
             }
         }
     }
-
 }

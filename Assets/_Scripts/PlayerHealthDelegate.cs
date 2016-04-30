@@ -77,6 +77,24 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
 
         StartCoroutine("DeathSequence");
     }
+    IEnumerator DeathSequence()
+    {
+        Music.Instance.Stop();
+        SoundFx sfx = SoundFx.Instance;
+        sfx.PlayLowHealth(false);
+        sfx.PlayOneShot(sfx.die);
+
+        OverlayViewController.Instance.ShowPlayerDiedOverlay(DEATH_SEQUENCE_DURATION);
+
+        GameplayHUDViewController.Instance.HideView();
+        PauseManager.Instance.IsPauseAllowed_Inventory = false;
+        PauseManager.Instance.IsPauseAllowed_Options = false;
+        _player.IsParalyzed = true;
+
+        yield return new WaitForSeconds(DEATH_SEQUENCE_DURATION);
+
+        OverlayShuttersViewController.Instance.PlayCloseAndOpenSequence(RespawnPlayer, ShuttersFinishedOpening, 0.1f);
+    }
 
 
     void Push(Vector3 direction)
@@ -97,29 +115,14 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     }
 
 
-    IEnumerator DeathSequence()
-    {
-        Music.Instance.Stop();
-        SoundFx sfx = SoundFx.Instance;
-        sfx.PlayLowHealth(false);
-        sfx.PlayOneShot(sfx.die);
-
-        GameplayHUDViewController.Instance.HideView();
-        PauseManager.Instance.IsPauseAllowed_Inventory = false;
-        PauseManager.Instance.IsPauseAllowed_Options = false;
-        _player.IsParalyzed = true;
-
-        yield return new WaitForSeconds(DEATH_SEQUENCE_DURATION);
-
-        OverlayShuttersViewController.Instance.PlayCloseAndOpenSequence(RespawnPlayer, ShuttersFinishedOpening, 0.1f);
-    }
-    
     void RespawnPlayer()
     {
         StartCoroutine(RespawnPlayer_CR());
     }
     IEnumerator RespawnPlayer_CR()
     {
+        OverlayViewController.Instance.HidePlayerDiedOverlay();
+
         _playerDeathLocation = _playerController.transform.position;
         Locations.Instance.RespawnPlayer();
 

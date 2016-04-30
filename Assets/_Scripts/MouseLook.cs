@@ -28,7 +28,9 @@ public class MouseLook : MonoBehaviour {
 	public float minimumY = -60F;
 	public float maximumY = 60F;
 
-	float rotationY = 0F;
+
+	float rotationY;
+
 
 	void Update ()
 	{
@@ -41,19 +43,29 @@ public class MouseLook : MonoBehaviour {
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
 			
 			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
-		}
+
+            //print("axes = MouseXAndY:  rotX = " + rotationX + ", rotY = " + rotationY);
+        }
 		else if (axes == RotationAxes.MouseX)
 		{
-            transform.Rotate(0, ZeldaInput.GetAxis(ZeldaInput.Axis.LookHorizontal) * sensitivityX, 0);
-            //transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
-		}
-		else
-		{
+            float rotationX = ZeldaInput.GetAxis(ZeldaInput.Axis.LookHorizontal) * sensitivityX;
+            //float rotationX = Input.GetAxis("Mouse X") * sensitivityX;
+
+            transform.Rotate(0, rotationX, 0);
+
+            //print("axes = MouseX:  rotX = " + rotationX + ", rotY = " + 0);
+        }
+		else if (axes == RotationAxes.MouseY)
+        {
+            float rotationX = transform.localEulerAngles.y;
+
             rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
 			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
 			
-			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
-		}
+			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+
+            //print("axes = MouseY:  rotX = " + rotationX + ", rotY = " + rotationY);
+        }
 	}
 	
 	void Start ()

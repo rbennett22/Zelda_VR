@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 public class OptionsView : MonoBehaviour
 {
     [SerializeField]
+    OverlayView _bgOverlay;
+    [SerializeField]
     Button _resumeBtn, _musicBtn, _controlsBtn, _quitBtn;
 
 
@@ -14,6 +16,11 @@ public class OptionsView : MonoBehaviour
     public Button ControlsBtn { get { return _controlsBtn; } }
     public Button QuitBtn { get { return _quitBtn; } }*/
 
+
+    void Awake()
+    {
+        _bgOverlay.gameObject.SetActive(true);
+    }
 
     void OnEnable()
     {

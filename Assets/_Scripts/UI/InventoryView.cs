@@ -27,6 +27,8 @@ public class InventoryView : MonoBehaviour
 
 
     [SerializeField]
+    OverlayView _bgOverlay;
+    [SerializeField]
     GameObject _overworldView, _dungeonView;
     [SerializeField]
     DungeonMapView _dungeonMapView;
@@ -55,6 +57,8 @@ public class InventoryView : MonoBehaviour
 
     void Awake()
     {
+        _bgOverlay.gameObject.SetActive(true);
+
         _passiveItemSlots = new GameObject[] { _itemP0, _itemP1, _itemP2, _itemP3, _itemP4, _itemP5 };
         _activeItemSlots = new GameObject[,] { { _itemA00, _itemA01, _itemA02, _itemA03 }, { _itemA10, _itemA11, _itemA12, _itemA13 } };
         _auxItemSlots = new GameObject[] { _aux0, _aux1 };

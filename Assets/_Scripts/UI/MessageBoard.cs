@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using Immersio.Utility;
-
 
 public class MessageBoard : Singleton<MessageBoard>
 {
-
     public Vector3 displayOffset;
 
 
-    void Start()
+    SpriteRenderer _spriteRenderer;
+
+
+    void Awake()
     {
-        GetComponent<Renderer>().enabled = false;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer.enabled = false;
     }
 
 
@@ -28,14 +29,14 @@ public class MessageBoard : Singleton<MessageBoard>
         {
             transform.forward = facingDirection;
         }
-        GetComponent<Renderer>().enabled = true;
+        _spriteRenderer.enabled = true;
 
-        iTween.FadeTo(MessageBoard.Instance.gameObject, 1.0f, 0.1f);
+        iTween.FadeTo(gameObject, 1.0f, 0.1f);
     }
 
     public void Hide()
     {
-        GetComponent<Renderer>().enabled = false;
+        _spriteRenderer.enabled = false;
     }
 
     public void SetText(string text)
@@ -45,8 +46,7 @@ public class MessageBoard : Singleton<MessageBoard>
 
         Rect r = new Rect(0, 0, tex.width, tex.height);
         Vector2 pivot = new Vector2(0.5f, 0.5f);
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        sr.sprite = Sprite.Create(tex, r, pivot);
-    }
 
+        _spriteRenderer.sprite = Sprite.Create(tex, r, pivot);
+    }
 }

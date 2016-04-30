@@ -33,7 +33,7 @@ public class Triforce : MonoBehaviour
 
         yield return new WaitForSeconds(fanfareDuration);
 
-        OverlayGui.Instance.WhiteFade(false, _fadeDuration);
+        OverlayViewController.Instance.ShowTriforceOverlay(_fadeDuration);
 
         yield return new WaitForSeconds(_fadeDuration);
 		
@@ -47,7 +47,7 @@ public class Triforce : MonoBehaviour
 
     void WarpToOverworld()
     {
-        OverlayGui.Instance.WhiteFade(true, _fadeDuration);
+        OverlayViewController.Instance.HideTriforceOverlay(_fadeDuration);
         Destroy(gameObject, _fadeDuration + 0.1f);
 
         Locations.Instance.WarpToOverworldDungeonEntrance(false);

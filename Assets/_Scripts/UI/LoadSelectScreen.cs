@@ -125,7 +125,7 @@ public class LoadSelectScreen : MonoBehaviour
 
         SoundFx.Instance.PlayOneShot(SoundFx.Instance.select);
 
-        CommonObjects.PlayerController_C.controlsEnabled = true;
+        CommonObjects.PlayerController_C.SetHaltUpdateMovement(false);
         GameplayHUD.Instance.enabled = true;
 
         SaveEntry entry = _entries[_selectedEntryID];
