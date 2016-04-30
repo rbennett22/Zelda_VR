@@ -368,17 +368,18 @@ public class TileMap : MonoBehaviour
 
     void SetBlockTexture(GameObject block, int tileCode, Material sourceMaterial = null, float actualBlockHeight = 1.0f)
     {
+        Renderer r = block.GetComponent<Renderer>();
+
         Texture2D tex = tileTexture.GetTexture(tileCode);
         if (sourceMaterial == null)
         {
-            sourceMaterial = block.GetComponent<Renderer>().sharedMaterial;
+            sourceMaterial = r.sharedMaterial;
         }
         Material mat = new Material(sourceMaterial);
         tex.filterMode = FilterMode.Point;
         mat.SetTexture("_MainTex", tex);
 
-        Renderer r = block.GetComponent<Renderer>();
-        //Destroy(r.material);
+        Destroy(r.material);
         r.material = mat;
         r.material.mainTextureScale = new Vector2(1, actualBlockHeight);
     }
