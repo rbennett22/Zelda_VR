@@ -1,10 +1,10 @@
 using UnityEngine;
-
+using System.Linq;
 
 public static class AnimationExtensions
 {
-
-    // NOTE: These methods basically assume this Animation has only one state
+    // Animation
+    // NOTE: The following Animation methods basically assume this Animation has only one state
 
     public static float DurationInSeconds(this Animation anim)
     {
@@ -57,4 +57,10 @@ public static class AnimationExtensions
         anim.Play();
     }
 
+
+    // Animator
+    public static bool ContainsParam(this Animator _anim, string _paramName)
+    {
+        return _anim.parameters.FirstOrDefault(p => p.name == _paramName) != null;
+    }
 }

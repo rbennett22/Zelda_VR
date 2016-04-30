@@ -4,10 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 public static class Extensions
 {
-
     // Transform
     public static void SetX(this Transform t, float x)
     {
@@ -316,6 +314,20 @@ public static class Extensions
         Vector2 sizeDelta = rt.sizeDelta;
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, sizeDelta.x);
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, sizeDelta.y);
+    }
+
+    // Texture2D
+    public static Color[] GetPixels_Safe(this Texture2D tex, int x, int y, int blockWidth, int blockHeight)
+    {
+        if (x < 0 || y < 0 || (x + blockWidth > tex.width) || (y + blockHeight > tex.height))
+            { return null; }
+        return tex.GetPixels(x, y, blockWidth, blockHeight);
+    }
+    public static Color[] GetPixels_Safe(this Texture2D tex, int x, int y, int blockWidth, int blockHeight, int miplevel)
+    {
+        if (x < 0 || y < 0 || (x + blockWidth > tex.width) || (y + blockHeight > tex.height))
+            { return null; }
+        return tex.GetPixels(x, y, blockWidth, blockHeight, miplevel);
     }
 
     #region Untested

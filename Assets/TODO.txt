@@ -2,8 +2,6 @@
 
 - Fix issues caused by Positional Tracking
 
-- Possible memory leak.  When using renderer.material, be sure to call DestroyImmediate(renderer.material) in OnDestroy().
-
 - Lost Hills
 - Waterfall cave
 - D6 OW Entrance
@@ -81,6 +79,7 @@
 
 - DK2 Support
 - Shrunk PlayerController (scaled from 1 to 0.5)
+- Fixed several major memory leaks that would eventually cause crash if left running for long enough.
 
 
 --- NOTES ---
