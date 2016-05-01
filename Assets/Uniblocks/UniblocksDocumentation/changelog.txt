@@ -1,0 +1,131 @@
+currentversion: 1.4.1
+
+=== 1.4.1
+
+Core:
+- Added a texture padding setting, which can be adjusted to add unused space between textures on the texture sheet. This can prevent lines between blocks from appearing.
+
+Multiplayer:
+- Added a MaxChunkDataRequests setting, which can be adjusted to limit the number of chunk data requests the client sends to the server at one time in order to reduce the load on the server.
+
+Bugfixes:
+- Fixed a bug with script execution order which would cause the initial loading of chunks to not work properly in some cases.
+- Fixed a bug where chunks wouldn't unload properly when the vertical despawn distance was exceeded.
+- Mesh colliders now rotate properly to match the rotation of custom meshes.
+
+
+=== 1.4
+
+Core:
+- Redesigned the core parts of the engine for better performance when loading chunks. Major changes in ChunkManager, minor changes in most other core scripts.
+- Replaced chunk limits in performance options with a Target FPS setting. Chunk loading speed is now automatically adjusted to maintain the target framerate.
+- Added a mesh rotation setting for blocks with a custom mesh, which can be used to set a 90 degrees rotation of the mesh (front, back, left, right)
+- Added a chunk despawn distance setting. Chunks will now not despawn until their distance from the origin point exceeds the chunk spawn distance plus the additional despawn distance.
+- Replaced the ChunkManager.Chunks list with a dictionary with the same name, making finding chunks through GetChunk faster.
+- Index: Added an Index.GetAdjacentIndex function, which returns the adjacent index in the given direction.
+- Engine.SetWorldName now also resets the active seed.
+
+Multiplayer:
+- Changed ConnectionInitializer to connect on the first LateUpdate instead of Awake.
+- When Multiplayer is enabled, ChunkLoader will now wait until a connection is established before spawning chunks.
+
+Bugfixes:
+- Fixed a bug where some colliders wouldn't scale correctly to match the Chunk scale.
+- Chunks spawned using ChunkManager.SpawnChunk now build their meshes correctly.
+
+
+=== 1.3
+
+Summary:
+- Support for Unity 5. Legacy version for Unity 4.2 included as a separate package.
+- Removed all uses of Tags. 
+ 
+Core:
+- References to Chunk instances are now stored in the static list ChunkManager.Chunks
+- References to the Engine instance and the ChunkManager instance added to Engine as static variables Engine.EngineInstance and Engine.ChunkManagerInstance
+- Removed all FindWithTag calls from all scripts.
+- Walls of cube meshes are now built with dimensions slightly bigger than 1.0 units in order to prevent seam lines appearing between the walls in some cases.
+
+Examples:
+- Added another alternative example terrain generator (ExampleTerrainGeneratorWithTrees.cs) which generates simple trees in addition to the default terrain.
+
+Bugfixes:
+- Fixed a potential memory leak issue.
+- Fixed a bug where OnBlockEnter would not trigger if you entered the same block twice in a row.
+
+
+=== 1.2.1
+
+Bugfixes:
+- Fixed a bug causing excessive delay when updating meshes of existing chunks after a SpawnChunks sequence. This should result in faster loading times
+- Trying to set a voxel using SetVoxel in chunks that aren't instantiated will no longer generate array index out of range exceptions.
+
+
+=== 1.2
+
+Core:
+- Improved performance when loading and saving voxel data.
+- Mesh generation performance slightly improved.
+- Increased the default chunk saves limit to 100 (from 5).
+- Increased the default chunk spawn limit to 30 (from 15).
+- Empty chunks (all voxels have id 0) no longer generate a mesh.
+- Added support for multiple materials. Each block now has a material index property, which corresponds to a material attached to the chunk prefab. See the User Manual's Block Editor section for more information.
+
+Bugfixes:
+- Fixed a bug where blocks with cube meshes and no colliders would incorrectly generate a solid collider.
+- Fixed a bug which sometimes caused an array index out of range error when a player connected to the server.
+
+Examples:
+- Added an alternative example terrain generator (FlatTerrainGenerator.cs) which generates a perfectly flat terrain.
+
+Documentation:
+- Added the previously missing Voxel class to the scripting reference.
+
+
+=== 1.1
+
+Multiplayer:
+- Added a server/client architecture for multiplayer. See the documentation for more information. Single player features remain unchanged if multiplayer is disabled.
+
+Core:
+- Scaling the chunk prefab's transform will now cause chunks to position themselves in world space taking that scale into account. This means that chunks will always align with each other even when their scale is not 1,1,1. 
+- Chunk: Changed the way Chunk accesses it's terrain generator script. See the User Manual's Terrain Generation section for more details.
+- ChunkManager: Added a SpawnChunk method, which spawns a single chunk, without destroying any previously spawned chunks, and returns the spawned chunk's GameObject.
+- Engine: Added a GenerateMeshes setting. When turned off, chunks will be loaded as normal, but they won't generate meshes unless forced to (through Chunk.RebuildMesh).
+- Engine: Added a SaveVoxelData setting. When turned off, voxel data will not be saved or loaded from disk. However, the world seed will still be saved between sessions.
+- Voxel: Added a Voxel.ChangeBlock static function. Does the same thing as Voxel.PlaceBlock except sends an OnBlockChange event instead of OnBlockPlace.
+- VoxelEvents: Added an OnBlockChange event.
+- Engine: Added a static Vector3 variable ChunkScale. It is automatically set to the scale of the chunk prefab on ChunkManager's Awake.
+
+Bugfixes:
+- Fixed a missing reference exception which could sometimes happen during saving.
+
+Examples:
+- VoxelDoorOpenClose: Now uses the new Voxel.ChangeBlock to switch between the open and closed states.
+
+Documentation:
+- Updated the User Manual and Scripting Reference with sections regarding multiplayer.
+- Added a FAQ section to the User Manual.
+
+
+=== 1.0.1
+
+Core:
+- Engine: Added a ShowBorderFaces setting. If enabled, the side faces of blocks will be visible if a chunk bordering them is not instantiated.
+- VoxelInfo: Added a VoxelInfo.SetVoxel(ushort data, bool UpdateMesh) method.
+- ChunkManager: Added a static bool SpawningChunks. This bool is true if the Chunk Manager is currently spawning chunks.
+- Various minor fixes and cleanups.
+
+Examples:
+- Added a mobile demo scene.
+- Added a Door block, door mesh, and VoxelDoorOpenClose script.
+- Debugger will now automatically save the world data every 60 seconds.
+- Added a flashlight and a torch to the Uniblocks Dude prefab. Use the keys F and T to turn on/off. 
+
+Documentation:
+- Various minor fixes and cleanups.
+
+
+=== 1.0
+
+- Initial release

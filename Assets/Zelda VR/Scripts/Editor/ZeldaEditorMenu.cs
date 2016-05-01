@@ -5,7 +5,8 @@ using System.IO;
 
 class ZeldaEditorMenu
 {
-    const string MENU_NAME = "ZeldaVR";
+    public const string MENU_NAME = "ZeldaVR";
+
     const string SUBMENU_NAME_0 = "Open Scene";
     const string SUBMENU_NAME_1 = "Build";
 
