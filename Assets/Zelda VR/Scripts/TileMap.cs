@@ -11,11 +11,15 @@ public class TileMap : MonoBehaviour
 
     [SerializeField]
     TileMapData _tileMapData;
+    public TileMapData TileMapData { get { return _tileMapData; } }
+
+    [SerializeField]
+    TileMapTexture _tileTexture;
+    public TileMapTexture TileTexture { get { return _tileTexture; } }
+
     [SerializeField]
     GameObject _blockPrefab, _shortBlockPrefab, _invisibleBlockPrefab;
-    [SerializeField]
-    TileTexture _tileTexture;
-    
+
     [SerializeField]
     int _blockHeight = 1;
     [SerializeField]
@@ -28,6 +32,7 @@ public class TileMap : MonoBehaviour
 
     Transform _blockContainer, _specialBlocksContainer;
 
+    float[,] _blockHeights;
     bool[,] _populationFlags;
     bool[,] _specialBlockPopulationFlags;
 
@@ -53,17 +58,30 @@ public class TileMap : MonoBehaviour
 
     void Awake()
     {
+        InitFromSettings(ZeldaVRSettings.Instance);
         _tileMapData.InitFromSettings(ZeldaVRSettings.Instance);
 
-        _blockContainer = GameObject.Find("Blocks").transform;
+        _blockHeights = new float[TilesHigh, TilesWide];
         _populationFlags = new bool[TilesHigh, TilesWide];
+
+        // TODO
+
+        /*_blockContainer = GameObject.Find("Blocks").transform;
 
         InitSpecialBlocks();
 
         if (Cheats.Instance.SecretDetectionModeIsEnabled)
         {
             HighlightAllSpecialBlocks();
-        }
+        }*/
+    }
+
+    void InitFromSettings(ZeldaVRSettings s)
+    {
+        _blockHeight = s.blockHeight;
+        _blockHeightVariance = s.blockHeightVariance;
+        _shortBlockHeight = s.shortBlockHeight;
+        _flatBlockHeight = s.flatBlockHeight;
     }
 
     void InitSpecialBlocks()
@@ -82,11 +100,12 @@ public class TileMap : MonoBehaviour
 
             //print("startX: " + startX + ", startZ: " + startZ + ", xLen: " + xLen + ", zLen: " + zLen);
 
+            float blockHeight = 0;
             Block b = sb.GetComponent<Block>();
             if (b != null)
             {
-                float blockheight = b.isShortBlock ? _shortBlockHeight : 1;
-                SetBlockHeight(b.gameObject, blockheight);
+                blockHeight = b.isShortBlock ? _shortBlockHeight : 1;
+                SetBlockHeight(b.gameObject, blockHeight);
                 SetBlockTexture(b.gameObject, b.tileCode);
             }
 
@@ -97,6 +116,8 @@ public class TileMap : MonoBehaviour
                 {
                     if (x < 0 || x > TilesWide - 1) { continue; }
                     if (z < 0 || z > TilesHigh - 1) { continue; }
+
+                    _blockHeights[z, x] = blockHeight;
                     _specialBlockPopulationFlags[z, x] = true;
 
                     // Create Overhead Block?
@@ -175,8 +196,6 @@ public class TileMap : MonoBehaviour
                     }
                 }
 
-                GameObject prefab = null;
-                float actualBlockHeight = 1;
                 if (TileInfo.IsTileAnEntrance(tileCode))
                 {
                     int tileCodeAbove = tiles[z + 1, x];
@@ -184,32 +203,10 @@ public class TileMap : MonoBehaviour
                 }
                 else
                 {
-                    if (TileInfo.IsTileFlat(tileCode))
-                    {
-                        if (TileInfo.IsTileFlatImpassable(tileCode))
-                        {
-                            prefab = _invisibleBlockPrefab;
-                            actualBlockHeight = _flatBlockHeight;
-                        }
-                    }
-                    else if (TileInfo.IsTileShort(tileCode))
-                    {
-                        prefab = _shortBlockPrefab;
-                        actualBlockHeight = _shortBlockHeight;
-                    }
-                    else if (TileInfo.IsTileUnitHeight(tileCode))
-                    {
-                        prefab = _blockPrefab;
-                        actualBlockHeight = 1;
-                    }
-                    else
-                    {
-                        prefab = _blockPrefab;
-                        actualBlockHeight = GetRandomHeight();
-                    }
-
+                    GameObject prefab = GetBlockPrefabForTileCode(tileCode);
                     if (prefab != null)
                     {
+                        float actualBlockHeight = GetBlockHeightForTileCode(tileCode);
                         CreateBlock(tileCode, x, z, prefab, actualBlockHeight, yOffset);
                     }
                 }
@@ -217,25 +214,77 @@ public class TileMap : MonoBehaviour
         }
     }
 
+    GameObject GetBlockPrefabForTileCode(int tileCode)
+    {
+        if (TileInfo.IsTileFlat(tileCode))
+        {
+            if (TileInfo.IsTileFlatImpassable(tileCode))
+            {
+                return _invisibleBlockPrefab;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else if (TileInfo.IsTileShort(tileCode))
+        {
+            return _shortBlockPrefab;
+        }
+        else if (TileInfo.IsTileUnitHeight(tileCode))
+        {
+            return _blockPrefab;
+        }
+        else
+        {
+            return _blockPrefab;
+        }
+    }
+
+    public float GetBlockHeightForTileCode(int tileCode)
+    {
+        if (TileInfo.IsTileFlat(tileCode))
+        {
+            if (TileInfo.IsTileFlatImpassable(tileCode))
+            {
+                return _flatBlockHeight;
+            }
+            else
+            {
+                return 0;   //
+            }
+        }
+        else if (TileInfo.IsTileShort(tileCode))
+        {
+            return _shortBlockHeight;
+        }
+        else if (TileInfo.IsTileUnitHeight(tileCode))
+        {
+            return 1;
+        }
+        else
+        {
+            return GetRandomHeight();
+        }
+    }
+
     void HandleTwoAboveEntranceCase(int tileCode, int tileCodeBelow, int x, int z)
     {
         GameObject prefab = null;
-        float actualBlockHeight;
+        float actualBlockHeight = 1;
+
         if (TileInfo.IsTileFlat(tileCode))
         {
             tileCode = tileCodeBelow;
             prefab = _blockPrefab;
-            actualBlockHeight = 1;
         }
         else if (TileInfo.IsTileShort(tileCode))
         {
             prefab = _shortBlockPrefab;
-            actualBlockHeight = 1;
         }
         else if (TileInfo.IsTileUnitHeight(tileCode))
         {
             prefab = _blockPrefab;
-            actualBlockHeight = 1;
         }
         else
         {
@@ -324,7 +373,8 @@ public class TileMap : MonoBehaviour
         g.transform.parent = _blockContainer;
 
         SetBlockTexture(g, tileCode, prefab.GetComponent<Renderer>().sharedMaterial, actualBlockHeight);
-        
+
+        _blockHeights[tileY, tileX] = actualBlockHeight;
         _populationFlags[tileY, tileX] = true;
 
         return g;
@@ -374,7 +424,10 @@ public class TileMap : MonoBehaviour
             string blockName = NameForBlockAtTile(tileX, tileY);
             block = GameObject.Find(blockName);
         }
+
         Destroy(block);
+
+        _blockHeights[tileY, tileX] = 0;
         _populationFlags[tileY, tileX] = false;
     }
 

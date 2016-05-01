@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 
-public class TileTexture : MonoBehaviour
+public class TileMapTexture : MonoBehaviour
 {
     [SerializeField]
     Texture2D _texture;
-
     [SerializeField]
     bool _initFromSettings;
 
