@@ -30,13 +30,18 @@ public class OverworldUniblockGeneration_Editor : MonoBehaviour
                 Voxel v = clone.GetComponent<Voxel>();
 
                 hexNum = x + (s.tileMapSideLengthInTiles - 1 - y) * s.tileMapSideLengthInTiles;
-                v.VName = (hexNum).ToString("X2");              // (HEX)
+                v.VName = (hexNum).ToString("X2");  // (hex format)
 
                 v.VTransparency = Transparency.solid;
                 v.VColliderType = ColliderType.cube;
+
+                if (v.VTexture.Length == 0)
+                    v.VTexture = new Vector2[1];
                 v.VTexture[0] = new Vector2(x, y);
             }
         }
+
+        print("Created " + total + " blocks");
     }
     [MenuItem(ZeldaEditorMenu.MENU_NAME + "/Create Overworld Uniblock Prefabs", true)]
     static bool ValidateCreateOverworldUniblockPrefabs()

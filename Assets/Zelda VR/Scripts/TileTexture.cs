@@ -43,16 +43,21 @@ public class TileTexture : MonoBehaviour
     }
 
 
-    Rect RectForTile(int tileCode)
+    public Index IndexForTileCode(int tileCode)
     {
         int tileX = tileCode % sideLengthInTiles;
         int tileY = (int)(tileCode / sideLengthInTiles);
 
-        int x = tileX * tileWidth;
-        int y = tileY * tileHeight;
-        y = _texture.height - 1 - y - tileHeight;
-
-        return new Rect(x+1, y+1, tileWidth-1, tileHeight-1);
+        return new Index(tileX, tileY);
     }
 
+    public Rect RectForTile(int tileCode)
+    {
+        Index idx = IndexForTileCode(tileCode);
+        int x = idx.x * tileWidth;
+        int y = idx.y * tileHeight;
+        y = _texture.height - 1 - y - tileHeight;
+
+        return new Rect(x + 1, y + 1, tileWidth - 1, tileHeight - 1);
+    }
 }

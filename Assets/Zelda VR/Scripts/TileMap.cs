@@ -5,19 +5,17 @@ using System.Globalization;
 
 public class TileMap : MonoBehaviour
 {
-    const int InvalidTile = -1;
-
     const int EntranceTileBlockHeight = 2;
     const int EntranceTileYOffset = 1;
 
 
     [SerializeField]
+    TileMapData _tileMapData;
+    [SerializeField]
     GameObject _blockPrefab, _shortBlockPrefab, _invisibleBlockPrefab;
     [SerializeField]
     TileTexture _tileTexture;
-    [SerializeField]
-    TextAsset _textAsset;
-
+    
     [SerializeField]
     int _blockHeight = 1;
     [SerializeField]
@@ -28,30 +26,38 @@ public class TileMap : MonoBehaviour
     float _flatBlockHeight = 0.4f;
 
 
-    int _sectorHeightInTiles, _sectorWidthInTiles;
-    int _sectorsWide, _sectorsHigh;
-    int _tilesWide, _tilesHigh;
-
     Transform _blockContainer, _specialBlocksContainer;
-    int[,] _tiles;
+
     bool[,] _populationFlags;
     bool[,] _specialBlockPopulationFlags;
 
 
+    public int SectorHeightInTiles { get { return _tileMapData.SectorHeightInTiles; } }
+    public int SectorWidthInTiles { get { return _tileMapData.SectorWidthInTiles; } }
+    public int SectorsWide { get { return _tileMapData.SectorsWide; } }
+    public int SectorsHigh { get { return _tileMapData.SectorsHigh; } }
+    public int TilesWide { get { return _tileMapData.TilesWide; } }
+    public int TilesHigh { get { return _tileMapData.TilesHigh; } }
+
     public int Tile(int x, int y)
     {
-        if (x < 0 || x > _tilesWide - 1) { return InvalidTile; }
-        if (y < 0 || y > _tilesHigh - 1) { return InvalidTile; }
+        return _tileMapData.Tile(x, y);
+    }
 
-        return _tiles[y, x];
+    // TODO: return an Index instead
+    public Vector2 GetSectorForPosition(Vector3 pos)
+    {
+        return _tileMapData.GetSectorForPosition(pos);
     }
 
 
     void Awake()
     {
+        _tileMapData.InitFromSettings(ZeldaVRSettings.Instance);
+
         _blockContainer = GameObject.Find("Blocks").transform;
-        
-        InitFromSettings();
+        _populationFlags = new bool[TilesHigh, TilesWide];
+
         InitSpecialBlocks();
 
         if (Cheats.Instance.SecretDetectionModeIsEnabled)
@@ -60,25 +66,10 @@ public class TileMap : MonoBehaviour
         }
     }
 
-    void InitFromSettings()
-    {
-        ZeldaVRSettings s = ZeldaVRSettings.Instance;
-
-        _sectorWidthInTiles = s.overworldSectorWidthInTiles;
-        _sectorHeightInTiles = s.overworldSectorHeightInTiles;
-        _sectorsWide = s.overworldWidthInSectors;
-        _sectorsHigh = s.overworldHeightInSectors;
-
-        _tilesWide = _sectorsWide * _sectorWidthInTiles;
-        _tilesHigh = _sectorsHigh * _sectorHeightInTiles;
-
-        _populationFlags = new bool[_tilesHigh, _tilesWide];
-    }
-
     void InitSpecialBlocks()
     {
         _specialBlocksContainer = GameObject.Find("Special Blocks").transform;
-        _specialBlockPopulationFlags = new bool[_tilesHigh, _tilesWide];
+        _specialBlockPopulationFlags = new bool[TilesHigh, TilesWide];
 
         foreach (Transform sb in _specialBlocksContainer)
         {
@@ -104,8 +95,8 @@ public class TileMap : MonoBehaviour
             {
                 for (int x = startX; x < startX + xLen; x++)
                 {
-                    if (x < 0 || x > _tilesWide - 1) { continue; }
-                    if (z < 0 || z > _tilesHigh - 1) { continue; }
+                    if (x < 0 || x > TilesWide - 1) { continue; }
+                    if (z < 0 || z > TilesHigh - 1) { continue; }
                     _specialBlockPopulationFlags[z, x] = true;
 
                     // Create Overhead Block?
@@ -123,54 +114,16 @@ public class TileMap : MonoBehaviour
 
     public void LoadMap()
     {
-        StringReader reader = new StringReader(_textAsset.text);
-
-        _tiles = new int[_tilesHigh, _tilesWide];
-
-        const int ReadCount = 3;
-        char[] buffer = new char[ReadCount];
-        int tileCode;
-        for (int y = _tilesHigh - 1; y >= 0; y--)
+        if (!_tileMapData.HasLoaded)
         {
-            for (int x = 0; x < _tilesWide; x++)
-            {
-                ReadToNext(reader);
-                reader.Read(buffer, 0, ReadCount);
-                string str = new String(buffer);
-
-                if (int.TryParse(str, NumberStyles.HexNumber, null, out tileCode))
-                {
-                    _tiles[y, x] = tileCode;
-                }
-                else
-                {
-                    _tiles[y, x] = InvalidTile;
-                }
-            }
+            _tileMapData.LoadMap();
         }
-    }
-
-    void ReadToNext(StringReader reader)
-    {
-        bool done = false;
-        do
-        {
-            char nextChar = (char)reader.Peek();
-            
-            done = (nextChar != ' ') && (nextChar != '\r') && (nextChar != '\n');
-
-            if (!done)
-            {
-                reader.Read();
-            }
-        }
-        while (!done);
     }
 
 
     public void PopulateWorld()
     {
-        PopulateWorld(0, 0, _tilesWide, _tilesHigh);
+        PopulateWorld(0, 0, TilesWide, TilesHigh);
     }
 
     public void PopulateWorld(int left, int top, int width, int length)
@@ -178,10 +131,12 @@ public class TileMap : MonoBehaviour
         int right = left + width;
         int bottom = top + length;
 
-        left = Mathf.Clamp(left, 0, _tilesWide);
-        right = Mathf.Clamp(right, 0, _tilesWide);
-        top = Mathf.Clamp(top, 0, _tilesHigh);
-        bottom = Mathf.Clamp(bottom, 0, _tilesHigh);
+        left = Mathf.Clamp(left, 0, TilesWide);
+        right = Mathf.Clamp(right, 0, TilesWide);
+        top = Mathf.Clamp(top, 0, TilesHigh);
+        bottom = Mathf.Clamp(bottom, 0, TilesHigh);
+
+        int[,] tiles = _tileMapData._tiles;
 
         for (int z = top; z < bottom; z++)
         {
@@ -192,7 +147,7 @@ public class TileMap : MonoBehaviour
                     continue;
                 }
 
-                int tileCode = _tiles[z, x];
+                int tileCode = tiles[z, x];
 
                 // Armos
                 if (TileInfo.IsArmosTile(tileCode))
@@ -204,14 +159,14 @@ public class TileMap : MonoBehaviour
                 int yOffset = 0;
                 if (z > 0)
                 {
-                    int tileCodeBelow = _tiles[z - 1, x];
+                    int tileCodeBelow = tiles[z - 1, x];
                     if (TileInfo.IsTileAnEntrance(tileCodeBelow))
                     {
                         yOffset = 1;
                     }
                     else if(z > 1)
                     {
-                        int tileCode2xBelow = _tiles[z - 2, x];
+                        int tileCode2xBelow = tiles[z - 2, x];
                         if (TileInfo.IsTileAnEntrance(tileCode2xBelow))
                         {
                             HandleTwoAboveEntranceCase(tileCode, tileCodeBelow, x, z);
@@ -224,7 +179,7 @@ public class TileMap : MonoBehaviour
                 float actualBlockHeight = 1;
                 if (TileInfo.IsTileAnEntrance(tileCode))
                 {
-                    int tileCodeAbove = _tiles[z + 1, x];
+                    int tileCodeAbove = tiles[z + 1, x];
                     CreateBlock(tileCodeAbove, x, z, _blockPrefab, EntranceTileBlockHeight, EntranceTileYOffset);
                 }
                 else
@@ -297,7 +252,7 @@ public class TileMap : MonoBehaviour
 
     public void DePopulateWorld()
     {
-        DePopulateWorld(0, 0, _tilesWide, _tilesHigh);
+        DePopulateWorld(0, 0, TilesWide, TilesHigh);
     }
 
     public void DePopulateWorld(int left, int top, int width, int height)
@@ -305,10 +260,10 @@ public class TileMap : MonoBehaviour
         int right = left + width;
         int bottom = top + height;
 
-        left = Mathf.Clamp(left, 0, _tilesWide);
-        right = Mathf.Clamp(right, 0, _tilesWide);
-        top = Mathf.Clamp(top, 0, _tilesHigh);
-        bottom = Mathf.Clamp(bottom, 0, _tilesHigh);
+        left = Mathf.Clamp(left, 0, TilesWide);
+        right = Mathf.Clamp(right, 0, TilesWide);
+        top = Mathf.Clamp(top, 0, TilesHigh);
+        bottom = Mathf.Clamp(bottom, 0, TilesHigh);
 
         for (int z = top; z < bottom; z++)
         {
@@ -331,10 +286,10 @@ public class TileMap : MonoBehaviour
         int outerRight = left + width + exclusionDistance;
         int outerBottom = top + height + exclusionDistance;
 
-        outerLeft = Mathf.Clamp(outerLeft, 0, _tilesWide);
-        outerRight = Mathf.Clamp(outerRight, 0, _tilesWide);
-        outerTop = Mathf.Clamp(outerTop, 0, _tilesHigh);
-        outerBottom = Mathf.Clamp(outerBottom, 0, _tilesHigh);
+        outerLeft = Mathf.Clamp(outerLeft, 0, TilesWide);
+        outerRight = Mathf.Clamp(outerRight, 0, TilesWide);
+        outerTop = Mathf.Clamp(outerTop, 0, TilesHigh);
+        outerBottom = Mathf.Clamp(outerBottom, 0, TilesHigh);
 
         for (int z = outerTop; z < outerBottom; z++)
         {
@@ -452,60 +407,8 @@ public class TileMap : MonoBehaviour
     }
 
 
-    public Vector2 GetSectorForPosition(Vector3 pos)
-    {
-        int x = Mathf.FloorToInt(pos.x / _sectorWidthInTiles);
-        int y = Mathf.FloorToInt(pos.z / _sectorHeightInTiles);
-        return new Vector2(x, y);
-    }
-
-    public static bool IsTileCodeValid(int tileCode)
-    {
-        return tileCode != InvalidTile;
-    }
-
-
     string NameForBlockAtTile(int tileX, int tileY)
     {
         return "Block_" + tileX + "_" + tileY;
-    }
-
-
-    override public string ToString()
-    {
-        string output = name + "\n";
-        for (int y = 0; y < _tilesHigh; y++)
-        {
-            for (int x = 0; x < _tilesWide; x++)
-            {
-                string hexStr;
-                string str = _tiles[y, x].ToString();
-                if (str == " -1")
-                { hexStr = "-1"; }
-                else
-                { hexStr = _tiles[y, x].ToString("X2"); }
-                output += hexStr + " ";
-            }
-            output += "\n";
-        }
-        return output;
-    }
-
-    string RowToString(int row)
-    {
-        string output = name + " - Row: " + row + "\n";
-
-        for (int x = 0; x < _tilesWide; x++)
-        {
-            string hexStr;
-            string str = _tiles[row, x].ToString();
-            if (str == " -1")
-                { hexStr = "-1"; }
-            else
-                { hexStr = _tiles[row, x].ToString("X2"); }
-            output += hexStr + " ";
-        }
-
-        return output;
     }
 }
