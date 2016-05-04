@@ -54,7 +54,7 @@ public class CollectibleSpawnPoint : MonoBehaviour
     }
 
 
-    /*#region Save/Load
+    /*#region Serialization
 
     public class Serializable
     {

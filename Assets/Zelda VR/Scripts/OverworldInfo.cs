@@ -21,10 +21,10 @@ public class OverworldInfo : MonoBehaviour
 
         if (value) { _tappedGrottos.Add(gsp.name); }
         else { _tappedGrottos.Remove(gsp.name); }
-    }  
+    }
 
 
-    #region Save/Load
+    #region Serialization
 
     public class Serializable
     {

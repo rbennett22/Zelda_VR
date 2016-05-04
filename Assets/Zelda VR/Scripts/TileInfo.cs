@@ -132,9 +132,9 @@ public class TileInfo
     public static int GetReplacementTileForArmosTile(int tileCode)
     {
         int r = tileCode;
-        if (tileCode == 0x16) { r = 0x02; }
-        else if (tileCode == 0x1C) { r =0x02; }
-        else if (tileCode == 0x22) { r = 0x0E; }
+        if (IsRedArmosTile(tileCode)) { r = 0x02; }
+        else if (IsGreenArmosTile(tileCode)) { r =0x02; }
+        else if (IsWhiteArmosTile(tileCode)) { r = 0x0E; }
         return r;
     }
 }

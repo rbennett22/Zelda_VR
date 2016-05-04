@@ -48,8 +48,7 @@ public class SettingsObject<T> : ScriptableObject where T : ScriptableObject
     }
 
 
-    // The settings file is named using the type name T, 
-    //  and is located in the Assets/Resources folder.
+    // The settings file is named using the type name T
     static string SettingsFile
     {
         get

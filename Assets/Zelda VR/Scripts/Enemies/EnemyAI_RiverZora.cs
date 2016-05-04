@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class EnemyAI_RiverZora : EnemyAI 
 {
@@ -109,13 +108,12 @@ public class EnemyAI_RiverZora : EnemyAI
             newZ = (int)((int)_origin.z + Random.Range(-maxWarpDistanceFromOrigin, maxWarpDistanceFromOrigin + 1) + Epsilon);
             int tileCode = tileMap.Tile(newX, newZ);
             isWater = TileInfo.IsTileWater(tileCode);
-        } while (!isWater && ++count < maxAttempts);
+        }
+        while (!isWater && ++count < maxAttempts);
 
         if (isWater)
         {
-            transform.SetX(newX + TileOffset);
-            transform.SetZ(newZ + TileOffset);
+            SetEnemyPosition2DToTile(newX, newZ);
         }
     }
-
 }

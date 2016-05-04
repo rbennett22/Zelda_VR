@@ -1,5 +1,21 @@
 --- TODO ---
 
+-- VOXEL --
+
+- TileMap Block creation
+- Bomb, Candleflame collision detection
+- FlatImpassable Block collision
+- EnemyAI::TILE_OFFSET
+
+- Note: Dungeons will still use Blocks
+- TileMap::Awake(), CommonObjects::OverworldTileMap
+- OLD Settings
+	blockHeight = 4;
+    blockHeightVariance = 0.5f;
+    shortBlockHeight = 0.7f;
+    flatBlockHeight = 0.5f;
+
+
 - Fix issues caused by Positional Tracking
 
 - Lost Hills
@@ -11,12 +27,11 @@
 - Update Controls image
 - LoadSelectScreen - Choose Name, Elimination Mode, Name text align
 - OptionsMenu: Controls
-- OptionsMenu: Animate to beneath inventory view on Pause_Inventory
+- OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
 - "Continue or Save & Quit?" GUI
 - Gannon - Intro, Death
 - Ending
 - Credits
-
 
 - Bow Crosshair
 - Make Map display an arrow for Link instead of a square
@@ -28,15 +43,13 @@
 - SubDungeon Warps - Mirror effect
 - Medicine - Animate HeartRestore
 - Hold up HeartContainer if received in Grotto
-- Allow Multiple directions for PushableBlocks
-- Black Shutters should close vertically onDeath
 - Leevers - Emerge anim should only play through once
 - Boss Death anim (blink 2-3 times, then "poof")
 - Gleeok Heads Poof onDeath
 
 - Place "signs" above Grottos indicating type
 - Inventory Cursor should blink red/blue
-- Have Statues charge upeach shot with a sound effect so player knows when to dodge
+- Have Statues charge up each shot with a sound effect so player knows when to dodge
 - Allow pushback force to send enemies flying upwards
 - Have Enemy's pushBack force applied in weapon's moveDirection. (Have all weapons/projectiles transform.forward point in their direction of travel.)
 - Music Fade In/Out
@@ -46,9 +59,11 @@
 - Particles for MagicSword, MagicBoomerang, SilverArrow
 - Cannon transportation
 
+
 -- Other --
 - Use Zelda Font for Controls text
 - Non-Oculus Support
+
 
 -- BUGS --
 - BUG: If you Pause during music opening, the loop won't play automatically when the opening finishes
@@ -57,9 +72,8 @@
 - BUG: Enemies that spawn after clock has activated aren't paralyzed
 - BUG: Vire can jump through wall
 
+
 -- Optimizations --
-- Store blocks in 2D Array
-- Use Mesh.CombineMeshes on blocks
 - Spawn LostWoods only when needed
 - Only update HUD text when info changes (i.e. keys, bombs, rupees, level)
 
@@ -79,6 +93,7 @@
 - DK2 Support
 - Shrunk PlayerController (scaled from 1 to 0.5)
 - Fixed several major memory leaks that would eventually cause crash if left running for long enough.
+- Black overlay shutters now close vertically onDeath
 
 
 --- NOTES ---
@@ -89,8 +104,9 @@
    Bosses    - 8
 
 
-- Credits:
+--- CREDITS ---
+
 Ramón A Olivares - "zeldaCollage_25Aniv"
 Michael Gallagher - "Zelda VR" promo artwork
-http://gamingaddictmike125.deviantart.com/art/The-Legend-of-Zelda-8-Bit-90311894
+ http://gamingaddictmike125.deviantart.com/art/The-Legend-of-Zelda-8-Bit-90311894
 David Linderman - Beta Tester

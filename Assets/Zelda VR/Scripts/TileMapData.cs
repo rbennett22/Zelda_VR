@@ -7,6 +7,11 @@ public class Index
 {
     public int x, y;
 
+    public Index()
+    {
+        this.x = 0;
+        this.y = 0;
+    }
     public Index(int setX, int setY)
     {
         this.x = setX;

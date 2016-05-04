@@ -3,6 +3,7 @@
 public class Block : MonoBehaviour
 {
     public int tileCode;
+
     public bool isBombable;
     public bool isBurnable;
     public bool isShortBlock;
@@ -14,7 +15,7 @@ public class Block : MonoBehaviour
     {
         if (!isBurnable) { return; }
 
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
+        PlaySecretSound();
         Destroy(gameObject);
     }
 
@@ -22,10 +23,15 @@ public class Block : MonoBehaviour
     {
         if (!isBombable) { return; }
 
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
+        PlaySecretSound();
         Destroy(gameObject);
     }
 
+
+    void PlaySecretSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
+    }
 
     void OnDestroy()
     {

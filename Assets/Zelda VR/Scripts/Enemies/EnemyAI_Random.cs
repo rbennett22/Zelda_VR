@@ -47,11 +47,19 @@ public class EnemyAI_Random : EnemyAI
         {
             _moveDirection = value;
 
-            _targetPos.x = (int)(_enemy.TileX + _moveDirection.x + Epsilon) + TileOffset;
-            _targetPos.z = (int)(_enemy.TileZ + _moveDirection.z + Epsilon) + TileOffset;
+            // TODO: normalize moveDirection?
+
+            Index newTargetTile = new Index();
+            newTargetTile.x = (int)(_enemy.TileX + _moveDirection.x + Epsilon);
+            newTargetTile.y = (int)(_enemy.TileZ + _moveDirection.z + Epsilon);
+
+            Vector2 p = GetEnemyPosition2DForTile(newTargetTile);
+            _targetPos.x = p.x;
             _targetPos.y = transform.position.y;
+            _targetPos.z = p.y;
         }
     }
+
 
     public Vector3 TargetPosition
     {

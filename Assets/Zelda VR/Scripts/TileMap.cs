@@ -59,7 +59,6 @@ public class TileMap : MonoBehaviour
     void Awake()
     {
         InitFromSettings(ZeldaVRSettings.Instance);
-        _tileMapData.InitFromSettings(ZeldaVRSettings.Instance);
 
         _blockHeights = new float[TilesHigh, TilesWide];
         _populationFlags = new bool[TilesHigh, TilesWide];
@@ -82,6 +81,8 @@ public class TileMap : MonoBehaviour
         _blockHeightVariance = s.blockHeightVariance;
         _shortBlockHeight = s.shortBlockHeight;
         _flatBlockHeight = s.flatBlockHeight;
+
+        _tileMapData.InitFromSettings(s);
     }
 
     void InitSpecialBlocks()

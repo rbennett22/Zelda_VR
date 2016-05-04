@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Immersio.Utility;
 
-
 public class CommonObjects : Singleton<CommonObjects> 
 {
     public static GameObject Player_G { get { return Instance.player_G; } }
@@ -41,11 +40,21 @@ public class CommonObjects : Singleton<CommonObjects>
     {
         get
         {
+            if (!WorldInfo.Instance.IsOverworld) { return null; }
+
+            // TODO
+            OverworldTerrainEngine engine = Uniblocks.Engine.EngineInstance as OverworldTerrainEngine;
+            if (engine != null)
+            {
+                return engine.TileMap;
+            }
+
             GameObject g = GameObject.FindGameObjectWithTag("TileProliferator");
             if (g == null) { return null; }
             return g.GetComponent<TileProliferator>().tileMap;
         }
     }
+
     public static DungeonFactory CurrentDungeonFactory
     {
         get

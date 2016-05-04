@@ -73,41 +73,5 @@ public class TileProliferator : MonoBehaviour
             (int)playerPos.z - extent,
             extent * 2, extent * 2
             );
-
-
-        UpdateCollectibleSpawning();
-    }
-
-
-    // TODO: place this code elsewhere
-    void UpdateCollectibleSpawning()
-    {
-        GameObject g = GameObject.FindGameObjectWithTag("OverworldInfo");
-        if(g == null)
-        {
-            return;
-        }
-
-        OverworldInfo owInfo = g.GetComponent<OverworldInfo>();
-        Vector3 playerPos = _playerTransform.position;
-
-        foreach (Transform child in owInfo.collectibleSPs)
-        {
-            CollectibleSpawnPoint csp = child.GetComponent<CollectibleSpawnPoint>();
-            if (csp == null) { continue; }
-
-            float distSqr = (csp.transform.position - playerPos).sqrMagnitude;
-            if (distSqr > _tileRemovalDistanceSq)
-            {
-                csp.DestroySpawnedCollectible();
-            }
-            else
-            {
-                if (csp.SpawnedCollectible == null && !csp.HasBeenCollected)
-                {
-                    csp.SpawnCollectible();
-                }
-            }
-        }
     }
 }

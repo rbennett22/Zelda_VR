@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public class Pushable : MonoBehaviour
 {
     const float PushSpeed = 0.01f;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class EnemyAI : MonoBehaviour 
+public class EnemyAI : MonoBehaviour
 {
     protected const float TileOffset = 0.5f;
     protected const float Epsilon = 0.001f;
@@ -50,4 +50,29 @@ public class EnemyAI : MonoBehaviour
         return desiredMoveDirection;
     }
 
+
+    protected Vector2 GetEnemyPosition2DForTile(Index tile)
+    {
+        return GetEnemyPosition2DForTile(tile.x, tile.y);
+    }
+    protected Vector2 GetEnemyPosition2DForTile(int tileX, int tileY)
+    {
+        Vector2 pos = new Vector2();
+
+        pos.x = tileX + TileOffset;
+        pos.y = tileY + TileOffset;
+
+        return pos;
+    }
+
+    protected void SetEnemyPosition2DToTile(Index tile)
+    {
+        SetEnemyPosition2DToTile(tile.x, tile.y);
+    }
+    protected void SetEnemyPosition2DToTile(int tileX, int tileY)
+    {
+        Vector2 p = GetEnemyPosition2DForTile(tileX, tileY);
+        transform.SetX(p.x);
+        transform.SetZ(p.y);
+    }
 }
