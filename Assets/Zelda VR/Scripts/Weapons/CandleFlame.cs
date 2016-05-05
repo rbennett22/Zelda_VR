@@ -2,16 +2,11 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-
 public class CandleFlame : MonoBehaviour
 {
-    //const float RemovalDistanceThreshold = 12;      // How far away Player must be from flame before it is destroyed
-
-
     public int damage = 1;
     public float maxLifeTime = 1;
     public float damageRadius = 0.7f;
-
 
     public Animator animator;
     public string[] invulnerables;  // Enemies that cannot be hurt by flame 
@@ -79,7 +74,6 @@ public class CandleFlame : MonoBehaviour
 
     void ApplyDamage(GameObject g)
     {
-        //print("ApplyDamage: " + g.name);
         if (!g) { return; }
 
         HealthController health = g.GetComponent<HealthController>();
@@ -88,5 +82,4 @@ public class CandleFlame : MonoBehaviour
         uint damageAmount = (uint)damage;
         health.TakeDamage(damageAmount, gameObject);
     }
-
 }

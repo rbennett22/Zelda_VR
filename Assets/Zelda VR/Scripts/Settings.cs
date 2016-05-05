@@ -17,12 +17,12 @@ public class ZeldaVRSettings : SettingsObject<ZeldaVRSettings>
 
     // Block Heights
     [SerializeField] public int blockHeight = 4;
-    [SerializeField] public float blockHeightVariance = 0.5f;
-    [SerializeField] public float shortBlockHeight = 0.7f;
-    [SerializeField] public float flatBlockHeight = 0.5f;
+    [SerializeField] public float blockHeightVariance = 2;
+    [SerializeField] public float shortBlockHeight = 1;
+    [SerializeField] public float flatBlockHeight = 0;
 
     // Other
-    [SerializeField] public int tileRemovalDistance = 36;
+    [SerializeField] public int collectibleRemovalDistance = 36;
 
 
     // Dungeon Dimensions

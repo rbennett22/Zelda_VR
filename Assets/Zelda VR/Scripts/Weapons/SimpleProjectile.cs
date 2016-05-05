@@ -48,7 +48,11 @@ public class SimpleProjectile : MonoBehaviour
         HealthController hc = other.GetComponent<HealthController>();
         if (hc == null)
         {
-            hc = other.transform.parent.GetComponent<HealthController>();
+            Transform otherParent = other.transform.parent;
+            if (otherParent != null)
+            {
+                hc = otherParent.GetComponent<HealthController>();
+            }
         }
         if (hc != null)
         {

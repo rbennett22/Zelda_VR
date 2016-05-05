@@ -24,8 +24,7 @@ public class ZeldaPlayerController : OVRPlayerController
         {
             if (InitialPose == null)
             {
-                // Save the initial pose so it can be recovered if useProfileData
-                // is turned off later.
+                // Save the initial pose so it can be recovered if useProfileData is turned off later.
                 InitialPose = new OVRPose()
                 {
                     position = crt.localPosition,
@@ -58,7 +57,7 @@ public class ZeldaPlayerController : OVRPlayerController
         moveDirection += MoveThrottle * SimulationRate * Time.deltaTime;
 
         // Gravity
-        if (gravityEnabled)     //// ~RJB
+        if (gravityEnabled)
         {
             if (Controller.isGrounded && FallSpeed <= 0)
                 FallSpeed = ((Physics.gravity.y * (GravityModifier * 0.002f)));
@@ -103,10 +102,10 @@ public class ZeldaPlayerController : OVRPlayerController
 
         MoveScale = 1.0f;
 
-        if ((moveForward && moveLeft) || (moveForward && moveRight) ||
-             (moveBack && moveLeft) || (moveBack && moveRight))
+        if ((moveForward && moveLeft) || (moveForward && moveRight) || (moveBack && moveLeft) || (moveBack && moveRight))
+        {
             MoveScale = 0.70710678f;
-
+        }
 
         MoveScale *= SimulationRate * Time.deltaTime;
 
@@ -145,39 +144,33 @@ public class ZeldaPlayerController : OVRPlayerController
 
         float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
 
-#if !UNITY_ANDROID || UNITY_EDITOR
         if (!SkipMouseRotation)
             euler.y += Input.GetAxis("Mouse X") * rotateInfluence * 3.25f;
-#endif
 
         moveInfluence = SimulationRate * Time.deltaTime * Acceleration * 0.1f * MoveScale * MoveScaleMultiplier;
-
-/*#if !UNITY_ANDROID // LeftTrigger not avail on Android game pad
-        moveInfluence *= 1.0f + OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger);
-#endif
-
-        Vector2 primaryAxis = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
-
-        if (primaryAxis.y > 0.0f)
-            MoveThrottle += ort * (primaryAxis.y * transform.lossyScale.z * moveInfluence * Vector3.forward);
-
-        if (primaryAxis.y < 0.0f)
-            MoveThrottle += ort * (Mathf.Abs(primaryAxis.y) * transform.lossyScale.z * moveInfluence * BackAndSideDampen * Vector3.back);
-
-        if (primaryAxis.x < 0.0f)
-            MoveThrottle += ort * (Mathf.Abs(primaryAxis.x) * transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.left);
-
-        if (primaryAxis.x > 0.0f)
-            MoveThrottle += ort * (primaryAxis.x * transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.right);
-
-        Vector2 secondaryAxis = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
-*/
 
         float deltaRotation = ZeldaInput.GetAxis(ZeldaInput.Axis.LookHorizontal) * rotateInfluence * 3.25f;
         euler.y += deltaRotation;
 
         transform.rotation = Quaternion.Euler(euler);
     }
+
+    /*bool CanMoveToPosition()
+    {
+        Vector3 dir = moveDirection;
+
+        int nextTileX = (int)(TileX + dir.x + EPSILON);
+        int nextTileZ = (int)(TileZ + dir.z + EPSILON);
+
+        TileMap tileMap = CommonObjects.OverworldTileMap;
+        int nextTileCode = tileMap.Tile(nextTileX, nextTileZ);
+
+        float turnAngle = 90;
+        while (!TileInfo.IsTilePassable(nextTileCode))
+        {
+            
+        }
+    }*/
 
     new public bool Jump()
     {

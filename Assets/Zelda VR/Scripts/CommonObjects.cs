@@ -43,15 +43,7 @@ public class CommonObjects : Singleton<CommonObjects>
             if (!WorldInfo.Instance.IsOverworld) { return null; }
 
             OverworldTerrainEngine engine = Uniblocks.Engine.EngineInstance as OverworldTerrainEngine;
-            if (engine != null)
-            {
-                return engine.TileMap;
-            }
-            return null;
-
-            /*GameObject g = GameObject.FindGameObjectWithTag("TileProliferator");
-            if (g == null) { return null; }
-            return g.GetComponent<TileProliferator>().tileMap;*/
+            return (engine == null) ? null : engine.TileMap;
         }
     }
 

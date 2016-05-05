@@ -23,7 +23,7 @@ public class SettingsObject<T> : ScriptableObject where T : ScriptableObject
             if (_instance == null)
             {
 #if UNITY_EDITOR
-                string settingsFile = "/Resources/" + SettingsFile;
+                string settingsFile = "Resources/" + SettingsFile;
                 _instance = LoadCustomAsset<T>(settingsFile);
                 if (_instance == null)
                 {
@@ -58,20 +58,23 @@ public class SettingsObject<T> : ScriptableObject where T : ScriptableObject
             return typeStr + ".asset";
         }
     }
+
 #if UNITY_EDITOR
     static T LoadCustomAsset<T>(string assetPath) where T : ScriptableObject
     {
-        string assetPathAndName = "Assets" + assetPath;
-        //Debug.Log(assetPathAndName);
+        string assetPathAndName = "Assets/" + assetPath;
+
+        Debug.Log(" ~~~~~~~~  LoadCustomAsset: " + assetPathAndName);
 
         return (T)AssetDatabase.LoadAssetAtPath(assetPathAndName, typeof(T));
     }
 
     static void CreateAsset<T>(string assetPath) where T : ScriptableObject
     {
-        T asset = ScriptableObject.CreateInstance<T>();
-        string assetPathAndName = "Assets" + assetPath;
-        //Debug.Log(assetPathAndName);
+        T asset = CreateInstance<T>();
+        string assetPathAndName = "Assets/" + assetPath;
+
+        Debug.Log(" ~~~~~~~~  CreateAsset: " + assetPathAndName);
 
         AssetDatabase.CreateAsset(asset, assetPathAndName);
         AssetDatabase.SaveAssets();

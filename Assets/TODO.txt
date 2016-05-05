@@ -1,20 +1,6 @@
 --- TODO ---
 
--- VOXEL --
-
-- TileMap Block creation
-- Bomb, Candleflame collision detection
-- FlatImpassable Block collision
-
-- Note: Dungeons will still use Blocks
-- TileMap::Awake(), CommonObjects::OverworldTileMap
-- OLD Settings
-	blockHeight = 4;
-    blockHeightVariance = 0.5f;
-    shortBlockHeight = 0.7f;
-    flatBlockHeight = 0.5f;
-
-
+- Make Grotto Entrance voxel truly flat
 - Fix issues caused by Positional Tracking
 
 - Lost Hills
@@ -70,6 +56,8 @@
 - BUG: Enemies can end up walking through walls in Lost Woods
 - BUG: Enemies that spawn after clock has activated aren't paralyzed
 - BUG: Vire can jump through wall
+- BUG: Projectiles can't pass over water in OW
+- BUG: ZeldaVRSettings values dont persist when closing UnityEditor
 
 
 -- Optimizations --

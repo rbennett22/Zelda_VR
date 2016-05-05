@@ -16,7 +16,7 @@ public class CollectibleProliferator : MonoBehaviour
     {
         _playerTransform = CommonObjects.PlayerController_G.transform;
 
-        _removalDist = ZeldaVRSettings.Instance.tileRemovalDistance;
+        _removalDist = ZeldaVRSettings.Instance.collectibleRemovalDistance;
         _removalDistSq = _removalDist * _removalDist;
     }
 

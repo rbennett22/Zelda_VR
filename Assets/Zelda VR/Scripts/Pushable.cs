@@ -72,12 +72,14 @@ public class Pushable : MonoBehaviour
 
     void TryToPush()
     {
-        Vector3 toPlayer = CommonObjects.PlayerController_G.transform.position - transform.position;
+        ZeldaPlayerController pc = CommonObjects.PlayerController_C;
+
+        Vector3 toPlayer = pc.transform.position - transform.position;
         toPlayer.Normalize();
 
         if (Vector3.Dot(-toPlayer, _slideDirection) > 0.5f)
         {
-            Vector3 playerForward = CommonObjects.PlayerController_C.ForwardDirection;
+            Vector3 playerForward = pc.ForwardDirection;
             if (Vector3.Dot(playerForward, _slideDirection) > 0.5f)
             {
                 transform.position += _slideDirection * PushSpeed;
@@ -126,5 +128,4 @@ public class Pushable : MonoBehaviour
         }
         return vec;
     }
-	
 }

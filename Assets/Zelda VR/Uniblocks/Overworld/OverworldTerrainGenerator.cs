@@ -4,6 +4,12 @@ using Immersio.Utility;
 
 public class OverworldTerrainGenerator : TerrainGenerator
 {
+    const ushort INVISIBLE_COLLIDER_VOXEL = 145;
+
+    const int ENTRANCE_TILE_BLOCK_HEIGHT = 2;
+    const int ENTRANCE_TILE_Y_OFFSET = 3;
+
+
     int _blockHeight = 1;
     float _blockHeightVariance = 0;
     float _shortBlockHeight = 1;
@@ -51,6 +57,8 @@ public class OverworldTerrainGenerator : TerrainGenerator
         int chunkY = SideLength * chunk.ChunkIndex.y;
         int chunkZ = SideLength * chunk.ChunkIndex.z;
 
+        int[,] tiles = _overworldTileMap.TileMapData._tiles;
+
         for (int x = 0; x < SideLength; x++)
         {
             int worldX = x + chunkX;
@@ -72,18 +80,87 @@ public class OverworldTerrainGenerator : TerrainGenerator
                     continue;
                 }
 
+
                 // Get tileCode at OW tile position
                 int tileCode = _overworldTileMap.Tile(worldX, worldZ);
+
+                // Handle special cases involving entrance tiles (ie. grottos and dungeons)
+                bool isRegularTile = true;
+                float blockHeight = 1;
+                int yOffset = 0;
+
+                // Entrance?
+                if (TileInfo.IsTileAnEntrance(tileCode))
+                {
+                    int tileCodeAbove = tiles[worldZ + 1, worldX];
+                    tileCode = tileCodeAbove;
+
+                    blockHeight = ENTRANCE_TILE_BLOCK_HEIGHT;
+                    yOffset = ENTRANCE_TILE_Y_OFFSET;
+
+                    isRegularTile = false;
+                }
+                else
+                {
+                    if (worldZ > 0)
+                    {
+                        // One Above Entrance?
+                        int tileCodeBelow = tiles[worldZ - 1, worldX];
+                        if (TileInfo.IsTileAnEntrance(tileCodeBelow))
+                        {
+                            blockHeight = GetBlockHeightForTileCode(tileCode);
+                            yOffset = ENTRANCE_TILE_Y_OFFSET - 1;
+
+                            isRegularTile = false;
+                        }
+                        else if (worldZ > 1)
+                        {
+                            // Two Above Entrance?
+                            int tileCode2xBelow = tiles[worldZ - 2, worldX];
+                            if (TileInfo.IsTileAnEntrance(tileCode2xBelow))
+                            {
+                                if (TileInfo.IsTileFlat(tileCode))
+                                {
+                                    tileCode = tileCodeBelow;
+                                }
+
+                                if (TileInfo.IsTileFlat(tileCode) || TileInfo.IsTileShort(tileCode) || TileInfo.IsTileUnitHeight(tileCode))
+                                {
+                                    blockHeight = 1;
+                                }
+                                else
+                                {
+                                    blockHeight = GetRandomHeight();
+                                }
+
+                                yOffset = ENTRANCE_TILE_Y_OFFSET - 2;
+
+                                isRegularTile = false;
+                            }
+                        }
+                    }
+                }
+                if(isRegularTile)
+                {
+                    blockHeight = GetBlockHeightForTileCode(tileCode);
+                }
+
                 Index2 tileMapIndex = _overworldTileMap.TileMapTexture.IndexForTileCode(tileCode);
                 ushort data = (ushort)(tileMapIndex.y * tileMapWidth_WithoutFiller + tileMapIndex.x + 1);
 
-                float blockHeight = GetBlockHeightForTileCode(tileCode);
-
                 for (int y = 0; y < SideLength; y++)
                 {
-                    int worldY = y + chunkY;
+                    int worldY = y + chunkY - yOffset;
+                    if (worldY < -1)
+                    {
+                        continue;
+                    }
                     if (worldY > blockHeight - 1)
                     {
+                        if(TileInfo.IsTileFlatImpassable(tileCode) && worldY == blockHeight)
+                        {
+                            chunk.SetVoxelSimple(x, y, z, INVISIBLE_COLLIDER_VOXEL);
+                        }
                         break;
                     }
 
@@ -97,7 +174,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
     {
         if (TileInfo.IsTileFlat(tileCode))
         {
-            return TileInfo.IsTileFlatImpassable(tileCode) ? _flatBlockHeight : 0;
+            return _flatBlockHeight;
         }
         else if (TileInfo.IsTileShort(tileCode))
         {

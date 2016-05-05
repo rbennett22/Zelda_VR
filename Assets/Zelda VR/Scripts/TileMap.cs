@@ -17,9 +17,6 @@ public class TileMap : MonoBehaviour
     TileMapTexture _tileMapTexture;
     public TileMapTexture TileMapTexture { get { return _tileMapTexture; } }
 
-    [SerializeField]
-    GameObject _blockPrefab, _shortBlockPrefab, _invisibleBlockPrefab;
-
 
     Transform _specialBlocksContainer;
 

@@ -108,10 +108,15 @@ public class TileMapData : MonoBehaviour
             {
                 ReadToNext(reader);
                 reader.Read(buffer, 0, ReadCount);
-                string str = new String(buffer);
+                string str = new string(buffer);
 
                 if (int.TryParse(str, NumberStyles.HexNumber, null, out tileCode))
                 {
+                    if (TileInfo.IsArmosTile(tileCode))
+                    {
+                        tileCode = TileInfo.GetReplacementTileForArmosTile(tileCode);
+                    }
+
                     _tiles[y, x] = tileCode;
                 }
                 else
