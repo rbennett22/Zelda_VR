@@ -27,7 +27,7 @@ public class EnemyAI_RiverZora : EnemyAI
 
     void Start()
     {
-        transform.SetY(GroundPosY);
+        transform.SetY(WorldOffsetY);
         _origin = transform.position;
 
         AnimatorInstance.GetComponent<Renderer>().enabled = false;
@@ -39,7 +39,7 @@ public class EnemyAI_RiverZora : EnemyAI
 
     void Update()
     {
-        transform.SetY(GroundPosY);         // hack?
+        transform.SetY(WorldOffsetY);         // hack?
 
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
@@ -50,14 +50,16 @@ public class EnemyAI_RiverZora : EnemyAI
             if (IsUnderwater)
             {
                 AnimatorInstance.SetTrigger("Emerge");
-                AnimatorInstance.GetComponent<Renderer>().enabled = true;
                 _timerDuration = emergeDuration;
+
+                AnimatorInstance.GetComponent<Renderer>().enabled = true;
                 WarpToRandomNearbyWaterTile();
             }
             else if (IsEmerging)
             {
                 AnimatorInstance.SetTrigger("Surface");
                 _timerDuration = surfaceDuration;
+
                 _healthController.isIndestructible = false;
                 FacePlayer();
                 _enemy.Attack();
@@ -66,13 +68,15 @@ public class EnemyAI_RiverZora : EnemyAI
             {
                 AnimatorInstance.SetTrigger("Submerge");
                 _timerDuration = submergeDuration;
+
                 _healthController.isIndestructible = true;
             }
             else if (IsSubmerging)
             {
                 AnimatorInstance.SetTrigger("Underwater");
-                AnimatorInstance.GetComponent<Renderer>().enabled = false;
                 _timerDuration = underwaterDuration;
+
+                AnimatorInstance.GetComponent<Renderer>().enabled = false;
                 ReplenishHealth();
             }
 
@@ -103,7 +107,7 @@ public class EnemyAI_RiverZora : EnemyAI
 
         Rect area = new Rect(
             (int)_origin.x - WARP_RANGE - EPSILON, 
-            (int)_origin.y - WARP_RANGE - EPSILON,
+            (int)_origin.z - WARP_RANGE - EPSILON,
             2 * WARP_RANGE + EPSILON, 
             2 * WARP_RANGE + EPSILON);
         _warpableTiles = tileMap.GetTilesInArea(area, TileInfo.WaterTiles);

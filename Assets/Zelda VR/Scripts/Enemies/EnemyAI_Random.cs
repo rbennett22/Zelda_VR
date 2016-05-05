@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Immersio.Utility;
 
 public class EnemyAI_Random : EnemyAI 
 {
@@ -51,7 +52,8 @@ public class EnemyAI_Random : EnemyAI
         _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
 
         _baseSpeed = _enemyMove.Speed;
-        MoveDirection = DetermineActualMoveDirection(GetRandomTileDirection());
+
+        MoveDirection = new TileDirection(DetermineActualMoveDirection(GetRandomTileDirection()));
 	}
 
 
@@ -73,7 +75,7 @@ public class EnemyAI_Random : EnemyAI
                 _justFinishedIdling = true;
             }
         }
-        else if (MoveDirection == Vector3.zero)
+        else if (MoveDirection.IsZero())
         {
             DetermineNextAction();
         }
@@ -96,13 +98,13 @@ public class EnemyAI_Random : EnemyAI
             Vector3 desiredMoveDir = GetDesiredMoveDirection(desiredAction);
             if (desiredAction == DiscreteAction.Jump)
             {
-                MoveDirection = desiredMoveDir;
+                MoveDirection = new TileDirection(desiredMoveDir);
 
-                _enemy.Jump(MoveDirection);
+                _enemy.Jump(MoveDirection.ToVector3());
             }
             else
             {
-                MoveDirection = DetermineActualMoveDirection(desiredMoveDir);
+                MoveDirection = new TileDirection(DetermineActualMoveDirection(desiredMoveDir));
             }
         }
 
@@ -117,7 +119,7 @@ public class EnemyAI_Random : EnemyAI
 
     void OnLanded()
     {
-        MoveDirection = Vector3.zero;
+        MoveDirection = TileDirection.Zero;
     }
 
     void OnTargetPositionReached(EnemyMove sender, Vector3 moveDirection)
@@ -133,7 +135,7 @@ public class EnemyAI_Random : EnemyAI
 
     void EnterIdleState()
     {
-        MoveDirection = Vector3.zero;
+        MoveDirection = TileDirection.Zero;
         
         _idleStartTime = Time.time;
         _idleDuration = Random.Range(minIdleDuration, maxIdleDuration);
@@ -198,13 +200,12 @@ public class EnemyAI_Random : EnemyAI
         }
         else if (chasePlayerIfInSight && IsPlayerInSight(out toPlayer))
         {
-            //print("playerInSight: " + _baseSpeed);
             desiredMoveDir = toPlayer;
             _enemyMove.Speed = _baseSpeed * chaseSpeedMultiplier;
         }
         else
         {
-            if (MoveDirection == Vector3.zero)
+            if (MoveDirection.IsZero())
             {
                 desiredMoveDir = GetRandomTileDirection();
             }
@@ -214,11 +215,11 @@ public class EnemyAI_Random : EnemyAI
                 {
                     if (avoidsReversingDirections)
                     {
-                        desiredMoveDir = GetRandomMoveDirectionExcluding(MoveDirection, true);
+                        desiredMoveDir = GetRandomMoveDirectionExcluding(MoveDirection.ToVector3(), true);
                     }
                     else
                     {
-                        desiredMoveDir = GetRandomMoveDirectionExcluding(MoveDirection);
+                        desiredMoveDir = GetRandomMoveDirectionExcluding(MoveDirection.ToVector3());
                     }
                 }
                 else if (action == DiscreteAction.Jump)
@@ -227,7 +228,7 @@ public class EnemyAI_Random : EnemyAI
                 }
                 else
                 {
-                    desiredMoveDir = MoveDirection;
+                    desiredMoveDir = MoveDirection.ToVector3();
                 }
             }
         }
@@ -342,9 +343,9 @@ public class EnemyAI_Random : EnemyAI
 
     public static Vector3 GetRandomTileDirection()
     {
-        int angle = Random.Range(0, 4) * 90;
-        Vector3 dir = Quaternion.Euler(0, angle, 0) * new Vector3(1, 0, 0);
-        return dir;
+        TileDirection.Direction[] allDirections = TileDirection.AllDirections;
+        TileDirection.Direction d = allDirections[Random.Range(0, allDirections.Length)];
+        return new TileDirection(d).ToVector3();
     }
 
     public static Vector3 GetRandomMoveDirectionExcluding(Vector3 excludeDirection, bool alsoExcludeReverse = false)

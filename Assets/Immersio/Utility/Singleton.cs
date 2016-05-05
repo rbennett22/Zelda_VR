@@ -13,7 +13,7 @@ namespace Immersio.Utility
         protected static T _instance;
 
 
-        void Awake()
+        virtual protected void Awake()
         {
             DontDestroyOnLoad(gameObject);
         }

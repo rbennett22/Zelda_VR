@@ -11,6 +11,15 @@ public class Block : MonoBehaviour
     public GameObject linkedBlock;
 
 
+    Renderer _renderer;
+
+
+    void Awake()
+    {
+        _renderer = GetComponent<Renderer>();
+    }
+
+
     public void Burn()
     {
         if (!isBurnable) { return; }
@@ -36,5 +45,13 @@ public class Block : MonoBehaviour
     void OnDestroy()
     {
         Destroy(linkedBlock);
+    }
+
+
+    public void Colorize(Color color)
+    {
+        Color c = _renderer.material.color;
+        c = color;
+        _renderer.material.color = c;
     }
 }

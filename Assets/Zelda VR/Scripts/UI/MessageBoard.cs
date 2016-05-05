@@ -9,8 +9,10 @@ public class MessageBoard : Singleton<MessageBoard>
     SpriteRenderer _spriteRenderer;
 
 
-    void Awake()
+    override protected void Awake()
     {
+        base.Awake();
+
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.enabled = false;
     }

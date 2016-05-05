@@ -17,8 +17,8 @@ public class Pushable : MonoBehaviour
 
 
     Vector3 _slideDirection;
-    Vector3 _origin;
-    Vector3 _end;
+    Vector3 _origin, _end;
+
     bool _hasReachedEnd;
 
 

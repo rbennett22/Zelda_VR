@@ -113,7 +113,7 @@ public class EnemyAI_Moldorm : EnemyAI
         if (IsPreoccupied) { return; }
 
         if (PauseManager.Instance.IsPaused_Any) { return; }
-
+        
         if (IsHead)
         {
             UpdateMoveDirection();

@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
+using System;
 
 namespace Immersio.Utility
 {
     public class TileDirection
     {
-        /*public enum Direction
+        public enum Direction
         {
-            Up, Down, Right, Left
+            Zero, Up, Down, Right, Left
         }
-        public Direction direction;*/
+        public static Direction[] AllDirections { get { return new Direction[] { Direction.Up, Direction.Down, Direction.Right, Direction.Left }; } }
+
 
         int _x, _y;
         public int X { get { return _x; } set { _x = Mathf.Clamp(value, -1, 1); } }
@@ -35,8 +37,19 @@ namespace Immersio.Utility
             X = (int)v.x;
             Y = (int)v.y;
         }
+        public TileDirection(Vector3 v)
+        {
+            X = (int)v.x;
+            Y = (int)v.z;   // we assume an x-z plane
+        }
         public TileDirection(TileDirection n)
         {
+            X = n.X;
+            Y = n.Y;
+        }
+        public TileDirection(Direction d)
+        {
+            TileDirection n = TileDirectionForDirection(d);
             X = n.X;
             Y = n.Y;
         }
@@ -45,6 +58,11 @@ namespace Immersio.Utility
         public Vector2 ToVector2()
         {
             return new Vector2(_x, _y);
+        }
+
+        public Vector3 ToVector3()
+        {
+            return new Vector3(_x, 0, _y);      // we assume an x-z plane
         }
 
         public override string ToString()
@@ -65,11 +83,11 @@ namespace Immersio.Utility
                 _y == n._y);
         }
 
-        public bool IsZero() { return this == Zero; }
-        public bool IsUp() { return this == Up; }
-        public bool IsDown() { return this == Down; }
-        public bool IsRight() { return this == Right; }
-        public bool IsLeft() { return this == Left; }
+        public bool IsZero() { return IsEqual(Zero); }
+        public bool IsUp() { return IsEqual(Up); }
+        public bool IsDown() { return IsEqual(Down); }
+        public bool IsRight() { return IsEqual(Right); }
+        public bool IsLeft() { return IsEqual(Left); }
 
         public TileDirection Reversed { get { return new TileDirection(-_x, -_y); } }
         public void Reverse()
@@ -78,6 +96,27 @@ namespace Immersio.Utility
             _y *= -1;
         }
 
+
+        public static TileDirection Zero { get{ return new TileDirection(0, 0); } }
+        public static TileDirection Up { get { return new TileDirection(0, 1); } }
+        public static TileDirection Down { get { return new TileDirection(0, -1); } }
+        public static TileDirection Right { get { return new TileDirection(1, 0); } }
+        public static TileDirection Left { get { return new TileDirection(-1, 0); } }
+
+        public static TileDirection TileDirectionForDirection(Direction d)
+        {
+            TileDirection n;
+            switch (d)
+            {
+                case Direction.Zero: n = Zero; break;
+                case Direction.Up: n = Up; break;
+                case Direction.Down: n = Down; break;
+                case Direction.Right: n = Right; break;
+                case Direction.Left: n = Left; break;
+                default: n = Zero; break;
+            }
+            return n;
+        }
 
         public static bool Compare(TileDirection a, TileDirection b)
         {
@@ -106,10 +145,5 @@ namespace Immersio.Utility
             }
         }
 
-        public static TileDirection Zero { get{ return new TileDirection(0, 0); } }
-        public static TileDirection Up { get { return new TileDirection(0, 1); } }
-        public static TileDirection Down { get { return new TileDirection(0, -1); } }
-        public static TileDirection Right { get { return new TileDirection(1, 0); } }
-        public static TileDirection Left { get { return new TileDirection(-1, 0); } }
     }
 }

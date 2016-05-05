@@ -5,7 +5,6 @@
 - TileMap Block creation
 - Bomb, Candleflame collision detection
 - FlatImpassable Block collision
-- EnemyAI::TILE_OFFSET
 
 - Note: Dungeons will still use Blocks
 - TileMap::Awake(), CommonObjects::OverworldTileMap

@@ -24,6 +24,11 @@ public class Locations : Singleton<Locations>
     public Transform[] dungeonEntranceStairs;
     public Transform[] dungeonEntranceRoom;
 
+    [SerializeField]
+    Transform _overworldLocationsContainer;
+    [SerializeField]
+    Transform _dungeonLocationsContainer;
+
 
     string _reloadingScene = null;
 
@@ -43,6 +48,14 @@ public class Locations : Singleton<Locations>
         return dungeonEntranceRoom[dungeonNum - 1];
     }
 
+
+    override protected void Awake()
+    {
+        base.Awake();
+
+        _overworldLocationsContainer.position = WorldInfo.OVERWORLD_OFFSET;
+        _dungeonLocationsContainer.position = WorldInfo.DUNGEON_OFFSET;
+    }
 
     void Start()
     {

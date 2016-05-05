@@ -16,9 +16,6 @@ public class EnemyAI_Leever : EnemyAI
     public float submergeDuration = 1.0f;
 
 
-    EnemyAI_Random _enemyAI_Random;
-
-
     float _startTime = float.NegativeInfinity;
     float _timerDuration;
     Vector3 _origin;
@@ -35,8 +32,7 @@ public class EnemyAI_Leever : EnemyAI
     {
         base.Awake();
 
-        _enemyAI_Random = GetComponent<EnemyAI_Random>();
-        _enemyAI_Random.enabled = false;
+        _enemyMove.enabled = false;
     }
 
     void Start()
@@ -44,12 +40,14 @@ public class EnemyAI_Leever : EnemyAI
         _origin = transform.position;
         AnimatorInstance.GetComponent<Renderer>().enabled = false;
         _healthController.isIndestructible = true;
+
+        AssignWarpableTiles();
     }
 
 
     void Update()
     {
-        transform.SetY(GroundPosY);     // hack?
+        transform.SetY(WorldOffsetY);     // hack?
 
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
@@ -61,6 +59,7 @@ public class EnemyAI_Leever : EnemyAI
             {
                 AnimatorInstance.SetTrigger("Emerge");
                 _timerDuration = emergeDuration;
+
                 AnimatorInstance.GetComponent<Renderer>().enabled = true;
                 transform.SetY(_origin.y);
                 WarpToRandomNearbySandTile();
@@ -69,21 +68,24 @@ public class EnemyAI_Leever : EnemyAI
             {
                 AnimatorInstance.SetTrigger("Surface");
                 _timerDuration = surfaceDuration;
+
                 _healthController.isIndestructible = false;
-                _enemyAI_Random.enabled = true;
-                _enemyAI_Random.TargetPosition = transform.position;
+                _enemyMove.enabled = true;
+                MoveDirection = new TileDirection(EnemyAI_Random.GetRandomTileDirection());
             }
             else if (IsSurfaced)
             {
                 AnimatorInstance.SetTrigger("Submerge");
                 _timerDuration = submergeDuration;
+
                 _healthController.isIndestructible = true;
-                _enemyAI_Random.enabled = false;
+                _enemyMove.enabled = false;
             }
             else if (IsSubmerging)
             {
                 AnimatorInstance.SetTrigger("Underground");
                 _timerDuration = undergroundDuration;
+
                 AnimatorInstance.GetComponent<Renderer>().enabled = false;
                 transform.SetY(_origin.y - OFFSCREEN_OFFSET);  // Move offscreen to prevent collision with player
             }
@@ -100,7 +102,7 @@ public class EnemyAI_Leever : EnemyAI
 
         Rect area = new Rect(
             (int)_origin.x - WARP_RANGE - EPSILON,
-            (int)_origin.y - WARP_RANGE - EPSILON,
+            (int)_origin.z - WARP_RANGE - EPSILON,
             2 * WARP_RANGE + EPSILON,
             2 * WARP_RANGE + EPSILON);
         _warpableTiles = tileMap.GetTilesInArea(area, TileInfo.SandTiles);

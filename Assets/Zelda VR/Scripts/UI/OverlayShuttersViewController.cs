@@ -20,8 +20,10 @@ public class OverlayShuttersViewController : Singleton<OverlayShuttersViewContro
     public bool AnySequenceIsPlaying { get { return CloseAndOpenSequenceIsPlaying || _view.IsOpening || _view.IsClosing; } }
 
 
-    void Awake()
+    override protected void Awake()
     {
+        base.Awake();
+
         _view.viewDelegate = this;
 
         _view.gameObject.SetActive(true);

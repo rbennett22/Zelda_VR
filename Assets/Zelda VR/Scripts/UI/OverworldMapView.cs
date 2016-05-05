@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Immersio.Utility;
 
 [RequireComponent(typeof(RawImage))]
 
@@ -40,7 +41,7 @@ public class OverworldMapView : MonoBehaviour
         _rawImage.texture = _mapTexture;
     }
 
-    public void UpdateMap(Vector2 playerOccupiedSector)
+    public void UpdateMap(Index2 playerOccupiedSector)
     {
         if(_mapTexture == null)
         {
@@ -51,18 +52,15 @@ public class OverworldMapView : MonoBehaviour
         _mapTexture.Clear(_bgColor);
 
         // Render the "you are here" sector
-        if (playerOccupiedSector != WorldInfo.Instance.LostWoodsSector)
+        if (!playerOccupiedSector.IsEqual(WorldInfo.Instance.LostWoodsSector))
         {
-            int sX = (int)playerOccupiedSector.x;
-            int sY = (int)playerOccupiedSector.y;
-
-            int w = _sectorWidth;
-            int h = _sectorHeight;
-            int x = w * sX;
-            int y = h * sY;     
-
-            if (IsSectorWithinMapBounds(sX, sY))
+            if (IsSectorWithinMapBounds(playerOccupiedSector))
             {
+                int w = _sectorWidth;
+                int h = _sectorHeight;
+                int x = w * playerOccupiedSector.x;
+                int y = h * playerOccupiedSector.y;
+
                 _mapTexture.SetColorForArea(x, y, w, h, _youAreHereColor);
             }
         }
@@ -70,8 +68,8 @@ public class OverworldMapView : MonoBehaviour
         _mapTexture.Apply();
     }
 
-    bool IsSectorWithinMapBounds(int x, int y)
+    bool IsSectorWithinMapBounds(Index2 sector)
     {
-        return !(x < 0 || y < 0 || x > _sectorsWide - 1 || y > _sectorsHigh - 1);
+        return !(sector.x < 0 || sector.y < 0 || sector.x > _sectorsWide - 1 || sector.y > _sectorsHigh - 1);
     }
 }

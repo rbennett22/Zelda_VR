@@ -20,9 +20,9 @@ public class EnemyAI_WallMaster : EnemyAI
     Vector3 _wallNormal, _wallTangent;
 
 
-    float GroundHeight { get { return GroundPosY + (isBig ? GROUND_HEIGHT_BIG : GROUND_HEIGHT); } }
+    float GroundHeight { get { return WorldOffsetY + (isBig ? GROUND_HEIGHT_BIG : GROUND_HEIGHT); } }
     float ProtrudeDistance { get { return isBig ? PROTRUDE_DISTANCE_BIG : PROTRUDE_DISTANCE; } }
-    float CeilingHeight { get { return GroundPosY + (isBig ? CEILING_HEIGHT_BIG : CEILING_HEIGHT); } }
+    float CeilingHeight { get { return WorldOffsetY + (isBig ? CEILING_HEIGHT_BIG : CEILING_HEIGHT); } }
     float HorzTravelDistance { get { return isBig ? HORZ_TRAVEL_DISTANCE_BIG : HORZ_TRAVEL_DISTANCE; } }
 
 
@@ -48,9 +48,9 @@ public class EnemyAI_WallMaster : EnemyAI
             Vector3 moveDir = value;
 
             Vector3 targetPos;
-            targetPos.x = (int)(_enemy.TileX + moveDir.x + EPSILON) + TILE_EXTENT;
-            targetPos.z = (int)(_enemy.TileZ + moveDir.z + EPSILON) + TILE_EXTENT;
-            targetPos.y = (int)((int)_enemy.transform.position.y + moveDir.y + EPSILON) + TILE_EXTENT;
+            targetPos.x = (int)(_enemy.TileX + moveDir.x + EPSILON) + TileMap.BLOCK_OFFSET_XZ;
+            targetPos.z = (int)(_enemy.TileZ + moveDir.z + EPSILON) + TileMap.BLOCK_OFFSET_XZ;
+            targetPos.y = (int)((int)_enemy.transform.position.y + moveDir.y + EPSILON) + TileMap.BLOCK_OFFSET_XZ;
 
             _enemyMove.TargetPosition = targetPos;
         }

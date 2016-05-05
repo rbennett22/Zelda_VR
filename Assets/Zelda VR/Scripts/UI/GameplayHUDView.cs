@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Immersio.Utility;
 
 public class GameplayHUDView : MonoBehaviour
 {
@@ -94,7 +95,7 @@ public class GameplayHUDView : MonoBehaviour
     {
         _overworldMapView.Init(sectorsWide, sectorsHigh);
     }
-    public void UpdateOverworldMap(Vector2 playerOccupiedSector)
+    public void UpdateOverworldMap(Index2 playerOccupiedSector)
     {
         _overworldMapView.UpdateMap(playerOccupiedSector);
     }

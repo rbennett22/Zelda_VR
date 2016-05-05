@@ -97,8 +97,10 @@ public class Player : Singleton<Player>
     bool _isParalyzed;
 
 
-    void Awake()
+    override protected void Awake()
     {
+        base.Awake();
+
         _inventory = Inventory.Instance;
 
         Name = "";

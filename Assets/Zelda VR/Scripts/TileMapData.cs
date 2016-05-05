@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Globalization;
+using Immersio.Utility;
 
 public class TileMapData : MonoBehaviour 
 {
@@ -30,7 +31,10 @@ public class TileMapData : MonoBehaviour
     public int TilesWide { get { return _tilesWide; } }
     public int TilesHigh { get { return _tilesHigh; } }
 
-
+    public int Tile(Index2 n)
+    {
+        return Tile(n.x, n.y);
+    }
     public int Tile(int x, int y)
     {
         if (x < 0 || x > TilesWide - 1) { return INVALID_TILE; }
@@ -58,18 +62,18 @@ public class TileMapData : MonoBehaviour
         return tileCode != INVALID_TILE;
     }
 
-
-    public Vector2 GetSectorForPosition(Vector3 pos)
+    public Index2 GetSectorForPosition(Vector3 pos)
     {
         int x = Mathf.FloorToInt(pos.x / SectorWidthInTiles);
         int y = Mathf.FloorToInt(pos.z / SectorHeightInTiles);
-        return new Vector2(x, y);
+        return new Index2(x, y);
     }
 
 
     void Awake()
     {
         InitFromSettings(ZeldaVRSettings.Instance);
+        LoadMap();
     }
 
     public void InitFromSettings(ZeldaVRSettings s)

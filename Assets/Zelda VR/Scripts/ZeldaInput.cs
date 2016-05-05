@@ -4,7 +4,6 @@ using Immersio.Utility;
 
 public class ZeldaInput : Singleton<ZeldaInput>
 {
-
     public enum Axis { MoveHorizontal, MoveVertical, LookHorizontal };
     public enum Button { SwordAttack, UseItemB, Run, Jump, Extra, Start, Select, Pause, L1, R1, L2, R2 };
 

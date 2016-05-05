@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public class EnemySpawnPoint : MonoBehaviour 
 {
     const float ProximityThresholdMin_OW = 8;           // how far away player must be to trigger the spawn               
@@ -81,27 +80,29 @@ public class EnemySpawnPoint : MonoBehaviour
 
     public GameObject SpawnEnemy()
     {
-        _spawnedEnemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity) as GameObject;
-        _spawnedEnemy.name = enemyPrefab.name;
-        _spawnedEnemy.transform.parent = WorldInfo.Instance.IsOverworld ? _enemiesContainer : transform.parent;
-        _spawnedEnemy.transform.forward = transform.up;
+        GameObject g = Instantiate(enemyPrefab, transform.position, Quaternion.identity) as GameObject;
+        g.name = enemyPrefab.name;
+        g.transform.parent = WorldInfo.Instance.IsOverworld ? _enemiesContainer : transform.parent;
+        g.transform.forward = transform.up;
 
-        print("_spawnedEnemy: " + _spawnedEnemy.name);
+        //print("_spawnedEnemy: " + g.name);
 
-        Enemy enemy = _spawnedEnemy.GetComponent<Enemy>();
+        Enemy enemy = g.GetComponent<Enemy>();
         if (enemy != null)
         {
             enemy.SpawnPoint = this;
             AssignSpecialDropItemToSpawnedEnemy(enemy);
         }
 
-        NotifyOnDestroy n = _spawnedEnemy.AddComponent<NotifyOnDestroy>();
+        NotifyOnDestroy n = g.AddComponent<NotifyOnDestroy>();
         n.receiver = gameObject;
         n.methodName = "OnSpawnedEnemyDestroyed";
 
+        _spawnedEnemy = g;
+
         SendMessage("OnEnemySpawned", enemy, SendMessageOptions.DontRequireReceiver);
 
-        return _spawnedEnemy;
+        return g;
     }
 
     void AssignSpecialDropItemToSpawnedEnemy(Enemy enemy)
@@ -130,5 +131,4 @@ public class EnemySpawnPoint : MonoBehaviour
     {
         _spawnedEnemy = null;
     }
-
 }

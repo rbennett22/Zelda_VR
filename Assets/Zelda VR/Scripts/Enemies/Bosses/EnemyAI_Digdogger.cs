@@ -39,7 +39,7 @@ public class EnemyAI_Digdogger : EnemyAI
         g.name = babyPrefab.name;
         g.transform.parent = transform.parent;
         g.transform.position = position;
-        g.transform.SetY(GroundPosY + 0.5f);
+        g.transform.SetY(WorldOffsetY + 0.5f);
 
         EnemyAI_DigdoggerSmall dd = g.GetComponent<EnemyAI_DigdoggerSmall>();
         dd.ParentDigdogger = this;

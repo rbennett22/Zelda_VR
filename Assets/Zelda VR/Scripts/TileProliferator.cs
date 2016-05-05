@@ -8,7 +8,7 @@ public class TileProliferator : MonoBehaviour
     public int UpdateInterval_ms = 1000;     
 
 
-    int _tileRemovalDistance, _tileRemovalDistanceSq;
+    /*int _tileRemovalDistance, _tileRemovalDistanceSq;
 
     Transform _playerTransform;
     Transform _blocksContainer;
@@ -73,5 +73,5 @@ public class TileProliferator : MonoBehaviour
             (int)playerPos.z - extent,
             extent * 2, extent * 2
             );
-    }
+    }*/
 }

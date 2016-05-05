@@ -1,16 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.IO;
 using Immersio.Utility;
 
-
 public class ZeldaSerializer : Singleton<ZeldaSerializer>
 {
-
     public class GameData
     {
         public Inventory.InventoryInfo invInfo;
@@ -113,5 +109,4 @@ public class ZeldaSerializer : Singleton<ZeldaSerializer>
 			 WorldInfo.Instance.GetDungeon(i+1).GetComponent<DungeonInfo>().InitWithInfo(data.dungInfo[i]);
 		}
     }
-
 }

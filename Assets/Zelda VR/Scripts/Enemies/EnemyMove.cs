@@ -5,10 +5,6 @@ using System;
 
 public class EnemyMove : MonoBehaviour 
 {
-    //protected const float TILE_EXTENT = 0.5f;
-    //protected const float EPSILON = 0.001f;
-
-
     public enum MovementMode
     {
         Destination,
@@ -99,12 +95,14 @@ public class EnemyMove : MonoBehaviour
                 {
                     _targetPositionHasBeenReached = true;
 
-                    Vector3 moveDir = _moveDirection;
-                    _moveDirection = Vector3.zero;
-
                     if (targetPositionReached_Callback != null)
                     {
-                        targetPositionReached_Callback(this, moveDir);
+                        targetPositionReached_Callback(this, _moveDirection);
+                    }
+
+                    if (_targetPositionHasBeenReached)
+                    {
+                        _moveDirection = Vector3.zero;
                     }
                 }
             }

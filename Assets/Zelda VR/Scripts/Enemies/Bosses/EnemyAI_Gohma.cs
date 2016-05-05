@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Immersio.Utility;
 
 public class EnemyAI_Gohma : EnemyAI 
 {
@@ -11,11 +12,6 @@ public class EnemyAI_Gohma : EnemyAI
 
     
     Rect _moveBounds;
-
-    Vector3 _right = new Vector3(1, 0, 0);
-    Vector3 _left = new Vector3(-1, 0, 0);
-    Vector3 _down = new Vector3(0, 0, -1);
-    Vector3 _up = new Vector3(0, 0, 1);
     
 
     public bool IsEyeOpen { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("EyeOpen"); } }
@@ -35,7 +31,7 @@ public class EnemyAI_Gohma : EnemyAI
             pathWidth, pathHeight
             );
 
-        MoveDirection = (Extensions.FlipCoin(0.5f)) ? _left : _right;
+        MoveDirection = (Extensions.FlipCoin(0.5f)) ? TileDirection.Left : TileDirection.Right;
 	}
 
 
@@ -63,52 +59,53 @@ public class EnemyAI_Gohma : EnemyAI
     {
         Vector3 p = transform.position;
 
-        Vector3 newMoveDirection = Vector3.zero;
-        if (MoveDirection == _down)
+        TileDirection newMoveDir = TileDirection.Zero;
+
+        if (MoveDirection.IsDown())
         {
             if (p.z <= _moveBounds.yMin)
             {
-                newMoveDirection = _up;
+                newMoveDir = TileDirection.Up;
             }
         }
-        else if (MoveDirection == _up)
+        else if (MoveDirection.IsUp())
         {
             if (p.z >= _moveBounds.yMax)
             {
-                newMoveDirection = (Extensions.FlipCoin(0.5f)) ? _left : _right;
+                newMoveDir = (Extensions.FlipCoin(0.5f)) ? TileDirection.Left : TileDirection.Right;
             }
         }
         else
         {
             if (Extensions.FlipCoin(chanceToMoveDown))
             {
-                newMoveDirection = _down;
+                newMoveDir = TileDirection.Down;
             }
             else
             {
-                if (MoveDirection == _right)
+                if (MoveDirection.IsRight())
                 {
                     if (p.x >= _moveBounds.xMax)
                     {
-                        newMoveDirection = _left;
+                        newMoveDir = TileDirection.Left;
                     }
                 }
-                else if (MoveDirection == _left)
+                else if (MoveDirection.IsLeft())
                 {
                     if (p.x <= _moveBounds.xMin)
                     {
-                        newMoveDirection = _right;
+                        newMoveDir = TileDirection.Right;
                     }
                 }
             }
         }
 
-        if (newMoveDirection == Vector3.zero)
+        if (newMoveDir.IsZero())
         {
-            newMoveDirection = MoveDirection;
+            newMoveDir = MoveDirection;
         }
 
-        MoveDirection = newMoveDirection;
+        MoveDirection = newMoveDir;
     }
 
     void Attack()

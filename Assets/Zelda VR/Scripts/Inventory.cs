@@ -188,9 +188,11 @@ public class Inventory : Singleton<Inventory>
         }
     }
 
-	
-	void Awake ()
+
+    override protected void Awake()
     {
+        base.Awake();
+
         InitItems();
 	}
 

@@ -1,32 +1,36 @@
 ﻿using UnityEngine;
+using Immersio.Utility;
 
 public class EnemyAI_Aquamentus : EnemyAI 
 {
-    public Vector3 forwardDirection = new Vector3(-1, 0, 0);
-    public Vector3 backwardDirection = new Vector3(1, 0, 0);
-    
+    public TileDirection.Direction forwardDirection = TileDirection.Direction.Left;
 
-	void Start () 
+
+    TileDirection _forwardTileDirection;
+
+
+    void Start () 
     {
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;
         _enemyMove.AlwaysFaceTowardsMoveDirection = false;
         _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
 
-        transform.forward = forwardDirection;
-        MoveDirection = forwardDirection;
+        _forwardTileDirection = TileDirection.TileDirectionForDirection(forwardDirection);
+        transform.forward = _forwardTileDirection.ToVector3();
+        MoveDirection = _forwardTileDirection;
 	}
 
 
     void OnTargetPositionReached(EnemyMove sender, Vector3 moveDirection)
     {
-        if (moveDirection == forwardDirection)
+        if (moveDirection == _forwardTileDirection.ToVector3())
         {
             Attack();
-            MoveDirection = backwardDirection;
+            MoveDirection = _forwardTileDirection.Reversed;
         }
         else
         {
-            MoveDirection = forwardDirection;
+            MoveDirection = _forwardTileDirection;
         }
     }
 

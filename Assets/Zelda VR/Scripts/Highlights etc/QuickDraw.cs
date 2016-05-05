@@ -21,8 +21,10 @@ public class QuickDraw : Singleton<QuickDraw>
     Dictionary<string, VectorLine> _lines;
 
 
-	void Awake () 
-	{
+    override protected void Awake()
+    {
+        base.Awake();
+
         _lines = new Dictionary<string, VectorLine>();
 	}
 

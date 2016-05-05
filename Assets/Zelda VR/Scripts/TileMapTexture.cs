@@ -5,21 +5,22 @@ public class TileMapTexture : MonoBehaviour
 {
     [SerializeField]
     Texture2D _texture;
-    [SerializeField]
-    bool _initFromSettings;
 
-    public int tileWidth, tileHeight;
-    public int sideLengthInTiles;
+
+    int _tileWidth, _tileHeight;
+    int _sideLengthInTiles;
 
 
     void Awake()
     {
-        if(_initFromSettings)
-        {
-            tileWidth = ZeldaVRSettings.Instance.tileMapTileWidthInPixels;
-            tileHeight = ZeldaVRSettings.Instance.tileMapTileHeightInPixels;
-            sideLengthInTiles = ZeldaVRSettings.Instance.tileMapSideLengthInTiles;
-        }
+        InitFromSettings(ZeldaVRSettings.Instance);
+    }
+
+    public void InitFromSettings(ZeldaVRSettings s)
+    {
+        _tileWidth = s.tileMapTileWidthInPixels;
+        _tileHeight = s.tileMapTileHeightInPixels;
+        _sideLengthInTiles = s.tileMapSideLengthInTiles;
     }
 
 
@@ -45,8 +46,8 @@ public class TileMapTexture : MonoBehaviour
 
     public Index2 IndexForTileCode(int tileCode)
     {
-        int tileX = tileCode % sideLengthInTiles;
-        int tileY = (int)(tileCode / sideLengthInTiles);
+        int tileX = tileCode % _sideLengthInTiles;
+        int tileY = (int)(tileCode / _sideLengthInTiles);
 
         return new Index2(tileX, tileY);
     }
@@ -54,10 +55,10 @@ public class TileMapTexture : MonoBehaviour
     public Rect RectForTile(int tileCode)
     {
         Index2 idx = IndexForTileCode(tileCode);
-        int x = idx.x * tileWidth;
-        int y = idx.y * tileHeight;
-        y = _texture.height - 1 - y - tileHeight;
+        int x = idx.x * _tileWidth;
+        int y = idx.y * _tileHeight;
+        y = _texture.height - 1 - y - _tileHeight;
 
-        return new Rect(x + 1, y + 1, tileWidth - 1, tileHeight - 1);
+        return new Rect(x + 1, y + 1, _tileWidth - 1, _tileHeight - 1);
     }
 }

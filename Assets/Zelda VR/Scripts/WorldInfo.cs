@@ -6,13 +6,14 @@ public class WorldInfo : Singleton<WorldInfo>
 {
     public const int QUEST = 1;
     public const int NUM_DUNGEONS = 9;
-    public const int OVERWORLD_GROUND_Y = 0;
-    public const int DUNGEON_GROUND_Y = 0;
+
+    public static Vector3 OVERWORLD_OFFSET = new Vector3(-0.5f, -0.5f, -0.5f);
+    public static Vector3 DUNGEON_OFFSET = new Vector3(0, 0, 0);
 
 
     [SerializeField]
-    Vector2 _lostWoodsSector = new Vector2(1, 6);
-    public Vector2 LostWoodsSector { get { return _lostWoodsSector; } }
+    Index2 _lostWoodsSector = new Index2(1, 6);
+    public Index2 LostWoodsSector { get { return _lostWoodsSector; } }
 
 
     public bool IsEmptyScene { get { return SceneManager.GetActiveScene().name == Locations.EMPTY_SCENE_NAME; } }
@@ -87,5 +88,15 @@ public class WorldInfo : Singleton<WorldInfo>
         return IsOverworld || IsInDungeon || IsSpecial;
     }
 
-    public float GroundPosY { get { return IsOverworld ? OVERWORLD_GROUND_Y : DUNGEON_GROUND_Y; } }
+
+    public Vector3 WorldOffset
+    {
+        get
+        {
+            Vector3 offset = Vector3.zero;
+            if (IsOverworld) { offset = OVERWORLD_OFFSET; }
+            else if (IsInDungeon) { offset = DUNGEON_OFFSET; }
+            return offset;
+        }
+    }
 }

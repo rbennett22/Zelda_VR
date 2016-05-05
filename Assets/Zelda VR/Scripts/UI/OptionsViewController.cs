@@ -57,10 +57,12 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
 
     Canvas ViewCanvas { get { return CommonObjects.Instance.headSpaceCanvas; } }
-     
 
-    void Awake()
+
+    override protected void Awake()
     {
+        base.Awake();
+
         if (_view != null)
         {
             AddButtonClickListeners(_view);

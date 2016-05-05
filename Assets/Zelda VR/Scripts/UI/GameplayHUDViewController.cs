@@ -9,8 +9,10 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     Inventory _inventory;
 
 
-    void Awake()
+    override protected void Awake()
     {
+        base.Awake();
+
         _inventory = Inventory.Instance;
     }
 
@@ -132,7 +134,7 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     void UpdateView_OverworldMap()
     {
         Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
-        Vector2 playerOccupiedSector = CommonObjects.OverworldTileMap.GetSectorForPosition(playerPos);
+        Index2 playerOccupiedSector = CommonObjects.OverworldTileMap.GetSectorForPosition(playerPos);
 
         _view.UpdateOverworldMap(playerOccupiedSector);
     }

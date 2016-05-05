@@ -88,6 +88,6 @@ public class EnemyItemDrop : MonoBehaviour
         GameObject g = item.gameObject;
         g.transform.parent = EnemyDroppedCollectibles.Instance.transform;
         g.transform.position = transform.position;
-        g.transform.SetLocalY(WorldInfo.Instance.GroundPosY + DROP_HEIGHT);
+        g.transform.SetLocalY(WorldInfo.Instance.WorldOffset.y + DROP_HEIGHT);
     }
 }

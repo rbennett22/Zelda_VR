@@ -2,11 +2,9 @@
 using Immersio.Utility;
 
 [RequireComponent(typeof(Enemy))]
-[RequireComponent(typeof(EnemyMove))]
 
 public class EnemyAI : MonoBehaviour
 {
-    protected const float TILE_EXTENT = 0.5f;
     protected const float EPSILON = 0.001f;
 
 
@@ -17,7 +15,7 @@ public class EnemyAI : MonoBehaviour
     protected HealthController _healthController;
 
 
-    protected float GroundPosY { get { return WorldInfo.Instance.GroundPosY; } }
+    protected float WorldOffsetY { get { return WorldInfo.Instance.WorldOffset.y; } }
 
     protected Vector3 ToPlayer { get { return (CommonObjects.PlayerController_G.transform.position - transform.position).normalized; } }
 
@@ -26,40 +24,24 @@ public class EnemyAI : MonoBehaviour
     protected bool IsPreoccupied { get { return _enemy.IsPreoccupied; } }
 
 
-    public Vector3 MoveDirection
+    public TileDirection MoveDirection
     {
-        get { return _enemyMove.MoveDirection; }
+        get
+        {
+            return new TileDirection(_enemyMove.MoveDirection);
+        }
         protected set
         {
-            Vector3 moveDir = value.normalized;
+            Vector3 moveDir = value.ToVector3();
 
             Vector3 targetPos;
-            targetPos.x = (int)(_enemy.TileX + moveDir.x + EPSILON) + TILE_EXTENT;
+            targetPos.x = (int)(_enemy.TileX + moveDir.x + EPSILON) + TileMap.BLOCK_OFFSET_XZ;
             targetPos.y = transform.position.y;
-            targetPos.z = (int)(_enemy.TileZ + moveDir.z + EPSILON) + TILE_EXTENT;
+            targetPos.z = (int)(_enemy.TileZ + moveDir.z + EPSILON) + TileMap.BLOCK_OFFSET_XZ;
 
             _enemyMove.TargetPosition = targetPos;
         }
     }
-    /*public TileDirection MoveDirection
-    {
-        get
-        {
-            Vector3 m = _enemyMove.MoveDirection;
-            return new TileDirection(m.x, m.z);
-        }
-        protected set
-        {
-            Vector3 moveDir = new Vector3(value.X, 0, value.Y);
-
-            Vector3 targetPos;
-            targetPos.x = (int)(_enemy.TileX + moveDir.x + EPSILON) + TILE_EXTENT;
-            targetPos.y = transform.position.y;
-            targetPos.z = (int)(_enemy.TileZ + moveDir.z + EPSILON) + TILE_EXTENT;
-
-            _enemyMove.TargetPosition = targetPos;
-        }
-    }*/
 
     public Vector3 TargetPosition
     {
@@ -123,7 +105,7 @@ public class EnemyAI : MonoBehaviour
     }
     protected void SetEnemyPositionXZToTile(int tileX, int tileY)
     {
-        transform.SetX(tileX + TILE_EXTENT);
-        transform.SetZ(tileY + TILE_EXTENT);
+        transform.SetX(tileX + TileMap.BLOCK_OFFSET_XZ);
+        transform.SetZ(tileY + TileMap.BLOCK_OFFSET_XZ);
     }
 }

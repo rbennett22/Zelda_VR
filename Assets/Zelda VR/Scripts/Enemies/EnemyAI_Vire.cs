@@ -19,7 +19,7 @@ public class EnemyAI_Vire : EnemyAI
         keese.name = redKeesePrefab.name;
 
         keese.transform.parent = transform.parent;
-        keese.transform.SetY(GroundPosY + KEESE_SPAWN_POS_Y);
+        keese.transform.SetY(WorldOffsetY + KEESE_SPAWN_POS_Y);
 
         keese.GetComponent<HealthController>().ActivateTempInvinc();
 

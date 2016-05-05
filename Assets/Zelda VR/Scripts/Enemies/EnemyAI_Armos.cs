@@ -34,7 +34,6 @@ public class EnemyAI_Armos : MonoBehaviour
     }
 
 
-    public EnemyAI_Random enemyAI_Random;
     public Animator animator;
     public GameObject redStatue, greenStatue, whiteStatue;
     public GameObject[] linkedTiles;
@@ -42,6 +41,7 @@ public class EnemyAI_Armos : MonoBehaviour
 
     bool _isInStatueMode = true;
     ZeldaPlayerController _playerController;
+    EnemyMove _enemyMove;
     GameObject _statue;
     int _meleeDamage;
 
@@ -52,7 +52,10 @@ public class EnemyAI_Armos : MonoBehaviour
     void Awake()
     {
         _playerController = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<ZeldaPlayerController>();
-        enemyAI_Random.enabled = false;
+
+        _enemyMove = GetComponent<EnemyMove>();
+        _enemyMove.enabled = false;
+
         animator.gameObject.SetActive(false);
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
@@ -116,9 +119,8 @@ public class EnemyAI_Armos : MonoBehaviour
         }
 
         GetComponent<EnemyMove>().Speed = Extensions.FlipCoin() ? SpeedFast : SpeedSlow;
-
         GetComponent<Enemy>().meleeDamage = _meleeDamage;
-        enemyAI_Random.enabled = true;
+        _enemyMove.enabled = true;
     }
 
     void ActivateHiddenCollectible()

@@ -42,8 +42,10 @@ public class OverlayViewController : Singleton<OverlayViewController>
     }
 
 
-    void Awake()
+    override protected void Awake()
     {
+        base.Awake();
+
         _playerDiedOverlay.gameObject.SetActive(true);
         _triforceAquiredOverlay.gameObject.SetActive(true);
 

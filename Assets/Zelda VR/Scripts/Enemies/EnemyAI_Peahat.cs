@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemyAI_Peahat : EnemyAI
 {
-    const float MIN_ALTITUDE = 0.5f;                   // Relative to ground
+    const float MIN_ALTITUDE = 0.5f;            // Relative to ground
     const float ROTATION_SPEED = 0.5f;
 
 
@@ -70,8 +70,11 @@ public class EnemyAI_Peahat : EnemyAI
             _flyDirection = Quaternion.Euler(0, ROTATION_SPEED, 0) * _flyDirection;
 
             Vector3 pos = transform.position;
-            pos.x += _flyDirection.x * animSpeed * _enemyMove.Speed;
-            pos.z += _flyDirection.z * animSpeed * _enemyMove.Speed;
+
+            float speed = animSpeed * _enemy.speed;
+            pos.x += _flyDirection.x * speed;
+            pos.z += _flyDirection.z * speed;
+
             transform.position = pos;
         }
 	}
@@ -82,7 +85,7 @@ public class EnemyAI_Peahat : EnemyAI
         AnimatorInstance.speed = speedPcnt;
 
         // The faster Peahat goes, the higher he flies
-        float altitude = GroundPosY + MIN_ALTITUDE + (maxAltitude - MIN_ALTITUDE) * (speedPcnt * speedPcnt);
+        float altitude = WorldOffsetY + MIN_ALTITUDE + (maxAltitude - MIN_ALTITUDE) * (speedPcnt * speedPcnt);
         transform.SetY(altitude);
     }
 }

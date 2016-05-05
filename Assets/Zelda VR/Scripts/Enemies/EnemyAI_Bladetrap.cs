@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Immersio.Utility;
 
 public class EnemyAI_Bladetrap : EnemyAI 
 {
@@ -46,29 +47,29 @@ public class EnemyAI_Bladetrap : EnemyAI
 
         if (playerDungeonRoom == null || _enemy.DungeonRoomRef == playerDungeonRoom)
         {
-            Vector3 dir = ToPlayer;
-            if (Mathf.Abs(dir.y) < 0.5f)
+            Vector3 toPlayer = ToPlayer;
+            if (Mathf.Abs(toPlayer.y) < 0.5f)
             {
-                if (Mathf.Abs(dir.x) < TILE_EXTENT)
+                if (Mathf.Abs(toPlayer.x) < TileMap.BLOCK_OFFSET_XZ)
                 {
-                    dir.x = 0;
-                    Trigger(dir);
+                    toPlayer.x = 0;
+                    Trigger(new TileDirection(toPlayer));
                 }
-                else if (Mathf.Abs(dir.z) < TILE_EXTENT)
+                else if (Mathf.Abs(toPlayer.z) < TileMap.BLOCK_OFFSET_XZ)
                 {
-                    dir.z = 0;
-                    Trigger(dir);
+                    toPlayer.z = 0;
+                    Trigger(new TileDirection(toPlayer));
                 }
             }
         }
     }
 
-    void Trigger(Vector3 direction)
+    void Trigger(TileDirection direction)
     {
         if (!PoisedToTrigger) { return; }
 
         _enemyMove.Speed = triggerSpeed;
-        MoveDirection = new Vector3(direction.x, 0, direction.z);
+        MoveDirection = direction;
         _movingToPlayer = true;
     }
 
@@ -82,18 +83,18 @@ public class EnemyAI_Bladetrap : EnemyAI
             {
                 if (hitInfo.collider.gameObject != _enemy.PlayerController)
                 {
-                    ReturnToOrigin(-moveDirection);
+                    ReturnToOrigin(new TileDirection(-moveDirection));
                 }
             }
         }
         else
         {
-            MoveDirection = Vector3.zero;
+            MoveDirection = TileDirection.Zero;
             _returningToOrigin = false;
         }
     }
 
-    void ReturnToOrigin(Vector3 moveDirection)
+    void ReturnToOrigin(TileDirection moveDirection)
     {
         if (_returningToOrigin) { return; }
         _returningToOrigin = true;
