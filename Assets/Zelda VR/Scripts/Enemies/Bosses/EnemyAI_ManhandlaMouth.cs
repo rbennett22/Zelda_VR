@@ -3,7 +3,6 @@ using System.Collections;
 
 public class EnemyAI_ManhandlaMouth : EnemyAI 
 {
-
     bool _delayingAttack;
     float _chanceToDelayAttack = 70;
 
@@ -11,9 +10,7 @@ public class EnemyAI_ManhandlaMouth : EnemyAI
 	void Update ()
     {
         if (!_doUpdate) { return; }
-
-        bool isPreoccupied = (_enemy.IsAttacking || _enemy.IsSpawning || _enemy.IsParalyzed || _enemy.IsStunned);
-        if (isPreoccupied) { return; }
+        if (IsPreoccupied) { return; }
 
         if (!_delayingAttack)
         {
@@ -38,10 +35,7 @@ public class EnemyAI_ManhandlaMouth : EnemyAI
 
     void Attack()
     {
-        Vector3 toPlayer = _enemy.PlayerController.transform.position - transform.position;
-        toPlayer.Normalize();
-
-        _enemy.weapon.Fire(toPlayer);
+        _enemy.weapon.Fire(ToPlayer);
     }
 
 }

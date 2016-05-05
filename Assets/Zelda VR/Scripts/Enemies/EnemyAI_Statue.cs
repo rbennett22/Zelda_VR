@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 
-
 public class EnemyAI_Statue : EnemyAI 
 {
+    const bool FIRES_AT_PLAYER = false;
+
+
     public float baseAttackCooldown = 2.0f;
     public float randomAttackCooldownOffset = 0.5f;
 
@@ -49,7 +51,7 @@ public class EnemyAI_Statue : EnemyAI
     void Update()
     {
         if (!_doUpdate) { return; }
-        if (_enemy.IsParalyzed) { return; }
+        if (IsPreoccupied) { return; }
 
         bool timesUp = (Time.time - _lastAttackTime >= _attackCooldown);
         if (timesUp)
@@ -62,13 +64,16 @@ public class EnemyAI_Statue : EnemyAI
 
     void Attack()
     {
-        //Vector3 toPlayer = _enemy.PlayerController.transform.position - transform.position;
-        //toPlayer.Normalize();
-        //_enemy.Attack(toPlayer);
+        Vector3 direction;
+        if (FIRES_AT_PLAYER)
+        {
+            direction = (_enemy.PlayerController.transform.position - transform.position).normalized;
+        }
+        else
+        {
+            direction = EnemyAI_Random.GetRandomTileDirection();
+        }
 
-        Vector3 direction = Random.insideUnitSphere;
-        direction.y = 0;
-        direction.Normalize();
         _enemy.Attack(direction);
 
         ResetCooldownTimer();
@@ -79,5 +84,4 @@ public class EnemyAI_Statue : EnemyAI
         _lastAttackTime = Time.time;
         _attackCooldown = baseAttackCooldown + Random.Range(-randomAttackCooldownOffset, randomAttackCooldownOffset);
     }
-
 }

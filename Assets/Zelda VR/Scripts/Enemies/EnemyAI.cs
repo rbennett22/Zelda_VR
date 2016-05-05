@@ -1,30 +1,96 @@
 ﻿using UnityEngine;
+using Immersio.Utility;
 
+[RequireComponent(typeof(Enemy))]
+[RequireComponent(typeof(EnemyMove))]
 
 public class EnemyAI : MonoBehaviour
 {
-    protected const float TileOffset = 0.5f;
-    protected const float Epsilon = 0.001f;
+    protected const float TILE_EXTENT = 0.5f;
+    protected const float EPSILON = 0.001f;
 
 
     protected bool _doUpdate = true;
+
     protected Enemy _enemy;
+    protected EnemyMove _enemyMove;
+    protected HealthController _healthController;
+
+
+    protected float GroundPosY { get { return WorldInfo.Instance.GroundPosY; } }
+
+    protected Vector3 ToPlayer { get { return (CommonObjects.PlayerController_G.transform.position - transform.position).normalized; } }
+
+    protected Animator AnimatorInstance { get { return _enemy.enemyAnim.AnimatorInstance; } }
+
+    protected bool IsPreoccupied { get { return _enemy.IsPreoccupied; } }
+
+
+    public Vector3 MoveDirection
+    {
+        get { return _enemyMove.MoveDirection; }
+        protected set
+        {
+            Vector3 moveDir = value.normalized;
+
+            Vector3 targetPos;
+            targetPos.x = (int)(_enemy.TileX + moveDir.x + EPSILON) + TILE_EXTENT;
+            targetPos.y = transform.position.y;
+            targetPos.z = (int)(_enemy.TileZ + moveDir.z + EPSILON) + TILE_EXTENT;
+
+            _enemyMove.TargetPosition = targetPos;
+        }
+    }
+    /*public TileDirection MoveDirection
+    {
+        get
+        {
+            Vector3 m = _enemyMove.MoveDirection;
+            return new TileDirection(m.x, m.z);
+        }
+        protected set
+        {
+            Vector3 moveDir = new Vector3(value.X, 0, value.Y);
+
+            Vector3 targetPos;
+            targetPos.x = (int)(_enemy.TileX + moveDir.x + EPSILON) + TILE_EXTENT;
+            targetPos.y = transform.position.y;
+            targetPos.z = (int)(_enemy.TileZ + moveDir.z + EPSILON) + TILE_EXTENT;
+
+            _enemyMove.TargetPosition = targetPos;
+        }
+    }*/
+
+    public Vector3 TargetPosition
+    {
+        get { return _enemyMove.TargetPosition; }
+        set { _enemyMove.TargetPosition = value; }
+    }
 
 
     virtual protected void Awake()
     {
         _enemy = GetComponent<Enemy>();
+        _enemyMove = GetComponent<EnemyMove>();
+        _healthController = GetComponent<HealthController>();
     }
 
 
     virtual public void DisableAI()
     {
         _doUpdate = false;
+        if (_enemyMove != null)
+        {
+            _enemyMove.enabled = false;
+        }
     }
     virtual public void EnableAI()
     {
         _doUpdate = true;
-        //TargetPosition = transform.position;
+        if (_enemyMove != null)
+        {
+            _enemyMove.enabled = true;
+        }
     }
 
 
@@ -51,28 +117,13 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    protected Vector2 GetEnemyPosition2DForTile(Index tile)
+    protected void SetEnemyPositionXZToTile(Index2 tile)
     {
-        return GetEnemyPosition2DForTile(tile.x, tile.y);
+        SetEnemyPositionXZToTile(tile.x, tile.y);
     }
-    protected Vector2 GetEnemyPosition2DForTile(int tileX, int tileY)
+    protected void SetEnemyPositionXZToTile(int tileX, int tileY)
     {
-        Vector2 pos = new Vector2();
-
-        pos.x = tileX + TileOffset;
-        pos.y = tileY + TileOffset;
-
-        return pos;
-    }
-
-    protected void SetEnemyPosition2DToTile(Index tile)
-    {
-        SetEnemyPosition2DToTile(tile.x, tile.y);
-    }
-    protected void SetEnemyPosition2DToTile(int tileX, int tileY)
-    {
-        Vector2 p = GetEnemyPosition2DForTile(tileX, tileY);
-        transform.SetX(p.x);
-        transform.SetZ(p.y);
+        transform.SetX(tileX + TILE_EXTENT);
+        transform.SetZ(tileY + TILE_EXTENT);
     }
 }

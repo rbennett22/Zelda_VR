@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Immersio.Utility;
 
 public class TileMapTexture : MonoBehaviour
 {
@@ -42,17 +43,17 @@ public class TileMapTexture : MonoBehaviour
     }
 
 
-    public Index IndexForTileCode(int tileCode)
+    public Index2 IndexForTileCode(int tileCode)
     {
         int tileX = tileCode % sideLengthInTiles;
         int tileY = (int)(tileCode / sideLengthInTiles);
 
-        return new Index(tileX, tileY);
+        return new Index2(tileX, tileY);
     }
 
     public Rect RectForTile(int tileCode)
     {
-        Index idx = IndexForTileCode(tileCode);
+        Index2 idx = IndexForTileCode(tileCode);
         int x = idx.x * tileWidth;
         int y = idx.y * tileHeight;
         y = _texture.height - 1 - y - tileHeight;

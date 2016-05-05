@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
-
 
 public class GhiniHealthDelegate : MonoBehaviour
 {
-
     void OnEnemyDeath()
     {
         GameObject enemies = GameObject.FindGameObjectWithTag("Enemies");
@@ -18,5 +15,4 @@ public class GhiniHealthDelegate : MonoBehaviour
             }
         }
     }
-
 }

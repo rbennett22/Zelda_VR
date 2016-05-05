@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-
 public class OverworldInfo : MonoBehaviour
 {
-
     public Transform collectibleSPs;
 
 

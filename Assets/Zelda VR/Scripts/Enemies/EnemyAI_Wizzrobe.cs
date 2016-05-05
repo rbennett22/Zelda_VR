@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
 public class EnemyAI_Wizzrobe : EnemyAI
 {
     const float OffscreenOffset = -30;      // How far to offset the Wizzrobe's y position when it is "invisible"
@@ -32,7 +31,7 @@ public class EnemyAI_Wizzrobe : EnemyAI
     State _state = State.InvisibleIdle;
 
 
-    protected void Awake()
+    protected override void Awake()
     {
         base.Awake();
 
@@ -61,6 +60,7 @@ public class EnemyAI_Wizzrobe : EnemyAI
         _state = State.InvisibleIdle;
         Disappear();
         float teleportDuration = _teleportDuration + Random.Range(-_teleportDurationRandomOffset, _teleportDurationRandomOffset);
+
         yield return new WaitForSeconds(teleportDuration);
 
         Reappear();
@@ -71,6 +71,7 @@ public class EnemyAI_Wizzrobe : EnemyAI
     {
         _state = State.FadingIn;
         ActivateFlickering();
+
         yield return new WaitForSeconds(_fadeDuration);
 
         DeactivateFlickering();
@@ -80,10 +81,12 @@ public class EnemyAI_Wizzrobe : EnemyAI
     IEnumerator Attack()
     {
         _state = State.Attacking;
-        if (!_enemy.IsParalyzed && !_enemy.IsStunned && _doUpdate)
+
+        if (_doUpdate && !IsPreoccupied)
         {
             _enemy.Attack();
         }
+
         yield return new WaitForSeconds(_attackDuration);
 
         if (walks)
@@ -101,6 +104,7 @@ public class EnemyAI_Wizzrobe : EnemyAI
         _state = State.Walking;
         enemyAI_Random.enabled = true;
         enemyAI_Random.TargetPosition = transform.position;
+
         yield return new WaitForSeconds(_walkDuration);
 
         enemyAI_Random.enabled = false;
@@ -113,7 +117,6 @@ public class EnemyAI_Wizzrobe : EnemyAI
         GetComponent<Collider>().enabled = false;
         flickerEffect.enabled = true;
     }
-
     void DeactivateFlickering()
     {
         GetComponent<Collider>().enabled = true;
@@ -122,14 +125,14 @@ public class EnemyAI_Wizzrobe : EnemyAI
 
     void Disappear()
     {
-        _enemy.enemyAnim.AnimatorInstance.gameObject.SetActive(false);
+        AnimatorInstance.gameObject.SetActive(false);
         GetComponent<Collider>().enabled = false;
         transform.AddToY(OffscreenOffset);  // Move offscreen to prevent collision with player
     }
 
     void Reappear()
     {
-        _enemy.enemyAnim.AnimatorInstance.gameObject.SetActive(true);
+        AnimatorInstance.gameObject.SetActive(true);
         GetComponent<Collider>().enabled = true;
         transform.AddToY(-OffscreenOffset);
 

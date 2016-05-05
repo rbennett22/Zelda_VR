@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using Immersio.Utility;
+
+[RequireComponent(typeof(EnemyAI_Random))]
 
 public class EnemyAI_Leever : EnemyAI 
 {
-    const float OffscreenOffset = -30;      // How far to offset the Leever's y position when it is underground
-    const float TileOffset = 0.5f;
-    const float Epsilon = 0.001f;
+    const int WARP_RANGE = 5;
+    const float OFFSCREEN_OFFSET = -30;      // How far to offset the Leever's y position when it is underground
 
 
     public float undergroundDuration = 2.0f;
@@ -12,77 +15,77 @@ public class EnemyAI_Leever : EnemyAI
     public float surfaceDuration = 3.0f;
     public float submergeDuration = 1.0f;
 
-    public Animator animator;
-    public EnemyAI_Random enemyAI_Random;
+
+    EnemyAI_Random _enemyAI_Random;
 
 
     float _startTime = float.NegativeInfinity;
     float _timerDuration;
     Vector3 _origin;
+    List<Index2> _warpableTiles = new List<Index2>();
 
 
-    public bool IsUnderground { get { return animator.GetCurrentAnimatorStateInfo(0).IsTag("Underground"); } }
-    public bool IsEmerging { get { return animator.GetCurrentAnimatorStateInfo(0).IsTag("Emerge"); } }
-    public bool IsSubmerging { get { return animator.GetCurrentAnimatorStateInfo(0).IsTag("Submerge"); } }
-    public bool IsSurfaced { get { return animator.GetCurrentAnimatorStateInfo(0).IsTag("Surface"); } }
+    public bool IsUnderground { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Underground"); } }
+    public bool IsEmerging { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Emerge"); } }
+    public bool IsSubmerging { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Submerge"); } }
+    public bool IsSurfaced { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Surface"); } }
 
 
-    protected void Awake()
+    protected override void Awake()
     {
         base.Awake();
 
-        if (enemyAI_Random != null) { enemyAI_Random.enabled = false; }
+        _enemyAI_Random = GetComponent<EnemyAI_Random>();
+        _enemyAI_Random.enabled = false;
     }
 
     void Start()
     {
         _origin = transform.position;
-        animator.GetComponent<Renderer>().enabled = false;
-        GetComponent<HealthController>().isIndestructible = true;
+        AnimatorInstance.GetComponent<Renderer>().enabled = false;
+        _healthController.isIndestructible = true;
     }
 
 
     void Update()
     {
+        transform.SetY(GroundPosY);     // hack?
+
         if (!_doUpdate) { return; }
-
-        transform.SetY(0);
-
-        bool isPreoccupied = (_enemy.IsStunned || _enemy.IsParalyzed);
-        if (isPreoccupied) { return; }
+        if (IsPreoccupied) { return; }
 
         bool timesUp = (Time.time - _startTime >= _timerDuration);
         if (timesUp)
         {
             if (IsUnderground)
             {
-                animator.SetTrigger("Emerge");
+                AnimatorInstance.SetTrigger("Emerge");
                 _timerDuration = emergeDuration;
-                animator.GetComponent<Renderer>().enabled = true;
+                AnimatorInstance.GetComponent<Renderer>().enabled = true;
                 transform.SetY(_origin.y);
                 WarpToRandomNearbySandTile();
             }
             else if (IsEmerging)
             {
-                animator.SetTrigger("Surface");
+                AnimatorInstance.SetTrigger("Surface");
                 _timerDuration = surfaceDuration;
-                GetComponent<HealthController>().isIndestructible = false;
-                enemyAI_Random.enabled = true;
-                enemyAI_Random.TargetPosition = transform.position;
+                _healthController.isIndestructible = false;
+                _enemyAI_Random.enabled = true;
+                _enemyAI_Random.TargetPosition = transform.position;
             }
             else if (IsSurfaced)
             {
-                animator.SetTrigger("Submerge");
+                AnimatorInstance.SetTrigger("Submerge");
                 _timerDuration = submergeDuration;
-                GetComponent<HealthController>().isIndestructible = true;
-                enemyAI_Random.enabled = false;
+                _healthController.isIndestructible = true;
+                _enemyAI_Random.enabled = false;
             }
             else if (IsSubmerging)
             {
-                animator.SetTrigger("Underground");
+                AnimatorInstance.SetTrigger("Underground");
                 _timerDuration = undergroundDuration;
-                animator.GetComponent<Renderer>().enabled = false;
-                transform.SetY(_origin.y - OffscreenOffset);  // Move offscreen to prevent collision with player
+                AnimatorInstance.GetComponent<Renderer>().enabled = false;
+                transform.SetY(_origin.y - OFFSCREEN_OFFSET);  // Move offscreen to prevent collision with player
             }
 
             _startTime = Time.time;
@@ -90,30 +93,24 @@ public class EnemyAI_Leever : EnemyAI
     }
 
 
-    int maxWarpDistanceFromOrigin = 5;
-    int maxAttempts = 20;
+    void AssignWarpableTiles()
+    {
+        TileMap tileMap = CommonObjects.OverworldTileMap;
+        if (tileMap == null) { return; }
+
+        Rect area = new Rect(
+            (int)_origin.x - WARP_RANGE - EPSILON,
+            (int)_origin.y - WARP_RANGE - EPSILON,
+            2 * WARP_RANGE + EPSILON,
+            2 * WARP_RANGE + EPSILON);
+        _warpableTiles = tileMap.GetTilesInArea(area, TileInfo.SandTiles);
+    }
+
     void WarpToRandomNearbySandTile()
     {
         if (WorldInfo.Instance.IsSpecial) { return; }
 
-        TileMap tileMap = CommonObjects.OverworldTileMap;
-        if (tileMap == null) { return; }
-
-        int newX, newZ;
-        bool isSand;
-        int count = 0;
-        do {
-            newX = (int)((int)_origin.x + Random.Range(-maxWarpDistanceFromOrigin, maxWarpDistanceFromOrigin + 1) + Epsilon);
-            newZ = (int)((int)_origin.z + Random.Range(-maxWarpDistanceFromOrigin, maxWarpDistanceFromOrigin + 1) + Epsilon);
-            int tileCode = tileMap.Tile(newX, newZ);
-            isSand = TileInfo.IsTileSand(tileCode);
-        } while (!isSand && ++count < maxAttempts);
-
-        if (isSand)
-        {
-            transform.SetX(newX + TileOffset);
-            transform.SetZ(newZ + TileOffset);
-        }
+        Index2 tile = _warpableTiles[Random.Range(0, _warpableTiles.Count)];
+        SetEnemyPositionXZToTile(tile);
     }
-
 }

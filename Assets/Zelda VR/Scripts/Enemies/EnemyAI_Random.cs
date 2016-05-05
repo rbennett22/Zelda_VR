@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class EnemyAI_Random : EnemyAI 
 {
@@ -7,6 +6,7 @@ public class EnemyAI_Random : EnemyAI
     public int chanceToAttack = 0;
     public int chanceToJump = 0;
     public int chanceToChangeDirection = 20;
+
     public float minIdleDuration = 0, maxIdleDuration = 1;
     public bool chasePlayerIfInSight;
     public float chaseSpeedMultiplier = 1.0f;
@@ -16,10 +16,6 @@ public class EnemyAI_Random : EnemyAI
     public bool flying;                 // If true, the enemy can pass over HazardBlocks (water, lava, etc.)
     public bool avoidsReversingDirections;
 
-
-    Vector3 _targetPos = Vector3.zero;
-    Vector3 _moveDirection;
-    
 
     public enum DiscreteAction
     {
@@ -35,42 +31,9 @@ public class EnemyAI_Random : EnemyAI
     float _idleDuration;
 
     bool _justFinishedIdling;
-    bool _prevIsJumping;
+    bool _wasJumping;
 
     float _baseSpeed;
-
-
-    public Vector3 MoveDirection 
-    {
-        get { return _moveDirection; }
-        set
-        {
-            _moveDirection = value;
-
-            // TODO: normalize moveDirection?
-
-            Index newTargetTile = new Index();
-            newTargetTile.x = (int)(_enemy.TileX + _moveDirection.x + Epsilon);
-            newTargetTile.y = (int)(_enemy.TileZ + _moveDirection.z + Epsilon);
-
-            Vector2 p = GetEnemyPosition2DForTile(newTargetTile);
-            _targetPos.x = p.x;
-            _targetPos.y = transform.position.y;
-            _targetPos.z = p.y;
-        }
-    }
-
-
-    public Vector3 TargetPosition
-    {
-        get { return _targetPos; }
-        set
-        {
-            _targetPos = value;
-            _moveDirection = _targetPos - transform.position;
-            _moveDirection.Normalize();
-        }
-    }
 
 
     override public void EnableAI()
@@ -83,29 +46,23 @@ public class EnemyAI_Random : EnemyAI
 
 	void Start () 
     {
-        _baseSpeed = _enemy.speed;
-        MoveDirection = DetermineActualMoveDirection(GetRandomMoveDirection());
+        _enemyMove.Mode = EnemyMove.MovementMode.Destination;
+        _enemyMove.AlwaysFaceTowardsMoveDirection = faceTowardsMoveDirection;
+        _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
+
+        _baseSpeed = _enemyMove.Speed;
+        MoveDirection = DetermineActualMoveDirection(GetRandomTileDirection());
 	}
 
 
     void Update()
     {
         if (!_doUpdate) { return; }
+        if (IsPreoccupied) { return; }
 
-        bool isPreoccupied = (_enemy.IsAttacking || _enemy.IsJumping || _enemy.IsSpawning || _enemy.IsParalyzed || _enemy.IsStunned);
-        if (isPreoccupied) { _prevIsJumping = _enemy.IsJumping; return; }
-
-        if (_prevIsJumping)
+        if (_wasJumping && !_enemy.IsJumping)
         {
-            // Enemy just landed this frame
-            _targetPos = transform.position;
-            _moveDirection = Vector3.zero;
-            _prevIsJumping = false;
-        }
-
-        if (_moveDirection != Vector3.zero)
-        {
-            _enemy.MoveInDirection(_moveDirection, faceTowardsMoveDirection);
+            OnLanded();
         }
 
         if (_isIdling)
@@ -116,65 +73,73 @@ public class EnemyAI_Random : EnemyAI
                 _justFinishedIdling = true;
             }
         }
-        else if (HasReachedTargetPosition())     
+        else if (MoveDirection == Vector3.zero)
         {
-            //print("HasReachedTargetPosition");
-            DiscreteAction desiredAction = GetDesiredAction();
+            DetermineNextAction();
+        }
+    }
 
-            if (desiredAction == DiscreteAction.Attack)
+    void DetermineNextAction()
+    {
+        DiscreteAction desiredAction = GetDesiredAction();
+
+        if (desiredAction == DiscreteAction.Attack)
+        {
+            Attack();
+        }
+        else if (desiredAction == DiscreteAction.Idle)
+        {
+            EnterIdleState();
+        }
+        else
+        {
+            Vector3 desiredMoveDir = GetDesiredMoveDirection(desiredAction);
+            if (desiredAction == DiscreteAction.Jump)
             {
-                Vector3 direction = Vector3.zero;
-                if (aimAttacksAtPlayer)
-                {
-                    direction = _enemy.PlayerController.transform.position - transform.position;
-                    direction.Normalize();
-                }
-                _enemy.Attack(direction);
-            }
-            else if (desiredAction == DiscreteAction.Idle)
-            {
-                EnterIdleState();
+                MoveDirection = desiredMoveDir;
+
+                _enemy.Jump(MoveDirection);
             }
             else
             {
-                Vector3 desiredMoveDirection = GetDesiredMoveDirection(desiredAction);
-                if (desiredAction == DiscreteAction.Jump)
-                {
-                    MoveDirection = desiredMoveDirection;
-                    _enemy.Jump(MoveDirection);
-                }
-                else
-                {
-                    MoveDirection = DetermineActualMoveDirection(desiredMoveDirection);
-                }
+                MoveDirection = DetermineActualMoveDirection(desiredMoveDir);
             }
-
-            _justFinishedIdling = false;
         }
+
+        _justFinishedIdling = false;
+    }
+
+    void LateUpdate()
+    {
+        _wasJumping = _enemy.IsJumping;
+    }
+
+
+    void OnLanded()
+    {
+        MoveDirection = Vector3.zero;
+    }
+
+    void OnTargetPositionReached(EnemyMove sender, Vector3 moveDirection)
+    {
+        DetermineNextAction();
+    }
+
+    void Attack()
+    {
+        Vector3 dir = aimAttacksAtPlayer ? ToPlayer : Vector3.zero;
+        _enemy.Attack(dir);
     }
 
     void EnterIdleState()
     {
         MoveDirection = Vector3.zero;
-        _targetPos = transform.position;
+        
         _idleStartTime = Time.time;
         _idleDuration = Random.Range(minIdleDuration, maxIdleDuration);
         _isIdling = true;
     }
 
-    bool HasReachedTargetPosition()
-    {
-        Vector3 toTarget = _targetPos - transform.position;
-        toTarget.y = 0;
-        bool hasReachedTarget = (toTarget == Vector3.zero) || (Vector3.Dot(toTarget, _moveDirection) <= 0);
-
-        if(hasReachedTarget)
-        {
-            transform.position = _targetPos;
-        }
-
-        return hasReachedTarget;
-    }
 
     DiscreteAction GetDesiredAction()
     {
@@ -219,29 +184,29 @@ public class EnemyAI_Random : EnemyAI
 
     Vector3 GetDesiredMoveDirection(DiscreteAction action)
     {
-        Vector3 desiredMoveDirection = Vector3.zero;
-        Vector3 directionToPlayer = Vector3.zero;
+        Vector3 desiredMoveDir = Vector3.zero;
+        Vector3 toPlayer = Vector3.zero;
 
-        _enemy.speed = _baseSpeed;
-
+        _enemyMove.Speed = _baseSpeed;
+        
         if (_enemy.ShouldFollowBait())
         {
-            Vector3 directionToBait = Bait.ActiveBait.transform.position - transform.position;
-            Vector2 toBait = new Vector2(directionToBait.x, directionToBait.z);
-            toBait = toBait.GetNearestNormalizedAxisDirection();
-            desiredMoveDirection = new Vector3(toBait.x, 0, toBait.y);
+            Vector3 toBait = Bait.ActiveBait.transform.position - transform.position;
+            Vector2 toBaitXZ = new Vector2(toBait.x, toBait.z);
+            toBaitXZ = toBaitXZ.GetNearestNormalizedAxisDirection();
+            desiredMoveDir = new Vector3(toBaitXZ.x, 0, toBaitXZ.y);
         }
-        else if (chasePlayerIfInSight && IsPlayerInSight(out directionToPlayer))
+        else if (chasePlayerIfInSight && IsPlayerInSight(out toPlayer))
         {
-            print("playerInSight: " + _baseSpeed);
-            desiredMoveDirection = directionToPlayer;
-            _enemy.speed = _baseSpeed * chaseSpeedMultiplier;
+            //print("playerInSight: " + _baseSpeed);
+            desiredMoveDir = toPlayer;
+            _enemyMove.Speed = _baseSpeed * chaseSpeedMultiplier;
         }
         else
         {
-            if (_moveDirection == Vector3.zero)
+            if (MoveDirection == Vector3.zero)
             {
-                desiredMoveDirection = GetRandomMoveDirection();
+                desiredMoveDir = GetRandomTileDirection();
             }
             else
             {
@@ -249,30 +214,30 @@ public class EnemyAI_Random : EnemyAI
                 {
                     if (avoidsReversingDirections)
                     {
-                        desiredMoveDirection = GetRandomMoveDirectionExcluding(_moveDirection, true);
+                        desiredMoveDir = GetRandomMoveDirectionExcluding(MoveDirection, true);
                     }
                     else
                     {
-                        desiredMoveDirection = GetRandomMoveDirectionExcluding(_moveDirection);
+                        desiredMoveDir = GetRandomMoveDirectionExcluding(MoveDirection);
                     }
                 }
                 else if (action == DiscreteAction.Jump)
                 {
-                    desiredMoveDirection = GetRandomMoveDirection();
+                    desiredMoveDir = GetRandomTileDirection();
                 }
                 else
                 {
-                    desiredMoveDirection = _moveDirection;
+                    desiredMoveDir = MoveDirection;
                 }
             }
         }
 
         if (!WorldInfo.Instance.IsInDungeon)
         {
-            desiredMoveDirection = EnforceBoundary(desiredMoveDirection);
+            desiredMoveDir = EnforceBoundary(desiredMoveDir);
         }
 
-        return desiredMoveDirection;
+        return desiredMoveDir;
     }
 
     bool IsPlayerInSight(out Vector3 direction)
@@ -333,24 +298,24 @@ public class EnemyAI_Random : EnemyAI
 
         if (WorldInfo.Instance.IsOverworld)
         {
-            int nextTileX = (int)(_enemy.TileX + dir.x + Epsilon);
-            int nextTileZ = (int)(_enemy.TileZ + dir.z + Epsilon);
+            int nextTileX = (int)(_enemy.TileX + dir.x + EPSILON);
+            int nextTileZ = (int)(_enemy.TileZ + dir.z + EPSILON);
 
             TileMap tileMap = CommonObjects.OverworldTileMap;
             int nextTileCode = tileMap.Tile(nextTileX, nextTileZ);
             
-
             float turnAngle = 90;
             while (!TileInfo.IsTilePassable(nextTileCode) && turnAngle < 360)
             {
                 dir = Quaternion.Euler(0, turnAngle, 0) * desiredMoveDirection;
-                nextTileX = (int)(_enemy.TileX + dir.x + Epsilon);
-                nextTileZ = (int)(_enemy.TileZ + dir.z + Epsilon);
+                nextTileX = (int)(_enemy.TileX + dir.x + EPSILON);
+                nextTileZ = (int)(_enemy.TileZ + dir.z + EPSILON);
                 nextTileCode = tileMap.Tile(nextTileX, nextTileZ);
+
                 turnAngle += 90;
             }
         }
-        else
+        else    // Dungeon
         {
             RaycastHit hitInfo;
 
@@ -366,7 +331,8 @@ public class EnemyAI_Random : EnemyAI
                 Ray ray = new Ray(pos, dir);
                 hit = Physics.Raycast(ray, out hitInfo, feelerLength, layerMask);
                 turnAngle += 90;
-            } while (hit && turnAngle < 360);
+            }
+            while (hit && turnAngle < 360);
         }
 
         dir.Normalize();
@@ -374,18 +340,18 @@ public class EnemyAI_Random : EnemyAI
     }
 
 
-    Vector3 GetRandomMoveDirection()
+    public static Vector3 GetRandomTileDirection()
     {
         int angle = Random.Range(0, 4) * 90;
         Vector3 dir = Quaternion.Euler(0, angle, 0) * new Vector3(1, 0, 0);
         return dir;
     }
 
-    Vector3 GetRandomMoveDirectionExcluding(Vector3 excludeDirection, bool alsoExcludeReverse = false)
+    public static Vector3 GetRandomMoveDirectionExcluding(Vector3 excludeDirection, bool alsoExcludeReverse = false)
     {
         if (excludeDirection == Vector3.zero)
         {
-            return GetRandomMoveDirection();
+            return GetRandomTileDirection();
         }
 
         int angle;
@@ -403,5 +369,4 @@ public class EnemyAI_Random : EnemyAI
 
         return dir;
     }
-
 }

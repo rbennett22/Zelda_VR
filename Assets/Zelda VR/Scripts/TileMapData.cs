@@ -3,35 +3,9 @@ using System;
 using System.IO;
 using System.Globalization;
 
-public class Index
-{
-    public int x, y;
-
-    public Index()
-    {
-        this.x = 0;
-        this.y = 0;
-    }
-    public Index(int setX, int setY)
-    {
-        this.x = setX;
-        this.y = setY;
-    }
-    public Index(Vector2 setIndex)
-    {
-        this.x = (int)setIndex.x;
-        this.y = (int)setIndex.y;
-    }
-
-    public Vector2 ToVector2()
-    {
-        return new Vector2(x, y);
-    }
-}
-
 public class TileMapData : MonoBehaviour 
 {
-    const int InvalidTile = -1;
+    const int INVALID_TILE = -1;
 
 
     [SerializeField]
@@ -59,8 +33,8 @@ public class TileMapData : MonoBehaviour
 
     public int Tile(int x, int y)
     {
-        if (x < 0 || x > TilesWide - 1) { return InvalidTile; }
-        if (y < 0 || y > TilesHigh - 1) { return InvalidTile; }
+        if (x < 0 || x > TilesWide - 1) { return INVALID_TILE; }
+        if (y < 0 || y > TilesHigh - 1) { return INVALID_TILE; }
 
         return _tiles[y, x];
     }
@@ -81,7 +55,7 @@ public class TileMapData : MonoBehaviour
 
     public static bool IsTileCodeValid(int tileCode)
     {
-        return tileCode != InvalidTile;
+        return tileCode != INVALID_TILE;
     }
 
 
@@ -138,7 +112,7 @@ public class TileMapData : MonoBehaviour
                 }
                 else
                 {
-                    _tiles[y, x] = InvalidTile;
+                    _tiles[y, x] = INVALID_TILE;
                 }
             }
         }

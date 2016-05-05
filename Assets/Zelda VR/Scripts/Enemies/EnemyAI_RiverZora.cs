@@ -1,73 +1,78 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using Immersio.Utility;
 
 public class EnemyAI_RiverZora : EnemyAI 
 {
+    const int WARP_RANGE = 5;
+
+
     public float underwaterDuration = 2.0f;
     public float emergeDuration = 1.0f;
     public float surfaceDuration = 3.0f;
     public float submergeDuration = 1.0f;
 
-    public Animator animator;
-
 
     float _startTime = float.NegativeInfinity;
     float _timerDuration;
     Vector3 _origin;
+    List<Index2> _warpableTiles = new List<Index2>();
 
 
-    public bool IsUnderwater { get { return animator.GetCurrentAnimatorStateInfo(0).IsTag("Underwater"); } }
-    public bool IsEmerging { get { return animator.GetCurrentAnimatorStateInfo(0).IsTag("Emerge"); } }
-    public bool IsSubmerging { get { return animator.GetCurrentAnimatorStateInfo(0).IsTag("Submerge"); } }
-    public bool IsSurfaced { get { return animator.GetCurrentAnimatorStateInfo(0).IsTag("Surface"); } }
+    public bool IsUnderwater { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Underwater"); } }
+    public bool IsEmerging { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Emerge"); } }
+    public bool IsSubmerging { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Submerge"); } }
+    public bool IsSurfaced { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Surface"); } }
 
 
     void Start()
     {
-        transform.SetY(0);
+        transform.SetY(GroundPosY);
         _origin = transform.position;
-        animator.GetComponent<Renderer>().enabled = false;
-        GetComponent<HealthController>().isIndestructible = true;
+
+        AnimatorInstance.GetComponent<Renderer>().enabled = false;
+        _healthController.isIndestructible = true;
+
+        AssignWarpableTiles();
     }
 
 
     void Update()
     {
-        transform.SetY(0);
+        transform.SetY(GroundPosY);         // hack?
 
         if (!_doUpdate) { return; }
-
-        bool isPreoccupied = (_enemy.IsStunned || _enemy.IsParalyzed);
-        if (isPreoccupied) { return; }
+        if (IsPreoccupied) { return; }
 
         bool timesUp = (Time.time - _startTime >= _timerDuration);
         if (timesUp)
         {
             if (IsUnderwater)
             {
-                animator.SetTrigger("Emerge");
+                AnimatorInstance.SetTrigger("Emerge");
+                AnimatorInstance.GetComponent<Renderer>().enabled = true;
                 _timerDuration = emergeDuration;
-                animator.GetComponent<Renderer>().enabled = true;
                 WarpToRandomNearbyWaterTile();
             }
             else if (IsEmerging)
             {
-                animator.SetTrigger("Surface");
+                AnimatorInstance.SetTrigger("Surface");
                 _timerDuration = surfaceDuration;
-                GetComponent<HealthController>().isIndestructible = false;
+                _healthController.isIndestructible = false;
                 FacePlayer();
                 _enemy.Attack();
             }
             else if (IsSurfaced)
             {
-                animator.SetTrigger("Submerge");
+                AnimatorInstance.SetTrigger("Submerge");
                 _timerDuration = submergeDuration;
-                GetComponent<HealthController>().isIndestructible = true;
+                _healthController.isIndestructible = true;
             }
             else if (IsSubmerging)
             {
-                animator.SetTrigger("Underwater");
+                AnimatorInstance.SetTrigger("Underwater");
+                AnimatorInstance.GetComponent<Renderer>().enabled = false;
                 _timerDuration = underwaterDuration;
-                animator.GetComponent<Renderer>().enabled = false;
                 ReplenishHealth();
             }
 
@@ -82,38 +87,33 @@ public class EnemyAI_RiverZora : EnemyAI
 
     void ReplenishHealth()
     {
-        GetComponent<HealthController>().RestoreHealth();
+        _healthController.RestoreHealth();
     }
 
     void FacePlayer()
     {
-        Vector3 toPlayer = _enemy.PlayerController.transform.position - transform.position;
-        toPlayer.Normalize();
-        transform.forward = toPlayer;
+        transform.forward = ToPlayer;
     }
 
-    int maxWarpDistanceFromOrigin = 5;
-    int maxAttempts = 20;
+
+    void AssignWarpableTiles()
+    {
+        TileMap tileMap = CommonObjects.OverworldTileMap;
+        if (tileMap == null) { return; }
+
+        Rect area = new Rect(
+            (int)_origin.x - WARP_RANGE - EPSILON, 
+            (int)_origin.y - WARP_RANGE - EPSILON,
+            2 * WARP_RANGE + EPSILON, 
+            2 * WARP_RANGE + EPSILON);
+        _warpableTiles = tileMap.GetTilesInArea(area, TileInfo.WaterTiles);
+    }
+    
     void WarpToRandomNearbyWaterTile()
     {
         if (WorldInfo.Instance.IsSpecial) { return; }
 
-        TileMap tileMap = CommonObjects.OverworldTileMap;
-
-        int newX, newZ;
-        bool isWater;
-        int count = 0;
-        do {
-            newX = (int)((int)_origin.x + Random.Range(-maxWarpDistanceFromOrigin, maxWarpDistanceFromOrigin + 1) + Epsilon);
-            newZ = (int)((int)_origin.z + Random.Range(-maxWarpDistanceFromOrigin, maxWarpDistanceFromOrigin + 1) + Epsilon);
-            int tileCode = tileMap.Tile(newX, newZ);
-            isWater = TileInfo.IsTileWater(tileCode);
-        }
-        while (!isWater && ++count < maxAttempts);
-
-        if (isWater)
-        {
-            SetEnemyPosition2DToTile(newX, newZ);
-        }
+        Index2 tile = _warpableTiles[Random.Range(0, _warpableTiles.Count)];
+        SetEnemyPositionXZToTile(tile);
     }
 }

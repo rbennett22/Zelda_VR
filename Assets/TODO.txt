@@ -80,6 +80,7 @@
 
 --- NEEDS TESTING  ---
 
+- Leever/RiverZora warping
 - LikeLike MagicShield stealing
 - Bait
 - Darknut shields against MagicWand (no flame)

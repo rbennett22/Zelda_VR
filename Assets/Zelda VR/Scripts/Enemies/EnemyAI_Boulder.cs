@@ -45,8 +45,8 @@ public class EnemyAI_Boulder : EnemyAI
     void Update()
     {
         if (!_doUpdate) { return; }
+        if (IsPreoccupied) { return; }
 
-        _enemy.enemyAnim.AnimatorInstance.speed = (GetComponent<Rigidbody>().velocity.magnitude < 0.5f) ? 0 : 0.5f;
+        AnimatorInstance.speed = (GetComponent<Rigidbody>().velocity.magnitude < 0.5f) ? 0 : 0.5f;
     }
-
 }

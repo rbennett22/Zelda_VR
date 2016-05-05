@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class EnemyAI_Keese : EnemyAI 
 {
@@ -13,7 +12,7 @@ public class EnemyAI_Keese : EnemyAI
 
     void Start()
     {
-        _baseSpeed = _enemy.speed;
+        _baseSpeed = _enemyMove.Speed;
         _startTime = Time.time;
     }
 
@@ -21,9 +20,10 @@ public class EnemyAI_Keese : EnemyAI
     void Update()
     {
         if (!_doUpdate) { return; }
+        if (IsPreoccupied) { return; }
 
         float time = Time.time - _startTime;
-        _enemy.speed = _baseSpeed * (1 + Mathf.Cos(time * speedShiftFrequency + phaseOffset));
+        float theta = time * speedShiftFrequency + phaseOffset;
+        _enemyMove.Speed = _baseSpeed * (1 + Mathf.Cos(theta));
     }
-
 }

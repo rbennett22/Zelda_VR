@@ -29,6 +29,8 @@ public class EnemySpawnManager : MonoBehaviour
 
     IEnumerator Update_Coroutine()
     {
+        // TODO: Use InvokeRepeating instead
+
         while (true)
         {
             Stopwatch stopWatch = new Stopwatch();

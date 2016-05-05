@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-
 
 public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
 {
@@ -141,7 +139,7 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     {
         Enemy e = GetComponent<Enemy>();
         DungeonRoom dr = e.DungeonRoomRef;
-        EnemyItemDrop itemDrop = GetComponent<EnemyItemDrop>();
+        
 
         if (dr != null) { dr.OnRoomEnemyDied(e); }
         if (enemyAnim != null) { enemyAnim.PlayDeathAnimation(); }
@@ -151,6 +149,7 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
             Enemy.EnemiesKilled++;
             Enemy.EnemiesKilledWithoutTakingDamage++;
 
+            EnemyItemDrop itemDrop = GetComponent<EnemyItemDrop>();
             if (itemDrop != null) { itemDrop.DropRandomItem(); }
         }
 

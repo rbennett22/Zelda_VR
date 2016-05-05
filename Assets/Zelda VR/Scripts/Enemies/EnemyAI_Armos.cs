@@ -40,7 +40,6 @@ public class EnemyAI_Armos : MonoBehaviour
     public GameObject[] linkedTiles;
 
 
-
     bool _isInStatueMode = true;
     ZeldaPlayerController _playerController;
     GameObject _statue;
@@ -116,7 +115,7 @@ public class EnemyAI_Armos : MonoBehaviour
             ActivateHiddenCollectible();
         }
 
-        GetComponent<Enemy>().speed = Extensions.FlipCoin() ? SpeedFast : SpeedSlow;
+        GetComponent<EnemyMove>().Speed = Extensions.FlipCoin() ? SpeedFast : SpeedSlow;
 
         GetComponent<Enemy>().meleeDamage = _meleeDamage;
         enemyAI_Random.enabled = true;

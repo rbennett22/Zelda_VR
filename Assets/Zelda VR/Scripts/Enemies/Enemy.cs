@@ -40,6 +40,8 @@ public class Enemy : MonoBehaviour
     public bool IsStunned { get; private set; }
     public bool IsParalyzed { get; private set; }
 
+    public bool IsPreoccupied { get { return IsAttacking || IsJumping || IsSpawning || IsParalyzed || IsStunned; } }
+
     public int TileX { get { return (int)transform.position.x; } }
     public int TileZ { get { return (int)transform.position.z; } }
 
@@ -76,16 +78,7 @@ public class Enemy : MonoBehaviour
         enemyAnim.Resume();
     }
 
-    public void MoveInDirection(Vector3 direction, bool doFaceTowardsDirection = true)
-    {
-        Vector3 displacement = direction * speed * Time.deltaTime;
-        transform.position += displacement;
-        if (doFaceTowardsDirection)
-        {
-            transform.forward = direction;
-        }
-    }
-    
+
     public void Jump(Vector3 direction)
     {
         direction.Normalize();
@@ -187,7 +180,6 @@ public class Enemy : MonoBehaviour
 
         return false;
     }
-
 
     public bool ShouldFollowBait()
     {

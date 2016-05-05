@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
-
 
 public class EnemyItemDrop : MonoBehaviour 
 {
-    const float ChanceToDropSomething = 0.5f;
-    const float DropHeight = 0.25f;
+    const float CHANCE_TO_DROP_SOMETHING = 0.5f;
+    const float DROP_HEIGHT = 0.25f;
 
 
     public enum ItemDropGroup
@@ -65,7 +63,7 @@ public class EnemyItemDrop : MonoBehaviour
         }
 
         float r = Random.Range(0.0f, 1.0f);
-        if (r < ChanceToDropSomething)
+        if (r < CHANCE_TO_DROP_SOMETHING)
         {
             int col = (int)dropGroup;
             int row = Enemy.EnemiesKilled % 10;
@@ -79,7 +77,7 @@ public class EnemyItemDrop : MonoBehaviour
 
     void DropItemFromPrefab(GameObject prefabItem)
     {
-        GameObject g = GameObject.Instantiate(prefabItem) as GameObject;
+        GameObject g = Instantiate(prefabItem) as GameObject;
         DropItem(g.GetComponent<Collectible>());
     }
 
@@ -90,7 +88,6 @@ public class EnemyItemDrop : MonoBehaviour
         GameObject g = item.gameObject;
         g.transform.parent = EnemyDroppedCollectibles.Instance.transform;
         g.transform.position = transform.position;
-        g.transform.SetLocalY(DropHeight);
+        g.transform.SetLocalY(WorldInfo.Instance.GroundPosY + DROP_HEIGHT);
     }
-	
 }

@@ -3,7 +3,6 @@ using System.Collections;
 
 public class EnemyAI_Gel : EnemyAI
 {
-
     void Start()
     {
         StartCoroutine("WaitForSpawnToFinish");
@@ -21,7 +20,6 @@ public class EnemyAI_Gel : EnemyAI
     void AssignSkinForDungeonNum(int num)
     {
         if (num < 1 || num > 9) { num = 1; }
-        _enemy.enemyAnim.AnimatorInstance.SetInteger("DungeonNum", num);
+        AnimatorInstance.SetInteger("DungeonNum", num);
     }
-
 }

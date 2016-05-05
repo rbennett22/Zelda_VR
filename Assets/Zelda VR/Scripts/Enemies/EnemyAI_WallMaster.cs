@@ -2,16 +2,14 @@
 
 public class EnemyAI_WallMaster : EnemyAI 
 {
-    const float TileOffset = 0.5f;
-    const float Epsilon = 0.001f;
-    const float GroundHeight = 0.5f;
-    const float GroundHeight_Big = 2.0f;
-    const float ProtrudeDistance = 0.5f;
-    const float ProtrudeDistance_Big = 2.0f;
-    const float CeilingHeight = 4.5f;
-    const float CeilingHeight_Big = 25;
-    const float HorzTravelDistance = 4;
-    const float HorzTravelDistance_Big = 24;
+    const float GROUND_HEIGHT = 0.5f;
+    const float GROUND_HEIGHT_BIG = 2.0f;
+    const float PROTRUDE_DISTANCE = 0.5f;
+    const float PROTRUDE_DISTANCE_BIG = 2.0f;
+    const float CEILING_HEIGHT = 4.5f;
+    const float CEILING_HEIGHT_BIG = 25;
+    const float HORZ_TRAVEL_DISTANCE = 4;
+    const float HORZ_TRAVEL_DISTANCE_BIG = 24;
 
 
     public GameObject wall;
@@ -19,11 +17,15 @@ public class EnemyAI_WallMaster : EnemyAI
     public bool isBig = false;
 
 
-    Vector3 _targetPos = Vector3.zero;
-    Vector3 _moveDirection;
     Vector3 _wallNormal, _wallTangent;
 
-    
+
+    float GroundHeight { get { return GroundPosY + (isBig ? GROUND_HEIGHT_BIG : GROUND_HEIGHT); } }
+    float ProtrudeDistance { get { return isBig ? PROTRUDE_DISTANCE_BIG : PROTRUDE_DISTANCE; } }
+    float CeilingHeight { get { return GroundPosY + (isBig ? CEILING_HEIGHT_BIG : CEILING_HEIGHT); } }
+    float HorzTravelDistance { get { return isBig ? HORZ_TRAVEL_DISTANCE_BIG : HORZ_TRAVEL_DISTANCE; } }
+
+
     enum State
     {
         OutsideRoom,
@@ -38,22 +40,29 @@ public class EnemyAI_WallMaster : EnemyAI
     bool _hasControlOfLink;
     
 
-    public Vector3 MoveDirection 
+    public new Vector3 MoveDirection 
     {
-        get { return _moveDirection; }
+        get { return _enemyMove.MoveDirection; }
         set
         {
-            _moveDirection = value;
+            Vector3 moveDir = value;
 
-            _targetPos.x = (int)(_enemy.TileX + _moveDirection.x + Epsilon) + TileOffset;
-            _targetPos.z = (int)(_enemy.TileZ + _moveDirection.z + Epsilon) + TileOffset;
-            _targetPos.y = (int)((int)_enemy.transform.position.y + _moveDirection.y + Epsilon) + TileOffset;
+            Vector3 targetPos;
+            targetPos.x = (int)(_enemy.TileX + moveDir.x + EPSILON) + TILE_EXTENT;
+            targetPos.z = (int)(_enemy.TileZ + moveDir.z + EPSILON) + TILE_EXTENT;
+            targetPos.y = (int)((int)_enemy.transform.position.y + moveDir.y + EPSILON) + TILE_EXTENT;
+
+            _enemyMove.TargetPosition = targetPos;
         }
     }
 
 
     void Start()
     {
+        _enemyMove.Mode = EnemyMove.MovementMode.Destination;
+        _enemyMove.AlwaysFaceTowardsMoveDirection = true;
+        _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
+
         _state = State.OutsideRoom;
     }
 
@@ -61,25 +70,7 @@ public class EnemyAI_WallMaster : EnemyAI
     void Update()
     {
         if (!_doUpdate) { return; }
-
-        bool isPreoccupied = (_enemy.IsSpawning || _enemy.IsParalyzed || _enemy.IsStunned);
-        if (isPreoccupied) { return; }
-
-        if (_moveDirection != Vector3.zero)
-        {
-            _enemy.MoveInDirection(_moveDirection);
-        }
-
-        switch (_state)
-        {
-            case State.OutsideRoom: OnOutsideRoom(); break;
-            case State.ComingThroughWall: OnComingThroughWall(); break;
-            case State.CrawlingDownWall: OnCrawlingDownWall(); break;
-            case State.OnFloor: OnFloor(); break;
-            case State.CrawlingUpWall: OnCrawlingUpWall(); break;
-            case State.ExitingThroughWall: OnExitingThroughWall(); break;
-            default: break;
-        }
+        if (IsPreoccupied) { return; }
 
         if (_hasControlOfLink)
         {
@@ -88,7 +79,21 @@ public class EnemyAI_WallMaster : EnemyAI
     }
 
 
-    void OnOutsideRoom()
+    void OnTargetPositionReached(EnemyMove sender, Vector3 moveDirection)
+    {
+        switch (_state)
+        {
+            case State.OutsideRoom: OnTargetPositionReached_OutsideRoom(); break;
+            case State.ComingThroughWall: OnTargetPositionReached_ComingThroughWall(); break;
+            case State.CrawlingDownWall: OnTargetPositionReached_CrawlingDownWall(); break;
+            case State.OnFloor: OnTargetPositionReached_Floor(); break;
+            case State.CrawlingUpWall: OnTargetPositionReached_CrawlingUpWall(); break;
+            case State.ExitingThroughWall: OnTargetPositionReached_ExitingThroughWall(); break;
+            default: break;
+        }
+    }
+
+    void OnTargetPositionReached_OutsideRoom()
     {
         int rand;
 
@@ -106,88 +111,55 @@ public class EnemyAI_WallMaster : EnemyAI
 
         rand = Random.Range(1, 4);
         Vector3 startPos = wall.transform.position + (rand * _wallTangent);
-        startPos.y = isBig ? CeilingHeight_Big : CeilingHeight;
+        startPos.y = CeilingHeight;
 
         transform.position = startPos - (2 * _wallNormal);
-        _moveDirection = _wallNormal;
-        float protrudeDistance = isBig ? ProtrudeDistance_Big : ProtrudeDistance;
-        _targetPos = startPos + (protrudeDistance * _wallNormal);
+        MoveDirection = _wallNormal;
+        TargetPosition = startPos + (ProtrudeDistance * _wallNormal);
 
         _state = State.ComingThroughWall;
     }
 
-    void OnComingThroughWall()
+    void OnTargetPositionReached_ComingThroughWall()
     {
-        if (HasReachedTargetPosition())
-        {
-            _moveDirection = new Vector3(0, -1, 0);
-            _targetPos = transform.position;
-            _targetPos.y = isBig ? GroundHeight_Big : GroundHeight;
+        MoveDirection = new Vector3(0, -1, 0);
+        TargetPosition = new Vector3(transform.position.x, GroundHeight, transform.position.z);
 
-            _state = State.CrawlingDownWall;
-        }
+        _state = State.CrawlingDownWall;
     }
 
-    void OnCrawlingDownWall()
+    void OnTargetPositionReached_CrawlingDownWall()
     {
-        if (HasReachedTargetPosition())
-        {
-            _moveDirection = -_wallTangent;
-            float horzTravelDistance = isBig ? HorzTravelDistance_Big : HorzTravelDistance;
-            _targetPos = transform.position - (horzTravelDistance * _wallTangent);
+        MoveDirection = -_wallTangent;
+        TargetPosition = transform.position - (HorzTravelDistance * _wallTangent);
 
-            _state = State.OnFloor;
-        }
+        _state = State.OnFloor;
     }
 
-    void OnFloor()
+    void OnTargetPositionReached_Floor()
     {
-        if (HasReachedTargetPosition())
-        {
-            _moveDirection = new Vector3(0, 1, 0);
-            _targetPos = transform.position;
-            _targetPos.y = isBig ? CeilingHeight_Big : CeilingHeight; ;
+        MoveDirection = new Vector3(0, 1, 0);
+        TargetPosition = new Vector3(transform.position.x, CeilingHeight, transform.position.z);
 
-            _state = State.CrawlingUpWall;
-        }
+        _state = State.CrawlingUpWall;
     }
 
-    void OnCrawlingUpWall()
+    void OnTargetPositionReached_CrawlingUpWall()
     {
-        if (HasReachedTargetPosition())
+        MoveDirection = -1 * _wallNormal;
+        TargetPosition = transform.position + (2 * MoveDirection);
+
+        if (_hasControlOfLink)
         {
-            _moveDirection = -1 * _wallNormal;
-            _targetPos = transform.position + (2 * _moveDirection);
-
-            if (_hasControlOfLink)
-            {
-                ReleaseControlOfLink();
-            }
-
-            _state = State.ExitingThroughWall;
+            ReleaseControlOfLink();
         }
+
+        _state = State.ExitingThroughWall;
     }
 
-    void OnExitingThroughWall()
+    void OnTargetPositionReached_ExitingThroughWall()
     {
-        if (HasReachedTargetPosition())
-        {
-            _state = State.OutsideRoom;
-        }
-    }
-
-
-    bool HasReachedTargetPosition()
-    {
-        Vector3 toTarget = _targetPos - transform.position;
-        bool hasReachedTarget = (toTarget == Vector3.zero) || (Vector3.Dot(toTarget, _moveDirection) <= 0);
-
-        if (hasReachedTarget)
-        {
-            transform.position = _targetPos;
-        }
-
-        return hasReachedTarget;
+        _state = State.OutsideRoom;
     }
 
 

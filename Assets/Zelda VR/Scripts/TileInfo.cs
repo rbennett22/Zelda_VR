@@ -74,10 +74,14 @@ public class TileInfo
         0x7B, 0x7C, 0x7D, 0x81, 0x82, 0x83,
         0x8C, 0x8D, 0x8E, 0x8F, 0x92, 0x93, 0x94, 0x95
     };
-
+    
     static List<int> _armosTiles = new List<int> { 
         0x16, 0x1C, 0x22
     };
+
+
+    static public List<int> WaterTiles { get { return _waterTiles; } }
+    static public List<int> SandTiles { get { return _sandTiles; } }
 
 
     public static bool IsTileFlat(int tileCode)

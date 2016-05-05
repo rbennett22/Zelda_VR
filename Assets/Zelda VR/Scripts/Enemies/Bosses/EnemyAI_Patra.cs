@@ -1,27 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-
 public class EnemyAI_Patra : EnemyAI 
 {
     public float BaseRadius = 1.3f;
     public float ExpandedRadius = 4.5f;
     public float ChanceToPulse = 0.5f;
     public float pulseSpeed = 1.0f;
+
     public GameObject smallPatraPrefab;
 
 
     int _frameCount;
     bool _isPulsing;
-    int _numSmallPatra = 8;
+    int _numSmallPatrasLiving = 8;
+
     List<EnemyAI_PatraSmall> _smallPatras = new List<EnemyAI_PatraSmall>();
 
 
     void Start()
     {
-        for (int i = 0; i < _numSmallPatra; i++)
+        for (int i = 0; i < _numSmallPatrasLiving; i++)
         {
-            float phaseOffset = 2 * Mathf.PI * i / _numSmallPatra;
+            float phaseOffset = 2 * Mathf.PI * i / _numSmallPatrasLiving;
             SpawnSmallPatra(phaseOffset);
         }
     }
@@ -45,7 +46,7 @@ public class EnemyAI_Patra : EnemyAI
     void Update()
     {
         if (!_doUpdate) { return; }
-        if (_enemy.IsParalyzed || _enemy.IsStunned) { return; }
+        if (IsPreoccupied) { return; }
 
         if (++_frameCount == 30)
         {
@@ -100,10 +101,9 @@ public class EnemyAI_Patra : EnemyAI
 
     void OnSmallPatraDied(EnemyAI_PatraSmall smallPatra)
     {
-        if (--_numSmallPatra == 0)
+        if (--_numSmallPatrasLiving == 0)
         {
-            GetComponent<HealthController>().isIndestructible = false;
+            _healthController.isIndestructible = false;
         }
     }
-
 }

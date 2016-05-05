@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-
 
 public class EnemyAI_Moldorm : EnemyAI 
 {
@@ -17,9 +15,6 @@ public class EnemyAI_Moldorm : EnemyAI
     public Sprite segmentSprite;
 
 
-    HealthController _healthController;
-
-    Vector3 _moveDirection;
     float _radialAcceleration;
 
     Queue<Vector3> _positionHistory = new Queue<Vector3>(MaxPositionHistoryLengthInFrames);
@@ -51,27 +46,19 @@ public class EnemyAI_Moldorm : EnemyAI
         return ph[ph.Length - 1 - framesBack];
     }
 
-    public Vector3 MoveDirection 
+    public new Vector3 MoveDirection 
     {
-        get { return _moveDirection; }
-        set
-        {
-            _moveDirection = value;
-            _moveDirection.Normalize();
-        }
+        get { return _enemyMove.MoveDirection; }
+        set { _enemyMove.MoveDirection = value.normalized; }
     }
 
-
-    protected void Awake()
-    {
-        base.Awake();
-
-        _healthController = GetComponent<HealthController>();
-    }
 
 	void Start () 
     {
-        MoveDirection = GetRandomMoveDirection();
+        _enemyMove.Mode = EnemyMove.MovementMode.DirectionOnly;
+        _enemyMove.AlwaysFaceTowardsMoveDirection = false;
+
+        MoveDirection = EnemyAI_Random.GetRandomTileDirection();
 
         if (IsHead)
         {
@@ -123,23 +110,18 @@ public class EnemyAI_Moldorm : EnemyAI
     void Update()
     {
         if (!_doUpdate) { return; }
-
-        bool isPreoccupied = (_enemy.IsAttacking || _enemy.IsJumping || _enemy.IsSpawning || _enemy.IsParalyzed || _enemy.IsStunned);
-        if (isPreoccupied) { return; }
+        if (IsPreoccupied) { return; }
 
         if (PauseManager.Instance.IsPaused_Any) { return; }
 
         if (IsHead)
         {
-            if (_moveDirection != Vector3.zero)
-            {
-                _enemy.MoveInDirection(_moveDirection);
-            }
-
             UpdateMoveDirection();
         }
         else
         {
+            MoveDirection = Vector3.zero;
+
             FollowNext();
         }
 
@@ -148,9 +130,9 @@ public class EnemyAI_Moldorm : EnemyAI
 
     void UpdateMoveDirection()
     {
-        if (DetectWall(transform.position, _moveDirection))
+        if (DetectWall(transform.position, MoveDirection))
         {
-            _moveDirection *= -1;
+            MoveDirection *= -1;
         }
 
         float dT = Time.deltaTime;
@@ -201,30 +183,9 @@ public class EnemyAI_Moldorm : EnemyAI
     }
 
 
-    Vector3 GetRandomMoveDirection()
-    {
-        int angle = Random.Range(0, 4) * 90;
-        Vector3 dir = Quaternion.Euler(0, angle, 0) * new Vector3(1, 0, 0);
-        return dir;
-    }
-
-    Vector3 GetRandomMoveDirectionExcluding(Vector3 excludeDirection)
-    {
-        if (excludeDirection == Vector3.zero)
-        {
-            return GetRandomMoveDirection();
-        }
-
-        int angle = Random.Range(1, 4) * 90;
-        Vector3 dir = Quaternion.Euler(0, angle, 0) * excludeDirection;
-        return dir;
-    }
-
-
     void OnStun()
     {
         if (Prev != null) { Prev.gameObject.GetComponent<Enemy>().Stun(); }
         if (Next != null) { Next.gameObject.GetComponent<Enemy>().Stun(); }
     }
-
 }

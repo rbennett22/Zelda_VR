@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
-public class EnemyAI_Gleeok : MonoBehaviour 
+public class EnemyAI_Gleeok : EnemyAI 
 {
-
     public GameObject headPrefab;
     public GameObject angryHeadPrefab;
     public Transform headsContainer;
@@ -14,13 +13,17 @@ public class EnemyAI_Gleeok : MonoBehaviour
     {
         transform.forward = new Vector3(0, 0, -1);
 
+        SpawnHeads();
+    }
+
+    void SpawnHeads()
+    {
         for (int i = 0; i < numHeads; i++)
         {
             float phaseOffset = 2 * Mathf.PI * i / numHeads;
             SpawnHead(phaseOffset);
         }
     }
-
     void SpawnHead(float phaseOffset)
     {
         GameObject head = Instantiate(headPrefab) as GameObject;
@@ -43,9 +46,8 @@ public class EnemyAI_Gleeok : MonoBehaviour
         }
         else
         {
-            HealthController hc = GetComponent<HealthController>();
-            hc.isIndestructible = false;
-            hc.Kill(null, true);
+            _healthController.isIndestructible = false;
+            _healthController.Kill(null, true);
         }
     }
 
@@ -54,5 +56,4 @@ public class EnemyAI_Gleeok : MonoBehaviour
         GameObject angryHead = Instantiate(angryHeadPrefab, position, Quaternion.identity) as GameObject;
         angryHead.transform.parent = headsContainer;
     }
-
 }

@@ -3,6 +3,9 @@
 
 public class EnemyAI_Digdogger : EnemyAI
 {
+    const float OFFSCREEN_OFFSET = -30;
+
+
     public int numBabies = 1;
     public GameObject babyPrefab;
 
@@ -18,12 +21,12 @@ public class EnemyAI_Digdogger : EnemyAI
         {
             Vector3 pos = transform.position;
             if (i == 1) { pos.x++; }
-            else if (i == 2) { pos.y++; }
+            else if (i == 2) { pos.z++; }
 
             SpawnBaby(pos);
         }
 
-        transform.AddToY(-30);
+        transform.AddToY(OFFSCREEN_OFFSET);
         GetComponent<EnemyAI_Random>().enabled = false;
 
         HasSplit = true;
@@ -36,7 +39,7 @@ public class EnemyAI_Digdogger : EnemyAI
         g.name = babyPrefab.name;
         g.transform.parent = transform.parent;
         g.transform.position = position;
-        g.transform.SetY(0.5f);
+        g.transform.SetY(GroundPosY + 0.5f);
 
         EnemyAI_DigdoggerSmall dd = g.GetComponent<EnemyAI_DigdoggerSmall>();
         dd.ParentDigdogger = this;
@@ -46,9 +49,8 @@ public class EnemyAI_Digdogger : EnemyAI
     {
         if (--numBabies == 0)
         {
-            HealthController hc = GetComponent<HealthController>();
-            hc.isIndestructible = false;
-            hc.Kill(null, true);
+            _healthController.isIndestructible = false;
+            _healthController.Kill(null, true);
         }
     }
 

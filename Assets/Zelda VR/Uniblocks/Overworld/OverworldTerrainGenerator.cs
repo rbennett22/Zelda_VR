@@ -1,5 +1,6 @@
 using UnityEngine;
 using Uniblocks;
+using Immersio.Utility;
 
 public class OverworldTerrainGenerator : TerrainGenerator
 {
@@ -50,7 +51,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
 
                 // Get tileCode at OW tile position
                 int tileCode = _overworldTileMap.Tile(xx, zz);
-                Index tileMapIndex = _overworldTileMap.TileTexture.IndexForTileCode(tileCode);
+                Index2 tileMapIndex = _overworldTileMap.TileTexture.IndexForTileCode(tileCode);
                 ushort data = (ushort)(tileMapIndex.y * tileMapWidth_WOF + tileMapIndex.x + 1);
 
                 float blockHeight = _overworldTileMap.GetBlockHeightForTileCode(tileCode);

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class EnemyAI_GleeokHead : EnemyAI 
 {
     const float HorizontalAmplitude = 1.0f;
@@ -23,6 +22,7 @@ public class EnemyAI_GleeokHead : EnemyAI
     void Start()
     {
         _startTime = Time.time;
+
         _baseLocalY = transform.localPosition.y;
         _baseLocalZ = transform.localPosition.z;
     }
@@ -31,9 +31,7 @@ public class EnemyAI_GleeokHead : EnemyAI
 	void Update ()
     {
         if (!_doUpdate) { return; }
-
-        bool isPreoccupied = (_enemy.IsSpawning || _enemy.IsParalyzed || _enemy.IsStunned);
-        if (isPreoccupied) { return; }
+        if (IsPreoccupied) { return; }
 
         Oscillate();
 
@@ -57,9 +55,12 @@ public class EnemyAI_GleeokHead : EnemyAI
     void Oscillate()
     {
         float time = Time.time - _startTime;
-        float x = HorizontalAmplitude * Mathf.Sin(time * _enemy.speed + phaseOffset);
-        float y = _baseLocalY + VerticalAmplitude * Mathf.Sin(time * _enemy.speed * 1.3f + phaseOffset);
-        float z = _baseLocalZ + 0.2f * Mathf.Sin(time * _enemy.speed * 1.3f + phaseOffset);
+        float thetaX = time * _enemyMove.Speed + phaseOffset;
+        float thetaY = time * _enemyMove.Speed * 1.3f + phaseOffset;
+
+        float x = HorizontalAmplitude * Mathf.Sin(thetaX);
+        float y = _baseLocalY + VerticalAmplitude * Mathf.Sin(thetaY);
+        float z = _baseLocalZ + 0.2f * Mathf.Sin(thetaY);
         transform.localPosition = new Vector3(x, y, z);
 
         // Neck Segments
@@ -81,10 +82,7 @@ public class EnemyAI_GleeokHead : EnemyAI
 
     void Attack()
     {
-        Vector3 toPlayer = _enemy.PlayerController.transform.position - transform.position;
-        toPlayer.Normalize();
-
-        _enemy.weapon.Fire(toPlayer);
+        _enemy.weapon.Fire(ToPlayer);
     }
 
 }

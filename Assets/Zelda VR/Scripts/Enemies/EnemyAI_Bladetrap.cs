@@ -1,17 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class EnemyAI_Bladetrap : EnemyAI 
 {
-    const float TileHalfWidth = 0.5f;
-
-
     public float triggerSpeed = 2;
     public float returnSpeed = 1;
 
 
-    Vector3 _moveDirection;
     Vector3 _origin;
+
     bool _movingToPlayer;
     bool _returningToOrigin;
 
@@ -21,9 +17,24 @@ public class EnemyAI_Bladetrap : EnemyAI
 
     void Start()
     {
+        _enemyMove.Mode = EnemyMove.MovementMode.Destination;
+        _enemyMove.AlwaysFaceTowardsMoveDirection = false;
+        _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
+
         _origin = transform.position;
     }
 
+
+    void Update()
+    {
+        if (!_doUpdate) { return; }
+        if (IsPreoccupied) { return; }
+
+        if (PoisedToTrigger)
+        {
+            DoTriggerIfPlayerDetected();
+        }
+    }
 
     void DoTriggerIfPlayerDetected()
     {
@@ -32,97 +43,63 @@ public class EnemyAI_Bladetrap : EnemyAI
         {
             playerDungeonRoom = DungeonRoom.GetRoomForPosition(_enemy.PlayerController.transform.position);
         }
-        
+
         if (playerDungeonRoom == null || _enemy.DungeonRoomRef == playerDungeonRoom)
         {
-            Vector3 pos = transform.position;
-            Vector3 toPlayer = _enemy.PlayerController.transform.position - pos;
-            if (Mathf.Abs(toPlayer.y) < 0.5f)
+            Vector3 dir = ToPlayer;
+            if (Mathf.Abs(dir.y) < 0.5f)
             {
-                if (Mathf.Abs(toPlayer.x) < TileHalfWidth)
+                if (Mathf.Abs(dir.x) < TILE_EXTENT)
                 {
-                    toPlayer.x = 0;
-                    Trigger(toPlayer);
+                    dir.x = 0;
+                    Trigger(dir);
                 }
-                else if (Mathf.Abs(toPlayer.z) < TileHalfWidth)
+                else if (Mathf.Abs(dir.z) < TILE_EXTENT)
                 {
-                    toPlayer.z = 0;
-                    Trigger(toPlayer);
-                }
-            }
-        }
-    }
-
-    void Update()
-    {
-        if (!_doUpdate) { return; }
-        if (_enemy.IsParalyzed || _enemy.IsStunned) { return; }
-
-        if (PoisedToTrigger)
-        {
-            DoTriggerIfPlayerDetected();
-        }
-        else
-        {
-            if (_moveDirection != Vector3.zero)
-            {
-                _enemy.MoveInDirection(_moveDirection, false);
-            }
-
-            if (_movingToPlayer)
-            {
-                Ray ray = new Ray(transform.position, _moveDirection);
-                RaycastHit hitInfo;
-                if (Physics.Raycast(ray, out hitInfo, 1.05f))
-                {
-                    if (hitInfo.collider.gameObject != _enemy.PlayerController)
-                    {
-                        ReturnToOrigin();
-                    }
-                }
-            }
-            else
-            {
-                if (HasReachedOrigin())
-                {
-                    _moveDirection = Vector3.zero;
-                    _returningToOrigin = false;
+                    dir.z = 0;
+                    Trigger(dir);
                 }
             }
         }
-    }
-
-    bool HasReachedOrigin()
-    {
-        Vector3 toOrigin = _origin - transform.position;
-        toOrigin.y = 0;
-        bool hasReachedOrigin = (toOrigin == Vector3.zero) || (Vector3.Dot(toOrigin, _moveDirection) <= 0);
-
-        if (hasReachedOrigin)
-        {
-            transform.position = _origin;
-        }
-
-        return hasReachedOrigin;
     }
 
     void Trigger(Vector3 direction)
     {
         if (!PoisedToTrigger) { return; }
 
-        _enemy.speed = triggerSpeed;
-        _moveDirection = direction;
-        _moveDirection.y = 0;
+        _enemyMove.Speed = triggerSpeed;
+        MoveDirection = new Vector3(direction.x, 0, direction.z);
         _movingToPlayer = true;
     }
 
-    void ReturnToOrigin()
+    void OnTargetPositionReached(EnemyMove sender, Vector3 moveDirection)
+    {
+        if (_movingToPlayer)
+        {
+            Ray ray = new Ray(transform.position, moveDirection);
+            RaycastHit hitInfo;
+            if (Physics.Raycast(ray, out hitInfo, 1.05f))
+            {
+                if (hitInfo.collider.gameObject != _enemy.PlayerController)
+                {
+                    ReturnToOrigin(-moveDirection);
+                }
+            }
+        }
+        else
+        {
+            MoveDirection = Vector3.zero;
+            _returningToOrigin = false;
+        }
+    }
+
+    void ReturnToOrigin(Vector3 moveDirection)
     {
         if (_returningToOrigin) { return; }
-
-        _enemy.speed = returnSpeed;
-        _moveDirection = -_moveDirection;
-        _movingToPlayer = false;
         _returningToOrigin = true;
+
+        _enemyMove.Speed = returnSpeed;
+        MoveDirection = moveDirection;
+        _movingToPlayer = false;
     }
 }

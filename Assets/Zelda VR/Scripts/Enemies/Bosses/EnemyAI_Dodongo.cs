@@ -1,25 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class EnemyAI_Dodongo : EnemyAI 
 {
-
-    public EnemyAnimation enemyAnimation;
-
-
-    HealthController _healthController;
-
-
-    public bool StunnedByBomb { get { return enemyAnimation.AnimatorInstance.GetBool("Bombed"); } }
-
-
-    protected void Awake()
-    {
-        base.Awake();
-
-        _healthController = GetComponent<HealthController>();
-    }
+    public bool StunnedByBomb { get { return AnimatorInstance.GetBool("Bombed"); } }
 
 
     void OnTriggerEnter(Collider otherCollider)
@@ -49,14 +33,14 @@ public class EnemyAI_Dodongo : EnemyAI
         _healthController.TakeDamage((uint)bomb.explosionDamage, bomb.gameObject);
         Destroy(bomb.gameObject);
 
-        Animator anim = enemyAnimation.AnimatorInstance;
         float duration = _healthController.tempInvincibilityDuration;
 
         _enemy.Paralyze(duration);
-        anim.SetBool("Bombed", true);
+        AnimatorInstance.SetBool("Bombed", true);
+
         yield return new WaitForSeconds(duration);
 
-        anim.SetBool("Bombed", false);
+        AnimatorInstance.SetBool("Bombed", false);
     }
 
 }

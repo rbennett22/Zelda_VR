@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class EnemyAI_Peahat : EnemyAI
 {
-    const float BaseY = 0.5f;
-    const float RotationSpeed = 0.5f;
+    const float MIN_ALTITUDE = 0.5f;                   // Relative to ground
+    const float ROTATION_SPEED = 0.5f;
 
 
-    public EnemyAnimation enemyAnimation;
-    public float maxAltitude = 5.0f;
+    public float maxAltitude = 5.0f;            // Relative to ground
 
 
     float _idleDuration = 2.0f;
@@ -36,8 +34,7 @@ public class EnemyAI_Peahat : EnemyAI
     {
         _state = State.Flying;
         _flyStartTime = Time.time;
-
-        _flyDirection = EnforceBoundary(GetRandomMoveDirection());
+        _flyDirection = EnforceBoundary(EnemyAI_Random.GetRandomTileDirection());
         
         yield return new WaitForSeconds(_flyDuration);
 
@@ -49,6 +46,7 @@ public class EnemyAI_Peahat : EnemyAI
         _state = State.Idle;
         SetPropellarSpeed(0.0f);
         _flyDirection = Vector3.zero;
+
         yield return new WaitForSeconds(_idleDuration);
 
         StartCoroutine("Fly");
@@ -58,20 +56,22 @@ public class EnemyAI_Peahat : EnemyAI
 	void Update ()
     {
         if (!_doUpdate) { return; }
-        if (_enemy.IsParalyzed || _enemy.IsStunned) { return; }
+        if (IsPreoccupied) { return; }
 
         if (_state == State.Flying)
         {
             // Speed
-            float dT = ((Time.time - _flyStartTime) / _flyDuration) * Mathf.PI;
-            float animSpeed = Mathf.Sin(dT);
+            float dT = Time.time - _flyStartTime;
+            float theta = (dT / _flyDuration) * Mathf.PI;
+            float animSpeed = Mathf.Sin(theta);
             SetPropellarSpeed(animSpeed);
 
             // Direction
-            _flyDirection = Quaternion.Euler(0, RotationSpeed, 0) * _flyDirection;
+            _flyDirection = Quaternion.Euler(0, ROTATION_SPEED, 0) * _flyDirection;
+
             Vector3 pos = transform.position;
-            pos.x += _flyDirection.x * animSpeed * _enemy.speed;
-            pos.y += _flyDirection.y * animSpeed * _enemy.speed;
+            pos.x += _flyDirection.x * animSpeed * _enemyMove.Speed;
+            pos.z += _flyDirection.z * animSpeed * _enemyMove.Speed;
             transform.position = pos;
         }
 	}
@@ -79,18 +79,10 @@ public class EnemyAI_Peahat : EnemyAI
 
     void SetPropellarSpeed(float speedPcnt)
     {
-        enemyAnimation.AnimatorInstance.speed = speedPcnt;
+        AnimatorInstance.speed = speedPcnt;
 
         // The faster Peahat goes, the higher he flies
-        float altitude = BaseY + (maxAltitude - BaseY) * (speedPcnt * speedPcnt);
+        float altitude = GroundPosY + MIN_ALTITUDE + (maxAltitude - MIN_ALTITUDE) * (speedPcnt * speedPcnt);
         transform.SetY(altitude);
     }
-
-    Vector3 GetRandomMoveDirection()
-    {
-        int angle = Random.Range(0, 4) * 90;
-        Vector3 dir = Quaternion.Euler(0, angle, 0) * new Vector3(1, 0, 0);
-        return dir;
-    }
-
 }

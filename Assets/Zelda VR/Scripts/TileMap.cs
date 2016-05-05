@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System;
-using System.IO;
-using System.Globalization;
+using System.Collections.Generic;
+using Immersio.Utility;
 
 public class TileMap : MonoBehaviour
 {
@@ -37,6 +36,8 @@ public class TileMap : MonoBehaviour
     bool[,] _specialBlockPopulationFlags;
 
 
+    public float GroundPosY { get { return WorldInfo.Instance.GroundPosY; } }
+
     public int SectorHeightInTiles { get { return _tileMapData.SectorHeightInTiles; } }
     public int SectorWidthInTiles { get { return _tileMapData.SectorWidthInTiles; } }
     public int SectorsWide { get { return _tileMapData.SectorsWide; } }
@@ -65,14 +66,14 @@ public class TileMap : MonoBehaviour
 
         // TODO
 
-        /*_blockContainer = GameObject.Find("Blocks").transform;
+        _blockContainer = GameObject.Find("Blocks").transform;
 
         InitSpecialBlocks();
 
         if (Cheats.Instance.SecretDetectionModeIsEnabled)
         {
             HighlightAllSpecialBlocks();
-        }*/
+        }
     }
 
     void InitFromSettings(ZeldaVRSettings s)
@@ -127,7 +128,7 @@ public class TileMap : MonoBehaviour
                         GameObject overheadBlock = CreateBlock(b.tileCode, x, z, blockPrefab, 3, 1);
                         overheadBlock.name = "overheadBlock_" + x + "_" + z;
                         overheadBlock.transform.parent = _specialBlocksContainer;
-                        overheadBlock.transform.SetY(1.5f);
+                        overheadBlock.transform.SetY(GroundPosY + 1.5f);
                     }*/
                 }
             }
@@ -361,10 +362,10 @@ public class TileMap : MonoBehaviour
         }
     }
 
-
+    
     public GameObject CreateBlock(int tileCode, int tileX, int tileY, GameObject prefab, float actualBlockHeight = 1.0f, float yOffset = 0.0f)
     {
-        Vector3 pos = new Vector3(tileX + 0.5f, 0, tileY + 0.5f);
+        Vector3 pos = new Vector3(tileX + 0.5f, GroundPosY, tileY + 0.5f);
         Quaternion rot = Quaternion.Euler(0, 180, 0);
         GameObject g = Instantiate(prefab, pos, rot) as GameObject;
 
@@ -384,7 +385,7 @@ public class TileMap : MonoBehaviour
     void SetBlockHeight(GameObject block, float height, float yOffset = 0.0f)
     {
         Vector3 pos = block.transform.position;
-        pos.y = height * 0.5f + yOffset;
+        pos.y = GroundPosY + (height * 0.5f) + yOffset;
         block.transform.position = pos;
 
         Vector3 scale = block.transform.localScale;
@@ -430,6 +431,40 @@ public class TileMap : MonoBehaviour
 
         _blockHeights[tileY, tileX] = 0;
         _populationFlags[tileY, tileX] = false;
+    }
+
+
+    public List<Index2> GetTilesInArea(Rect area, List<int> requisiteTileTypes = null)
+    {
+        return GetTilesInArea((int)area.xMin, (int)area.yMin, (int)area.width, (int)area.height, requisiteTileTypes);
+    }
+    public List<Index2> GetTilesInArea(int left, int top, int width, int length, List<int> requisiteTileTypes = null)
+    {
+        List<Index2> tileIndices = new List<Index2>();
+
+        int right = left + width;
+        int bottom = top + length;
+
+        left = Mathf.Clamp(left, 0, TilesWide);
+        right = Mathf.Clamp(right, 0, TilesWide);
+        top = Mathf.Clamp(top, 0, TilesHigh);
+        bottom = Mathf.Clamp(bottom, 0, TilesHigh);
+
+        int[,] tiles = _tileMapData._tiles;
+
+        for (int z = top; z < bottom; z++)
+        {
+            for (int x = left; x < right; x++)
+            {
+                int tileCode = tiles[z, x];
+                if(requisiteTileTypes.Contains(tileCode))
+                {
+                    tileIndices.Add(new Index2(x, z));
+                }
+            }
+        }
+
+        return tileIndices;
     }
 
 

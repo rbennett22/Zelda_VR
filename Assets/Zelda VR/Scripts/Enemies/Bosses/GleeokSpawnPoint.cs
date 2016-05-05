@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 
-
 [RequireComponent(typeof(EnemySpawnPoint))]
 
 public class GleeokSpawnPoint : MonoBehaviour
 {
-
     public int numHeads = 2;
 
 

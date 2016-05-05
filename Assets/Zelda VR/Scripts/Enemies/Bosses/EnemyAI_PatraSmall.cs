@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-
-public class EnemyAI_PatraSmall : MonoBehaviour 
+public class EnemyAI_PatraSmall : EnemyAI 
 {
     public float phaseOffset;
     public float rotationSpeed = 3.0f;
@@ -23,13 +21,16 @@ public class EnemyAI_PatraSmall : MonoBehaviour
 
 	void Update () 
     {
-        float time = Time.time - _startTime;
+        if (!_doUpdate) { return; }
+        if (IsPreoccupied) { return; }
 
-        float x = Radius * Mathf.Cos(time * rotationSpeed + phaseOffset);
+        float time = Time.time - _startTime;
+        float theta = time * rotationSpeed + phaseOffset;
+
+        float x = Radius * Mathf.Cos(theta);
         float y = transform.localPosition.y;
-        float z = Radius * Mathf.Sin(time * rotationSpeed + phaseOffset);
+        float z = Radius * Mathf.Sin(theta);
 
         transform.localPosition = new Vector3(x, y, z);
 	}
-
 }

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class EnemyAI_Gannon : EnemyAI 
 {
     const float VisibleDuration = 1.3f;
@@ -9,14 +8,20 @@ public class EnemyAI_Gannon : EnemyAI
     const float BoundsHeight = 5;
 
 
-    public EnemyAnimation enemyAnimation;
     public int swordHitsNeededToKill = 4;
     public float attackCooldown = 1.0f;
 
 
     int _swordHitsTaken;
     Rect _bounds;
-    
+
+
+    public bool Visible
+    {
+        get { return AnimatorInstance.GetComponent<Renderer>().enabled; }
+        set { AnimatorInstance.GetComponent<Renderer>().enabled = value; }
+    }
+
 
     void Start()
     {
@@ -37,9 +42,9 @@ public class EnemyAI_Gannon : EnemyAI
     {
         while (true)
         {
-            if (_doUpdate && !_enemy.IsParalyzed)
+            if (_doUpdate && !IsPreoccupied)
             {
-                if (!enemyAnimation.GetComponent<Renderer>().enabled)
+                if (!Visible)
                 {
                     Attack();
                     MoveToRandomLocation();
@@ -51,15 +56,15 @@ public class EnemyAI_Gannon : EnemyAI
 
     void Attack()
     {
-        Vector3 toPlayer = _enemy.PlayerController.transform.position - transform.position;
-        toPlayer.Normalize();
-        _enemy.weapon.Fire(toPlayer);
+        _enemy.weapon.Fire(ToPlayer);
     }
 
     void MoveToRandomLocation()
     {
-        float x = Random.RandomRange(_bounds.xMin, _bounds.xMax);
-        float z = Random.RandomRange(_bounds.yMin, _bounds.yMax);
+        float x = Random.Range(_bounds.xMin, _bounds.xMax);
+        float z = Random.Range(_bounds.yMin, _bounds.yMax);
+
+        // TODO: Use SetEnemyPosition2DToTile()?
 
         transform.SetX(x);
         transform.SetZ(z);
@@ -68,27 +73,29 @@ public class EnemyAI_Gannon : EnemyAI
 
     void OnHitWithSword(Sword sword)
     {
-        if (enemyAnimation.GetComponent<Renderer>().enabled) { return; }
+        if (Visible) { return; }
 
         _swordHitsTaken++;
+
         UpdatePose();
         StartCoroutine("Appear");
     }
 
     void OnHitWithSilverArrow()
     {
-        if (!enemyAnimation.GetComponent<Renderer>().enabled) { return; }
+        if (!Visible) { return; }
 
         if (_swordHitsTaken >= swordHitsNeededToKill)
         {
-            GetComponent<HealthController>().Kill(gameObject, true);
+            _healthController.Kill(gameObject, true);
         }
     }
 
 
     IEnumerator Appear()
     {
-        enemyAnimation.GetComponent<Renderer>().enabled = true;
+        Visible = true;
+
         yield return new WaitForSeconds(VisibleDuration);
 
         Disappear();
@@ -98,17 +105,16 @@ public class EnemyAI_Gannon : EnemyAI
     {
         if (_swordHitsTaken < swordHitsNeededToKill)
         {
-            enemyAnimation.AnimatorInstance.SetTrigger("NextPose"); 
+            AnimatorInstance.SetTrigger("NextPose"); 
         }
         else
         {
-            enemyAnimation.AnimatorInstance.SetTrigger("NextHurtPose"); 
+            AnimatorInstance.SetTrigger("NextHurtPose"); 
         }
     }
 
     void Disappear()
     {
-        enemyAnimation.GetComponent<Renderer>().enabled = false;
+        Visible = false;
     }
-
 }

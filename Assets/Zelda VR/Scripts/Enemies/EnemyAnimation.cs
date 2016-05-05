@@ -29,7 +29,7 @@ public class EnemyAnimation : MonoBehaviour
     public void PlayDeathAnimation()
     {
         GameObject deathAnimPrefab = CommonObjects.Instance.enemyDeathAnimation;
-        GameObject.Instantiate(deathAnimPrefab, transform.position, Quaternion.identity);
+        Instantiate(deathAnimPrefab, transform.position, Quaternion.identity);
     }
 
     public void Pause()
@@ -112,5 +112,4 @@ public class EnemyAnimation : MonoBehaviour
             Destroy(GetComponent<FlashColorsSimple>());
         }
     }
-
 }

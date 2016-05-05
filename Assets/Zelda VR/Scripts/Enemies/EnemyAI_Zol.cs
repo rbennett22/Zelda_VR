@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class EnemyAI_Zol : EnemyAI 
 {
-
     public GameObject gelPrefab;
 
 
@@ -25,27 +23,26 @@ public class EnemyAI_Zol : EnemyAI
     void AssignSkinForDungeonNum(int num)
     {
         if (num < 1 || num > 9) { num = 1; }
-        _enemy.enemyAnim.AnimatorInstance.SetInteger("DungeonNum", num);
+        AnimatorInstance.SetInteger("DungeonNum", num);
     }
 
 
     public void SpawnGels()
     {
-        GameObject gel1 = Instantiate(gelPrefab, transform.position, Quaternion.identity) as GameObject;
-        GameObject gel2 = Instantiate(gelPrefab, transform.position, Quaternion.identity) as GameObject;
-        gel1.name = gelPrefab.name;
-        gel2.name = gelPrefab.name;
-        gel1.transform.parent = transform.parent;
-        gel2.transform.parent = transform.parent;
+        SpawnGel();
+        SpawnGel();
+    }
+    void SpawnGel()
+    {
+        GameObject gel = Instantiate(gelPrefab, transform.position, Quaternion.identity) as GameObject;
+        gel.name = gelPrefab.name;
+        gel.transform.parent = transform.parent;
 
-        gel1.GetComponent<HealthController>().ActivateTempInvinc();
-        gel2.GetComponent<HealthController>().ActivateTempInvinc();
+        gel.GetComponent<HealthController>().ActivateTempInvinc();
 
         if (_enemy.DungeonRoomRef != null)
         {
-            _enemy.DungeonRoomRef.AddEnemy(gel1.GetComponent<Enemy>());
-            _enemy.DungeonRoomRef.AddEnemy(gel2.GetComponent<Enemy>());
+            _enemy.DungeonRoomRef.AddEnemy(gel.GetComponent<Enemy>());
         }
     }
-
 }

@@ -6,6 +6,8 @@ public class WorldInfo : Singleton<WorldInfo>
 {
     public const int QUEST = 1;
     public const int NUM_DUNGEONS = 9;
+    public const int OVERWORLD_GROUND_Y = 0;
+    public const int DUNGEON_GROUND_Y = 0;
 
 
     [SerializeField]
@@ -84,4 +86,6 @@ public class WorldInfo : Singleton<WorldInfo>
     {
         return IsOverworld || IsInDungeon || IsSpecial;
     }
+
+    public float GroundPosY { get { return IsOverworld ? OVERWORLD_GROUND_Y : DUNGEON_GROUND_Y; } }
 }

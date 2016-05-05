@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public class EnemyAI_Tektite : EnemyAI
 {
     public float minTimeBetweenJumps = 2.5f;
@@ -22,36 +21,36 @@ public class EnemyAI_Tektite : EnemyAI
     void Update()
     {
         if (!_doUpdate) { return; }
+        if (IsPreoccupied) { return; }
+        
+        if (_wasJumping)
+        { 
+            OnLanded();
+        }
 
-        bool isPreoccupied = (_enemy.IsAttacking || _enemy.IsJumping || _enemy.IsSpawning || _enemy.IsParalyzed);
-        if (!isPreoccupied)
+        float timeSinceLastJump = Time.time - _lastJumpTime;
+        if (timeSinceLastJump >= _jumpCooldownDuration || CommonObjects.Player_C.IsAttackingWithSword)
         {
-            if (_wasJumping)
-            { 
-                OnLanded();
-            }
-
-            float timeSinceLastJump = Time.time - _lastJumpTime;
-            if (timeSinceLastJump >= _jumpCooldownDuration || CommonObjects.Player_C.IsAttackingWithSword)
+            if (IsBlockingAnExit())  // Prevent trapping Link into a Grotto or Dungeon stairs entrance/exit
             {
-                if (IsBlockingAnExit())  // Prevent trapping Link into a Grotto or Dungeon stairs entrance/exit
+                JumpAwayFromPlayer();
+            }
+            else
+            {
+                if (_enemy.ShouldFollowBait())
                 {
-                    JumpAwayFromPlayer();
+                    JumpToBait();
                 }
                 else
                 {
-                    if (_enemy.ShouldFollowBait())
-                    {
-                        JumpToBait();
-                    }
-                    else
-                    {
-                        JumpToPlayer();
-                    }
+                    JumpToPlayer();
                 }
             }
-        }
+        }        
+    }
 
+    void LateUpdate()
+    {
         _wasJumping = _enemy.IsJumping;
     }
 
@@ -79,18 +78,11 @@ public class EnemyAI_Tektite : EnemyAI
 
     void JumpToPlayer()
     {
-        Vector3 playerPos = _enemy.PlayerController.transform.position;
-        Vector3 toPlayer = playerPos - transform.position;
-
-        _enemy.Jump(EnforceBoundary(toPlayer));
+        _enemy.Jump(EnforceBoundary(ToPlayer));
     }
-
     void JumpAwayFromPlayer()
     {
-        Vector3 playerPos = _enemy.PlayerController.transform.position;
-        Vector3 toPlayer = playerPos - transform.position;
-
-        _enemy.Jump(-toPlayer);
+        _enemy.Jump(-ToPlayer);
     }
 
     void JumpToBait()
