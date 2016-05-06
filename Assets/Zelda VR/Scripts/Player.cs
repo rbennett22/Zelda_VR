@@ -2,7 +2,6 @@
 using System.Collections;
 using Immersio.Utility;
 
-
 public class Player : Singleton<Player> 
 {
     const float ShieldBlockDotThreshold = 0.6f;   // [0-1].  Closer to 1 means player has to be facing an incoming projectile more directly in order to block it.
@@ -513,5 +512,4 @@ public class Player : Singleton<Player>
         int healAmount = PlayerHealthDelegate.HalfHeartsToHealth(halfHearts);
         HealthController.RestoreHealth((uint)healAmount);
     }
-
 }

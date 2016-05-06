@@ -40,7 +40,6 @@ public class EnemyAI_Armos : MonoBehaviour
 
 
     bool _isInStatueMode = true;
-    ZeldaPlayerController _playerController;
     EnemyMove _enemyMove;
     GameObject _statue;
     int _meleeDamage;
@@ -51,8 +50,6 @@ public class EnemyAI_Armos : MonoBehaviour
 
     void Awake()
     {
-        _playerController = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<ZeldaPlayerController>();
-
         _enemyMove = GetComponent<EnemyMove>();
         _enemyMove.enabled = false;
 
@@ -81,8 +78,7 @@ public class EnemyAI_Armos : MonoBehaviour
     {
         if (_isInStatueMode)
         {
-            GameObject other = otherCollider.gameObject;
-            if (other == _playerController.gameObject)
+            if (otherCollider.gameObject == CommonObjects.PlayerController_G)
             {
                 StartCoroutine("ComeAlive");
             }

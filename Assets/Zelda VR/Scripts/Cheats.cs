@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Immersio.Utility;
 
-
 public class Cheats : Singleton<Cheats>
 {
     public Collectible forceDroppedItem;        // Forces a specific Collectible to always drop
@@ -225,5 +224,4 @@ public class Cheats : Singleton<Cheats>
             _dungeonNum++;
         }
     }
-
 }

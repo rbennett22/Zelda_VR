@@ -1,20 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
-
 
 public class DungeonEntranceSpawnPoint : MonoBehaviour
 {
-
     public GameObject dungeonEntrancePrefab;
     public GameObject marker;
     public float spawnDistance = 12;
-
     public int dungeonNum;
 
 
     DungeonEntrance _spawnedDungeonEntrance = null;
     Transform _dungeonEntranceContainer;
-    ZeldaPlayerController _playerController;
 
     float _spawnDistanceSqd;
     float _destroyDistanceSqd;
@@ -23,7 +18,6 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
     void Awake()
     {
         _dungeonEntranceContainer = GameObject.Find("DungeonEntrances").transform;
-        _playerController = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<ZeldaPlayerController>();
 
         _spawnDistanceSqd = spawnDistance * spawnDistance;
         _destroyDistanceSqd = _spawnDistanceSqd + 20;
@@ -34,7 +28,7 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
 
     void Update()
     {
-        Vector3 toPlayer = _playerController.transform.position - marker.transform.position;
+        Vector3 toPlayer = CommonObjects.PlayerController_G.transform.position - marker.transform.position;
         float distanceToPlayerSqr = Vector3.SqrMagnitude(toPlayer);
 
         if (_spawnedDungeonEntrance == null)

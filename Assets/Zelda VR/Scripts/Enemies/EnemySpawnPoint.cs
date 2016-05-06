@@ -17,7 +17,6 @@ public class EnemySpawnPoint : MonoBehaviour
     public bool autoSpawn = false;
 
 
-    ZeldaPlayerController _playerController;
     float _lastEnemyTimeOfDeath = float.NegativeInfinity;
     GameObject _spawnedEnemy = null;
     Transform _enemiesContainer;
@@ -49,7 +48,6 @@ public class EnemySpawnPoint : MonoBehaviour
         _proximityThresholdMaxSqd = _proximityThresholdMax * _proximityThresholdMax;
 
 
-        _playerController = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<ZeldaPlayerController>();
         _enemiesContainer = GameObject.Find("Enemies").transform;
 
         // The SpawnPoint's SpriteRenderer exists only for convenience in the Editor, so we Destroy it here
@@ -69,7 +67,7 @@ public class EnemySpawnPoint : MonoBehaviour
             float timeSinceLastSpawn = Time.time - _lastEnemyTimeOfDeath;
             if (timeSinceLastSpawn < cooldown) { return; }
 
-            Vector3 toPlayer = _playerController.transform.position - transform.position;
+            Vector3 toPlayer = CommonObjects.PlayerController_G.transform.position - transform.position;
             float distanceToPlayerSqr = Vector3.SqrMagnitude(toPlayer);
             if (distanceToPlayerSqr > _proximityThresholdMaxSqd) { return; }
             if (distanceToPlayerSqr < _proximityThresholdMinSqd) { return; }

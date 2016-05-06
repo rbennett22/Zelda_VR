@@ -48,7 +48,6 @@ public class GrottoSpawnPoint : MonoBehaviour
     public string[] payForInfoText;
 
 
-    ZeldaPlayerController _playerController;
     OverworldInfo _overworldInfo;
     Transform _grottosContainer;
     float _spawnDistanceSqd;
@@ -60,7 +59,6 @@ public class GrottoSpawnPoint : MonoBehaviour
 
     void Awake()
     {
-        _playerController = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<ZeldaPlayerController>();
         _grottosContainer = GameObject.Find("Grottos").transform;
         _overworldInfo = GameObject.FindGameObjectWithTag("OverworldInfo").GetComponent<OverworldInfo>();
 

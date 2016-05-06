@@ -10,15 +10,12 @@ public class GrottoSpawnManager : MonoBehaviour
     float _spawnDistance = 8;
 
 
-    ZeldaPlayerController _playerController;
     float _spawnDistanceSq;
     GrottoSpawnPoint _activeGrottoSP;
     
 
 	void Start () 
     {
-        _playerController = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<ZeldaPlayerController>();
-
         _spawnDistanceSq = _spawnDistance * _spawnDistance;
 
         StartCoroutine("Update_Coroutine");
@@ -46,7 +43,7 @@ public class GrottoSpawnManager : MonoBehaviour
     {
         if (_activeGrottoSP == null || !_activeGrottoSP.SpawnedGrotto.PlayerIsInside)
         {
-            Vector3 playerPos = _playerController.transform.position;
+            Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
 
             float closestDistSq = float.PositiveInfinity;
             Transform closestGrottoSP = null;

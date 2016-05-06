@@ -1,7 +1,9 @@
 --- TODO ---
 
-- Make Grotto Entrance voxel truly flat
-- Fix issues caused by Positional Tracking
+- Third-Person Camera Mode
+
+- Use flat tiles at same voxel tile height as unit blocks
+- Integrate Lost Woods with Uniblocks
 
 - Lost Hills
 - Waterfall cave
@@ -19,9 +21,8 @@
 - Credits
 
 - Bow Crosshair
-- Make Map display an arrow for Link instead of a square
 - LikeLike - Show an effect to indicate what's happening when player is trapped
-- Use "screen tile" Boundaries for OW enemies
+- Use sector Boundaries for OW enemies
 - Whistle Warp - Wait for blocks to instantiate before opening shutters
 - Texture blocks correctly (use BoxMesh.cs)
 - Texture OW DungeonEntrances correctly.
@@ -32,6 +33,7 @@
 - Boss Death anim (blink 2-3 times, then "poof")
 - Gleeok Heads Poof onDeath
 
+- Make Map display an arrow for Link instead of a square
 - Place "signs" above Grottos indicating type
 - Inventory Cursor should blink red/blue
 - Have Statues charge up each shot with a sound effect so player knows when to dodge
@@ -67,7 +69,6 @@
 
 --- NEEDS TESTING  ---
 
-- Leever/RiverZora warping
 - LikeLike MagicShield stealing
 - Bait
 - Darknut shields against MagicWand (no flame)
@@ -79,6 +80,7 @@
 --- DONE ---
 
 - DK2 Support
+- Uniblocks voxel engine now used to render OverWorld terrain
 - Shrunk PlayerController (scaled from 1 to 0.5)
 - Fixed several major memory leaks that would eventually cause crash if left running for long enough.
 - Black overlay shutters now close vertically onDeath

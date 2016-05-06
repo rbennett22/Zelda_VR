@@ -52,8 +52,8 @@ public class SubDungeon : MonoBehaviour
 
         CommonObjects.Player_C.ForceNewEulerAngles(camera.eulerAngles);
 
-        pc.Stop();
 
+        pc.Stop();
 
         ParentDungeonRoom.onPlayerExitedRoom();
         destinationSubDungeon.ParentDungeonRoom.onPlayerEnteredRoom();
@@ -63,5 +63,4 @@ public class SubDungeon : MonoBehaviour
         print("eulerDiff: " + eulerDiff);
         print("t.forward: " + t.forward);*/
     }
-
 }

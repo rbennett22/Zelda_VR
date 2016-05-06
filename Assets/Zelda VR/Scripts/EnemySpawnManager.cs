@@ -11,14 +11,12 @@ public class EnemySpawnManager : MonoBehaviour
     float _enemyRemovalDistance = 32;      // How far away Enemy must be from player before it is destroyed (Overworld only)
 
 
-    ZeldaPlayerController _playerController;
     Transform _enemiesContainer;
     float _enemyRemovalDistanceSq;
 
 
 	void Start () 
     {
-        _playerController = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<ZeldaPlayerController>();
         _enemiesContainer = GameObject.Find("Enemies").transform;
 
         _enemyRemovalDistanceSq = _enemyRemovalDistance * _enemyRemovalDistance;
@@ -53,7 +51,7 @@ public class EnemySpawnManager : MonoBehaviour
             child.GetComponent<EnemySpawnPoint>().DoUpdate();
         }
 
-        Vector3 playerPos = _playerController.transform.position;
+        Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
 
         foreach (Transform child in _enemiesContainer)
         {

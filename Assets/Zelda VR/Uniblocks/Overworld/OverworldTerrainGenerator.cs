@@ -5,6 +5,7 @@ using Immersio.Utility;
 public class OverworldTerrainGenerator : TerrainGenerator
 {
     const ushort INVISIBLE_COLLIDER_VOXEL = 145;
+    const ushort FLAT_GROUND_SAND_VOXEL = 146;
 
     const int ENTRANCE_TILE_BLOCK_HEIGHT = 2;
     const int ENTRANCE_TILE_Y_OFFSET = 3;
@@ -147,6 +148,13 @@ public class OverworldTerrainGenerator : TerrainGenerator
 
                 Index2 tileMapIndex = _overworldTileMap.TileMapTexture.IndexForTileCode(tileCode);
                 ushort data = (ushort)(tileMapIndex.y * tileMapWidth_WithoutFiller + tileMapIndex.x + 1);
+
+                if (tileCode == 2)
+                {
+                    data = FLAT_GROUND_SAND_VOXEL;
+                }
+
+                // TODO
 
                 for (int y = 0; y < SideLength; y++)
                 {
