@@ -1,12 +1,7 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
 
 public class DungeonRoomInfo : MonoBehaviour 
 {
-
     public enum WallDirection
     {
         North, East, South, West, None
@@ -171,7 +166,7 @@ public class DungeonRoomInfo : MonoBehaviour
     }
 
 
-    #region Save/Load
+    #region Serialization
 
     public class Serializable
     {
@@ -223,5 +218,4 @@ public class DungeonRoomInfo : MonoBehaviour
     }
 
     #endregion
-
 }

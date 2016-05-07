@@ -102,6 +102,7 @@ public class EnemyAI_Wizzrobe : EnemyAI
     IEnumerator WalkAround()
     {
         _state = State.Walking;
+
         enemyAI_Random.enabled = true;
         enemyAI_Random.TargetPosition = transform.position;
 

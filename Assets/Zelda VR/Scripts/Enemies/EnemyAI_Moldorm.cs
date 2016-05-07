@@ -152,7 +152,6 @@ public class EnemyAI_Moldorm : EnemyAI
 
     void UpdatePositionHistory()
     {
-        string c;
         if (_positionHistory.Count >= MaxPositionHistoryLengthInFrames)
         {
             _positionHistory.Dequeue();

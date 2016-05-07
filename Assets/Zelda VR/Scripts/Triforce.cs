@@ -3,8 +3,10 @@ using System.Collections;
 
 public class Triforce : MonoBehaviour 
 {
-    public Light light;
     public float fanfareDuration = 7.0f;
+
+    [SerializeField]
+    Light _light;
 
 
     float _fadeDuration = 3.0f;
@@ -25,7 +27,7 @@ public class Triforce : MonoBehaviour
         iTween.MoveAdd(gameObject, new Vector3(0, 1, 0), fanfareDuration * 0.7f);
 
         iTween.ValueTo(gameObject, iTween.Hash(
-            "from", light.intensity,
+            "from", _light.intensity,
             "to", 10.0f,
             "time", fanfareDuration + _fadeDuration,
             "easetype", iTween.EaseType.easeInQuint,
@@ -42,7 +44,7 @@ public class Triforce : MonoBehaviour
 
     void LightIntensityTweenCallback(float intensity)
     {
-        light.intensity = intensity;
+        _light.intensity = intensity;
     }
 
     void WarpToOverworld()

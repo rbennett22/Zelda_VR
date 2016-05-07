@@ -10,8 +10,8 @@ public class FairyWander : MonoBehaviour
     void Start()
     {
         _direction = Vector3.zero;
-        _direction.x = Random.RandomRange(-1.0f, 1.0f);
-        _direction.z = Random.RandomRange(-1.0f, 1.0f);
+        _direction.x = Random.Range(-1.0f, 1.0f);
+        _direction.z = Random.Range(-1.0f, 1.0f);
         _direction.Normalize();
     }
 	

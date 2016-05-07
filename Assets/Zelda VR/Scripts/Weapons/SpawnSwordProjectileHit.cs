@@ -6,6 +6,6 @@ public class SpawnSwordProjectileHit : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        GameObject g = Instantiate(hitAnimationPrefab, transform.position, Quaternion.identity) as GameObject;
+        Instantiate(hitAnimationPrefab, transform.position, Quaternion.identity);
     }
 }

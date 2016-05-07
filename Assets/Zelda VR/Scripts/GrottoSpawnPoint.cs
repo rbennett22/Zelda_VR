@@ -50,8 +50,6 @@ public class GrottoSpawnPoint : MonoBehaviour
 
     OverworldInfo _overworldInfo;
     Transform _grottosContainer;
-    float _spawnDistanceSqd;
-    float _destroyDistanceSqd;
 
 
     public Grotto SpawnedGrotto { get; private set; }
@@ -61,9 +59,6 @@ public class GrottoSpawnPoint : MonoBehaviour
     {
         _grottosContainer = GameObject.Find("Grottos").transform;
         _overworldInfo = GameObject.FindGameObjectWithTag("OverworldInfo").GetComponent<OverworldInfo>();
-
-        _spawnDistanceSqd = spawnDistance * spawnDistance;
-        _destroyDistanceSqd = _spawnDistanceSqd + 4;
 
         marker.SetActive(false);
     }
@@ -87,7 +82,7 @@ public class GrottoSpawnPoint : MonoBehaviour
     }
 
 
-    #region Save/Load
+    #region Serialization
 
     public class Serializable
     {

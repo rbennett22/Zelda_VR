@@ -12,6 +12,7 @@
 
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -228,11 +229,11 @@ This component's properties are shown below to help you determine which script i
 				if( !GUILayout.Button( candidate.Matcher.Name, "minibutton" ) )
 					continue;
 
-				// Make this operation undo-able
+                // Make this operation undo-able
 #if UNITY_4_3
 				Undo.RegisterCompleteObjectUndo( target, "Assign missing script" );
 #else
-				Undo.RegisterSceneUndo( "Assign missing script" );
+                Undo.RegisterSceneUndo( "Assign missing script" );
 #endif
 
 				// Assign the selected MonoScript 
@@ -242,7 +243,7 @@ This component's properties are shown below to help you determine which script i
 
 				// Save the scene in case Unity crashes
 				EditorUtility.SetDirty( this.target );
-				EditorApplication.SaveScene();
+                EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
 				EditorApplication.SaveAssets();
 
 				// Check for more objects with missing scripts

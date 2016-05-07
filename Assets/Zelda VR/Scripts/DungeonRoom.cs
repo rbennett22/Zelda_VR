@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-
 
 public class DungeonRoom : MonoBehaviour 
 {
-    const bool AlwaysSealDoorsForBoss = false;       // <-- Design Decision
+    const bool ALWAYS_SEAL_DOORS_FOR_BOSS = false;       // <-- Design Decision
 
     const int BombUpgradeCost = 100;
     public const float TilesWide = 12, TilesLong = 7;
@@ -421,7 +419,7 @@ public class DungeonRoom : MonoBehaviour
         {
             SpawnEnemies();
 
-            if (AlwaysSealDoorsForBoss && ContainsBoss)
+            if (ContainsBoss && ALWAYS_SEAL_DOORS_FOR_BOSS)
             {
                 SealDoors();
             }
@@ -609,5 +607,4 @@ public class DungeonRoom : MonoBehaviour
 
         return CommonObjects.CurrentDungeonFactory.GetRoomAtGridPosition(x, z);
     }
-
 }

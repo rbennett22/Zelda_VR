@@ -60,18 +60,18 @@ public class SettingsObject<T> : ScriptableObject where T : ScriptableObject
     }
 
 #if UNITY_EDITOR
-    static T LoadCustomAsset<T>(string assetPath) where T : ScriptableObject
+    static T1 LoadCustomAsset<T1>(string assetPath) where T1 : ScriptableObject
     {
         string assetPathAndName = "Assets/" + assetPath;
 
         Debug.Log(" ~~~~~~~~  LoadCustomAsset: " + assetPathAndName);
 
-        return (T)AssetDatabase.LoadAssetAtPath(assetPathAndName, typeof(T));
+        return (T1)AssetDatabase.LoadAssetAtPath(assetPathAndName, typeof(T1));
     }
 
-    static void CreateAsset<T>(string assetPath) where T : ScriptableObject
+    static void CreateAsset<T1>(string assetPath) where T1 : ScriptableObject
     {
-        T asset = CreateInstance<T>();
+        T1 asset = CreateInstance<T1>();
         string assetPathAndName = "Assets/" + assetPath;
 
         Debug.Log(" ~~~~~~~~  CreateAsset: " + assetPathAndName);

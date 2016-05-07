@@ -39,7 +39,6 @@ public class SubDungeon : MonoBehaviour
         SubDungeon destinationSubDungeon = SpawnPoint.warpTo.SpawnSubDungeon();
         Transform warpToLocation = destinationSubDungeon.warpInLocation;
 
-        Vector3 posDiff = warpToLocation.position - portal.transform.position;
         Vector3 eulerDiff = warpToLocation.eulerAngles - portal.transform.eulerAngles;
 
         Vector3 offset = t.position - portal.transform.position;

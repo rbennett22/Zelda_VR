@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine;
-using System;
 using System.Xml.Serialization;
 using System.IO;
 using Immersio.Utility;

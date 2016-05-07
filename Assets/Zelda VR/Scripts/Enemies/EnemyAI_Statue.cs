@@ -32,10 +32,8 @@ public class EnemyAI_Statue : EnemyAI
         DungeonFactory df = CommonObjects.CurrentDungeonFactory;
         if (df != null)
         {
-            block.transform.parent = df.blocksContainer;
+            block.transform.SetParent(df.blocksContainer);
         }
-
-        // TODO: what if overworld or special?
 
         Vector3 pos = transform.position;
         pos.y = transform.localScale.y * 0.5f;

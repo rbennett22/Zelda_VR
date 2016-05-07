@@ -6,7 +6,7 @@ public interface IHealthControllerDelegate
 	void OnHealthChanged (HealthController healthController, int newHealth);
     void OnDamageTaken(HealthController healthController, ref uint damageAmount, GameObject damageDealer);
 	void OnHealthRestored (HealthController healthController, uint healAmount);
-	void OnTempInvincibilityActivation (HealthController healthController, bool didActivate = true);
+	void OnTempInvincibilityActivation (HealthController healthController, bool didActivate);
 	void OnDeath (HealthController healthController, GameObject killer);
 }
 

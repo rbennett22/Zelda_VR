@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public class RaftBlock : MonoBehaviour
 {
     const float RaftSpeed = 2.0f;
@@ -13,7 +12,6 @@ public class RaftBlock : MonoBehaviour
     public RaftBlock destination;
 
 
-    Collider _physicsCollider;
     GameObject _raftOverlay;
     Transform _playerTransform;
 
@@ -21,7 +19,6 @@ public class RaftBlock : MonoBehaviour
     void Awake()
     {
         _playerTransform = CommonObjects.PlayerController_G.transform;
-        _physicsCollider = GetComponent<BoxCollider>();
         GetComponent<Renderer>().enabled = false;
     }
 

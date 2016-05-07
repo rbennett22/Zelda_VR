@@ -51,7 +51,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
     Material wallBombed_EW;
     Material wallTop_EW;
 
-    bool _coloredWallMaterialsInitialized = false;
+    bool _coloredWallMaterialsHaveBeenInitialized = false;
     bool _eastWestMaterialsInitialized = false;
 
     List<DungeonRoom> _dungeonRoomsList;
@@ -87,7 +87,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
     {
         if (_dungeonRoomsList != null) { return; }
 
-        if (!_coloredWallMaterialsInitialized) { CreateColorizedMaterials(); }
+        if (!_coloredWallMaterialsHaveBeenInitialized) { CreateColorizedMaterials(); }
         if (!_eastWestMaterialsInitialized) { CreateEastWestVersionOfMaterials(); }
 
         _dungeonRoomsList = new List<DungeonRoom>();
@@ -122,7 +122,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
 
     void CreateColorizedMaterials()
     {
-        if (_coloredWallMaterialsInitialized) { return; }
+        if (_coloredWallMaterialsHaveBeenInitialized) { return; }
 
         ColorizeMaterial(defaultFloor_Gray, defaultFloor);
         ColorizeMaterial(wall_Gray, wall);
@@ -132,13 +132,12 @@ public class DungeonFactory : Singleton<DungeonFactory>
         ColorizeMaterial(wallBombed_Gray, wallBombed);
         ColorizeMaterial(wallTop_Gray, wallTop);
 
-        _coloredWallMaterialsInitialized = true;
+        _coloredWallMaterialsHaveBeenInitialized = true;
     }
 
     void ColorizeMaterial(Material srcMaterial, Material destMaterial)
     {
         Texture2D srcTexture = srcMaterial.mainTexture as Texture2D;
-        //Texture2D destTexture = destMaterial.mainTexture as Texture2D;
 
         Texture2D destTexture = new Texture2D(srcTexture.width, srcTexture.height, srcTexture.format, true);
         destTexture.filterMode = srcTexture.filterMode;
@@ -377,8 +376,8 @@ public class DungeonFactory : Singleton<DungeonFactory>
             Vector2 tile = dr.WorldPointToTile(hole.position);
             Rect floorTextureArea = dr.TileToFloorTextureArea(tile);
 
-            print("tile: " + tile.ToString());
-            print("floorTextureArea: " + floorTextureArea.ToString());
+            //print("tile: " + tile.ToString());
+            //print("floorTextureArea: " + floorTextureArea.ToString());
 
             // Create a new texture
             Texture2D origTexture;
@@ -553,5 +552,4 @@ public class DungeonFactory : Singleton<DungeonFactory>
 
         print(output);
     }
-
 }

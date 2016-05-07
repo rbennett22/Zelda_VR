@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-
 
 public class DungeonInfo : MonoBehaviour
 {
     public int dungeonNum;
 
 
-    #region Save/Load
+    #region Serialization
 
     public class Serializable
     {
@@ -19,7 +17,7 @@ public class DungeonInfo : MonoBehaviour
     {
         Serializable s = new Serializable();
 
-        int numRooms = transform.GetChildCount();
+        int numRooms = transform.childCount;
         s.roomNames = new string[numRooms];
         s.roomInfo = new DungeonRoomInfo.Serializable[numRooms];
         int i = 0;
@@ -47,5 +45,4 @@ public class DungeonInfo : MonoBehaviour
     }
 
     #endregion
-
 }

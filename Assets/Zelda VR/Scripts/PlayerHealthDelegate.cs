@@ -67,7 +67,7 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     {
         
     }
-    void IHealthControllerDelegate.OnTempInvincibilityActivation(HealthController healthController, bool didActivate = true)
+    void IHealthControllerDelegate.OnTempInvincibilityActivation(HealthController healthController, bool didActivate)
     {
 
     }

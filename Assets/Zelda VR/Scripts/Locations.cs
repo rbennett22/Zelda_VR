@@ -100,7 +100,6 @@ public class Locations : Singleton<Locations>
 
     public void LoadInitialScene()
     {
-        WorldInfo w = WorldInfo.Instance;
         string intitialScene;
 
         if (startInSpecial)

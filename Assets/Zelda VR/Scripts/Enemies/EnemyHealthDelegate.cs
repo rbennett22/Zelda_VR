@@ -78,7 +78,7 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     {
 
     }
-    void IHealthControllerDelegate.OnTempInvincibilityActivation(HealthController healthController, bool didActivate = true)
+    void IHealthControllerDelegate.OnTempInvincibilityActivation(HealthController healthController, bool didActivate)
     {
         if (flashWhenDamaged && enemyAnim != null)
         {
