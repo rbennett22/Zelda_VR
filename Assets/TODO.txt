@@ -1,9 +1,16 @@
 --- TODO ---
 
-- Third-Person Camera Mode
+-- Third-Person Camera Mode --
+- Tracked head movement should not effect Link facing direction/position
+- Change controls
+- Decide how to move camera to follow Link
+- Link Sprite
+- Transition between Camera modes
 
 - Use flat tiles at same voxel tile height as unit blocks
 - Integrate Lost Woods with Uniblocks
+
+- NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
 
 - Lost Hills
 - Waterfall cave
@@ -33,6 +40,7 @@
 - Boss Death anim (blink 2-3 times, then "poof")
 - Gleeok Heads Poof onDeath
 
+- ImageEffect on camera (bloom etc)
 - Make Map display an arrow for Link instead of a square
 - Place "signs" above Grottos indicating type
 - Inventory Cursor should blink red/blue
@@ -60,6 +68,7 @@
 - BUG: Vire can jump through wall
 - BUG: Projectiles can't pass over water in OW
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
+- BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)
 
 
 -- Optimizations --

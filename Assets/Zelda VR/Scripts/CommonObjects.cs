@@ -10,8 +10,9 @@ public class CommonObjects : Singleton<CommonObjects>
     public static ZeldaPlayerController PlayerController_C { get { return Instance.playerController_C; } }
 
 
-    public GameObject player_G, playerController_G;
+    public GameObject player_G;
     public Player player_C;
+    public GameObject playerController_G;
     public ZeldaPlayerController playerController_C;
 
     public Canvas headSpaceCanvas;

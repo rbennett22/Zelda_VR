@@ -31,7 +31,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
 
     void InitOverworldTileMap()
     {
-        _overworldTileMap = (Engine.EngineInstance as OverworldTerrainEngine).TileMap;
+        _overworldTileMap = CommonObjects.OverworldTileMap;
         if (_overworldTileMap != null)
         {
             _overworldTileMap.InitFromSettings(ZeldaVRSettings.Instance);
