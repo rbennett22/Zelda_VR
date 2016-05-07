@@ -10,6 +10,7 @@
 - Use flat tiles at same voxel tile height as unit blocks
 - Integrate Lost Woods with Uniblocks
 
+- Event System StandAlone Input Module doesn't work very well at all.  Need to change PauseMenu navigation implementation
 - NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
 
 - Lost Hills
@@ -92,6 +93,8 @@
 - Uniblocks voxel engine now used to render OverWorld terrain
 - Shrunk PlayerController (scaled from 1 to 0.5)
 - Fixed several major memory leaks that would eventually cause crash if left running for long enough.
+- Allow both Keyboard/Mouse and XBOX GamePad to be used simultaneously
+
 - Black overlay shutters now close vertically onDeath
 
 

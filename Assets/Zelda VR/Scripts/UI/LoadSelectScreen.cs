@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-
 public class LoadSelectScreen : MonoBehaviour
 {
-
     public GameObject saveEntryPrefab;
     public Transform saveEntriesContainer;
     public int numSaveEntries;
@@ -153,5 +151,4 @@ public class LoadSelectScreen : MonoBehaviour
             SoundFx.Instance.PlayOneShot(SoundFx.Instance.shield);
         }
     }
-
 }

@@ -3,8 +3,8 @@ using Immersio.Utility;
 
 public class PauseManager : Singleton<PauseManager> 
 {
-    const ZeldaInput.Button SHOW_OPTIONS_BUTTON = ZeldaInput.Button.Select;
-    const ZeldaInput.Button SHOW_INVENTORY_BUTTON = ZeldaInput.Button.Pause;
+    const ZeldaInput.Button SHOW_OPTIONS_BUTTON = ZeldaInput.Button.Back;
+    const ZeldaInput.Button SHOW_INVENTORY_BUTTON = ZeldaInput.Button.Start;
 
 
     [SerializeField]

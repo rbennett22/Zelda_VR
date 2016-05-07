@@ -206,7 +206,7 @@ public static class Extensions
     }
 
     // Vector2
-    public static Vector2 GetNearestNormalizedAxisDirection(this Vector2 dir, float threshold = 0.0f)
+    public static Vector2 GetNearestNormalizedAxisDirection(this Vector2 dir, float threshold = 0.01f)
     {
         Vector2 unitDirection = dir;
 

@@ -144,8 +144,10 @@ public class ZeldaPlayerController : OVRPlayerController
 
         float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
 
-        if (!SkipMouseRotation)
+        /*if (!SkipMouseRotation)
+        {
             euler.y += Input.GetAxis("Mouse X") * rotateInfluence * 3.25f;
+        }*/
 
         moveInfluence = SimulationRate * Time.deltaTime * Acceleration * 0.1f * MoveScale * MoveScaleMultiplier;
 
@@ -154,23 +156,6 @@ public class ZeldaPlayerController : OVRPlayerController
 
         transform.rotation = Quaternion.Euler(euler);
     }
-
-    /*bool CanMoveToPosition()
-    {
-        Vector3 dir = moveDirection;
-
-        int nextTileX = (int)(TileX + dir.x + EPSILON);
-        int nextTileZ = (int)(TileZ + dir.z + EPSILON);
-
-        TileMap tileMap = CommonObjects.OverworldTileMap;
-        int nextTileCode = tileMap.Tile(nextTileX, nextTileZ);
-
-        float turnAngle = 90;
-        while (!TileInfo.IsTilePassable(nextTileCode))
-        {
-            
-        }
-    }*/
 
     new public bool Jump()
     {

@@ -184,20 +184,10 @@ public class InventoryViewController : MonoBehaviour
         {
             Vector2 dir = Vector2.zero;
 
-            if (ZeldaInput.Instance.XBoxControllerAvailable)
-            {
-                float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
-                float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
-                dir = new Vector2(moveHorz, moveVert);
-                dir = dir.GetNearestNormalizedAxisDirection(0);
-            }
-            else
-            {
-                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) { dir.x = -1; }
-                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) { dir.x = 1; }
-                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) { dir.y = 1; }
-                if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) { dir.y = -1; }
-            }
+            float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
+            float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
+            dir = new Vector2(moveHorz, moveVert);
+            dir = dir.GetNearestNormalizedAxisDirection();
 
             if (dir.x != 0 || dir.y != 0)
             {
