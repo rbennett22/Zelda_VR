@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0162 // unreachable code detected
+
+using UnityEngine;
 using System.Collections.Generic;
 
 public class DungeonRoom : MonoBehaviour 

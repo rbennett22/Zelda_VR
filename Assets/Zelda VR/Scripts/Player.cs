@@ -7,36 +7,39 @@ public class Player : Singleton<Player>
     const float ShieldBlockDotThreshold = 0.6f;   // [0-1].  Closer to 1 means player has to be facing an incoming projectile more directly in order to block it.
     const float MoonModeGravityModifier = 1 / 6.0f;
     const float DefaultJinxDuration = 2.0f;
-    public const float DefaultLikeLikeTrapDuration = 3.5f;
+    const float DefaultLikeLikeTrapDuration = 3.5f;
     const int LikeLikeEscapeCount = 8;
     const float WhistleMelodyDuration = 4.0f;
 
 
-    public ZeldaPlayerController playerController;
-    public int jumpHeight = 0;
+    [SerializeField]
+    ZeldaPlayerController _playerController;
+    public ZeldaPlayerController PlayerController { get { return _playerController; } }
 
-    
+
     Inventory _inventory;
     GameObject _sword;
-    GameObject _secondaryItem;
+    GameObject _equippedItem;
+
     HealthController _healthController;
     public HealthController HealthController { get { return _healthController ?? (_healthController = GetComponent<HealthController>()); } }
 
-    public string Name { get; set; }
+    public string RegisteredName { get; set; }
     public int DeathCount { get; set; }
 
     public bool IsAtFullHealth { get { return HealthController.IsAtFullHealth; } }
     public int HealthInHalfHearts { get { return PlayerHealthDelegate.HealthToHalfHearts(HealthController.Health); } }
 
+    int _jumpHeight = 0;
     public int JumpHeight { 
-        get { return jumpHeight; }
+        get { return _jumpHeight; }
         set {
-            jumpHeight = value;
-            playerController.JumpForce = jumpHeight * 0.25f;
+            _jumpHeight = value;
+            _playerController.JumpForce = _jumpHeight * 0.25f;
         } 
     }
     public Inventory Inventory { get { return _inventory; } }
-    public GameObject SecondaryItem { get { return _secondaryItem; } }
+    public GameObject EquippedItem { get { return _equippedItem; } }
 
     public Transform weaponContainerLeft, weaponContainerRight;
 
@@ -51,21 +54,21 @@ public class Player : Singleton<Player>
             IsParalyzed = value;
         } 
     }
-    public bool IsParalyzed { get { return _isParalyzed; } set { _isParalyzed = value; playerController.enabled = !_isParalyzed; } }
+    public bool IsParalyzed { get { return _isParalyzed; } set { _isParalyzed = value; _playerController.enabled = !_isParalyzed; } }
     public bool IsInvincible { get { return HealthController.isIndestructible; } set { HealthController.isIndestructible = value; } }
-    public bool IsAirJumpingEnabled { get { return playerController.airJumpingEnabled; } set { playerController.airJumpingEnabled = value; } }
+    public bool IsAirJumpingEnabled { get { return _playerController.airJumpingEnabled; } set { _playerController.airJumpingEnabled = value; } }
 
     bool _IsMoonModeEnabled;
     float _normalGravityModifier;
     public bool IsMoonModeEnabled { 
         get { return _IsMoonModeEnabled; } 
         set {
-            if (!_IsMoonModeEnabled) { _normalGravityModifier = playerController.GravityModifier; }
+            if (!_IsMoonModeEnabled) { _normalGravityModifier = _playerController.GravityModifier; }
             _IsMoonModeEnabled = value;
 
             float gravMod = _normalGravityModifier;
             if (_IsMoonModeEnabled) { gravMod *= MoonModeGravityModifier; }
-            playerController.GravityModifier = gravMod;
+            _playerController.GravityModifier = gravMod;
         }
     }
     public bool IsDead { get { return !HealthController.IsAlive; } }
@@ -102,7 +105,7 @@ public class Player : Singleton<Player>
 
         _inventory = Inventory.Instance;
 
-        Name = "";
+        RegisteredName = "";
     }
 
 
@@ -138,7 +141,7 @@ public class Player : Singleton<Player>
 
     public void EquipSecondaryItem(string itemName)
     {
-        if (_secondaryItem != null) { DeequipSecondaryItem(); }
+        if (_equippedItem != null) { DeequipSecondaryItem(); }
 
         Item item = _inventory.GetItem(itemName);
         if (item.weaponPrefab != null)
@@ -147,7 +150,7 @@ public class Player : Singleton<Player>
         }
         else
         {
-            _secondaryItem = item.gameObject;
+            _equippedItem = item.gameObject;
         }
     }
 
@@ -155,20 +158,20 @@ public class Player : Singleton<Player>
     {
         Item weaponItem = _inventory.GetItem(weaponName);
 
-        _secondaryItem = Instantiate(weaponItem.weaponPrefab) as GameObject;
-        _secondaryItem.name = weaponName;
-        _secondaryItem.transform.parent = weaponContainerLeft;
-        _secondaryItem.transform.localPosition = Vector3.zero;
-        _secondaryItem.transform.localRotation = Quaternion.identity;
+        _equippedItem = Instantiate(weaponItem.weaponPrefab) as GameObject;
+        _equippedItem.name = weaponName;
+        _equippedItem.transform.parent = weaponContainerLeft;
+        _equippedItem.transform.localPosition = Vector3.zero;
+        _equippedItem.transform.localRotation = Quaternion.identity;
     }
 
     public void DeequipSecondaryItem()
     {
-        if (_secondaryItem != null && _secondaryItem.GetComponent<Item>() == null)
+        if (_equippedItem != null && _equippedItem.GetComponent<Item>() == null)
         {
-            Destroy(_secondaryItem);
+            Destroy(_equippedItem);
         }
-        _secondaryItem = null;
+        _equippedItem = null;
     }
 
 
@@ -199,11 +202,11 @@ public class Player : Singleton<Player>
             }
         }
 
-        weaponContainerLeft.transform.forward = playerController.LineOfSight;
+        weaponContainerLeft.transform.forward = _playerController.LineOfSight;
 
-        if (_secondaryItem != null)
+        if (_equippedItem != null)
         {
-            Bow bow = _secondaryItem.GetComponent<Bow>();
+            Bow bow = _equippedItem.GetComponent<Bow>();
             if (bow != null)
             {
                 if (ZeldaInput.GetButtonUp(ZeldaInput.Button.UseItemB))
@@ -227,7 +230,7 @@ public class Player : Singleton<Player>
 
     void UseSecondaryItem()
     {
-        BombDropper w = _secondaryItem.GetComponent<BombDropper>();
+        BombDropper w = _equippedItem.GetComponent<BombDropper>();
         if (w != null)
         {
             if (w.CanUse)
@@ -238,7 +241,7 @@ public class Player : Singleton<Player>
             return;
         }
 
-        Candle c = _secondaryItem.GetComponent<Candle>();
+        Candle c = _equippedItem.GetComponent<Candle>();
         if (c != null)
         {
             if (c.CanUse)
@@ -248,17 +251,17 @@ public class Player : Singleton<Player>
             return;
         }
 
-        Boomerang b = _secondaryItem.GetComponent<Boomerang>();
+        Boomerang b = _equippedItem.GetComponent<Boomerang>();
         if (b != null)
         {
             if (b.CanUse) 
             {
-                b.Throw(weaponContainerLeft, playerController.ForwardDirection);
+                b.Throw(weaponContainerLeft, _playerController.ForwardDirection);
             }
             return;
         }
 
-        Bow bow = _secondaryItem.GetComponent<Bow>();
+        Bow bow = _equippedItem.GetComponent<Bow>();
         if (bow != null)
         {
             if (_inventory.HasItem("WoodenArrow") || _inventory.HasItem("SilverArrow"))
@@ -272,7 +275,7 @@ public class Player : Singleton<Player>
             return;
         }
 
-        MagicWand wand = _secondaryItem.GetComponent<MagicWand>();
+        MagicWand wand = _equippedItem.GetComponent<MagicWand>();
         if (wand != null)
         {
             if (wand.CanUse)
@@ -283,7 +286,7 @@ public class Player : Singleton<Player>
             return;
         }
 
-        BaitDropper bd = _secondaryItem.GetComponent<BaitDropper>();
+        BaitDropper bd = _equippedItem.GetComponent<BaitDropper>();
         if (bd != null)
         {
             if (bd.CanUse)
@@ -293,7 +296,7 @@ public class Player : Singleton<Player>
             return;
         }
 
-        if (_secondaryItem.name == "Whistle")
+        if (_equippedItem.name == "Whistle")
         {
             StartCoroutine("UseWhistle");
             return;
@@ -340,7 +343,7 @@ public class Player : Singleton<Player>
         else if (WorldInfo.Instance.IsOverworld)
         {
             GameObject g = GameObject.FindGameObjectWithTag("Dungeon7Entrance");
-            float dist = Vector3.Distance(g.transform.position, playerController.transform.position);
+            float dist = Vector3.Distance(g.transform.position, _playerController.transform.position);
             if (dist < 7)
             {
                 g.GetComponent<Dungeon7Entrance>().EmptyLake();
@@ -371,7 +374,7 @@ public class Player : Singleton<Player>
     {
         if (!WorldInfo.Instance.IsInDungeon) { return null; }
         
-        return DungeonRoom.GetRoomForPosition(playerController.transform.position);
+        return DungeonRoom.GetRoomForPosition(_playerController.transform.position);
     }
 
     public float GetDamageModifier()
@@ -397,7 +400,7 @@ public class Player : Singleton<Player>
 
         bool canBlock = false;
 
-        bool attackIsDirectlyInFrontOfPlayer = Vector3.Dot(playerController.ForwardDirection, -attacksForwardDirection) > ShieldBlockDotThreshold;
+        bool attackIsDirectlyInFrontOfPlayer = Vector3.Dot(_playerController.ForwardDirection, -attacksForwardDirection) > ShieldBlockDotThreshold;
         if (attackIsDirectlyInFrontOfPlayer)
         {
             if (isBlockableByWoodenShield && _inventory.HasItem("WoodenShield"))
@@ -496,12 +499,12 @@ public class Player : Singleton<Player>
     public void ForceNewForwardDirection(Vector3 direction)
     {
         //playerController.transform.rotation = Quaternion.Euler(lerpedEuler);
-        playerController.transform.forward = direction;
+        _playerController.transform.forward = direction;
     }
 
     public void ForceNewEulerAngles(Vector3 euler)
     {
-        playerController.transform.eulerAngles = euler;
+        _playerController.transform.eulerAngles = euler;
     }
 
 

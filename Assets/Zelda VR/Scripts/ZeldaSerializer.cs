@@ -86,7 +86,7 @@ public class ZeldaSerializer : Singleton<ZeldaSerializer>
         Player player = CommonObjects.Player_C;
         Inventory inv = Inventory.Instance;
 
-        data.name = player.Name;
+        data.name = player.RegisteredName;
         data.deathCount = player.DeathCount;
         data.armorLevel = inv.GetArmorLevel();
         data.swordLevel = inv.GetSwordLevel();

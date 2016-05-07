@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0618 // variable is obsolete
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 

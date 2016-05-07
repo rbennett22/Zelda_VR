@@ -230,14 +230,10 @@ This component's properties are shown below to help you determine which script i
 					continue;
 
                 // Make this operation undo-able
-#if UNITY_4_3
-				Undo.RegisterCompleteObjectUndo( target, "Assign missing script" );
-#else
-                Undo.RegisterSceneUndo( "Assign missing script" );
-#endif
+                Undo.RegisterCompleteObjectUndo(target, "Assign missing script");
 
-				// Assign the selected MonoScript 
-				scriptProperty.objectReferenceValue = candidate.Matcher.Script;
+                // Assign the selected MonoScript 
+                scriptProperty.objectReferenceValue = candidate.Matcher.Script;
 				scriptProperty.serializedObject.ApplyModifiedProperties();
 				scriptProperty.serializedObject.Update();
 

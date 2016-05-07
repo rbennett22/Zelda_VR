@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0649 // variable is never assigned to
+
+using UnityEngine;
 
 public interface IOverlayShutterViewDelegate
 {

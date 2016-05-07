@@ -31,7 +31,7 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     void Awake()
     {
         _player = GetComponent<Player>();
-        _playerController = _player.playerController.gameObject.transform;
+        _playerController = _player.PlayerController.gameObject.transform;
         _healthController = GetComponent<HealthController>();
         _healthController.hcDelegate = this;
     }

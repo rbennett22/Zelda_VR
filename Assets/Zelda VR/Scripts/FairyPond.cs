@@ -18,7 +18,7 @@ public class FairyPond : MonoBehaviour
 
     void Awake()
     {
-        heartParticleSystem.emissionRate = restingEmmission;
+        ParticleEmissionRate = restingEmmission;
     }
 
 
@@ -41,7 +41,7 @@ public class FairyPond : MonoBehaviour
         CommonObjects.Player_C.ParalyzeAllNearbyEnemies(3.0f);
         CommonObjects.Player_C.DeactivateJinx();
 
-        heartParticleSystem.emissionRate = peakEmission;
+        ParticleEmissionRate = peakEmission;
 
         SoundFx.Instance.PlayOneShot(SoundFx.Instance.fanfare);
 
@@ -67,7 +67,17 @@ public class FairyPond : MonoBehaviour
         }
 
         CommonObjects.Player_C.IsParalyzed = false;
-        heartParticleSystem.emissionRate = restingEmmission;
+        ParticleEmissionRate = restingEmmission;
+    }
+
+    public float ParticleEmissionRate {
+        get { return heartParticleSystem.emission.rate.constantMax; }
+        set {
+            var em = heartParticleSystem.emission;
+            var rate = new ParticleSystem.MinMaxCurve();
+            rate.constantMax = value;
+            em.rate = rate;
+        }
     }
 
     void Restoration_Tick()

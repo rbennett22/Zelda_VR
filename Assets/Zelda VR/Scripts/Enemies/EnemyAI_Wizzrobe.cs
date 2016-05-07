@@ -28,7 +28,7 @@ public class EnemyAI_Wizzrobe : EnemyAI
         FadingAway,
         InvisibleIdle
     }
-    State _state = State.InvisibleIdle;
+    //State _state = State.InvisibleIdle;
 
 
     protected override void Awake()
@@ -47,7 +47,7 @@ public class EnemyAI_Wizzrobe : EnemyAI
 
     IEnumerator FadeAway()
     {
-        _state = State.FadingAway;
+        //_state = State.FadingAway;
         ActivateFlickering();
         yield return new WaitForSeconds(_fadeDuration);
 
@@ -57,7 +57,7 @@ public class EnemyAI_Wizzrobe : EnemyAI
 
     IEnumerator InvisibleIdle()
     {
-        _state = State.InvisibleIdle;
+        //_state = State.InvisibleIdle;
         Disappear();
         float teleportDuration = _teleportDuration + Random.Range(-_teleportDurationRandomOffset, _teleportDurationRandomOffset);
 
@@ -69,7 +69,7 @@ public class EnemyAI_Wizzrobe : EnemyAI
 
     IEnumerator FadeIn()
     {
-        _state = State.FadingIn;
+        //_state = State.FadingIn;
         ActivateFlickering();
 
         yield return new WaitForSeconds(_fadeDuration);
@@ -80,7 +80,7 @@ public class EnemyAI_Wizzrobe : EnemyAI
 
     IEnumerator Attack()
     {
-        _state = State.Attacking;
+        //_state = State.Attacking;
 
         if (_doUpdate && !IsPreoccupied)
         {
@@ -101,7 +101,7 @@ public class EnemyAI_Wizzrobe : EnemyAI
 
     IEnumerator WalkAround()
     {
-        _state = State.Walking;
+        //_state = State.Walking;
 
         enemyAI_Random.enabled = true;
         enemyAI_Random.TargetPosition = transform.position;

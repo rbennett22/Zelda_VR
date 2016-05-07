@@ -129,7 +129,7 @@ public class LoadSelectScreen : MonoBehaviour
 
         SaveEntry entry = _entries[_selectedEntryID];
         Player player = CommonObjects.Player_C;
-        player.Name = entry.PlayerName;
+        player.RegisteredName = entry.PlayerName;
         player.DeathCount = entry.PlayerDeathCount;
 
         SaveManager.Instance.LoadGame(_selectedEntryID);
