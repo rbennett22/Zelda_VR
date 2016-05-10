@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
-
 
 public class GrottoSpawnPoint : MonoBehaviour
 {
-
     public enum GrottoType
     {
         UniqueItem,
@@ -22,8 +19,6 @@ public class GrottoSpawnPoint : MonoBehaviour
 
     public GameObject grottoPrefab;
     public GameObject marker;
-    public string grottoName;
-    public float spawnDistance = 11;
 
     public GrottoType grottoType;
     public string text;
@@ -67,8 +62,9 @@ public class GrottoSpawnPoint : MonoBehaviour
     public Grotto SpawnGrotto()
     {
         GameObject g = Instantiate(grottoPrefab, transform.position, transform.rotation) as GameObject;
+
         SpawnedGrotto = g.GetComponent<Grotto>();
-        SpawnedGrotto.name = grottoName;
+        SpawnedGrotto.name = "Grotto - " + grottoType.ToString();
         SpawnedGrotto.transform.parent = _grottosContainer;
         SpawnedGrotto.GrottoSpawnPoint = this;
 
@@ -104,5 +100,4 @@ public class GrottoSpawnPoint : MonoBehaviour
     }
 
     #endregion
-
 }

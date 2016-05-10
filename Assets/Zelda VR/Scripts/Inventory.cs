@@ -1,18 +1,15 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Immersio.Utility;
 
-
 public class Inventory : Singleton<Inventory> 
 {
-    public const int DungeonCount = 9;
+    const int BOMB_MAX_COUNT_BASE = 8;
+    const int BOMBS_PER_UPGRADE = 4;
 
-    const string ItemPrefabsPath = "ZeldaItemPrefabs";
+    const string ITEM_PREFABS_PATH = "ZeldaItemPrefabs";        // (relative to a Resources folder)
 
 
-    //public InventoryGUI inventoryGui;
     public Transform itemsContainer;
 
 
@@ -44,7 +41,7 @@ public class Inventory : Singleton<Inventory>
     }
 
 
-    bool[] _hasCompassForDungeon = new bool[DungeonCount];
+    bool[] _hasCompassForDungeon = new bool[WorldInfo.NUM_DUNGEONS];
     public bool HasCompassForDungeon(int dungeon)
     {
         return _hasCompassForDungeon[dungeon - 1];
@@ -54,7 +51,7 @@ public class Inventory : Singleton<Inventory>
         _hasCompassForDungeon[dungeon - 1] = hasCompass;
     }
 
-    bool[] _hasMapForDungeon = new bool[DungeonCount];
+    bool[] _hasMapForDungeon = new bool[WorldInfo.NUM_DUNGEONS];
     public bool HasMapForDungeon(int dungeon)
     {
         return _hasMapForDungeon[dungeon - 1];
@@ -64,7 +61,7 @@ public class Inventory : Singleton<Inventory>
         _hasMapForDungeon[dungeon - 1] = hasMap;
     }
 
-    bool[] _hasTriforcePieceForDungeon = new bool[DungeonCount - 1];
+    bool[] _hasTriforcePieceForDungeon = new bool[WorldInfo.NUM_DUNGEONS - 1];
     public bool HasTriforcePieceForDungeon(int dungeon)
     {
         if (dungeon == 9) { return false; }     // (9th Dungeon doesn't have a Triforce piece)
@@ -115,7 +112,6 @@ public class Inventory : Singleton<Inventory>
             _equippedItemB = value;
             if (_equippedItemB != null)
             {
-                //inventoryGui.SetCursorIndex(GetCursorIndexForItem(_equippedItemB));
                 CommonObjects.Player_C.EquipSecondaryItem(_equippedItemB.name);
             }
             else
@@ -200,7 +196,7 @@ public class Inventory : Singleton<Inventory>
     {
         Items = new Dictionary<string, Item>();
 
-        foreach (var itemPrefab in Resources.LoadAll<GameObject>(ItemPrefabsPath))
+        foreach (var itemPrefab in Resources.LoadAll<GameObject>(ITEM_PREFABS_PATH))
         {
             //print(itemPrefab.name);
             GameObject g = Instantiate(itemPrefab) as GameObject;
@@ -256,30 +252,8 @@ public class Inventory : Singleton<Inventory>
         return false;
     }
 
-    public Vector2 GetCursorIndexForItem(Item item)
-    {
-        if(item == null) 
-        { 
-            return Vector2.zero; 
-        }
 
-        for (int i = 0; i < 3; i++)
-		{
-            for (int y = 0; y < 2; y++)
-            {
-                for (int x = 0; x < 4; x++)
-                {
-                    if (_equippableSecondaryItems[i, y, x] != item) { continue; }
-                    return new Vector2(x, y);
-                }
-            }
-		}
-        
-        return Vector2.zero;
-    }
-
-
-    void SyncPlayerHealthWithHeartContainers(bool restoreHealth = true)
+    void SyncPlayerHealthWithHeartContainers(bool restoreHealth = false)
     {
         HealthController hc = CommonObjects.Player_C.GetComponent<HealthController>();
         hc.maxHealth = PlayerHealthDelegate.HalfHeartsToHealth(GetItem("HeartContainer").count * 2);
@@ -339,6 +313,7 @@ public class Inventory : Singleton<Inventory>
         if (item.name == "HeartContainer")
         {
             SyncPlayerHealthWithHeartContainers();
+            CommonObjects.Player_C.RestoreHearts(1);
         }
         else if (item.name == "TriforcePiece")
         {
@@ -389,11 +364,11 @@ public class Inventory : Singleton<Inventory>
 
         if (item.name == "Heart")
         {
-            CommonObjects.Player_C.RestoreHalfHearts(2);
+            CommonObjects.Player_C.RestoreHearts(1);
         }
         else if (item.name == "Fairy")
         {
-            CommonObjects.Player_C.RestoreHalfHearts(6);
+            CommonObjects.Player_C.RestoreHearts(3);
         }
         else if (item.name == "Compass")
         {
@@ -440,23 +415,23 @@ public class Inventory : Singleton<Inventory>
 
     public void EquipSword_Cheat(string swordName)
     {
-        GetItem(swordName).count = 1;
-        EquippedItemA = GetItem(swordName);
+        Item sword = GetItem(swordName);
+        sword.count = 1;
+        EquippedItemA = sword;
     }
 
 
     public void MaxOutEverything()
     {
-        foreach (KeyValuePair<string, Item> entry in Items)
+        foreach (Item item in Items.Values)
         {
-            Item item = entry.Value;
             item.count = item.maxCount;
         }
 
         ApplyBombUpgrades();
         GetItem("Bomb").count = GetItem("Bomb").maxCount;
 
-        for (int i = 1; i <= DungeonCount; i++)
+        for (int i = 1; i <= WorldInfo.NUM_DUNGEONS; i++)
         {
             SetHasCompassForDungeon(i, true);
             SetHasMapForDungeon(i, true);
@@ -468,13 +443,13 @@ public class Inventory : Singleton<Inventory>
         EquippedItemA = GetItem("MagicSword");
         EquippedItemB = GetItem("SilverBow");
 
-        SyncPlayerHealthWithHeartContainers();
+        SyncPlayerHealthWithHeartContainers(true);
     }
 
 
     void ApplyBombUpgrades()
     {
-        GetItem("Bomb").maxCount = 8 + GetItem("BombUpgrade").count * 4;
+        GetItem("Bomb").maxCount = BOMB_MAX_COUNT_BASE + GetItem("BombUpgrade").count * BOMBS_PER_UPGRADE;
     }
 
 
@@ -487,9 +462,9 @@ public class Inventory : Singleton<Inventory>
 
         public string equippedItemA, equippedItemB;
 
-        public bool[] hasCompassForDungeon = new bool[DungeonCount];
-        public bool[] hasMapForDungeon = new bool[DungeonCount];
-        public bool[] hasTriforcePieceForDungeon = new bool[DungeonCount - 1];
+        public bool[] hasCompassForDungeon = new bool[WorldInfo.NUM_DUNGEONS];
+        public bool[] hasMapForDungeon = new bool[WorldInfo.NUM_DUNGEONS];
+        public bool[] hasTriforcePieceForDungeon = new bool[WorldInfo.NUM_DUNGEONS - 1];
         public bool hasDeliveredLetterToOldWoman;
     }
 
@@ -560,5 +535,4 @@ public class Inventory : Singleton<Inventory>
         }
         print(output);
     }
-
 }

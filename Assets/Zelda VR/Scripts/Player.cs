@@ -515,4 +515,8 @@ public class Player : Singleton<Player>
         int healAmount = PlayerHealthDelegate.HalfHeartsToHealth(halfHearts);
         HealthController.RestoreHealth((uint)healAmount);
     }
+    public void RestoreHearts(int hearts)
+    {
+        RestoreHalfHearts(hearts * 2);
+    }
 }

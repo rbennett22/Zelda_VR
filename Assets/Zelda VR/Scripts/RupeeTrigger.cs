@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public class RupeeTrigger : MonoBehaviour
 {
     public int id;

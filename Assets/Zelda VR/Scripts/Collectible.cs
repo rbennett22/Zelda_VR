@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class Collectible : MonoBehaviour
 {
     const float RiseAboveLinkDuration = 1.5f;
@@ -71,19 +70,14 @@ public class Collectible : MonoBehaviour
                     boomerang.OnHitCollectible(this);
                 }
             }
-        }
-        
+        }     
     }
 
     public void Collect()
     {
         //print(" Collect: " + name);
 
-        SoundFx sfx = SoundFx.Instance;
-        foreach (var clip in sounds)
-        {
-            sfx.PlayOneShot(clip);
-        }
+        PlayCollectionSounds();
 
         if (riseUpWhenCollected)
         {
@@ -92,6 +86,15 @@ public class Collectible : MonoBehaviour
         else
         {
             FinishCollectionProcess();
+        }
+    }
+
+    void PlayCollectionSounds()
+    {
+        SoundFx sfx = SoundFx.Instance;
+        foreach (var clip in sounds)
+        {
+            sfx.PlayOneShot(clip);
         }
     }
 
@@ -140,5 +143,4 @@ public class Collectible : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
 }

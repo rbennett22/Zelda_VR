@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public class Grotto : MonoBehaviour
 {
     public static Grotto OccupiedGrotto;        // The Grotto the player is currently in
@@ -26,8 +25,8 @@ public class Grotto : MonoBehaviour
     Collectible _giftItem;
     Collectible _salesItemA, _salesItemB, _salesItemC;
     bool _storedFogSetting;
-    bool _hasMadeGambleChoice;
-    bool _hasMadePayForInfoChoice;
+    bool _hasMadeChoice_Gamble;
+    bool _hasMadeChoice_PayForInfo;
 
 
     public GrottoSpawnPoint GrottoSpawnPoint { get { return _grottoSpawnPoint; } set { _grottoSpawnPoint = value; } }
@@ -58,15 +57,13 @@ public class Grotto : MonoBehaviour
     {
         if (PlayerIsInside) { return; }
 
-        SoundFx sfx = SoundFx.Instance;
-        sfx.PlayOneShot(sfx.stairs);
-
         if (WorldInfo.Instance.IsOverworld)
         {
             _storedFogSetting = RenderSettings.fog;
             RenderSettings.fog = false;
         }
 
+        PlaySound_Stairs();
         Music.Instance.Stop();
 
         ShowFlames();
@@ -133,8 +130,7 @@ public class Grotto : MonoBehaviour
     {
         if (!PlayerIsInside) { return; }
 
-        SoundFx sfx = SoundFx.Instance;
-        sfx.PlayOneShot(sfx.stairs);
+        PlaySound_Stairs();
 
         if (WorldInfo.Instance.IsOverworld)
         {
@@ -151,18 +147,19 @@ public class Grotto : MonoBehaviour
         DisplayMessage(false);
         ShowTheGoods(false);
 
-        _hasMadeGambleChoice = false;
-        _hasMadePayForInfoChoice = false;
+        _hasMadeChoice_Gamble = false;
+        _hasMadeChoice_PayForInfo = false;
+
         PlayerIsInside = false;
         OccupiedGrotto = null;
     }
 
-
+    
     public void DeliverLetter()
     {
         Inventory.Instance.HasDeliveredLetterToOldWoman = true;
 
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
+        PlaySound_Secret();
 
         // TODO
 
@@ -173,15 +170,15 @@ public class Grotto : MonoBehaviour
     {
         if (GrottoType == GrottoSpawnPoint.GrottoType.Gamble)
         {
-            if (!_hasMadeGambleChoice)
+            if (!_hasMadeChoice_Gamble)
             {
-                _hasMadeGambleChoice = true;
+                _hasMadeChoice_Gamble = true;
                 Gamble(rupeeTrigger.id);
             }
         }
         else if (GrottoType == GrottoSpawnPoint.GrottoType.PayForInfo)
         {
-            if (!_hasMadePayForInfoChoice)
+            if (!_hasMadeChoice_PayForInfo)
             {
                 PayForInfo(rupeeTrigger.id);
             }
@@ -191,16 +188,17 @@ public class Grotto : MonoBehaviour
 
     void Gamble(int rupeeTriggerID)
     {
-        int winAmount = 50, loseAmount1 = -10, loseAmount2 = -40;
+        const int WIN_AMOUNT = 50, LOSE_AMOUNT_1 = -10, LOSE_AMOUNT_2 = -40;
+
         int winningsA = 0, winningsB = 0, winningsC = 0;
 
         // Determine winnings randomly
         int rand = Random.Range(0, 3);
         switch (rand)
         {
-            case 0: winningsA = winAmount; winningsB = loseAmount1; winningsC = loseAmount2; break;
-            case 1: winningsB = winAmount; winningsC = loseAmount1; winningsA = loseAmount2; break;
-            case 2: winningsC = winAmount; winningsA = loseAmount1; winningsB = loseAmount2; break;
+            case 0: winningsA = WIN_AMOUNT; winningsB = LOSE_AMOUNT_1; winningsC = LOSE_AMOUNT_2; break;
+            case 1: winningsB = WIN_AMOUNT; winningsC = LOSE_AMOUNT_1; winningsA = LOSE_AMOUNT_2; break;
+            case 2: winningsC = WIN_AMOUNT; winningsA = LOSE_AMOUNT_1; winningsB = LOSE_AMOUNT_2; break;
         }
 
         // Reveal winnings in text display
@@ -241,7 +239,7 @@ public class Grotto : MonoBehaviour
 
         ShowTheGoods(false);
 
-        _hasMadePayForInfoChoice = true;
+        _hasMadeChoice_PayForInfo = true;
     }
 
 
@@ -251,7 +249,7 @@ public class Grotto : MonoBehaviour
         flame2.SetActive(doShow);
         if (doShow)
         {
-            SoundFx.Instance.PlayOneShot(SoundFx.Instance.flame);
+            PlaySound_Flame();
         }
     }
 
@@ -516,4 +514,17 @@ public class Grotto : MonoBehaviour
         Destroy(_npc, _fadeDuration);
     }
 
+
+    void PlaySound_Stairs()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.stairs);
+    }
+    void PlaySound_Secret()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
+    }
+    void PlaySound_Flame()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.flame);
+    }
 }

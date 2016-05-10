@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 
-
 public class Bait : MonoBehaviour
 {
     public const float MaxLureDistance = 12.0f;
@@ -51,37 +50,8 @@ public class Bait : MonoBehaviour
     }
 
 
-    void Update()
-    {
-        
-    }
-
-    void Lure()
-    {
-        /*Collider[] colliders = Physics.OverlapSphere(transform.position, 0.5f);
-        foreach (Collider hit in colliders)
-        {
-            if (hit == null) { continue; }
-
-            GameObject g = hit.gameObject;
-
-            Enemy enemy = g.GetComponent<Enemy>();
-            if (enemy != null)
-            {
-                ApplyDamage(g);
-            }
-
-            Block b = g.GetComponent<Block>();
-            if (b != null && b.isBurnable)
-            {
-                BurnBlock(b);
-            }
-        }*/
-    }
-
     void OnDestroy()
     {
         ActiveBait = null;
     }
-
 }

@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Diagnostics;
 
 public class CollectibleProliferator : MonoBehaviour
 {
@@ -8,7 +6,6 @@ public class CollectibleProliferator : MonoBehaviour
 
 
     int _removalDist, _removalDistSq;
-
     Transform _playerTransform;
 
 
@@ -22,30 +19,9 @@ public class CollectibleProliferator : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine("Update_CR");
+        InvokeRepeating("Tick", 0, updateInterval_ms * 0.001f);
     }
 
-
-    IEnumerator Update_CR()
-    {
-        // TODO: replace with a simple InvokeRepeating?
-
-        while (true)
-        {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-            {
-                Tick();
-
-                Resources.UnloadUnusedAssets();
-            }
-            stopWatch.Stop();
-
-            int elapsedTime = stopWatch.Elapsed.Milliseconds;
-            float waitTime = 0.001f * Mathf.Max(0, updateInterval_ms - elapsedTime);
-            yield return new WaitForSeconds(waitTime);
-        }
-    }
 
     void Tick()
     {

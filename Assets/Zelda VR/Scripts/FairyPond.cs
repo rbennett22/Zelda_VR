@@ -1,12 +1,8 @@
 ﻿using UnityEngine;
-using System;
-using System.Diagnostics;
-using System.Collections;
-
 
 public class FairyPond : MonoBehaviour
 {
-    const float RestorationUpdateInterval_ms = 125;
+    const float RESTORATION_UPDATE_INTERVAL_MS = 125;
 
 
     public ParticleSystem heartParticleSystem;
@@ -14,6 +10,19 @@ public class FairyPond : MonoBehaviour
 
 
     bool _playingRestorationSequence;
+
+
+    float ParticleEmissionRate
+    {
+        get { return heartParticleSystem.emission.rate.constantMax; }
+        set
+        {
+            var em = heartParticleSystem.emission;
+            var rate = new ParticleSystem.MinMaxCurve();
+            rate.constantMax = value;
+            em.rate = rate;
+        }
+    }
 
 
     void Awake()
@@ -46,45 +55,16 @@ public class FairyPond : MonoBehaviour
         SoundFx.Instance.PlayOneShot(SoundFx.Instance.fanfare);
 
         _playingRestorationSequence = true;
-        StartCoroutine("Restoration_Coroutine");
+
+        InvokeRepeating("Restoration_Tick", 0, RESTORATION_UPDATE_INTERVAL_MS * 0.001f);
     }
 
-
-    IEnumerator Restoration_Coroutine()
-    {
-        while (_playingRestorationSequence)
-        {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-            {
-                Restoration_Tick();
-            }
-            stopWatch.Stop();
-
-            int elapsedTime = stopWatch.Elapsed.Milliseconds;
-            float waitTime = 0.001f * Mathf.Max(0, RestorationUpdateInterval_ms - elapsedTime);
-            yield return new WaitForSeconds(waitTime);
-        }
-
-        CommonObjects.Player_C.IsParalyzed = false;
-        ParticleEmissionRate = restingEmmission;
-    }
-
-    public float ParticleEmissionRate {
-        get { return heartParticleSystem.emission.rate.constantMax; }
-        set {
-            var em = heartParticleSystem.emission;
-            var rate = new ParticleSystem.MinMaxCurve();
-            rate.constantMax = value;
-            em.rate = rate;
-        }
-    }
 
     void Restoration_Tick()
     {
         if (CommonObjects.Player_C.IsAtFullHealth)
         {
-            _playingRestorationSequence = false;
+            OnRestorationComplete();
             return;
         }
 
@@ -93,4 +73,12 @@ public class FairyPond : MonoBehaviour
         CommonObjects.Player_C.RestoreHalfHearts(1);
     }
 
+    void OnRestorationComplete()
+    {
+        _playingRestorationSequence = false;
+        CancelInvoke("Restoration_Tick");
+
+        CommonObjects.Player_C.IsParalyzed = false;
+        ParticleEmissionRate = restingEmmission;
+    }
 }

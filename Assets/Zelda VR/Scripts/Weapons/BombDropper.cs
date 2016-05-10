@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public class BombDropper : MonoBehaviour
 {
     public GameObject bombPrefab;
@@ -21,6 +20,7 @@ public class BombDropper : MonoBehaviour
     {
         _projectilesContainer = GameObject.Find("Projectiles").transform;
     }
+
 
     public void DropBomb()
     {
@@ -63,5 +63,4 @@ public class BombDropper : MonoBehaviour
         //print("OnBombDestroyed");
         _spawnedBomb = null;
     }
-
 }

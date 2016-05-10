@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-
 public class Item : MonoBehaviour
 {
     const string GuiSpriteGameObjectName = "GuiSprite";
@@ -40,22 +39,12 @@ public class Item : MonoBehaviour
         }
     }
 
-    void FindGuiSprite()
-    {
-        foreach (var sr in transform.GetComponentsInChildren<SpriteRenderer>())
-        {
-            if (sr.name != GuiSpriteGameObjectName) { continue; }
-            _guiSprite = sr.sprite;
-            break;
-        }
-    }
 
-
-    public Sprite GetGuiSprite()
+    /*public Sprite GetGuiSprite()
     {
         if (_guiSprite == null) { FindGuiSprite(); }
         return _guiSprite;
-    }
+    }*/
     public Texture GetGuiTexture()
     {
         if (_guiSpriteTexture == null)
@@ -65,13 +54,23 @@ public class Item : MonoBehaviour
         }
         return _guiSpriteTexture;
     }
-    public Texture GetHudTexture()
+    /*public Texture GetHudTexture()
     {
         if (_hudSpriteTexture == null)
         {
             _hudSpriteTexture = (hudSprite == null) ? GetGuiTexture() : hudSprite.GetTextureSegment();
         }
         return _hudSpriteTexture;
+    }*/
+
+    void FindGuiSprite()
+    {
+        foreach (var sr in transform.GetComponentsInChildren<SpriteRenderer>())
+        {
+            if (sr.name != GuiSpriteGameObjectName) { continue; }
+            _guiSprite = sr.sprite;
+            break;
+        }
     }
 
 
@@ -128,6 +127,7 @@ public class Item : MonoBehaviour
         return GetUpgradeChain().Contains(item);
     }
 
+
     public void OnCollected(int amount = 1)
     {
         count = Mathf.Min(count + amount, maxCount);
@@ -141,9 +141,6 @@ public class Item : MonoBehaviour
             count = Mathf.Max(count - 1, 0);
         }
 
-        //Inventory.Instance.UseItem(name);
-
         SendMessage("OnItemUsed", SendMessageOptions.DontRequireReceiver);
-    }
-    
+    }  
 }

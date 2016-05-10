@@ -10,13 +10,12 @@
 - Use flat tiles at same voxel tile height as unit blocks
 - Integrate Lost Woods with Uniblocks
 
-- Event System StandAlone Input Module doesn't work very well at all.  Need to change PauseMenu navigation implementation
+- EventSystem Standalone Input Module doesn't work very well at all.  Need to change PauseMenu navigation implementation
 - NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
 
 - Lost Hills
 - Waterfall cave
 - D6 OW Entrance
-- D1 NPC room seals
 - Grotto Warps
 - Fog disappears abruptly in grottos close to Lost Woods
 - Update Controls image
@@ -35,13 +34,12 @@
 - Texture blocks correctly (use BoxMesh.cs)
 - Texture OW DungeonEntrances correctly.
 - SubDungeon Warps - Mirror effect
-- Medicine - Animate HeartRestore
 - Hold up HeartContainer if received in Grotto
 - Leevers - Emerge anim should only play through once
 - Boss Death anim (blink 2-3 times, then "poof")
 - Gleeok Heads Poof onDeath
 
-- ImageEffect on camera (bloom etc)
+- ImageEffect on camera (bloom etc)?
 - Make Map display an arrow for Link instead of a square
 - Place "signs" above Grottos indicating type
 - Inventory Cursor should blink red/blue
@@ -58,7 +56,6 @@
 
 -- Other --
 - Use Zelda Font for Controls text
-- Non-Oculus Support
 
 
 -- BUGS --
@@ -67,6 +64,7 @@
 - BUG: Enemies can end up walking through walls in Lost Woods
 - BUG: Enemies that spawn after clock has activated aren't paralyzed
 - BUG: Vire can jump through wall
+- BUG: Sword often malfunctions (either becomes invisible or gets "stuck", I'm not sure)
 - BUG: Projectiles can't pass over water in OW
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
 - BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)

@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Diagnostics;
-using System.Collections;
 
 public class GrottoSpawnManager : MonoBehaviour
 {
@@ -18,26 +16,9 @@ public class GrottoSpawnManager : MonoBehaviour
     {
         _spawnDistanceSq = _spawnDistance * _spawnDistance;
 
-        StartCoroutine("Update_Coroutine");
+        InvokeRepeating("Tick", 0, _updateInterval_ms * 0.001f);
     }
 
-
-    IEnumerator Update_Coroutine()
-    {
-        while (true)
-        {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-            {
-                Tick();
-            }
-            stopWatch.Stop();
-
-            int elapsedTime = stopWatch.Elapsed.Milliseconds;
-            float waitTime = 0.001f * Mathf.Max(0, _updateInterval_ms - elapsedTime);
-            yield return new WaitForSeconds(waitTime);
-        }
-    }
 
     void Tick()
     {

@@ -5,6 +5,7 @@ using System.Collections;
 public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
 {
     const float DEATH_SEQUENCE_DURATION = 2.0f;
+    const int NUM_HALF_HEARTS_AFTER_RESPAWN = 6;
 
 
     static int _healthToHeartRatio = 8;
@@ -129,6 +130,7 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
         yield return new WaitForSeconds(0.1f);
 
         _healthController.Reset();
+        _healthController.SetHealth(HalfHeartsToHealth(NUM_HALF_HEARTS_AFTER_RESPAWN));
         GameplayHUDViewController.Instance.ShowView();
     }
     void ShuttersFinishedOpening()
