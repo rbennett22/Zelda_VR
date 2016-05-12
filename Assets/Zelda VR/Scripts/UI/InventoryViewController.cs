@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
+using System;
+using Immersio.Utility;
 
 //[RequireComponent(typeof(InventoryView))]
 
 public class InventoryViewController : MonoBehaviour
 {
-    const float CURSOR_COOLDOWN_DURATION = 0.1f;
-
-
     [SerializeField]
     InventoryView _view;
     Inventory _inventory;
 
-    bool _cursorCooldownActive;
-    float _cursorCooldownTimer;
+
+    public Action<MenuCursor> onCursorIndexChanged_Callback;
 
 
     void Awake()
@@ -22,6 +20,7 @@ public class InventoryViewController : MonoBehaviour
         _inventory = Inventory.Instance;
 
         _view.gameObject.SetActive(false);
+        _view.onCursorIndexChanged_Callback = OnCursorIndexChanged;
     }
 
 
@@ -32,13 +31,15 @@ public class InventoryViewController : MonoBehaviour
             return;
         }
 
-        if (IsViewShowing)
+        if (!IsViewShowing)
         {
-            // TODO: Don't update every frame
-
-            UpdateCursor();
-            UpdateView();
+            return;
         }
+
+        // TODO: Don't update every frame
+
+        UpdateCursor();
+        UpdateView();
     }
 
     public bool IsViewShowing { get; private set; }
@@ -176,58 +177,25 @@ public class InventoryViewController : MonoBehaviour
 
     void UpdateCursor()
     {
-        if (_cursorCooldownActive)
-        {
-            UpdateCursorCooldownTimer();
-        }
-        else
-        {
-            Vector2 dir = Vector2.zero;
+        float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
+        float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
 
-            float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
-            float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
-            dir = new Vector2(moveHorz, moveVert);
-            dir = dir.GetNearestNormalizedAxisDirection();
-
-            if (dir.x != 0 || dir.y != 0)
-            {
-                MoveCursor(dir);
-            }
-        }
+        _view.MoveCursor(new Vector2(moveHorz, moveVert));
     }
-    void MoveCursor(Vector2 direction)
+    void OnCursorIndexChanged(InventoryView sender)
     {
-        _view.MoveCursor(direction);
-
-        Vector2 cursorIndices = _view.CursorIndices;
-        _inventory.EquippedItemB = _inventory.GetEquippableSecondaryItem((int)cursorIndices.x, (int)cursorIndices.y);
-
-        PlayCursorMoveSound();
-
-        StartCursorCooldownTimer();
-    }
-
-    void StartCursorCooldownTimer()
-    {
-        _cursorCooldownTimer = CURSOR_COOLDOWN_DURATION;
-        _cursorCooldownActive = true;
-    }
-    void UpdateCursorCooldownTimer()
-    {
-        _cursorCooldownTimer -= Time.unscaledDeltaTime;
-        if (_cursorCooldownTimer <= 0)
+        if(sender != _view)
         {
-            _cursorCooldownActive = false;
+            return;
         }
+
+        Index2 idx = sender.CursorIndex;
+        _inventory.EquippedItemB = _inventory.GetEquippableSecondaryItem(idx.x, idx.y);
     }
 
 
     void PlayInventoryToggleSound()
     {
         SoundFx.Instance.PlayOneShot(SoundFx.Instance.pause);
-    }
-    void PlayCursorMoveSound()
-    {
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.cursor);
     }
 }

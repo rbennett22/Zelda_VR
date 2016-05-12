@@ -127,6 +127,7 @@ public class Inventory : Singleton<Inventory>
     int _targetRupeeCount;
     bool _animateRupeeCount;
     public int RupeeCount { get { return GetItem("Rupee").count; } }
+    public bool CanAfford(int price) { return RupeeCount >= price; }
     public bool SpendRupees(int amount)
     {
         if (amount > RupeeCount) { return false; }

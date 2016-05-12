@@ -2,6 +2,8 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using Immersio.Utility;
 
 public class InventoryView : MonoBehaviour
 {
@@ -36,21 +38,25 @@ public class InventoryView : MonoBehaviour
     DungeonMapView _dungeonMapView;
 
     [SerializeField]
-    GameObject _itemEquippedB,
-               _itemP0, _itemP1, _itemP2, _itemP3, _itemP4, _itemP5,
-               _itemA00, _itemA01, _itemA02, _itemA03,
+    GameObject _itemEquippedB,                                              // Equipped secondary item
+               _itemP0, _itemP1, _itemP2, _itemP3, _itemP4, _itemP5,        // Passive items
+               _itemA00, _itemA01, _itemA02, _itemA03,                      // Active items
                _itemA10, _itemA11, _itemA12, _itemA13,
-               _aux0, _aux1,
-               _tri0, _tri1, _tri2, _tri3, _tri4, _tri5, _tri6, _tri7;
+               _aux0, _aux1,                                                // Auxillary items
+               _tri0, _tri1, _tri2, _tri3, _tri4, _tri5, _tri6, _tri7;      // Triforce pieces
 
     GameObject[] _passiveItemSlots;
     GameObject[,] _activeItemSlots;
     GameObject[] _auxItemSlots;
     GameObject[] _triforceItemSlots;
 
+
     [SerializeField]
-    GameObject _cursor;
-    int _cursorIndexX, _cursorIndexY;
+    MenuCursor _cursor;
+    [SerializeField]
+    GameObject _cursorView;
+
+    public Action<InventoryView> onCursorIndexChanged_Callback;
 
 
     public bool ShouldDungeonMapRevealUnvisitedRooms { set { _dungeonMapView.DoRenderUnvisitedRooms = value; } }
@@ -70,7 +76,9 @@ public class InventoryView : MonoBehaviour
 
         DisplayMode = _displayMode;
 
-        CursorIndices = new Vector2(0, 0);
+        _cursor.numColumns = ACTIVE_ITEM_COLS;
+        _cursor.numRows = ACTIVE_ITEM_ROWS;
+        _cursor.onIndexChanged_Callback = OnCursorIndexChanged;
     }
 
     public void ClearAllItemSlots()
@@ -169,31 +177,35 @@ public class InventoryView : MonoBehaviour
     }
 
 
-    public void MoveCursor(Vector2 dir)
+    public Index2 CursorIndex {
+        get { return _cursor.CursorIndex; }
+        set { _cursor.CursorIndex = value; }
+    }
+    void OnCursorIndexChanged(MenuCursor sender)
     {
-        if (dir.x < 0) { _cursorIndexX--; }
-        else if (dir.x > 0) { _cursorIndexX++; }
-        if (_cursorIndexX < 0) { _cursorIndexX += ACTIVE_ITEM_COLS; }
-        else if (_cursorIndexX >= ACTIVE_ITEM_COLS) { _cursorIndexX -= ACTIVE_ITEM_COLS; }
+        if (sender != _cursor)
+        {
+            return;
+        }
 
-        if (dir.y < 0) { _cursorIndexY--; }
-        else if (dir.y > 0) { _cursorIndexY++; }
-        if (_cursorIndexY < 0) { _cursorIndexY += ACTIVE_ITEM_ROWS; }
-        else if (_cursorIndexY >= ACTIVE_ITEM_ROWS) { _cursorIndexY -= ACTIVE_ITEM_ROWS; }
+        // Reposition the cursor view
+        GameObject itemSlot = _activeItemSlots[sender.CursorIndex.y, sender.CursorIndex.x];
+        _cursorView.transform.position = itemSlot.transform.position;
 
-        CursorIndices = new Vector2(_cursorIndexX, _cursorIndexY);
+        // Notify our delegate
+        if (onCursorIndexChanged_Callback != null)
+        {
+            onCursorIndexChanged_Callback(this);
+        }
     }
 
-    public Vector2 CursorIndices {
-        get { return new Vector2(_cursorIndexX, _cursorIndexY); }
-        set
-        {
-            _cursorIndexX = Mathf.Clamp((int)value.x, 0, ACTIVE_ITEM_COLS - 1);
-            _cursorIndexY = Mathf.Clamp((int)value.y, 0, ACTIVE_ITEM_ROWS - 1);
-
-            GameObject itemSlot = _activeItemSlots[_cursorIndexY, _cursorIndexX];
-            _cursor.transform.position = itemSlot.transform.position;
-        }
+    public void MoveCursor(Vector2 vec)
+    {
+        _cursor.TryMoveCursor(vec);
+    }
+    public void MoveCursor(Index2.Direction dir)
+    {
+        _cursor.TryMoveCursor(dir);
     }
 
 

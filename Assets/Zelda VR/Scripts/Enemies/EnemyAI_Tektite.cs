@@ -82,13 +82,13 @@ public class EnemyAI_Tektite : EnemyAI
     }
     void JumpAwayFromPlayer()
     {
-        _enemy.Jump(-ToPlayer);
+        _enemy.Jump(EnforceBoundary(-ToPlayer));
     }
 
     void JumpToBait()
     {
         Vector3 toBait = Bait.ActiveBait.transform.position - transform.position;
-        _enemy.Jump(toBait);
+        _enemy.Jump(EnforceBoundary(toBait));
     }
 
     void OnLanded()

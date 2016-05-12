@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Collectible : MonoBehaviour
 {
-    const float RiseAboveLinkDuration = 1.5f;
-    const float RiseAboveLinkHeight = 0.5f;
+    const float RISE_ABOVE_LINK_DURATION = 1.5f;
+    const float RISE_ABOVE_LINK_HEIGHT = 0.5f;
 
 
     public Item itemPrefab;
@@ -21,6 +21,8 @@ public class Collectible : MonoBehaviour
     public Grotto Grotto { get; set; }
     public CollectibleSpawnPoint SpawnPoint { get; set; }
     public int price { get; set; }
+
+    public bool MustBePurchased { get { return price > 0; } }
 
 
     public void Start()
@@ -53,16 +55,24 @@ public class Collectible : MonoBehaviour
 
         if (CommonObjects.IsPlayer(other))
         {
-            Inventory inv = Inventory.Instance;
-            if (inv.RupeeCount >= price)
+            bool canCollect = true;
+            if(MustBePurchased)
             {
-                inv.SpendRupees(price);
+                Inventory inv = Inventory.Instance;
+                if (inv.CanAfford(price))
+                {
+                    inv.SpendRupees(price);
+                    canCollect = true;
+                }
+            }
+            if(canCollect)
+            {
                 Collect();
             }
         }
         else
         {
-            if (price == 0)
+            if (!MustBePurchased)
             {
                 Boomerang boomerang = other.GetComponent<Boomerang>();
                 if (boomerang != null)
@@ -100,11 +110,12 @@ public class Collectible : MonoBehaviour
 
     IEnumerator RiseAboveLink()
     {
-        CommonObjects.Player_C.ActivateParalyze(RiseAboveLinkDuration);
+        CommonObjects.Player_C.ActivateParalyze(RISE_ABOVE_LINK_DURATION);
 
-        iTween.MoveAdd(gameObject, new Vector3(0, RiseAboveLinkHeight, 0), RiseAboveLinkDuration);
+        Vector3 riseAmount = new Vector3(0, RISE_ABOVE_LINK_HEIGHT, 0);
+        iTween.MoveAdd(gameObject, riseAmount, RISE_ABOVE_LINK_DURATION);
 
-        yield return new WaitForSeconds(RiseAboveLinkDuration);
+        yield return new WaitForSeconds(RISE_ABOVE_LINK_DURATION);
 
         FinishCollectionProcess();
     }

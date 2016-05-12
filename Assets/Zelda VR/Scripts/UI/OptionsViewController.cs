@@ -126,8 +126,26 @@ public class OptionsViewController : Singleton<OptionsViewController>
     #endregion
 
 
-    void PlayCursorMoveSound()
+    void Update()
     {
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.cursor);
+        if (!IsViewShowing)
+        {
+            return;
+        }
+
+        UpdateCursor();
+
+        if(ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack))
+        {
+            _view.ClickSelectedButton();
+        }
+    }
+
+    void UpdateCursor()
+    {
+        float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
+        float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
+
+        _view.MoveCursor(new Vector2(moveHorz, moveVert));
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Item : MonoBehaviour
 {
-    const string GuiSpriteGameObjectName = "GuiSprite";
+    const string GUI_SPRITE_GAME_OBJECT_NAME = "GuiSprite";
 
 
     public int count, maxCount = 1;
@@ -14,7 +14,7 @@ public class Item : MonoBehaviour
     public Item UpgradedFrom { get; set; }
 
     public bool useImmediately;
-    public bool consumable;      // Does using the item decrement it's count
+    public bool consumable;      // Whether or not using the item decrements it's count
 
     public Sprite hudSprite;
 
@@ -67,7 +67,7 @@ public class Item : MonoBehaviour
     {
         foreach (var sr in transform.GetComponentsInChildren<SpriteRenderer>())
         {
-            if (sr.name != GuiSpriteGameObjectName) { continue; }
+            if (sr.name != GUI_SPRITE_GAME_OBJECT_NAME) { continue; }
             _guiSprite = sr.sprite;
             break;
         }

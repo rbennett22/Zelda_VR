@@ -8,6 +8,15 @@ namespace Immersio.Utility
         {
             Up, Down, Right, Left
         }
+        public static Direction GetDirectionForVector2(Vector2 vec)
+        {
+            if (vec.x < 0) { return Direction.Left; }
+            if (vec.x > 0) { return Direction.Right; }
+            if (vec.y > 0) { return Direction.Down; }
+            if (vec.y < 0) { return Direction.Up; }
+
+            return Direction.Up;
+        }
 
 
         public int x, y;
