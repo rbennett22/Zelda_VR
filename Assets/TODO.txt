@@ -19,7 +19,7 @@
 - Grotto Warps
 - Fog disappears abruptly in grottos close to Lost Woods
 - Update Controls image
-- LoadSelectScreen - Choose Name, Elimination Mode, Name text align
+- SavedGamesScreen - Choose Name, Elimination Mode, Name text align
 - OptionsMenu: Controls
 - OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
 - "Continue or Save & Quit?" GUI

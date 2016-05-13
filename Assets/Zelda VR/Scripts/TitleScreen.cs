@@ -1,61 +1,45 @@
 ﻿using UnityEngine;
 
-
 public class TitleScreen : MonoBehaviour
 {
+    const string VERSION_STRING = "Version {0}.{1}.{2}";
 
-    public TextMesh versionText;
-    public GameObject loadSelectScreen;
+
+    public ZeldaText versionText;
+    public GameObject savedGamesScreen;
 
 
     void Start()
     {
-        loadSelectScreen.SetActive(false);
+        savedGamesScreen.SetActive(false);
 
-        if (versionText != null)
-        {
-            ZeldaConfig config = ZeldaConfig.Instance;
-            if (config.isDemo)
-            {
-                versionText.text = "BETA v" + config.version.ToString("F1");
-            }
-            else
-            {
-                versionText.text = string.Empty;
-            }
-        }
+        UpdateVersionText();
 
         PauseManager.Instance.IsPauseAllowed_Inventory = false;
         PauseManager.Instance.IsPauseAllowed_Options = false;
         CommonObjects.PlayerController_C.SetHaltUpdateMovement(true);
     }
 
+    void UpdateVersionText()
+    {
+        ZeldaConfig c = ZeldaConfig.Instance;
+        versionText.Text = string.Format(VERSION_STRING, c.version, c.subVersion, c.subSubVersion);
+    }
+
 
 	void Update () 
     {
-        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Start) || Input.GetKeyDown(KeyCode.Return))
+        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Start))
         {
-            ShowLoadSelectScreen();
-            //StartNewGame();
+            ShowSavedGamesScreen();
         }
 	}
 
-    void ShowLoadSelectScreen()
+    void ShowSavedGamesScreen()
     {
         Music.Instance.Stop();
 
-        loadSelectScreen.SetActive(true);
+        savedGamesScreen.SetActive(true);
         gameObject.SetActive(false);
     }
-
-    /*void StartNewGame()
-    {
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.select);
-
-        CommonObjects.PlayerController_C.controlsEnabled = true;
-        GameplayHUD.Instance.enabled = true;
-
-        Locations.Instance.LoadInitialScene();
-    }*/
-
 }

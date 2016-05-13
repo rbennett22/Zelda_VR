@@ -138,11 +138,17 @@ public class OptionsView : MonoBehaviour
 
     public void MoveCursor(Vector2 vec)
     {
-        _cursor.TryMoveCursor(vec);
+        if (_cursor.TryMoveCursor(vec))
+        {
+            PlayCursorMoveSound();
+        }
     }
     public void MoveCursor(Index2.Direction dir)
     {
-        _cursor.TryMoveCursor(dir);
+        if(_cursor.TryMoveCursor(dir))
+        {
+            PlayCursorMoveSound();
+        }
     }
 
 
@@ -152,5 +158,11 @@ public class OptionsView : MonoBehaviour
         {
             PointerEventSimulator.SimulateClick(_selectedBtn.gameObject);
         }
+    }
+
+
+    void PlayCursorMoveSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.cursor);
     }
 }

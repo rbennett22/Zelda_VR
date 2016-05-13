@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.IO;
 
-
-public class SaveEntry : MonoBehaviour
+public class SaveEntryView : MonoBehaviour
 {
     public Transform[] linkImages, swordImages;
     public Transform selectedIndicatorImage;
@@ -13,7 +10,6 @@ public class SaveEntry : MonoBehaviour
     public GameObject heartPrefab;
 
 
-    public int ID { get; set; }
     public string PlayerName { get; set; }
     public int PlayerDeathCount { get; set; }
 
@@ -21,24 +17,24 @@ public class SaveEntry : MonoBehaviour
     void Awake()
     {
         MarkAsSelected(false);
-        //ClearGuiToDefault();
+        //ClearToDefaultValues();
     }
 
 
     public void InitWithEntryData(ZeldaSerializer.EntryData data)
     {
-        if (data != null)
+        if (data == null)
         {
-            UpdateGuiWithEntryData(data);
+            ClearToDefaultValues();
         }
         else
         {
-            ClearGuiToDefault();
+            UpdateWithEntryData(data);
         }
     }
 
 
-    void ClearGuiToDefault()
+    void ClearToDefaultValues()
     {
         PlayerName = "";
         PlayerDeathCount = 0;
@@ -50,10 +46,8 @@ public class SaveEntry : MonoBehaviour
         SetHearts(0, 0);
     }
 
-    void UpdateGuiWithEntryData(ZeldaSerializer.EntryData data)
+    void UpdateWithEntryData(ZeldaSerializer.EntryData data)
     {
-        //print(" UpdateGuiWithEntryData: " + data.ToString());
-
         PlayerName = data.name;
         PlayerDeathCount = data.deathCount;
 
@@ -145,5 +139,4 @@ public class SaveEntry : MonoBehaviour
     {
         selectedIndicatorImage.GetComponent<Renderer>().enabled = doMark;
     }
-
 }

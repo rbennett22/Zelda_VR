@@ -135,7 +135,8 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
         UpdateCursor();
 
-        if(ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack))
+        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Start)
+            || ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack))
         {
             _view.ClickSelectedButton();
         }
@@ -143,9 +144,7 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
     void UpdateCursor()
     {
-        float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
         float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
-
-        _view.MoveCursor(new Vector2(moveHorz, moveVert));
+        _view.MoveCursor(new Vector2(0, moveVert));
     }
 }

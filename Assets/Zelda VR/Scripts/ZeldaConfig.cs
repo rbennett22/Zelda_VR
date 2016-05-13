@@ -3,8 +3,7 @@ using Immersio.Utility;
 
 public class ZeldaConfig : Singleton<ZeldaConfig> 
 {
-    public float version;
-    public bool isDemo;
+    public int version, subVersion, subSubVersion;
     public bool defaultMusicEnabled;
 
 

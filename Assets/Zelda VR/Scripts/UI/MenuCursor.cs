@@ -72,11 +72,9 @@ public class MenuCursor : MonoBehaviour
             else if (newIndex.y >= numRows) { newIndex.y -= numRows; }
         }
 
-        PlayCursorMoveSound();
+        CursorIndex = newIndex;
 
         StartCursorCooldownTimer();
-
-        CursorIndex = newIndex;
 
         return true;
     }
@@ -109,11 +107,6 @@ public class MenuCursor : MonoBehaviour
         {
             _cursorCooldownActive = false;
         }
-    }
-
-    void PlayCursorMoveSound()
-    {
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.cursor);
     }
 
     #endregion
