@@ -26,31 +26,30 @@ using UnityEngine;
 /// </summary>
 public class OVRChromaticAberration : MonoBehaviour
 {
-	/// <summary>
-	/// The button that will toggle chromatic aberration correction.
-	/// </summary>
-	public OVRGamepadController.Button			toggleButton = OVRGamepadController.Button.X;	
+    /// <summary>
+    /// The button that will toggle chromatic aberration correction.
+    /// </summary>
+    public OVRGamepadController.Button toggleButton = OVRGamepadController.Button.X;
 
-	private bool								chromatic = false;
+    private bool chromatic = false;
 
-	void Start ()
-	{
-		// Enable/Disable Chromatic Aberration Correction.
-		// NOTE: Enabling Chromatic Aberration for mobile has a large performance cost.
-		OVRManager.instance.chromatic = chromatic;
-	}
+    void Start()
+    {
+        // Enable/Disable Chromatic Aberration Correction.
+        // NOTE: Enabling Chromatic Aberration for mobile has a large performance cost.
+        OVRManager.instance.chromatic = chromatic;
+    }
 
-	void Update()
-	{
-		// NOTE: some of the buttons defined in OVRGamepadController.Button are not available on the Android game pad controller
-		if (OVRGamepadController.GPC_GetButtonDown(toggleButton))
-		{
-			//*************************
-			// toggle chromatic aberration correction
-			//*************************
-			chromatic = !chromatic;
-			OVRManager.instance.chromatic = chromatic;
-		}
-	}
-
+    void Update()
+    {
+        // NOTE: some of the buttons defined in OVRGamepadController.Button are not available on the Android game pad controller
+        if (OVRGamepadController.GPC_GetButtonDown(toggleButton))
+        {
+            //*************************
+            // toggle chromatic aberration correction
+            //*************************
+            chromatic = !chromatic;
+            OVRManager.instance.chromatic = chromatic;
+        }
+    }
 }

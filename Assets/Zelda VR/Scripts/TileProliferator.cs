@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Diagnostics;
 
 public class TileProliferator : MonoBehaviour
 {
     public TileMap tileMap;
-    public int UpdateInterval_ms = 1000;     
+    public int UpdateInterval_ms = 1000;
 
 
     /*int _tileRemovalDistance, _tileRemovalDistanceSq;
@@ -23,14 +21,14 @@ public class TileProliferator : MonoBehaviour
         _tileRemovalDistanceSq = _tileRemovalDistance * _tileRemovalDistance;
     }
 
-    void Start () 
+    void Start ()
     {
         tileMap.LoadMap();
 
         StartCoroutine("UpdateTiles_Coroutine");
 	}
 
-    
+
     IEnumerator UpdateTiles_Coroutine()
     {
         while (true)
@@ -53,7 +51,7 @@ public class TileProliferator : MonoBehaviour
     void UpdateTiles_Tick()
     {
         Vector3 playerPos = _playerTransform.position;
-        
+
         // Remove blocks
         foreach (Transform block in _blocksContainer)
         {
@@ -69,7 +67,7 @@ public class TileProliferator : MonoBehaviour
         // Populate blocks
         int extent = (int)(_tileRemovalDistance / Mathf.Sqrt(2));
         tileMap.PopulateWorld(
-            (int)playerPos.x - extent, 
+            (int)playerPos.x - extent,
             (int)playerPos.z - extent,
             extent * 2, extent * 2
             );

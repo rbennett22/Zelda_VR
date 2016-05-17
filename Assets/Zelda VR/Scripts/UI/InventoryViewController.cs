@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System;
-using Immersio.Utility;
+using UnityEngine;
 
 //[RequireComponent(typeof(InventoryView))]
 
@@ -8,6 +8,7 @@ public class InventoryViewController : MonoBehaviour
 {
     [SerializeField]
     InventoryView _view;
+
     Inventory _inventory;
 
 
@@ -26,7 +27,7 @@ public class InventoryViewController : MonoBehaviour
 
     void Update()
     {
-        if(PauseManager.Instance.IsPaused_Options)
+        if (PauseManager.Instance.IsPaused_Options)
         {
             return;
         }
@@ -91,7 +92,7 @@ public class InventoryViewController : MonoBehaviour
 
         foreach (Item item in _inventory.Items.Values)
         {
-            if(!ShouldRenderItem(item)) { continue; }
+            if (!ShouldRenderItem(item)) { continue; }
 
             InventoryViewItemMapping mapping = item.GetComponent<InventoryViewItemMapping>();
             if (mapping == null)
@@ -137,7 +138,7 @@ public class InventoryViewController : MonoBehaviour
         InventoryViewItemMapping mapping = item.GetComponent<InventoryViewItemMapping>();
         DoRenderItem(item, mapping, true);
     }
-    
+
     void UpdateView_TriforcePieces()
     {
         for (int i = 0; i < 8; i++)
@@ -184,7 +185,7 @@ public class InventoryViewController : MonoBehaviour
     }
     void OnCursorIndexChanged(InventoryView sender)
     {
-        if(sender != _view)
+        if (sender != _view)
         {
             return;
         }

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
+using UnityEngine;
 
-public class CommonObjects : Singleton<CommonObjects> 
+public class CommonObjects : Singleton<CommonObjects>
 {
     public static GameObject Player_G { get { return Instance.player_G; } }
     public static GameObject PlayerController_G { get { return Instance.playerController_G; } }

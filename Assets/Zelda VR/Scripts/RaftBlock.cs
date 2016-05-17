@@ -85,10 +85,10 @@ public class RaftBlock : MonoBehaviour
             HazardBlock hb = hit.collider.GetComponent<HazardBlock>();
             if (hb == null) { continue; }
 
-            if (enable) 
-                { hb.EnablePhysicsCollider(); }
-            else 
-                { hb.DisablePhysicsCollider(); }
+            if (enable)
+            { hb.EnablePhysicsCollider(); }
+            else
+            { hb.DisablePhysicsCollider(); }
         }
     }
 
@@ -102,5 +102,4 @@ public class RaftBlock : MonoBehaviour
         float rotY = vertical ? 0 : 90;
         _raftOverlay.transform.Rotate(new Vector3(0, rotY, 0));
     }
-
 }

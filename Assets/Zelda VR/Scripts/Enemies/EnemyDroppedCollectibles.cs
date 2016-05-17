@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
 
 public class EnemyDroppedCollectibles : Singleton<EnemyDroppedCollectibles>
 {

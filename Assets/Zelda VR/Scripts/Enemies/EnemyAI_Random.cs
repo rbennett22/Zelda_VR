@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
+using UnityEngine;
 
-public class EnemyAI_Random : EnemyAI 
+public class EnemyAI_Random : EnemyAI
 {
     public int chanceToIdle = 0;
     public int chanceToAttack = 0;
@@ -45,7 +45,7 @@ public class EnemyAI_Random : EnemyAI
     }
 
 
-	void Start () 
+    void Start()
     {
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;
         _enemyMove.AlwaysFaceTowardsMoveDirection = faceTowardsMoveDirection;
@@ -54,7 +54,7 @@ public class EnemyAI_Random : EnemyAI
         _baseSpeed = _enemyMove.Speed;
 
         MoveDirection = new TileDirection(DetermineActualMoveDirection(GetRandomTileDirection()));
-	}
+    }
 
 
     void Update()
@@ -136,7 +136,7 @@ public class EnemyAI_Random : EnemyAI
     void EnterIdleState()
     {
         MoveDirection = TileDirection.Zero;
-        
+
         _idleStartTime = Time.time;
         _idleDuration = Random.Range(minIdleDuration, maxIdleDuration);
         _isIdling = true;
@@ -178,7 +178,7 @@ public class EnemyAI_Random : EnemyAI
                         action = DiscreteAction.ContinueInSameDirection;
                     }
                 }
-            } 
+            }
         }
 
         return action;
@@ -190,7 +190,7 @@ public class EnemyAI_Random : EnemyAI
         Vector3 toPlayer = Vector3.zero;
 
         _enemyMove.Speed = _baseSpeed;
-        
+
         if (_enemy.ShouldFollowBait())
         {
             Vector3 toBait = Bait.ActiveBait.transform.position - transform.position;
@@ -304,7 +304,7 @@ public class EnemyAI_Random : EnemyAI
 
             TileMap tileMap = CommonObjects.OverworldTileMap;
             int nextTileCode = tileMap.Tile(nextTileX, nextTileZ);
-            
+
             float turnAngle = 90;
             while (!TileInfo.IsTilePassable(nextTileCode) && turnAngle < 360)
             {
@@ -322,11 +322,11 @@ public class EnemyAI_Random : EnemyAI
 
             int layerMask;
             if (flying) { layerMask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls"); }
-            else        { layerMask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls", "InvisibleBlocks"); }
+            else { layerMask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls", "InvisibleBlocks"); }
 
             bool hit = true;
             float turnAngle = 0;
-            do 
+            do
             {
                 dir = Quaternion.Euler(0, turnAngle, 0) * desiredMoveDirection;
                 Ray ray = new Ray(pos, dir);

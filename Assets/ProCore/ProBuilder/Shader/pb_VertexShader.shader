@@ -6,79 +6,79 @@
 		_Scale("Scale", Range(1,7)) = 3.3
 	}
 
-	SubShader
-	{
-		Tags { "IgnoreProjector"="True" "RenderType"="Transparent" "DisableBatching"="True" }
-		Lighting Off
-		ZTest LEqual
-		ZWrite On
-		Cull Off
-		Blend SrcAlpha OneMinusSrcAlpha
-
-		Pass 
+		SubShader
 		{
-			AlphaTest Greater .25
+			Tags { "IgnoreProjector" = "True" "RenderType" = "Transparent" "DisableBatching" = "True" }
+			Lighting Off
+			ZTest LEqual
+			ZWrite On
+			Cull Off
+			Blend SrcAlpha OneMinusSrcAlpha
 
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			#include "UnityCG.cginc"
-
-			sampler2D _MainTex;
-			float _Scale;
-
-			struct appdata
+			Pass
 			{
-				float4 vertex : POSITION;
-				float3 normal : NORMAL;
-				float4 color : COLOR;
-				float2 texcoord : TEXCOORD0;
-				float2 texcoord1 : TEXCOORD1;
-			};
+				AlphaTest Greater .25
 
-			struct v2f
-			{
-				float4 pos : SV_POSITION;
-				float2 uv : TEXCOORD0;
-				float4 color : COLOR;
-			};
+				CGPROGRAM
+				#pragma vertex vert
+				#pragma fragment frag
+				#include "UnityCG.cginc"
 
-			v2f vert (appdata v)
-			{
-				v2f o;
+				sampler2D _MainTex;
+				float _Scale;
 
-				// o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
-				o.pos = mul(UNITY_MATRIX_MV, v.vertex);
-				o.pos.xyz *= .99;
-				o.pos = mul(UNITY_MATRIX_P, o.pos);
+				struct appdata
+				{
+					float4 vertex : POSITION;
+					float3 normal : NORMAL;
+					float4 color : COLOR;
+					float2 texcoord : TEXCOORD0;
+					float2 texcoord1 : TEXCOORD1;
+				};
 
-				// convert vertex to screen space, add pixel-unit xy to vertex, then transform back to clip space.
-				float4 clip = o.pos;
+				struct v2f
+				{
+					float4 pos : SV_POSITION;
+					float2 uv : TEXCOORD0;
+					float4 color : COLOR;
+				};
 
-				clip.xy /= clip.w;
-				clip.xy = clip.xy * .5 + .5;
-				clip.xy *= _ScreenParams.xy;
+				v2f vert(appdata v)
+				{
+					v2f o;
 
-				clip.xy += v.texcoord1.xy * _Scale;
-				clip.z -= (.0001 + v.normal.x) * (1 - UNITY_MATRIX_P[3][3]);
+					// o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+					o.pos = mul(UNITY_MATRIX_MV, v.vertex);
+					o.pos.xyz *= .99;
+					o.pos = mul(UNITY_MATRIX_P, o.pos);
 
-				clip.xy /= _ScreenParams.xy;
-				clip.xy = (clip.xy - .5) / .5;
-				clip.xy *= clip.w;
+					// convert vertex to screen space, add pixel-unit xy to vertex, then transform back to clip space.
+					float4 clip = o.pos;
 
-				o.pos = clip;
-				o.uv = v.texcoord.xy;
-				o.color = v.color;
+					clip.xy /= clip.w;
+					clip.xy = clip.xy * .5 + .5;
+					clip.xy *= _ScreenParams.xy;
 
-				return o;
+					clip.xy += v.texcoord1.xy * _Scale;
+					clip.z -= (.0001 + v.normal.x) * (1 - UNITY_MATRIX_P[3][3]);
+
+					clip.xy /= _ScreenParams.xy;
+					clip.xy = (clip.xy - .5) / .5;
+					clip.xy *= clip.w;
+
+					o.pos = clip;
+					o.uv = v.texcoord.xy;
+					o.color = v.color;
+
+					return o;
+				}
+
+				half4 frag(v2f i) : COLOR
+				{
+					return tex2D(_MainTex, i.uv) * i.color;
+				}
+
+				ENDCG
 			}
-
-			half4 frag (v2f i) : COLOR
-			{
-				return tex2D(_MainTex, i.uv) * i.color;
-			}
-
-			ENDCG
 		}
-	}
 }

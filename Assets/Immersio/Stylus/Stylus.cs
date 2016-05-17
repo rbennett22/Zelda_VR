@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Immersio.Utility;
+using UnityEngine;
 using Vectrosity;
-using Immersio.Utility;
 
 
 public abstract class Stylus : Singleton<Stylus>
 {
-
     #region Abstract Methods
 
     abstract protected bool StylusRayIsAvailable { get; }
@@ -17,22 +15,22 @@ public abstract class Stylus : Singleton<Stylus>
     abstract public bool GetStylusButtonDown(int idx = 0);
     abstract public bool GetStylusButton(int idx = 0);
 
-    #endregion
+    #endregion Abstract Methods
 
 
     public const float RayCastLength = 99999;
 
 
-	public enum StylusEvent 
+    public enum StylusEvent
     {
-		OnStylusOver,
-		OnStylusEnter,
-		OnStylusExit,
-		OnStylusDown,
-		OnStylusUp,
-		OnStylusUpAsButton,
-		OnStylusDrag
-	}
+        OnStylusOver,
+        OnStylusEnter,
+        OnStylusExit,
+        OnStylusDown,
+        OnStylusUp,
+        OnStylusUpAsButton,
+        OnStylusDrag
+    }
 
 
     public Ray StylusRay { get; protected set; }
@@ -45,27 +43,27 @@ public abstract class Stylus : Singleton<Stylus>
     public GameObject ObjStylusBtnWasPressedOver { get; private set; }
 
 
-	void Start () 
+    void Start()
     {
         InitRenderedRay();
-	}
+    }
 
 
     #region Update
 
-    virtual protected void Update () 
+    virtual protected void Update()
     {
         PrevStylusRay = StylusRay;
-		PrevStylusRayHit = StylusRayHit;
-		PrevHitObject = HitObject;
+        PrevStylusRayHit = StylusRayHit;
+        PrevHitObject = HitObject;
 
         StylusRay = GetStylusRay();
         PerformRayCast();
 
-		DispatchStylusEvents();
+        DispatchStylusEvents();
 
         if (doRender) { RenderRay(); }
-	}
+    }
 
     void PerformRayCast()
     {
@@ -82,55 +80,55 @@ public abstract class Stylus : Singleton<Stylus>
         HitObject = didHit ? StylusRayHit.collider.gameObject : null;
     }
 
-	// These events are the Stylus equivalent of their "OnMouse..." counterparts)
-	void DispatchStylusEvents () 
+    // These events are the Stylus equivalent of their "OnMouse..." counterparts)
+    void DispatchStylusEvents()
     {
-		if(HitObject != null) 
+        if (HitObject != null)
         {
-			SendStylusEventToObject(StylusEvent.OnStylusOver, HitObject);
-			if(HitObject != PrevHitObject) 
+            SendStylusEventToObject(StylusEvent.OnStylusOver, HitObject);
+            if (HitObject != PrevHitObject)
             {
-				SendStylusEventToObject(StylusEvent.OnStylusEnter, HitObject);
-			}
-		}
+                SendStylusEventToObject(StylusEvent.OnStylusEnter, HitObject);
+            }
+        }
 
-		if(PrevHitObject != null && PrevHitObject != HitObject)
+        if (PrevHitObject != null && PrevHitObject != HitObject)
         {
-			SendStylusEventToObject(StylusEvent.OnStylusExit, PrevHitObject);
-		}
+            SendStylusEventToObject(StylusEvent.OnStylusExit, PrevHitObject);
+        }
 
-		if(GetStylusButtonDown()) 
+        if (GetStylusButtonDown())
         {
             ObjStylusBtnWasPressedOver = HitObject;
             if (HitObject != null)
             {
                 SendStylusEventToObject(StylusEvent.OnStylusDown, HitObject);
             }
-		}
-		else if(GetStylusButtonUp()) 
+        }
+        else if (GetStylusButtonUp())
         {
-			if(HitObject != null) 
+            if (HitObject != null)
             {
-				SendStylusEventToObject(StylusEvent.OnStylusUp, HitObject);
-			}
+                SendStylusEventToObject(StylusEvent.OnStylusUp, HitObject);
+            }
 
             if (ObjStylusBtnWasPressedOver != null)
             {
                 SendStylusEventToObject(StylusEvent.OnStylusUpAsButton, ObjStylusBtnWasPressedOver);
             }
-		}
+        }
 
-		if(GetStylusButton()) 
+        if (GetStylusButton())
         {
-			if(ObjStylusBtnWasPressedOver != null) 
+            if (ObjStylusBtnWasPressedOver != null)
             {
-                if (StylusMoved()) 
+                if (StylusMoved())
                 {
-					SendStylusEventToObject(StylusEvent.OnStylusDrag, ObjStylusBtnWasPressedOver);
-				}
-			}
-		}
-	}
+                    SendStylusEventToObject(StylusEvent.OnStylusDrag, ObjStylusBtnWasPressedOver);
+                }
+            }
+        }
+    }
 
     bool StylusMoved()
     {
@@ -139,14 +137,14 @@ public abstract class Stylus : Singleton<Stylus>
             StylusRay.origin != PrevStylusRay.origin);
     }
 
-	void SendStylusEventToObject (StylusEvent stylusEvent, GameObject receiver, bool doPrint = false) 
+    void SendStylusEventToObject(StylusEvent stylusEvent, GameObject receiver, bool doPrint = false)
     {
-		if(doPrint) { print(stylusEvent.ToString() + " sent to " + receiver.name); }
+        if (doPrint) { print(stylusEvent.ToString() + " sent to " + receiver.name); }
 
         receiver.SendMessage(stylusEvent.ToString(), SendMessageOptions.DontRequireReceiver);
     }
 
-    #endregion
+    #endregion Update
 
 
     #region Rendering
@@ -182,6 +180,5 @@ public abstract class Stylus : Singleton<Stylus>
         //print("RenderRay --- start: " + startPos + ", end: " + endPos);
     }
 
-    #endregion
-
+    #endregion Rendering
 }

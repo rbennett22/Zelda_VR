@@ -1,6 +1,6 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CandleFlame : MonoBehaviour
 {
@@ -9,18 +9,18 @@ public class CandleFlame : MonoBehaviour
     public float damageRadius = 0.7f;
 
     public Animator animator;
-    public string[] invulnerables;  // Enemies that cannot be hurt by flame 
+    public string[] invulnerables;  // Enemies that cannot be hurt by flame
 
 
     List<string> _invulnerables;
 
 
-	void Awake() 
+    void Awake()
     {
         animator.GetComponent<Renderer>().enabled = false;
         animator.SetTrigger("SkipSpawn");
         _invulnerables = new List<string>(invulnerables);
-	}
+    }
 
     IEnumerator Start()
     {

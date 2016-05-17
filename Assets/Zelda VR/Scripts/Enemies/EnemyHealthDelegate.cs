@@ -17,7 +17,6 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
 
     void IHealthControllerDelegate.OnHealthChanged(HealthController healthController, int newHealth)
     {
-
     }
     void IHealthControllerDelegate.OnDamageTaken(HealthController healthController, ref uint damageAmount, GameObject damageDealer)
     {
@@ -51,7 +50,7 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
                 damageAmount = 0;
                 SendMessage("OnHitWithSword", sword, SendMessageOptions.RequireReceiver);
             }
-            else if(damageDealer.name == "SilverArrow_Projectile")
+            else if (damageDealer.name == "SilverArrow_Projectile")
             {
                 damageAmount = 0;
                 SendMessage("OnHitWithSilverArrow", SendMessageOptions.RequireReceiver);
@@ -62,7 +61,7 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
         {
             if (GetComponent<Enemy>().pushBackOnhit)
             {
-                if(DoesWeaponApplyPushbackForce(damageDealer))
+                if (DoesWeaponApplyPushbackForce(damageDealer))
                 {
                     Vector3 direction = transform.position - damageDealer.transform.position;
                     direction.y = 0;
@@ -76,7 +75,6 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     }
     void IHealthControllerDelegate.OnHealthRestored(HealthController healthController, uint healAmount)
     {
-
     }
     void IHealthControllerDelegate.OnTempInvincibilityActivation(HealthController healthController, bool didActivate)
     {
@@ -120,7 +118,7 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
         {
             smallDigdogger.ParentDigdogger.SendMessage("OnBabyDied", smallDigdogger, SendMessageOptions.RequireReceiver);
         }
-        
+
         Enemy e = GetComponent<Enemy>();
         DungeonRoom dr = e.DungeonRoomRef;
         EnemyItemDrop itemDrop = GetComponent<EnemyItemDrop>();
@@ -139,7 +137,7 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     {
         Enemy e = GetComponent<Enemy>();
         DungeonRoom dr = e.DungeonRoomRef;
-        
+
 
         if (dr != null) { dr.OnRoomEnemyDied(e); }
         if (enemyAnim != null) { enemyAnim.PlayDeathAnimation(); }

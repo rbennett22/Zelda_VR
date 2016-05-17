@@ -27,13 +27,13 @@ public class TitleScreen : MonoBehaviour
     }
 
 
-	void Update () 
+    void Update()
     {
         if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Start))
         {
             ShowSavedGamesScreen();
         }
-	}
+    }
 
     void ShowSavedGamesScreen()
     {

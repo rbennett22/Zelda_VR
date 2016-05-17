@@ -20,11 +20,10 @@ limitations under the License.
 ************************************************************************************/
 
 using UnityEngine;
-using System.Collections;
 using VR = UnityEngine.VR;
 
 /// <summary>
-/// Sample that allows you to play with various VR settings. 
+/// Sample that allows you to play with various VR settings.
 /// </summary>
 public class OVRSceneSampleController : MonoBehaviour
 {
@@ -37,7 +36,7 @@ public class OVRSceneSampleController : MonoBehaviour
     /// An optional texture that appears before the menu fades in.
     /// </summary>
     public Texture fadeInTexture = null;
-    
+
     /// <summary>
     /// Controls how quickly the player's speed and rotation change based on input.
     /// </summary>
@@ -66,6 +65,7 @@ public class OVRSceneSampleController : MonoBehaviour
 #endif
 
     #region MonoBehaviour Message Handlers
+
     /// <summary>
     /// Awake this instance.
     /// </summary>
@@ -86,7 +86,7 @@ public class OVRSceneSampleController : MonoBehaviour
         else
         {
             cameraController = cameraControllers[0];
-        }       
+        }
 
         // Find player controller
         OVRPlayerController[] playerControllers;
@@ -111,12 +111,12 @@ public class OVRSceneSampleController : MonoBehaviour
     /// </summary>
     void Start()
     {
-        // Make sure to hide cursor 
+        // Make sure to hide cursor
         if (Application.isEditor == false)
         {
 #if UNITY_5
-			Cursor.visible = false; 
-			Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
 #else
             Screen.showCursor = false;
             Screen.lockCursor = true;
@@ -129,7 +129,7 @@ public class OVRSceneSampleController : MonoBehaviour
             // Add a GridCube component to this object
             gridCube = gameObject.AddComponent<OVRGridCube>();
             gridCube.SetOVRCameraController(ref cameraController);
-        } 
+        }
     }
 
 
@@ -137,7 +137,7 @@ public class OVRSceneSampleController : MonoBehaviour
     /// Update this instance.
     /// </summary>
     void Update()
-    {           
+    {
         // Recenter pose
         UpdateRecenterPose();
 
@@ -153,7 +153,7 @@ public class OVRSceneSampleController : MonoBehaviour
             Screen.fullScreen = !Screen.fullScreen;
 
         if (Input.GetKeyDown(KeyCode.M))
-			VR.VRSettings.showDeviceView = !VR.VRSettings.showDeviceView;
+            VR.VRSettings.showDeviceView = !VR.VRSettings.showDeviceView;
 
 #if !UNITY_ANDROID || UNITY_EDITOR
         // Escape Application
@@ -161,7 +161,8 @@ public class OVRSceneSampleController : MonoBehaviour
             Application.Quit();
 #endif
     }
-    #endregion
+
+    #endregion MonoBehaviour Message Handlers
 
     /// <summary>
     /// Updates the vision mode.
@@ -171,7 +172,7 @@ public class OVRSceneSampleController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F2))
         {
             visionMode ^= visionMode;
-            OVRManager.tracker.isEnabled = visionMode;            
+            OVRManager.tracker.isEnabled = visionMode;
         }
     }
 
@@ -207,8 +208,8 @@ public class OVRSceneSampleController : MonoBehaviour
         }
 
         playerController.SetRotationScaleMultiplier(rotationScaleMultiplier);
-    }    
-      
+    }
+
     /// <summary>
     /// Recenter pose
     /// </summary>

@@ -11,5 +11,5 @@ public class GleeokSpawnPoint : MonoBehaviour
     {
         EnemyAI_Gleeok gleeok = enemy.GetComponent<EnemyAI_Gleeok>();
         gleeok.numHeads = numHeads;
-	}
+    }
 }

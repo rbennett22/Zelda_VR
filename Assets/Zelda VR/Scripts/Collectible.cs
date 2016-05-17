@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
@@ -12,11 +12,11 @@ public class Collectible : MonoBehaviour
 
     public AudioClip[] sounds;
 
-    public bool riseUpWhenCollected;                     
+    public bool riseUpWhenCollected;
     public bool isSpecialItem;                  // Special item instances won't respawn
     public bool appearsOnRoomClear;
     public bool destroyOnCollect = true;
-    
+
 
     public Grotto Grotto { get; set; }
     public CollectibleSpawnPoint SpawnPoint { get; set; }
@@ -56,7 +56,7 @@ public class Collectible : MonoBehaviour
         if (CommonObjects.IsPlayer(other))
         {
             bool canCollect = true;
-            if(MustBePurchased)
+            if (MustBePurchased)
             {
                 Inventory inv = Inventory.Instance;
                 if (inv.CanAfford(price))
@@ -65,7 +65,7 @@ public class Collectible : MonoBehaviour
                     canCollect = true;
                 }
             }
-            if(canCollect)
+            if (canCollect)
             {
                 Collect();
             }
@@ -80,7 +80,7 @@ public class Collectible : MonoBehaviour
                     boomerang.OnHitCollectible(this);
                 }
             }
-        }     
+        }
     }
 
     public void Collect()

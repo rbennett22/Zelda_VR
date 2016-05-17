@@ -4,15 +4,16 @@ public class GrottoSpawnManager : MonoBehaviour
 {
     [SerializeField]
     float _updateInterval_ms = 500;
+
     [SerializeField]
     float _spawnDistance = 8;
 
 
     float _spawnDistanceSq;
     GrottoSpawnPoint _activeGrottoSP;
-    
 
-	void Start () 
+
+    void Start()
     {
         _spawnDistanceSq = _spawnDistance * _spawnDistance;
 

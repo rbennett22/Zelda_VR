@@ -1,13 +1,13 @@
-Shader "Hidden/ProBuilder/FaceHighlight" 
+Shader "Hidden/ProBuilder/FaceHighlight"
 {
 	Properties
 	{
-		_Color ("Color Tint", Color) = (1,1,1,1)
+		_Color("Color Tint", Color) = (1,1,1,1)
 	}
 
-	SubShader
+		SubShader
 	{
-		Tags { "IgnoreProjector"="True" "RenderType"="Geometry" }
+		Tags { "IgnoreProjector" = "True" "RenderType" = "Geometry" }
 		Lighting Off
 		ZTest LEqual
 		ZWrite On
@@ -35,7 +35,7 @@ Shader "Hidden/ProBuilder/FaceHighlight"
 				float4 pos : SV_POSITION;
 			};
 
-			v2f vert (appdata v)
+			v2f vert(appdata v)
 			{
 				v2f o;
 
@@ -47,7 +47,7 @@ Shader "Hidden/ProBuilder/FaceHighlight"
 				return o;
 			}
 
-			half4 frag (v2f i) : COLOR
+			half4 frag(v2f i) : COLOR
 			{
 				return _Color;
 			}

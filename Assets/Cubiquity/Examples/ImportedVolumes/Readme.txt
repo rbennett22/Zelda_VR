@@ -1,0 +1,1 @@
+The volumes in this folder have been imported from various external sources using the methods described in the user manual. See also the 'DataForImporting' folder for some of the source material.

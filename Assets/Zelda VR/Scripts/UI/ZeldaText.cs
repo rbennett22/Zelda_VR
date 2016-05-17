@@ -7,10 +7,13 @@ public class ZeldaText : MonoBehaviour
 {
     [SerializeField]
     string _text;
-    public string Text {
+
+    public string Text
+    {
         get { return _text; }
-        set {
-            if(value == _text)
+        set
+        {
+            if (value == _text)
             {
                 return;
             }
@@ -18,7 +21,7 @@ public class ZeldaText : MonoBehaviour
             AssignSpriteFromText(_text);
         }
     }
-    
+
 
     Image _image;
     SpriteRenderer _spriteRenderer;
@@ -35,7 +38,7 @@ public class ZeldaText : MonoBehaviour
 
     void Update()
     {
-        if(!Application.isPlaying)
+        if (!Application.isPlaying)
         {
             Update_EditModeOnly();
         }

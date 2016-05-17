@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public class FlashColorsSimple : MonoBehaviour 
+public class FlashColorsSimple : MonoBehaviour
 {
     int _flashIdx = 0;
-    Color[] _flashColors = { 
-                               Color.white, 
-                               new Color(1, 0.3f, 0.3f), 
-                               new Color(0.3f, 1, 0.3f), 
+    Color[] _flashColors = {
+                               Color.white,
+                               new Color(1, 0.3f, 0.3f),
+                               new Color(0.3f, 1, 0.3f),
                                new Color(0.3f, 0.3f, 1) };
 
 
@@ -20,5 +20,4 @@ public class FlashColorsSimple : MonoBehaviour
         if (++_flashIdx >= _flashColors.Length) { _flashIdx = 0; }
         GetComponent<Renderer>().material.color = _flashColors[_flashIdx];
     }
-
 }

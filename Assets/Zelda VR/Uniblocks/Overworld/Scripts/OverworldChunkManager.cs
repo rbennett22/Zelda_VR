@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-using Uniblocks;
+﻿using Uniblocks;
 
-public class OverworldChunkManager : ChunkManager 
+public class OverworldChunkManager : ChunkManager
 {
     /*void OnEnabled()
     {
-
     }*/
     void OnDisabled()
     {

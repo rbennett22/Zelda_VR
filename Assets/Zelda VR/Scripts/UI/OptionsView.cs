@@ -1,10 +1,10 @@
 ﻿#pragma warning disable 0649 // variable is never assigned to
 
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using System;
 using Immersio.Utility;
+using System;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class OptionsView : MonoBehaviour
 {
@@ -16,8 +16,10 @@ public class OptionsView : MonoBehaviour
 
     [SerializeField]
     OverlayView _bgOverlay;
+
     [SerializeField]
     Button _resumeBtn, _musicBtn, _controlsBtn, _quitBtn;
+
     Button[] _allButtons;
     Button _selectedBtn;
 
@@ -30,6 +32,7 @@ public class OptionsView : MonoBehaviour
 
     [SerializeField]
     MenuCursor _cursor;
+
     [SerializeField]
     GameObject _cursorView;
 
@@ -93,7 +96,7 @@ public class OptionsView : MonoBehaviour
     }
     void OnCursorIndexChanged(MenuCursor sender)
     {
-        if(sender != _cursor)
+        if (sender != _cursor)
         {
             return;
         }
@@ -117,7 +120,7 @@ public class OptionsView : MonoBehaviour
     void SelectButton(Button newSelectedBtn)
     {
         Button prevSelectedBtn = _selectedBtn;
-        if(newSelectedBtn == prevSelectedBtn)
+        if (newSelectedBtn == prevSelectedBtn)
         {
             return;
         }
@@ -145,7 +148,7 @@ public class OptionsView : MonoBehaviour
     }
     public void MoveCursor(Index2.Direction dir)
     {
-        if(_cursor.TryMoveCursor(dir))
+        if (_cursor.TryMoveCursor(dir))
         {
             PlayCursorMoveSound();
         }

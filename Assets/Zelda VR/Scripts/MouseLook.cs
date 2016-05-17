@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 /// MouseLook rotates the transform based on the mouse delta.
 /// Minimum and Maximum values can be used to constrain the possible rotation
@@ -15,39 +14,39 @@ using System.Collections;
 /// - Add a MouseLook script to the camera.
 ///   -> Set the mouse look to use LookY. (You want the camera to tilt up and down like a head. The character already turns.)
 [AddComponentMenu("Camera-Control/Mouse Look")]
-public class MouseLook : MonoBehaviour {
+public class MouseLook : MonoBehaviour
+{
+    public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
+    public RotationAxes axes = RotationAxes.MouseXAndY;
+    public float sensitivityX = 15F;
+    public float sensitivityY = 15F;
 
-	public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
-	public RotationAxes axes = RotationAxes.MouseXAndY;
-	public float sensitivityX = 15F;
-	public float sensitivityY = 15F;
+    public float minimumX = -360F;
+    public float maximumX = 360F;
 
-	public float minimumX = -360F;
-	public float maximumX = 360F;
-
-	public float minimumY = -60F;
-	public float maximumY = 60F;
-
-
-	float rotationY;
+    public float minimumY = -60F;
+    public float maximumY = 60F;
 
 
-	void Update ()
-	{
-		if (axes == RotationAxes.MouseXAndY)
-		{
+    float rotationY;
+
+
+    void Update()
+    {
+        if (axes == RotationAxes.MouseXAndY)
+        {
             float rotationX = transform.localEulerAngles.y + ZeldaInput.GetAxis(ZeldaInput.Axis.LookHorizontal) * sensitivityX;
             //float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
 
             rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-			
-			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+            rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
+
+            transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
 
             //print("axes = MouseXAndY:  rotX = " + rotationX + ", rotY = " + rotationY);
         }
-		else if (axes == RotationAxes.MouseX)
-		{
+        else if (axes == RotationAxes.MouseX)
+        {
             float rotationX = ZeldaInput.GetAxis(ZeldaInput.Axis.LookHorizontal) * sensitivityX;
             //float rotationX = Input.GetAxis("Mouse X") * sensitivityX;
 
@@ -55,23 +54,23 @@ public class MouseLook : MonoBehaviour {
 
             //print("axes = MouseX:  rotX = " + rotationX + ", rotY = " + 0);
         }
-		else if (axes == RotationAxes.MouseY)
+        else if (axes == RotationAxes.MouseY)
         {
             float rotationX = transform.localEulerAngles.y;
 
             rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
-			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-			
-			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+            rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
+
+            transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
 
             //print("axes = MouseY:  rotX = " + rotationX + ", rotY = " + rotationY);
         }
-	}
-	
-	void Start ()
-	{
-		// Make the rigid body not change rotation
-		if (GetComponent<Rigidbody>())
-			GetComponent<Rigidbody>().freezeRotation = true;
-	}
+    }
+
+    void Start()
+    {
+        // Make the rigid body not change rotation
+        if (GetComponent<Rigidbody>())
+            GetComponent<Rigidbody>().freezeRotation = true;
+    }
 }

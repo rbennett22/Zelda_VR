@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class OverworldInfo : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class OverworldInfo : MonoBehaviour
 
     public bool HasGrottoBeenTapped(GrottoSpawnPoint gsp)
     {
-        return _tappedGrottos.Contains(gsp.name); 
+        return _tappedGrottos.Contains(gsp.name);
     }
     public void SetGrottoHasBeenTapped(GrottoSpawnPoint gsp, bool value)
     {
@@ -64,6 +64,5 @@ public class OverworldInfo : MonoBehaviour
         _tappedGrottos = new List<string>(s.tappedGrottos);
     }
 
-    #endregion
-
+    #endregion Serialization
 }

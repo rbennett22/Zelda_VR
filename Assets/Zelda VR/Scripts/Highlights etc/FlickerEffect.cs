@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class FlickerEffect : MonoBehaviour 
+public class FlickerEffect : MonoBehaviour
 {
     int _flashIdx = 0;
-    Color[] _flashColors = { 
-                               Color.white, 
+    Color[] _flashColors = {
+                               Color.white,
                                new Color(1, 1, 1, 0.3f),
                                new Color(1, 1, 1, 0.3f) };
 
@@ -19,5 +19,4 @@ public class FlickerEffect : MonoBehaviour
         if (++_flashIdx >= _flashColors.Length) { _flashIdx = 0; }
         GetComponent<Renderer>().material.color = _flashColors[_flashIdx];
     }
-
 }

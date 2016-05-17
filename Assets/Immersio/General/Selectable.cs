@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
+﻿using System;
+using UnityEngine;
 
 
-public class Selectable : MonoBehaviour 
+public class Selectable : MonoBehaviour
 {
     public bool verbose = false;
 
@@ -17,10 +16,11 @@ public class Selectable : MonoBehaviour
     }
 
     SelectionState _state;
-    public SelectionState State 
+    public SelectionState State
     {
         get { return _state; }
-        set {
+        set
+        {
             if (value != _state)
             {
                 SelectionState oldState = _state;
@@ -31,16 +31,16 @@ public class Selectable : MonoBehaviour
     }
 
 
-	void Start () 
+    void Start()
     {
         State = SelectionState.Default;
-	}
+    }
 
 
-    public void SetToDefaultState()     { State = SelectionState.Default; }
-    public void Highlight()             { State = SelectionState.Highlighted; }
-    public void Select()                { State = SelectionState.Selected; }
-    public void Deactivate()            { State = SelectionState.Inactive; }
+    public void SetToDefaultState() { State = SelectionState.Default; }
+    public void Highlight() { State = SelectionState.Highlighted; }
+    public void Select() { State = SelectionState.Selected; }
+    public void Deactivate() { State = SelectionState.Inactive; }
 
 
     void SendNotificationOfStateChange(SelectionState newState, SelectionState oldState)
@@ -48,10 +48,10 @@ public class Selectable : MonoBehaviour
         String methodName = String.Empty;
         switch (newState)
         {
-            case SelectionState.Default:        methodName = "OnStateChange_Default";       break;
-            case SelectionState.Highlighted:    methodName = "OnStateChange_Highlighted";   break;
-            case SelectionState.Selected:       methodName = "OnStateChange_Selected";      break;
-            case SelectionState.Inactive:       methodName = "OnStateChange_Inactive";      break;
+            case SelectionState.Default: methodName = "OnStateChange_Default"; break;
+            case SelectionState.Highlighted: methodName = "OnStateChange_Highlighted"; break;
+            case SelectionState.Selected: methodName = "OnStateChange_Selected"; break;
+            case SelectionState.Inactive: methodName = "OnStateChange_Inactive"; break;
         }
 
         LogStatus("SelectionStateChange from " + oldState + " to " + newState);

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class EnemyAI_Peahat : EnemyAI
 {
@@ -35,7 +35,7 @@ public class EnemyAI_Peahat : EnemyAI
         _state = State.Flying;
         _flyStartTime = Time.time;
         _flyDirection = EnforceBoundary(EnemyAI_Random.GetRandomTileDirection());
-        
+
         yield return new WaitForSeconds(_flyDuration);
 
         StartCoroutine("Idle");
@@ -53,7 +53,7 @@ public class EnemyAI_Peahat : EnemyAI
     }
 
 
-	void Update ()
+    void Update()
     {
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
@@ -77,7 +77,7 @@ public class EnemyAI_Peahat : EnemyAI
 
             transform.position = pos;
         }
-	}
+    }
 
 
     void SetPropellarSpeed(float speedPcnt)

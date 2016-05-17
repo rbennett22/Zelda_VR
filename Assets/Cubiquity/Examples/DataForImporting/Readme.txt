@@ -1,0 +1,1 @@
+This folder contains data in various formats which can be imported into Cubiquity. The user manual gives details of how such importing can be performed. See also the 'ImportedVolumes' folder which contains already-imported versions of some of this data.

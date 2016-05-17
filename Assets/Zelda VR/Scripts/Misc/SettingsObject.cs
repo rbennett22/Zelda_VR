@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 
 #if UNITY_EDITOR
+
 using UnityEditor;
+
 #endif
 
 // Summary:
 //      The following class will make any class that inherits from it a singleton ScriptableObject automatically
-//      Furthermore it will automatically create (if necessary) and load a corresponding asset where 
+//      Furthermore it will automatically create (if necessary) and load a corresponding asset where
 //       project-wide persistent settings may be specified
 //
 // Example Usage:

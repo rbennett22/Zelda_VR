@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class DisableOnAwake : MonoBehaviour 
+public class DisableOnAwake : MonoBehaviour
 {
-	void Awake ()
+    void Awake()
     {
         gameObject.SetActive(false);
-	}
+    }
 }

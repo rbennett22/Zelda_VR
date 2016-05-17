@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class AutoDestroy : MonoBehaviour 
+public class AutoDestroy : MonoBehaviour
 {
     public float delay = 0.1f;
 
-	void Start ()
+    void Start()
     {
         Destroy(gameObject, delay);
-	}
+    }
 }

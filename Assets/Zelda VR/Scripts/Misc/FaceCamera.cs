@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class FaceCamera : MonoBehaviour 
+public class FaceCamera : MonoBehaviour
 {
     public bool yAxisOnly;
 

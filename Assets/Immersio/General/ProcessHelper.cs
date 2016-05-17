@@ -1,10 +1,9 @@
-using UnityEngine;
-using System;
-using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEngine;
 
-public class ProcessHelper : MonoBehaviour 
+public class ProcessHelper : MonoBehaviour
 {
     //const int TimeToWaitForExit = 1000;
 
@@ -59,7 +58,7 @@ public class ProcessHelper : MonoBehaviour
             onProcessExited(exitCode);
         }*/
     }
-    
+
 
     public void Run(string fileName, string args, runProcessExited_Delegate onProcessExited = null)
     {
@@ -99,5 +98,4 @@ public class ProcessHelper : MonoBehaviour
             onProcessExited(exitCode);
         }
     }
-
 }

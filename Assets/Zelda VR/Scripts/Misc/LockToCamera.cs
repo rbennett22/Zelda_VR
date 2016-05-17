@@ -6,6 +6,7 @@ namespace Eyefluence.Utility
     {
         [SerializeField]
         Transform _uiPlane = null;       // uiPlane should be a child of the active Camera, posed as you want your UI Canvas to be posed
+
         public Transform UiPlane
         {
             get
@@ -38,6 +39,7 @@ namespace Eyefluence.Utility
         // If applyScaling is true, then for a given zOffset the uiPlane will be scaled such that it takes up the
         //  same amount of screen space as it does when (uiPlane.position.z == baseZOffset && uiPlane.scale == baseScale)
         public bool applyScaling;
+
         public float baseZOffset = 1;
         public Vector3 baseScale = Vector3.one;
 

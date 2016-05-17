@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections.Generic;
-using Immersio.Utility;
+using UnityEngine;
 
 public class ZeldaInput : Singleton<ZeldaInput>
 {
     public enum Axis { MoveHorizontal, MoveVertical, LookHorizontal };
+
     public enum Button { SwordAttack, UseItemB, Run, Jump, Extra, Start, Back, L1, R1 };
 
 
@@ -31,7 +32,7 @@ public class ZeldaInput : Singleton<ZeldaInput>
         { Button.R1, "XBox RB" }
     };
 
-    
+
     float GetAxis_(Axis axis)
     {
         string axisName = _zeldaAxisToXBox[axis];
@@ -67,7 +68,7 @@ public class ZeldaInput : Singleton<ZeldaInput>
         }
         return b;
     }
-	
+
     bool GetButtonUp_(Button button)
     {
         string btnName = _zeldaButtonToXBox[button];

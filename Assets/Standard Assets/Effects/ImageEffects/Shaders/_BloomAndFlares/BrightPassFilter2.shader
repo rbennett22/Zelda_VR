@@ -1,53 +1,53 @@
 Shader "Hidden/BrightPassFilter2"
 {
-	Properties 
+	Properties
 	{
-		_MainTex ("Base (RGB)", 2D) = "" {}
+		_MainTex("Base (RGB)", 2D) = "" {}
 	}
-	
-	CGINCLUDE
-	
-	#include "UnityCG.cginc"
-	
-	struct v2f 
+
+		CGINCLUDE
+
+#include "UnityCG.cginc"
+
+	struct v2f
 	{
 		float4 pos : SV_POSITION;
 		float2 uv : TEXCOORD0;
 	};
-	
-	sampler2D _MainTex;	
-	
+
+	sampler2D _MainTex;
+
 	half4 _Threshhold;
-		
-	v2f vert( appdata_img v ) 
+
+	v2f vert(appdata_img v)
 	{
 		v2f o;
 		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
-		o.uv =  v.texcoord.xy;
+		o.uv = v.texcoord.xy;
 		return o;
-	} 
-	
-	half4 fragScalarThresh(v2f i) : SV_Target 
+	}
+
+	half4 fragScalarThresh(v2f i) : SV_Target
 	{
 		half4 color = tex2D(_MainTex, i.uv);
 		color.rgb = color.rgb;
-		color.rgb = max(half3(0,0,0), color.rgb-_Threshhold.xxx);
+		color.rgb = max(half3(0,0,0), color.rgb - _Threshhold.xxx);
 		return color;
 	}
 
-	half4 fragColorThresh(v2f i) : SV_Target 
+		half4 fragColorThresh(v2f i) : SV_Target
 	{
 		half4 color = tex2D(_MainTex, i.uv);
-		color.rgb = max(half3(0,0,0), color.rgb-_Threshhold.rgb);
+		color.rgb = max(half3(0,0,0), color.rgb - _Threshhold.rgb);
 		return color;
-	}	
+	}
 
-	ENDCG 
-	
-	Subshader 
+		ENDCG
+
+		Subshader
 	{
-		Pass 
- 		{
+		Pass
+		{
 			ZTest Always Cull Off ZWrite Off
 
 			CGPROGRAM
@@ -58,8 +58,8 @@ Shader "Hidden/BrightPassFilter2"
 			ENDCG
 		}
 
-		Pass 
- 		{
+			Pass
+		{
 			ZTest Always Cull Off ZWrite Off
 
 			CGPROGRAM
@@ -68,7 +68,7 @@ Shader "Hidden/BrightPassFilter2"
 			#pragma fragment fragColorThresh
 
 			ENDCG
-		}		
+		}
 	}
 	Fallback off
 }

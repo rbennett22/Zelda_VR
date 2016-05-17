@@ -1,0 +1,1917 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+SceneSettings:
+  m_ObjectHideFlags: 0
+  m_PVSData: 
+  m_PVSObjectsArray: []
+  m_PVSPortalsArray: []
+  m_OcclusionBakeSettings:
+    smallestOccluder: 5
+    smallestHole: .25
+    backfaceThreshold: 100
+--- !u!104 &2
+RenderSettings:
+  m_Fog: 0
+  m_FogColor: {r: .5, g: .5, b: .5, a: 1}
+  m_FogMode: 3
+  m_FogDensity: .00999999978
+  m_LinearFogStart: 0
+  m_LinearFogEnd: 300
+  m_AmbientLight: {r: .200000003, g: .200000003, b: .200000003, a: 1}
+  m_SkyboxMaterial: {fileID: 0}
+  m_HaloStrength: .5
+  m_FlareStrength: 1
+  m_FlareFadeSpeed: 3
+  m_HaloTexture: {fileID: 0}
+  m_SpotCookie: {fileID: 0}
+  m_ObjectHideFlags: 0
+--- !u!127 &3
+LevelGameManager:
+  m_ObjectHideFlags: 0
+--- !u!157 &4
+LightmapSettings:
+  m_ObjectHideFlags: 0
+  m_LightProbes: {fileID: 0}
+  m_Lightmaps: []
+  m_LightmapsMode: 1
+  m_BakedColorSpace: 0
+  m_UseDualLightmapsInForward: 0
+  m_LightmapEditorSettings:
+    m_Resolution: 50
+    m_LastUsedResolution: 0
+    m_TextureWidth: 1024
+    m_TextureHeight: 1024
+    m_BounceBoost: 1
+    m_BounceIntensity: 1
+    m_SkyLightColor: {r: .860000014, g: .930000007, b: 1, a: 1}
+    m_SkyLightIntensity: 0
+    m_Quality: 0
+    m_Bounces: 1
+    m_FinalGatherRays: 1000
+    m_FinalGatherContrastThreshold: .0500000007
+    m_FinalGatherGradientThreshold: 0
+    m_FinalGatherInterpolationPoints: 15
+    m_AOAmount: 0
+    m_AOMaxDistance: .100000001
+    m_AOContrast: 1
+    m_LODSurfaceMappingDistance: 1
+    m_Padding: 0
+    m_TextureCompression: 0
+    m_LockAtlas: 0
+--- !u!196 &5
+NavMeshSettings:
+  m_ObjectHideFlags: 0
+  m_BuildSettings:
+    agentRadius: .5
+    agentHeight: 2
+    agentSlope: 45
+    agentClimb: .400000006
+    ledgeDropHeight: 0
+    maxJumpAcrossDistance: 0
+    accuratePlacement: 0
+    minRegionArea: 2
+    widthInaccuracy: 16.666666
+    heightInaccuracy: 10
+  m_NavMesh: {fileID: 0}
+--- !u!1 &276336414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 276336419}
+  - 114: {fileID: 276336418}
+  - 114: {fileID: 276336417}
+  - 114: {fileID: 276336416}
+  - 114: {fileID: 276336415}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 18
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &276336415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 276336414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &276336416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 276336414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &276336417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 276336414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &276336418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 276336414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: a81fe50b2c7afc24fab2f27f5d336c6c, type: 2}
+--- !u!4 &276336419
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 276336414}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 81, y: 162, z: 162}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &282312143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 282312148}
+  - 114: {fileID: 282312147}
+  - 114: {fileID: 282312146}
+  - 114: {fileID: 282312145}
+  - 114: {fileID: 282312144}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 11
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &282312144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282312143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &282312145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282312143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &282312146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282312143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &282312147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282312143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: a67bfb92a1596fc45a1dcb226ae51ef5, type: 2}
+--- !u!4 &282312148
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282312143}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 162, y: 81, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &416929970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 416929975}
+  - 114: {fileID: 416929974}
+  - 114: {fileID: 416929973}
+  - 114: {fileID: 416929972}
+  - 114: {fileID: 416929971}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 03
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &416929971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 416929970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &416929972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 416929970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &416929973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 416929970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &416929974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 416929970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 4d18366ad34753d439da6d6d6e16e1e2, type: 2}
+--- !u!4 &416929975
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 416929970}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 162, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &428691219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 428691224}
+  - 114: {fileID: 428691223}
+  - 114: {fileID: 428691222}
+  - 114: {fileID: 428691221}
+  - 114: {fileID: 428691220}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 14
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &428691220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 428691219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &428691221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 428691219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &428691222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 428691219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &428691223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 428691219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: f75b1f29f5edb3140a4d81a06149fda9, type: 2}
+--- !u!4 &428691224
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 428691219}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 162, z: 81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &441917781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 441917786}
+  - 114: {fileID: 441917785}
+  - 114: {fileID: 441917784}
+  - 114: {fileID: 441917783}
+  - 114: {fileID: 441917782}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 07
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &441917782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 441917781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &441917783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 441917781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &441917784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 441917781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &441917785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 441917781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 21d42e4fbeed52744a916c5020f3d424, type: 2}
+--- !u!4 &441917786
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 441917781}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 162, y: 0, z: 162}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &626018751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 626018756}
+  - 114: {fileID: 626018755}
+  - 114: {fileID: 626018754}
+  - 114: {fileID: 626018753}
+  - 114: {fileID: 626018752}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 00
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &626018752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626018751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &626018753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626018751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &626018754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626018751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &626018755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626018751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 5743c6c1cb6990a43849572fa666ace9, type: 2}
+--- !u!4 &626018756
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 626018751}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &685448469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 685448474}
+  - 114: {fileID: 685448473}
+  - 114: {fileID: 685448472}
+  - 114: {fileID: 685448471}
+  - 114: {fileID: 685448470}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 08
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &685448470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685448469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &685448471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685448469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &685448472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685448469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &685448473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685448469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 8ff7a2938e793134d8547c23e1ea91c2, type: 2}
+--- !u!4 &685448474
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685448469}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 81, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &685810975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 685810980}
+  - 114: {fileID: 685810979}
+  - 114: {fileID: 685810978}
+  - 114: {fileID: 685810977}
+  - 114: {fileID: 685810976}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 16
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &685810976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685810975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &685810977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685810975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &685810978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685810975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &685810979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685810975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 3869577bc23ea7447888b84df72d43bf, type: 2}
+--- !u!4 &685810980
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 685810975}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 162, z: 162}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &751463460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 751463465}
+  - 114: {fileID: 751463464}
+  - 114: {fileID: 751463463}
+  - 114: {fileID: 751463462}
+  - 114: {fileID: 751463461}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 17
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &751463461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 751463460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &751463462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 751463460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &751463463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 751463460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &751463464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 751463460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 63925f62b06569549a9f4e8dd204206f, type: 2}
+--- !u!4 &751463465
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 751463460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 162, y: 162, z: 81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &876104764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 876104769}
+  - 114: {fileID: 876104768}
+  - 114: {fileID: 876104767}
+  - 114: {fileID: 876104766}
+  - 114: {fileID: 876104765}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 04
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &876104765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 876104764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &876104766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 876104764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &876104767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 876104764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &876104768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 876104764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 66f8c8b9480c946439ca5dfe41e3d39f, type: 2}
+--- !u!4 &876104769
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 876104764}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 162}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &934459229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 934459234}
+  - 114: {fileID: 934459233}
+  - 114: {fileID: 934459232}
+  - 114: {fileID: 934459231}
+  - 114: {fileID: 934459230}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 05
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &934459230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 934459229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &934459231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 934459229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &934459232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 934459229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &934459233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 934459229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 4e96f09eca34b6143b8083ea76e0b720, type: 2}
+--- !u!4 &934459234
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 934459229}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 162, y: 0, z: 81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &980650238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 980650243}
+  - 114: {fileID: 980650242}
+  - 114: {fileID: 980650241}
+  - 114: {fileID: 980650240}
+  - 114: {fileID: 980650239}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 10
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &980650239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 980650238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &980650240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 980650238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &980650241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 980650238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &980650242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 980650238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: a03d99c72ddfb3542a56fffb7010ad40, type: 2}
+--- !u!4 &980650243
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 980650238}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 162, y: 81, z: 162}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &1030589174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1030589179}
+  - 114: {fileID: 1030589178}
+  - 114: {fileID: 1030589177}
+  - 114: {fileID: 1030589176}
+  - 114: {fileID: 1030589175}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1030589175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1030589174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1030589176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1030589174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &1030589177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1030589174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &1030589178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1030589174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 0cf42ff340c2e4e408422d29ec99321b, type: 2}
+--- !u!4 &1030589179
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1030589174}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &1150989710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1150989715}
+  - 114: {fileID: 1150989714}
+  - 114: {fileID: 1150989713}
+  - 114: {fileID: 1150989712}
+  - 114: {fileID: 1150989711}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 19
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1150989711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1150989710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1150989712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1150989710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &1150989713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1150989710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &1150989714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1150989710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 67246e32496e21b4a81bc2528f4bd469, type: 2}
+--- !u!4 &1150989715
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1150989710}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 162, y: 162, z: 162}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &1223055043
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1223055048}
+  - 114: {fileID: 1223055047}
+  - 114: {fileID: 1223055046}
+  - 114: {fileID: 1223055045}
+  - 114: {fileID: 1223055044}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 01
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1223055044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1223055043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1223055045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1223055043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &1223055046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1223055043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &1223055047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1223055043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 75aadfe0580168b41af7fe697be4137c, type: 2}
+--- !u!4 &1223055048
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1223055043}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 81, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &1555723162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1555723167}
+  - 114: {fileID: 1555723166}
+  - 114: {fileID: 1555723165}
+  - 114: {fileID: 1555723164}
+  - 114: {fileID: 1555723163}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 09
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1555723163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1555723162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1555723164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1555723162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &1555723165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1555723162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &1555723166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1555723162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: f601f4107fab8444789010f2969deb9b, type: 2}
+--- !u!4 &1555723167
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1555723162}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 81, z: 162}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &1620064125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1620064130}
+  - 114: {fileID: 1620064129}
+  - 114: {fileID: 1620064128}
+  - 114: {fileID: 1620064127}
+  - 114: {fileID: 1620064126}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 12
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1620064126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1620064125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1620064127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1620064125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &1620064128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1620064125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &1620064129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1620064125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 499a3c16e6c0e9d4985307cabbd12d8c, type: 2}
+--- !u!4 &1620064130
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1620064125}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 162, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &1676089271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1676089276}
+  - 114: {fileID: 1676089275}
+  - 114: {fileID: 1676089274}
+  - 114: {fileID: 1676089273}
+  - 114: {fileID: 1676089272}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 15
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1676089272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1676089271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1676089273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1676089271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &1676089274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1676089271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &1676089275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1676089271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 553defbf942f63043a37216e2212ee8b, type: 2}
+--- !u!4 &1676089276
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1676089271}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 162, y: 162, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &1710047040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1710047042}
+  - 108: {fileID: 1710047041}
+  m_Layer: 0
+  m_Name: Directional light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &1710047041
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1710047040}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Type: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: .5
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: .0500000007
+    m_Softness: 4
+    m_SoftnessFade: 1
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_ActuallyLightmapped: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 1
+  m_ShadowSamples: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_IndirectIntensity: 1
+  m_AreaSize: {x: 1, y: 1}
+--- !u!4 &1710047042
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1710047040}
+  m_LocalRotation: {x: .408217937, y: -.234569728, z: .109381661, w: .875426114}
+  m_LocalPosition: {x: 123.499168, y: 134.500107, z: 189.530579}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &1727810117
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1727810122}
+  - 114: {fileID: 1727810121}
+  - 114: {fileID: 1727810120}
+  - 114: {fileID: 1727810119}
+  - 114: {fileID: 1727810118}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 06
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1727810118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1727810117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1727810119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1727810117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &1727810120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1727810117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &1727810121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1727810117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: b33adcdbaa4a0924ebdb88c9587f2c20, type: 2}
+--- !u!4 &1727810122
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1727810117}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 81, y: 0, z: 162}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &1866051491
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1866051496}
+  - 114: {fileID: 1866051495}
+  - 114: {fileID: 1866051494}
+  - 114: {fileID: 1866051493}
+  - 114: {fileID: 1866051492}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume 13
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1866051492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1866051491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1866051493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1866051491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c245eb6d16ab5d44c8e2b197a4f2d9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasChanged: 0
+--- !u!114 &1866051494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1866051491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92724a2f276b54f44877f83b61cf602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mMaterial: {fileID: 2130418070}
+  mCastShadows: 1
+  mReceiveShadows: 1
+  mShowWireframe: 0
+  mLodThreshold: 0
+  hasChanged: 0
+--- !u!114 &1866051495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1866051491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 11400000, guid: 826c823c0de8f7f4693c9dc86784d44b, type: 2}
+--- !u!4 &1866051496
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1866051491}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 81, y: 162, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!1 &2032076300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2032076305}
+  - 20: {fileID: 2032076304}
+  - 92: {fileID: 2032076303}
+  - 124: {fileID: 2032076302}
+  - 81: {fileID: 2032076301}
+  - 114: {fileID: 2032076306}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &2032076301
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2032076300}
+  m_Enabled: 1
+--- !u!124 &2032076302
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2032076300}
+  m_Enabled: 1
+--- !u!92 &2032076303
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2032076300}
+  m_Enabled: 1
+--- !u!20 &2032076304
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2032076300}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: .300000012
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_HDR: 0
+  m_OcclusionCulling: 1
+--- !u!4 &2032076305
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2032076300}
+  m_LocalRotation: {x: .205493063, y: -.173337072, z: .0370072313, w: .962474585}
+  m_LocalPosition: {x: 188.96019, y: 144.906128, z: -115.248734}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!114 &2032076306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2032076300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d3d0d478ba4534ebcb290f5c68e26a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseSensitivity: 15
+  lookUpLimit: 60
+  lookDownLimit: -60
+--- !u!21 &2130418070
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: ColoredCubes(Clone)
+  m_Shader: {fileID: 4800000, guid: 84db6a992bf15a04ebd30d25cddef895, type: 3}
+  m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DiffuseMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 030b3216b3715a14f996e7db50283ede, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _NormalMap
+        second:
+          m_Texture: {fileID: 2800000, guid: f81a35f824bd7f14e9e5cf287495e446, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _NoiseStrength
+        second: .100000001
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}

@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
+using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
 
-public class SoundFx : Singleton<SoundFx> 
+public class SoundFx : Singleton<SoundFx>
 {
     [SerializeField]
     GameObject _soundSourcePrefab;
@@ -53,5 +53,4 @@ public class SoundFx : Singleton<SoundFx>
             }
         }
     }
-	
 }

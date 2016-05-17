@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SpawnSwordProjectileHit : MonoBehaviour 
+public class SpawnSwordProjectileHit : MonoBehaviour
 {
     public GameObject hitAnimationPrefab;
 

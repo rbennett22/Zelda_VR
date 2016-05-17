@@ -3,14 +3,13 @@
 
 public class TitleRoomRotation : MonoBehaviour
 {
-
     public float horizontalShiftSpeed = 10.0f;
 
 
-	void Update () 
+    void Update()
     {
         Rotate();
-	}
+    }
 
     void Rotate()
     {
@@ -19,5 +18,4 @@ public class TitleRoomRotation : MonoBehaviour
         Vector3 euler = transform.rotation.eulerAngles;
         transform.rotation = Quaternion.Euler(euler.x, rotY, euler.z);
     }
-
 }

@@ -16,7 +16,7 @@ public class Grotto : MonoBehaviour
     public ZeldaText priceTextDisplayA, priceTextDisplayB, priceTextDisplayC;
     public GameObject rupeePriceSymbol;
     public GameObject entranceWalls;
-    
+
 
     GrottoSpawnPoint _grottoSpawnPoint;
     EnemySpawnPoint _npcSpawnPoint;
@@ -154,7 +154,7 @@ public class Grotto : MonoBehaviour
         OccupiedGrotto = null;
     }
 
-    
+
     public void DeliverLetter()
     {
         Inventory.Instance.HasDeliveredLetterToOldWoman = true;
@@ -217,7 +217,6 @@ public class Grotto : MonoBehaviour
         Inventory inv = Inventory.Instance;
         if (winnings < 0) { inv.SpendRupees(-winnings); }
         else { inv.ReceiveRupees(winnings); }
-        
     }
 
     void PayForInfo(int rupeeTriggerID)
@@ -264,7 +263,7 @@ public class Grotto : MonoBehaviour
         }
         else
         {
-            Destroy(_npc); 
+            Destroy(_npc);
             _npc = null;
         }
     }
@@ -399,9 +398,9 @@ public class Grotto : MonoBehaviour
         }
         rupeePriceSymbol.SetActive(showPrice);
 
-        if (NoSalesItemsToShow) 
-        { 
-            shopContainer.gameObject.SetActive(false); 
+        if (NoSalesItemsToShow)
+        {
+            shopContainer.gameObject.SetActive(false);
         }
         else
         {

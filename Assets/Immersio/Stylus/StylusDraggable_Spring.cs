@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 
 public class StylusDraggable_Spring : MonoBehaviour
@@ -188,7 +188,7 @@ public class StylusDraggable_Spring : MonoBehaviour
         StopCoroutine(DragObjectCoroutineName);
     }
 
-    #endregion
+    #endregion Drag Logic
 
 
     void OnDestroy()

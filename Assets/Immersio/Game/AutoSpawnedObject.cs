@@ -2,15 +2,15 @@ using UnityEngine;
 
 public interface IAutoSpawner
 {
-	void OnSpawnedObjectDestroy (AutoSpawnedObject spawnedObject);
+    void OnSpawnedObjectDestroy(AutoSpawnedObject spawnedObject);
 }
 
 public class AutoSpawnedObject : MonoBehaviour
 {
-	public IAutoSpawner autoSpawner;
+    public IAutoSpawner autoSpawner;
 
-	void OnDestroy ()
+    void OnDestroy()
     {
-		autoSpawner.OnSpawnedObjectDestroy(this);
-	}
+        autoSpawner.OnSpawnedObjectDestroy(this);
+    }
 }

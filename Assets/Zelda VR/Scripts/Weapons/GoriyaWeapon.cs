@@ -1,14 +1,11 @@
 ﻿using UnityEngine;
 
-
-public class GoriyaWeapon : Weapon 
+public class GoriyaWeapon : Weapon
 {
-
     public Boomerang boomerang;
 
 
     override public bool IsAttacking { get { return !boomerang.CanUse; } }
-
 
     override public void Fire(Vector3 direction)
     {
@@ -31,5 +28,4 @@ public class GoriyaWeapon : Weapon
             boomerang = null;
         }
     }
-
 }

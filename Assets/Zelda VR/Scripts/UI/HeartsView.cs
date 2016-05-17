@@ -11,9 +11,9 @@ public class HeartsView : MonoBehaviour
 
     HeartImage[] _heartImages = { };
     int _numHeartContainers;
-    
-    
-    void Awake ()
+
+
+    void Awake()
     {
         InstantiateHeartImages();
     }
@@ -22,7 +22,7 @@ public class HeartsView : MonoBehaviour
         _heartImages = new HeartImage[MAX_NUM_HEARTS];
 
         for (int i = 0; i < _heartImages.Length; i++)
-        {           
+        {
             _heartImages[i] = InstantiateHeartImage();
         }
     }
@@ -34,7 +34,7 @@ public class HeartsView : MonoBehaviour
         t.SetParent(transform);
         t.localPosition = Vector3.zero;
         t.localScale = Vector3.one;
-        
+
         return g.GetComponent<HeartImage>();
     }
 

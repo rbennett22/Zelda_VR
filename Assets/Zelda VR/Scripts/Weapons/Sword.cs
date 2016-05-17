@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 public class Sword : MonoBehaviour
@@ -13,7 +13,7 @@ public class Sword : MonoBehaviour
     public int damage = 1;
     public AudioClip swordSound, swordShootSound;
     public bool projectileEnabled;
-    public string[] invulnerables;  // Enemies that cannot be hurt by sword 
+    public string[] invulnerables;  // Enemies that cannot be hurt by sword
 
 
     bool _isExtending;
@@ -94,7 +94,7 @@ public class Sword : MonoBehaviour
     {
         _spawnedProjectile = Instantiate(projectilePrefab) as GameObject;
         SimpleProjectile p = _spawnedProjectile.GetComponent<SimpleProjectile>();
-        
+
         p.transform.parent = _projectilesContainer;
         p.transform.position = transform.position;
         p.transform.rotation = transform.rotation;
@@ -159,5 +159,4 @@ public class Sword : MonoBehaviour
             "oncompletetarget", gameObject)
         );
     }
-
 }

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Item : MonoBehaviour
 {
@@ -90,23 +90,24 @@ public class Item : MonoBehaviour
         while (item.upgradesTo != null)
         {
             item = item.upgradesTo;
-        } 
+        }
         return item;
     }
 
     public Item HighestUpgradedVersionInInventory()
     {
         Item item = GetHighestUpgradedVersion();
-        do {
+        do
+        {
             if (item.count > 0) { break; }
             item = item.UpgradedFrom;
         } while (item != null);
         return item;
     }
 
-    public bool IsTheHighestUpgradeInInventory() 
+    public bool IsTheHighestUpgradeInInventory()
     {
-        return name == HighestUpgradedVersionInInventory().name; 
+        return name == HighestUpgradedVersionInInventory().name;
     }
 
     public List<Item> GetUpgradeChain()
@@ -142,5 +143,5 @@ public class Item : MonoBehaviour
         }
 
         SendMessage("OnItemUsed", SendMessageOptions.DontRequireReceiver);
-    }  
+    }
 }

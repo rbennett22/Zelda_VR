@@ -99,7 +99,7 @@ public class SaveEntryView : MonoBehaviour
         const int MaxHeartsPerRow = 8;
 
         float w = 0.5f;
-        float h = 0.5f;           
+        float h = 0.5f;
         float x = 0;
         float y = 0;     // (we begin on bottom row)
 

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class EnemyAI_Patra : EnemyAI 
+public class EnemyAI_Patra : EnemyAI
 {
     public float BaseRadius = 1.3f;
     public float ExpandedRadius = 4.5f;

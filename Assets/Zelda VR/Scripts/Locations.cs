@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using Immersio.Utility;
 using System;
-using Immersio.Utility;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Locations : Singleton<Locations>
 {
@@ -26,6 +26,7 @@ public class Locations : Singleton<Locations>
 
     [SerializeField]
     Transform _overworldLocationsContainer;
+
     [SerializeField]
     Transform _dungeonLocationsContainer;
 
@@ -131,8 +132,8 @@ public class Locations : Singleton<Locations>
     void LoadInfoScenes()
     {
         LoadScene(WorldInfo.GetSceneNameForOverworldInfo());
-		
-		for (int i = 0; i < WorldInfo.NUM_DUNGEONS; i++)
+
+        for (int i = 0; i < WorldInfo.NUM_DUNGEONS; i++)
         {
             LoadScene(WorldInfo.GetSceneNameForDungeonInfo(i + 1));
         }
@@ -180,7 +181,7 @@ public class Locations : Singleton<Locations>
             LoadScene(WorldInfo.GetSceneNameForOverworld(), useShutters, closeShuttersInstantly);
         }
     }
-    
+
     public void WarpToDungeonEntranceStairs(int dungeonNum)
     {
         spawnLocation = GetDungeonEntranceStairsLocation(dungeonNum);

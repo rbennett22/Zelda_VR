@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class Triforce : MonoBehaviour 
+public class Triforce : MonoBehaviour
 {
     public float fanfareDuration = 7.0f;
 
@@ -38,7 +38,7 @@ public class Triforce : MonoBehaviour
         OverlayViewController.Instance.ShowTriforceOverlay(_fadeDuration);
 
         yield return new WaitForSeconds(_fadeDuration);
-		
+
         WarpToOverworld();
     }
 

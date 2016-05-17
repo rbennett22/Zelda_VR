@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections.Generic;
-using Immersio.Utility;
+using UnityEngine;
 using Vectrosity;
 
-public class QuickDraw : Singleton<QuickDraw> 
+public class QuickDraw : Singleton<QuickDraw>
 {
     // USAGE:
     //
@@ -26,7 +26,7 @@ public class QuickDraw : Singleton<QuickDraw>
         base.Awake();
 
         _lines = new Dictionary<string, VectorLine>();
-	}
+    }
 
 
     public string AddLine(Vector3 p0, Vector3 p1)
@@ -64,7 +64,7 @@ public class QuickDraw : Singleton<QuickDraw>
     public void RemoveLine(string tag)
     {
         VectorLine line;
-        if(_lines.TryGetValue(tag, out line))
+        if (_lines.TryGetValue(tag, out line))
         {
             line.StopDrawing3DAuto();
             ClearLine(line);

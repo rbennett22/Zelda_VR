@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class EnemyAI_Moldorm : EnemyAI 
+public class EnemyAI_Moldorm : EnemyAI
 {
     const int MaxPositionHistoryLengthInFrames = 350;
 
@@ -18,7 +18,7 @@ public class EnemyAI_Moldorm : EnemyAI
     float _radialAcceleration;
 
     Queue<Vector3> _positionHistory = new Queue<Vector3>(MaxPositionHistoryLengthInFrames);
-    
+
 
     public EnemyAI_Moldorm Next { get; set; }
     public EnemyAI_Moldorm Prev { get; set; }
@@ -27,16 +27,16 @@ public class EnemyAI_Moldorm : EnemyAI
     public bool IsVulnerable { get { return !_healthController.isIndestructible; } set { _healthController.isIndestructible = !value; } }
     public bool IsLastWormPiece { get { return (Next == null && Prev == null); } }
     public int WormSeparationTimeInFrames
-    { 
-        get 
+    {
+        get
         {
             //print("dT: " + Time.deltaTime + ", smooth dT: " + Time.smoothDeltaTime);
             if (Time.smoothDeltaTime == 0) { return 0; }
-            return (int)(wormSeparationTime / Time.smoothDeltaTime); 
+            return (int)(wormSeparationTime / Time.smoothDeltaTime);
         }
     }
 
-    public Vector3 PositionInHistory(int framesBack) 
+    public Vector3 PositionInHistory(int framesBack)
     {
         Vector3[] ph = _positionHistory.ToArray();
         if (ph.Length == 0) { return transform.position; }
@@ -46,14 +46,14 @@ public class EnemyAI_Moldorm : EnemyAI
         return ph[ph.Length - 1 - framesBack];
     }
 
-    public new Vector3 MoveDirection 
+    public new Vector3 MoveDirection
     {
         get { return _enemyMove.MoveDirection; }
         set { _enemyMove.MoveDirection = value.normalized; }
     }
 
 
-	void Start () 
+    void Start()
     {
         _enemyMove.Mode = EnemyMove.MovementMode.DirectionOnly;
         _enemyMove.AlwaysFaceTowardsMoveDirection = false;
@@ -66,7 +66,7 @@ public class EnemyAI_Moldorm : EnemyAI
         }
 
         IsVulnerable = (IsHead || IsTail);
-	}
+    }
 
     void CreateWormBody()
     {
@@ -113,7 +113,7 @@ public class EnemyAI_Moldorm : EnemyAI
         if (IsPreoccupied) { return; }
 
         if (PauseManager.Instance.IsPaused_Any) { return; }
-        
+
         if (IsHead)
         {
             UpdateMoveDirection();
@@ -156,7 +156,7 @@ public class EnemyAI_Moldorm : EnemyAI
         {
             _positionHistory.Dequeue();
         }
-        
+
         _positionHistory.Enqueue(transform.position);
     }
 

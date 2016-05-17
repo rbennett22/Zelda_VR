@@ -1,11 +1,12 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
+using UnityEngine;
 
 
 public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
 {
     [SerializeField]
     GameplayHUDView _view;
+
     Inventory _inventory;
 
 
@@ -18,7 +19,7 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
 
     void OnLevelWasLoaded(int level)
     {
-        if(WorldInfo.Instance.ShouldShowGameplayHUDInCurrentScene())
+        if (WorldInfo.Instance.ShouldShowGameplayHUDInCurrentScene())
         {
             ShowView();
         }
@@ -159,6 +160,7 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
 
     [SerializeField]
     Transform _pausedTransform;
+
     public int vertShiftSpeed = 1200;
 
     void UpdateViewPosition()

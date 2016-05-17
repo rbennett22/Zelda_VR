@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+﻿using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using System.IO;
+using UnityEngine;
 
 class ZeldaEditorMenu
 {
@@ -169,16 +169,16 @@ class ZeldaEditorMenu
         EditorSceneManager.OpenScene(scenePath);
     }
 
-    #endregion
+    #endregion Open Scenes in Editor
 
 
     #region Build Standalone
 
     const string M1 = MENU_NAME + "/" + SUBMENU_NAME_1 + "/";
 
-    [MenuItem (M1 + "Entire Game" + " %DOWN")]	
-	static void BuildEntireGame()
-	{
+    [MenuItem(M1 + "Entire Game" + " %DOWN")]
+    static void BuildEntireGame()
+    {
         PerformBuild(SCENES);
     }
 
@@ -252,7 +252,7 @@ class ZeldaEditorMenu
             GetPathForSceneName("Dungeon " + dungeonNum + " Q1"),
             GetPathForSceneName(Locations.EMPTY_SCENE_NAME),
             GetPathForSceneName(Locations.TITLE_SCREEN_SCENE_NAME),
-            GetPathForSceneName(Locations.OVERWORLD_SCENE_NAME),               
+            GetPathForSceneName(Locations.OVERWORLD_SCENE_NAME),
             GetPathForSceneName("Dungeon " + dungeonNum + " Q1 Info")
         };
 
@@ -263,7 +263,7 @@ class ZeldaEditorMenu
     {
         // Get filename
         string buildPath = ObtainBuildPath();
-        if(string.IsNullOrEmpty(buildPath))
+        if (string.IsNullOrEmpty(buildPath))
         {
             return;
         }
@@ -309,7 +309,7 @@ class ZeldaEditorMenu
         return buildPath;
     }
 
-    #endregion
+    #endregion Build Standalone
 
 
     static void CopyFilesToBuildDirectory(string buildDirectory)

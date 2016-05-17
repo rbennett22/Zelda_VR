@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class EnemyAI_GleeokHead : EnemyAI 
+public class EnemyAI_GleeokHead : EnemyAI
 {
     const float HorizontalAmplitude = 1.0f;
     const float VerticalAmplitude = 0.4f;
@@ -28,7 +28,7 @@ public class EnemyAI_GleeokHead : EnemyAI
     }
 
 
-	void Update ()
+    void Update()
     {
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
@@ -50,7 +50,7 @@ public class EnemyAI_GleeokHead : EnemyAI
                 }
             }
         }
-	}
+    }
 
     void Oscillate()
     {
@@ -84,5 +84,4 @@ public class EnemyAI_GleeokHead : EnemyAI
     {
         _enemy.weapon.Fire(ToPlayer);
     }
-
 }

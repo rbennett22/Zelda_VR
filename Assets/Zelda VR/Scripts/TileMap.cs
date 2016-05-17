@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections.Generic;
-using Immersio.Utility;
+using UnityEngine;
 
 public class TileMap : MonoBehaviour
 {
@@ -11,10 +11,12 @@ public class TileMap : MonoBehaviour
 
     [SerializeField]
     TileMapData _tileMapData;
+
     public TileMapData TileMapData { get { return _tileMapData; } }
 
     [SerializeField]
     TileMapTexture _tileMapTexture;
+
     public TileMapTexture TileMapTexture { get { return _tileMapTexture; } }
 
 
@@ -174,7 +176,7 @@ public class TileMap : MonoBehaviour
             for (int x = xMin; x < right; x++)
             {
                 int tileCode = tiles[z, x];
-                if(requisiteTileTypes.Contains(tileCode))
+                if (requisiteTileTypes.Contains(tileCode))
                 {
                     tileIndices.Add(new Index2(x, z));
                 }

@@ -1,14 +1,14 @@
 Shader "ProBuilder/Diffuse Texture Blend"
 {
-	Properties 
+	Properties
 	{
-		_FirstTex ("Texture", 2D) = "white" {}
-		_SecondTex ("Texture", 2D) = "white" {}
-		_ThirdTex ("Texture", 2D) = "white" {}
-		_FourthTex ("Texture", 2D) = "white" {}
+		_FirstTex("Texture", 2D) = "white" {}
+		_SecondTex("Texture", 2D) = "white" {}
+		_ThirdTex("Texture", 2D) = "white" {}
+		_FourthTex("Texture", 2D) = "white" {}
 	}
 
-	SubShader
+		SubShader
 	{
 		Tags { "RenderType" = "Opaque" }
 
@@ -31,7 +31,7 @@ Shader "ProBuilder/Diffuse Texture Blend"
 			float2 uv_FourthTex;
 		};
 
-		void surf (Input IN, inout SurfaceOutput o)
+		void surf(Input IN, inout SurfaceOutput o)
 		{
 			fixed4 c0 = tex2D(_FirstTex, IN.uv_FirstTex);
 			fixed4 c1 = tex2D(_SecondTex, IN.uv_SecondTex);
@@ -50,5 +50,5 @@ Shader "ProBuilder/Diffuse Texture Blend"
 		ENDCG
 	}
 
-	Fallback "Diffuse"
+		Fallback "Diffuse"
 }

@@ -1,8 +1,8 @@
 ﻿#pragma warning disable 0649 // variable is never assigned to
 
-using UnityEngine;
-using System.Collections.Generic;
 using Immersio.Utility;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class TileMap_OLD : MonoBehaviour
 {
@@ -14,10 +14,12 @@ public class TileMap_OLD : MonoBehaviour
 
     [SerializeField]
     TileMapData _tileMapData;
+
     public TileMapData TileMapData { get { return _tileMapData; } }
 
     [SerializeField]
     TileMapTexture _tileTexture;
+
     public TileMapTexture TileTexture { get { return _tileTexture; } }
 
     [SerializeField]
@@ -25,10 +27,13 @@ public class TileMap_OLD : MonoBehaviour
 
     [SerializeField]
     int _blockHeight = 1;
+
     [SerializeField]
     float _blockHeightVariance = 0;
+
     [SerializeField]
     float _shortBlockHeight = 1;
+
     [SerializeField]
     float _flatBlockHeight = 0;
 
@@ -195,7 +200,7 @@ public class TileMap_OLD : MonoBehaviour
                     {
                         yOffset = 1;
                     }
-                    else if(z > 1)
+                    else if (z > 1)
                     {
                         int tileCode2xBelow = tiles[z - 2, x];
                         if (TileInfo.IsTileAnEntrance(tileCode2xBelow))
@@ -360,7 +365,7 @@ public class TileMap_OLD : MonoBehaviour
                     continue;
                 }
 
-                if ((z >= top)  && (z < top + height) &&
+                if ((z >= top) && (z < top + height) &&
                     (x >= left) && (x < left + width))
                 {
                     continue;
@@ -371,7 +376,7 @@ public class TileMap_OLD : MonoBehaviour
         }
     }
 
-    
+
     public GameObject CreateBlock(int tileCode, int tileX, int tileY, GameObject prefab, float actualBlockHeight = 1.0f, float yOffset = 0.0f)
     {
         Vector3 pos = new Vector3(tileX + BLOCK_OFFSET_XZ, WorldOffsetY, tileY + BLOCK_OFFSET_XZ);
@@ -467,7 +472,7 @@ public class TileMap_OLD : MonoBehaviour
             for (int x = xMin; x < right; x++)
             {
                 int tileCode = tiles[z, x];
-                if(requisiteTileTypes.Contains(tileCode))
+                if (requisiteTileTypes.Contains(tileCode))
                 {
                     tileIndices.Add(new Index2(x, z));
                 }

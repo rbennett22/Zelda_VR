@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SimpleProjectile : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class SimpleProjectile : MonoBehaviour
 
     public string[] kills;          // Enemies that can be killed in one hit by this projectile
     public string[] drillsThrough;  // Enemies that this projectile can hit and keep moving
-    public string[] invulnerables;  // Enemies that cannot be hurt by projectile 
+    public string[] invulnerables;  // Enemies that cannot be hurt by projectile
 
     public GameObject weapon;
 
@@ -34,10 +34,10 @@ public class SimpleProjectile : MonoBehaviour
     }
 
 
-	void Update () 
+    void Update()
     {
         transform.position += direction * speed * Time.deltaTime;
-	}
+    }
 
 
     void OnCollisionEnter(Collision collision)
@@ -116,5 +116,4 @@ public class SimpleProjectile : MonoBehaviour
             }
         }
     }
-
 }

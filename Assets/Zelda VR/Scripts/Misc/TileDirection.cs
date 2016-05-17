@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System;
 
 namespace Immersio.Utility
 {
@@ -68,7 +67,6 @@ namespace Immersio.Utility
         public override string ToString()
         {
             return ("[" + _x.ToString() + "," + _y.ToString() + "]");
-
         }
 
         public bool IsEqual(TileDirection n)
@@ -97,7 +95,7 @@ namespace Immersio.Utility
         }
 
 
-        public static TileDirection Zero { get{ return new TileDirection(0, 0); } }
+        public static TileDirection Zero { get { return new TileDirection(0, 0); } }
         public static TileDirection Up { get { return new TileDirection(0, 1); } }
         public static TileDirection Down { get { return new TileDirection(0, -1); } }
         public static TileDirection Right { get { return new TileDirection(1, 0); } }
@@ -144,6 +142,5 @@ namespace Immersio.Utility
                 return null;
             }
         }
-
     }
 }

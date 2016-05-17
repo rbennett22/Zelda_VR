@@ -4,6 +4,7 @@ public class EnemySpawnManager : MonoBehaviour
 {
     [SerializeField]
     float _updateInterval_ms = 500;
+
     [SerializeField]
     float _enemyRemovalDistance = 32;      // How far away Enemy must be from player before it is destroyed (Overworld only)
 
@@ -12,7 +13,7 @@ public class EnemySpawnManager : MonoBehaviour
     float _enemyRemovalDistanceSq;
 
 
-	void Start () 
+    void Start()
     {
         _enemiesContainer = GameObject.Find("Enemies").transform;
         _enemyRemovalDistanceSq = _enemyRemovalDistance * _enemyRemovalDistance;
@@ -36,8 +37,8 @@ public class EnemySpawnManager : MonoBehaviour
             float distToPlayerSqr = toPlayer.sqrMagnitude;
             if (distToPlayerSqr > _enemyRemovalDistanceSq)
             {
-                Destroy(child.gameObject);  
+                Destroy(child.gameObject);
             }
-        }   
+        }
     }
 }

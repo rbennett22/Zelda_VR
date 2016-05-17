@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 [RequireComponent(typeof(EnemySpawnPoint))]
@@ -26,6 +26,5 @@ public class ArmosSpawnPoint : MonoBehaviour
             }
             armos.linkedTiles = linkedTiles.ToArray();
         }
-	}
-
+    }
 }

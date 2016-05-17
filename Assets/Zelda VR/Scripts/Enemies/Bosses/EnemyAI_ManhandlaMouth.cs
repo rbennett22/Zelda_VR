@@ -1,13 +1,13 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class EnemyAI_ManhandlaMouth : EnemyAI 
+public class EnemyAI_ManhandlaMouth : EnemyAI
 {
     bool _delayingAttack;
     float _chanceToDelayAttack = 70;
 
 
-	void Update ()
+    void Update()
     {
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
@@ -37,5 +37,4 @@ public class EnemyAI_ManhandlaMouth : EnemyAI
     {
         _enemy.weapon.Fire(ToPlayer);
     }
-
 }

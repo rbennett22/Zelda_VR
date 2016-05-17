@@ -18,14 +18,17 @@ public class HeartImage : MonoBehaviour
         Full
     }
     FillState _state;
-    public FillState State {
+    public FillState State
+    {
         get { return _state; }
-        set {
+        set
+        {
             _state = value;
-            switch (_state) {
+            switch (_state)
+            {
                 case FillState.Empty: _image.sprite = emptySprite; break;
-                case FillState.Half:  _image.sprite = halfFullSprite; break;
-                case FillState.Full:  _image.sprite = fullSprite; break;
+                case FillState.Half: _image.sprite = halfFullSprite; break;
+                case FillState.Full: _image.sprite = fullSprite; break;
                 default: break;
             }
         }

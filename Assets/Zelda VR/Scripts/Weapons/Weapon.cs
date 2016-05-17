@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-
-public class Weapon : MonoBehaviour 
+public class Weapon : MonoBehaviour
 {
     public float attackDuration = 1;
     public GameObject projectilePrefab;
@@ -11,6 +10,7 @@ public class Weapon : MonoBehaviour
 
 
     protected float _attackStartTime = float.NegativeInfinity;
+
     GameObject _spawnedProjectile = null;
     Transform _projectilesContainer;
 
@@ -80,5 +80,4 @@ public class Weapon : MonoBehaviour
         //print("OnProjectileDestroyed");
         _spawnedProjectile = null;
     }
-
 }

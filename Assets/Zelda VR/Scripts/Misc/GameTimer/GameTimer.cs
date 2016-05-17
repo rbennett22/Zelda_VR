@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
-public class GameTimer : MonoBehaviour 
+public class GameTimer : MonoBehaviour
 {
     //[SerializeField]
     //TimerUI _timerUI;
@@ -29,7 +28,7 @@ public class GameTimer : MonoBehaviour
         get { return Mathf.Floor(_time_totalSecs / 60); }
     }
 
-    
+
     bool _isRunning;
 
 
@@ -41,11 +40,11 @@ public class GameTimer : MonoBehaviour
         }
     }
 
-	
-	public void Begin () 
-	{
+
+    public void Begin()
+    {
         _isRunning = true;
-	}
+    }
     public void Stop()
     {
         _isRunning = false;
@@ -57,13 +56,13 @@ public class GameTimer : MonoBehaviour
     }
 
 
-	void Update () 
-	{
+    void Update()
+    {
         if (_isRunning)
         {
             Time_TotalSecs += Time.deltaTime;
         }
-	}
+    }
 
     /*void RefreshUI()
     {

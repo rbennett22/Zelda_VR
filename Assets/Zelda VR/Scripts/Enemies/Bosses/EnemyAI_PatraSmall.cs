@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class EnemyAI_PatraSmall : EnemyAI 
+public class EnemyAI_PatraSmall : EnemyAI
 {
     public float phaseOffset;
     public float rotationSpeed = 3.0f;
-    
+
 
     float _startTime;
 
@@ -19,7 +19,7 @@ public class EnemyAI_PatraSmall : EnemyAI
     }
 
 
-	void Update () 
+    void Update()
     {
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
@@ -32,5 +32,5 @@ public class EnemyAI_PatraSmall : EnemyAI
         float z = Radius * Mathf.Sin(theta);
 
         transform.localPosition = new Vector3(x, y, z);
-	}
+    }
 }

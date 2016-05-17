@@ -1,104 +1,101 @@
-using UnityEngine;
-using UnityEditor;
-using System.Collections;
-using ProBuilder2.MeshOperations;
 using ProBuilder2.Common;
 using ProBuilder2.EditorCommon;
+using UnityEditor;
+using UnityEngine;
 
 namespace ProBuilder2.Actions
 {
-	public class pb_StripProBuilderScripts : Editor 
-	{
-		[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/Strip All ProBuilder Scripts in Scene")]
-		public static void StripAllScenes()
-		{
-			
-			if(!EditorUtility.DisplayDialog("Strip ProBuilder Scripts", "This will remove all ProBuilder scripts in the scene.  You will no longer be able to edit these objects.  There is no undo, please exercise caution!\n\nAre you sure you want to do this?", "Okay", "Cancel"))
-				return;
+    public class pb_StripProBuilderScripts : Editor
+    {
+        [MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/Strip All ProBuilder Scripts in Scene")]
+        public static void StripAllScenes()
+        {
+            if (!EditorUtility.DisplayDialog("Strip ProBuilder Scripts", "This will remove all ProBuilder scripts in the scene.  You will no longer be able to edit these objects.  There is no undo, please exercise caution!\n\nAre you sure you want to do this?", "Okay", "Cancel"))
+                return;
 
-			pb_Object[] all = (pb_Object[]) Resources.FindObjectsOfTypeAll(typeof(pb_Object) );
+            pb_Object[] all = (pb_Object[])Resources.FindObjectsOfTypeAll(typeof(pb_Object));
 
-			Strip(all);
-		}
+            Strip(all);
+        }
 
-		[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/Strip ProBuilder Scripts in Selection", true, 0)]
-		public static bool VerifyStripSelection()
-		{
-			return pbUtil.GetComponents<pb_Object>(Selection.transforms).Length > 0;
-		}
+        [MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/Strip ProBuilder Scripts in Selection", true, 0)]
+        public static bool VerifyStripSelection()
+        {
+            return pbUtil.GetComponents<pb_Object>(Selection.transforms).Length > 0;
+        }
 
-		[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/Strip ProBuilder Scripts in Selection")]
-		public static void StripAllSelected()
-		{
-			if(!EditorUtility.DisplayDialog("Strip ProBuilder Scripts", "This will remove all ProBuilder scripts on the selected objects.  You will no longer be able to edit these objects.  There is no undo, please exercise caution!\n\nAre you sure you want to do this?", "Okay", "Cancel"))
-				return;
+        [MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/Strip ProBuilder Scripts in Selection")]
+        public static void StripAllSelected()
+        {
+            if (!EditorUtility.DisplayDialog("Strip ProBuilder Scripts", "This will remove all ProBuilder scripts on the selected objects.  You will no longer be able to edit these objects.  There is no undo, please exercise caution!\n\nAre you sure you want to do this?", "Okay", "Cancel"))
+                return;
 
-			foreach(Transform t in Selection.transforms)
-			{
-				foreach(pb_Object pb in t.GetComponentsInChildren<pb_Object>(true))
-					DoStrip(pb);
-			}
-		}
+            foreach (Transform t in Selection.transforms)
+            {
+                foreach (pb_Object pb in t.GetComponentsInChildren<pb_Object>(true))
+                    DoStrip(pb);
+            }
+        }
 
-		public static void Strip(pb_Object[] all)
-		{
-				for(int i = 0; i < all.Length; i++)
-				{
-					if( EditorUtility.DisplayCancelableProgressBar(
-						"Stripping ProBuilder Scripts",
-						"Working over " + all[i].id + ".",
-						((float)i / all.Length)) )
-						break;
+        public static void Strip(pb_Object[] all)
+        {
+            for (int i = 0; i < all.Length; i++)
+            {
+                if (EditorUtility.DisplayCancelableProgressBar(
+                    "Stripping ProBuilder Scripts",
+                    "Working over " + all[i].id + ".",
+                    ((float)i / all.Length)))
+                    break;
 
-					DoStrip(all[i]);
-				}
+                DoStrip(all[i]);
+            }
 
-			EditorUtility.ClearProgressBar();
-			EditorUtility.DisplayDialog("Strip ProBuilder Scripts", "Successfully stripped out all ProBuilder components.", "Okay");
+            EditorUtility.ClearProgressBar();
+            EditorUtility.DisplayDialog("Strip ProBuilder Scripts", "Successfully stripped out all ProBuilder components.", "Okay");
 
-			if(pb_Editor.instance)
-				pb_Editor.instance.UpdateSelection();
-		}
+            if (pb_Editor.instance)
+                pb_Editor.instance.UpdateSelection();
+        }
 
 
-		public static void DoStrip(pb_Object pb)
-		{
-			try
-			{
-				GameObject go = pb.gameObject;
+        public static void DoStrip(pb_Object pb)
+        {
+            try
+            {
+                GameObject go = pb.gameObject;
 
-				Renderer ren = go.GetComponent<Renderer>();
+                Renderer ren = go.GetComponent<Renderer>();
 
-				if(ren != null)
-					EditorUtility.SetSelectedWireframeHidden(ren, false);
+                if (ren != null)
+                    EditorUtility.SetSelectedWireframeHidden(ren, false);
 
-				if( PrefabUtility.GetPrefabType(go) == PrefabType.Prefab )
-					return;
+                if (PrefabUtility.GetPrefabType(go) == PrefabType.Prefab)
+                    return;
 
-				pb_Editor_Utility.VerifyMesh(pb);
+                pb_Editor_Utility.VerifyMesh(pb);
 
-				if(pb.msh == null)	
-				{
-					DestroyImmediate(pb);
+                if (pb.msh == null)
+                {
+                    DestroyImmediate(pb);
 
-					if(go.GetComponent<pb_Entity>())
-						DestroyImmediate(go.GetComponent<pb_Entity>());
+                    if (go.GetComponent<pb_Entity>())
+                        DestroyImmediate(go.GetComponent<pb_Entity>());
 
-					return;
-				}
+                    return;
+                }
 
-				Mesh m = pbUtil.DeepCopyMesh(pb.msh);
+                Mesh m = pbUtil.DeepCopyMesh(pb.msh);
 
-				DestroyImmediate(pb);
-				
-				if(go.GetComponent<pb_Entity>())
-					DestroyImmediate(go.GetComponent<pb_Entity>());
+                DestroyImmediate(pb);
 
-				go.GetComponent<MeshFilter>().sharedMesh = m;
-				if(go.GetComponent<MeshCollider>())
-					go.GetComponent<MeshCollider>().sharedMesh = m;
-			}
-			catch {}
-		}
-	}
+                if (go.GetComponent<pb_Entity>())
+                    DestroyImmediate(go.GetComponent<pb_Entity>());
+
+                go.GetComponent<MeshFilter>().sharedMesh = m;
+                if (go.GetComponent<MeshCollider>())
+                    go.GetComponent<MeshCollider>().sharedMesh = m;
+            }
+            catch { }
+        }
+    }
 }

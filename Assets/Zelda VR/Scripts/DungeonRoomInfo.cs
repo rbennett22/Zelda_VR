@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DungeonRoomInfo : MonoBehaviour 
+public class DungeonRoomInfo : MonoBehaviour
 {
     public enum WallDirection
     {
@@ -70,8 +70,8 @@ public class DungeonRoomInfo : MonoBehaviour
     public Material floorMaterial;
 
     public Collectible ItemOnClear { get; set; }    // Collectible that appears when all enemies in room have been defeated
-    public Collectible SpecialItem { get; set; }    // Collectible that sits in room and can only ever be collected once  
-      
+    public Collectible SpecialItem { get; set; }    // Collectible that sits in room and can only ever be collected once
+
     public WallDirection[] doorsOpenOnClear;    // List of sealed doors that open when all enemies in room have been defeated
     public WallDirection pushBlockDoorDirection = WallDirection.None;   // A sealed door that opens after pushing a block in the room
     public bool pushBlockSpawnsSubDungeon;
@@ -82,7 +82,7 @@ public class DungeonRoomInfo : MonoBehaviour
     public bool containsGoriyaNPC;
     public bool containsBombUpgrade;
     public bool needTriforceToPass;
-    
+
     public bool isLit = true;
     public string npcText;
     public GameObject npcPrefab;
@@ -146,9 +146,9 @@ public class DungeonRoomInfo : MonoBehaviour
 
         bool isBombable = false;
         foreach (var wallDir in bombableWalls)
-	    {
-		    if (wallDir == direction) { isBombable = true; break; }
-	    }
+        {
+            if (wallDir == direction) { isBombable = true; break; }
+        }
         return isBombable;
     }
 
@@ -217,5 +217,5 @@ public class DungeonRoomInfo : MonoBehaviour
         BombUpgradeHasBeenPurchased = info.bombUpgradeHasBeenPurchased;
     }
 
-    #endregion
+    #endregion Serialization
 }

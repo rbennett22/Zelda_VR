@@ -6,10 +6,10 @@ public class MapKeypadToButtons : MonoBehaviour
     GameObject[] _buttons;      // The keypad number keys will map to corresponding indices (0-9) in this array
 
 
-	void Update ()
+    void Update()
     {
         int inputKeyNum = GetKeypadNumInput();
-        if(inputKeyNum != -1)
+        if (inputKeyNum != -1)
         {
             PressButtonCorrespondingToKeypadNumber(inputKeyNum);
         }
@@ -65,15 +65,15 @@ public class MapKeypadToButtons : MonoBehaviour
 
     void PressButtonCorrespondingToKeypadNumber(int keyNum)
     {
-        if(keyNum < 0 || keyNum > _buttons.Length - 1)
+        if (keyNum < 0 || keyNum > _buttons.Length - 1)
         {
             return;
         }
 
         GameObject btn = _buttons[keyNum];
-        if(btn != null)
+        if (btn != null)
         {
-            if(!btn.activeSelf)
+            if (!btn.activeSelf)
             {
                 btn.SetActive(true);
             }

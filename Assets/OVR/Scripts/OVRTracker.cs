@@ -19,105 +19,109 @@ limitations under the License.
 
 ************************************************************************************/
 
-using System;
-using System.Runtime.InteropServices;
 using UnityEngine;
-using VR = UnityEngine.VR;
 
 /// <summary>
 /// An infrared camera that tracks the position of a head-mounted display.
 /// </summary>
 public class OVRTracker
 {
-	/// <summary>
-	/// The (symmetric) visible area in front of the tracker.
-	/// </summary>
-	public struct Frustum
-	{
-		/// <summary>
-		/// The tracker cannot track the HMD unless it is at least this far away.
-		/// </summary>
-		public float nearZ;
-		/// <summary>
-		/// The tracker cannot track the HMD unless it is at least this close.
-		/// </summary>
-		public float farZ;
-		/// <summary>
-		/// The tracker's horizontal and vertical fields of view in degrees.
-		/// </summary>
-		public Vector2 fov;
-	}
+    /// <summary>
+    /// The (symmetric) visible area in front of the tracker.
+    /// </summary>
+    public struct Frustum
+    {
+        /// <summary>
+        /// The tracker cannot track the HMD unless it is at least this far away.
+        /// </summary>
+        public float nearZ;
 
-	/// <summary>
-	/// If true, a tracker is attached to the system.
-	/// </summary>
-	public bool isPresent
-	{
-		get {
-			if (!OVRManager.isHmdPresent)
-				return false;
+        /// <summary>
+        /// The tracker cannot track the HMD unless it is at least this close.
+        /// </summary>
+        public float farZ;
 
-			return OVRPlugin.positionSupported;
-		}
-	}
+        /// <summary>
+        /// The tracker's horizontal and vertical fields of view in degrees.
+        /// </summary>
+        public Vector2 fov;
+    }
 
-	/// <summary>
-	/// If true, the tracker can see and track the HMD. Otherwise the HMD may be occluded or the system may be malfunctioning.
-	/// </summary>
-	public bool isPositionTracked
-	{
-		get {
-			return OVRPlugin.positionTracked;
-		}
-	}
+    /// <summary>
+    /// If true, a tracker is attached to the system.
+    /// </summary>
+    public bool isPresent
+    {
+        get
+        {
+            if (!OVRManager.isHmdPresent)
+                return false;
 
-	/// <summary>
-	/// If this is true and a tracker is available, the system will use position tracking when isPositionTracked is also true.
-	/// </summary>
-	public bool isEnabled
-	{
-		get {
-			if (!OVRManager.isHmdPresent)
-				return false;
+            return OVRPlugin.positionSupported;
+        }
+    }
 
-			return OVRPlugin.position;
+    /// <summary>
+    /// If true, the tracker can see and track the HMD. Otherwise the HMD may be occluded or the system may be malfunctioning.
+    /// </summary>
+    public bool isPositionTracked
+    {
+        get
+        {
+            return OVRPlugin.positionTracked;
+        }
+    }
+
+    /// <summary>
+    /// If this is true and a tracker is available, the system will use position tracking when isPositionTracked is also true.
+    /// </summary>
+    public bool isEnabled
+    {
+        get
+        {
+            if (!OVRManager.isHmdPresent)
+                return false;
+
+            return OVRPlugin.position;
         }
 
-		set {
-			if (!OVRManager.isHmdPresent)
-				return;
+        set
+        {
+            if (!OVRManager.isHmdPresent)
+                return;
 
-			OVRPlugin.position = value;
-		}
-	}
+            OVRPlugin.position = value;
+        }
+    }
 
-	/// <summary>
-	/// Gets the tracker's viewing frustum.
-	/// </summary>
-	public Frustum frustum
-	{
-		get {
-			if (!OVRManager.isHmdPresent)
-				return new Frustum();
+    /// <summary>
+    /// Gets the tracker's viewing frustum.
+    /// </summary>
+    public Frustum frustum
+    {
+        get
+        {
+            if (!OVRManager.isHmdPresent)
+                return new Frustum();
 
             return OVRPlugin.GetTrackerFrustum(OVRPlugin.Tracker.Default).ToFrustum();
-		}
-	}
+        }
+    }
 
-	/// <summary>
-	/// Gets the tracker's pose, relative to the head's pose at the time of the last pose recentering.
-	/// </summary>
-	public OVRPose GetPose(double predictionTime)
-	{
-		if (!OVRManager.isHmdPresent)
-			return OVRPose.identity;
+    /// <summary>
+    /// Gets the tracker's pose, relative to the head's pose at the time of the last pose recentering.
+    /// </summary>
+    public OVRPose GetPose(double predictionTime)
+    {
+        if (!OVRManager.isHmdPresent)
+            return OVRPose.identity;
 
-		var p = OVRPlugin.GetTrackerPose(OVRPlugin.Tracker.Default).ToOVRPose();
-		
-		return new OVRPose()
-		{
-			position = p.position,
-			orientation = p.orientation * Quaternion.Euler(0, 180, 0)
-		};
-	}
+        var p = OVRPlugin.GetTrackerPose(OVRPlugin.Tracker.Default).ToOVRPose();
+
+        return new OVRPose()
+        {
+            position = p.position,
+            orientation = p.orientation * Quaternion.Euler(0, 180, 0)
+        };
+    }
 }

@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-public class EnemyAI_Statue : EnemyAI 
+public class EnemyAI_Statue : EnemyAI
 {
     const bool FIRES_AT_PLAYER = false;
 

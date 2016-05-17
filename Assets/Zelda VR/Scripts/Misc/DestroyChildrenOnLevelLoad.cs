@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DestroyChildrenOnLevelLoad : MonoBehaviour 
+public class DestroyChildrenOnLevelLoad : MonoBehaviour
 {
     void OnLevelWasLoaded(int level)
     {

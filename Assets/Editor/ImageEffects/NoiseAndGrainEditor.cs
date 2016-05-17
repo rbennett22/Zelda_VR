@@ -1,10 +1,9 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 
 namespace UnityStandardAssets.ImageEffects
 {
-    [CustomEditor (typeof( NoiseAndGrain))]
+    [CustomEditor(typeof(NoiseAndGrain))]
     class NoiseAndGrainEditor : Editor
     {
         SerializedObject serObj;
@@ -26,8 +25,9 @@ namespace UnityStandardAssets.ImageEffects
         SerializedProperty noiseTexture;
         SerializedProperty filterMode;
 
-        void OnEnable () {
-            serObj = new SerializedObject (target);
+        void OnEnable()
+        {
+            serObj = new SerializedObject(target);
 
             intensityMultiplier = serObj.FindProperty("intensityMultiplier");
             generalIntensity = serObj.FindProperty("generalIntensity");
@@ -48,14 +48,16 @@ namespace UnityStandardAssets.ImageEffects
         }
 
 
-        public override void OnInspectorGUI () {
+        public override void OnInspectorGUI()
+        {
             serObj.Update();
 
             EditorGUILayout.LabelField("Overlays animated noise patterns", EditorStyles.miniLabel);
 
             EditorGUILayout.PropertyField(dx11Grain, new GUIContent("DirectX 11 Grain"));
 
-            if (dx11Grain.boolValue && !(target as NoiseAndGrain).Dx11Support()) {
+            if (dx11Grain.boolValue && !(target as NoiseAndGrain).Dx11Support())
+            {
                 EditorGUILayout.HelpBox("DX11 mode not supported (need DX11 GPU and enable DX11 in PlayerSettings)", MessageType.Info);
             }
 
@@ -67,14 +69,16 @@ namespace UnityStandardAssets.ImageEffects
             EditorGUILayout.PropertyField(generalIntensity, new GUIContent(" General"));
             EditorGUILayout.PropertyField(blackIntensity, new GUIContent(" Black Boost"));
             EditorGUILayout.PropertyField(whiteIntensity, new GUIContent(" White Boost"));
-            midGrey.floatValue = EditorGUILayout.Slider( new GUIContent(" Mid Grey (for Boost)"), midGrey.floatValue, 0.0f, 1.0f);
-            if (monochrome.boolValue == false) {
-                Color c = new Color(intensities.vector3Value.x,intensities.vector3Value.y,intensities.vector3Value.z,1.0f);
+            midGrey.floatValue = EditorGUILayout.Slider(new GUIContent(" Mid Grey (for Boost)"), midGrey.floatValue, 0.0f, 1.0f);
+            if (monochrome.boolValue == false)
+            {
+                Color c = new Color(intensities.vector3Value.x, intensities.vector3Value.y, intensities.vector3Value.z, 1.0f);
                 c = EditorGUILayout.ColorField(new GUIContent(" Color Weights"), c);
                 intensities.vector3Value = new Vector3(c.r, c.g, c.b);
             }
 
-            if (!dx11Grain.boolValue) {
+            if (!dx11Grain.boolValue)
+            {
                 EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Noise Shape");
@@ -86,9 +90,10 @@ namespace UnityStandardAssets.ImageEffects
                 EditorGUILayout.LabelField("Noise Shape");
             }
 
-            softness.floatValue = EditorGUILayout.Slider( new GUIContent(" Softness"),softness.floatValue, 0.0f, 0.99f);
+            softness.floatValue = EditorGUILayout.Slider(new GUIContent(" Softness"), softness.floatValue, 0.0f, 0.99f);
 
-            if (!dx11Grain.boolValue) {
+            if (!dx11Grain.boolValue)
+            {
                 EditorGUILayout.Separator();
                 EditorGUILayout.LabelField("Advanced");
 

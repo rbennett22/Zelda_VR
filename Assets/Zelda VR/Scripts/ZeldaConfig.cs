@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
 
-public class ZeldaConfig : Singleton<ZeldaConfig> 
+public class ZeldaConfig : Singleton<ZeldaConfig>
 {
     public int version, subVersion, subSubVersion;
     public bool defaultMusicEnabled;

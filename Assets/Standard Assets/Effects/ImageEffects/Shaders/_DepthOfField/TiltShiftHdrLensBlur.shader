@@ -1,20 +1,19 @@
-
- Shader "Hidden/Dof/TiltShiftHdrLensBlur" {
-	Properties {
-		_MainTex ("-", 2D) = "" {}
+Shader "Hidden/Dof/TiltShiftHdrLensBlur" {
+	Properties{
+		_MainTex("-", 2D) = "" {}
 	}
 
-	CGINCLUDE
-	
-	#include "UnityCG.cginc"
-	
-	struct v2f 
+		CGINCLUDE
+
+#include "UnityCG.cginc"
+
+	struct v2f
 	{
 		float4 pos : SV_POSITION;
 		float2 uv : TEXCOORD0;
 		float2 uv1 : TEXCOORD1;
 	};
-			
+
 	sampler2D _MainTex;
 	sampler2D _Blurred;
 
@@ -22,30 +21,30 @@
 	float _BlurSize;
 	float _BlurArea;
 
-	#ifdef SHADER_API_D3D11
-	#define SAMPLE_TEX(sampler, uv) tex2Dlod(sampler, float4(uv,0,1))
-	#else
-	#define SAMPLE_TEX(sampler, uv) tex2D(sampler, uv)
-	#endif
-	
-	v2f vert (appdata_img v) 
+#ifdef SHADER_API_D3D11
+#define SAMPLE_TEX(sampler, uv) tex2Dlod(sampler, float4(uv,0,1))
+#else
+#define SAMPLE_TEX(sampler, uv) tex2D(sampler, uv)
+#endif
+
+	v2f vert(appdata_img v)
 	{
 		v2f o;
-		o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 		o.uv.xy = v.texcoord;
 		o.uv1.xy = v.texcoord;
 
-		#if UNITY_UV_STARTS_AT_TOP 
+#if UNITY_UV_STARTS_AT_TOP
 		if (_MainTex_TexelSize.y < 0)
-			o.uv1.y = 1-o.uv1.y;		
-		#else
-		
-		#endif
-		  
-		return o;
-	} 
+			o.uv1.y = 1 - o.uv1.y;
+#else
 
-	static const int SmallDiscKernelSamples = 12;		
+#endif
+
+		return o;
+	}
+
+	static const int SmallDiscKernelSamples = 12;
 	static const float2 SmallDiscKernel[SmallDiscKernelSamples] =
 	{
 		float2(-0.326212,-0.40581),
@@ -63,7 +62,7 @@
 	};
 
 	static const int NumDiscSamples = 28;
-	static const float3 DiscKernel[NumDiscSamples] = 
+	static const float3 DiscKernel[NumDiscSamples] =
 	{
 		float3(0.62463,0.54337,0.82790),
 		float3(-0.13414,-0.94488,0.95435),
@@ -93,31 +92,31 @@
 		float3(0.55052,-0.66984,0.86704),
 		float3(0.46431,0.28115,0.54280),
 		float3(-0.07214,0.60554,0.60982),
-	};	
+	};
 
-	float WeightFieldMode (float2 uv)
+	float WeightFieldMode(float2 uv)
 	{
-		float2 tapCoord = uv*2.0-1.0;
+		float2 tapCoord = uv*2.0 - 1.0;
 		return (abs(tapCoord.y * _BlurArea));
 	}
 
-	float WeightIrisMode (float2 uv)
+	float WeightIrisMode(float2 uv)
 	{
-		float2 tapCoord = (uv*2.0-1.0);
+		float2 tapCoord = (uv*2.0 - 1.0);
 		return dot(tapCoord, tapCoord) * _BlurArea;
-	}	
+	}
 
-	float4 fragIrisPreview (v2f i) : SV_Target 
+	float4 fragIrisPreview(v2f i) : SV_Target
 	{
 		return WeightIrisMode(i.uv.xy) * 0.5;
 	}
 
-	float4 fragFieldPreview (v2f i) : SV_Target 
+		float4 fragFieldPreview(v2f i) : SV_Target
 	{
 		return WeightFieldMode(i.uv.xy) * 0.5;
 	}
 
-	float4 fragUpsample (v2f i) : SV_Target
+		float4 fragUpsample(v2f i) : SV_Target
 	{
 		float4 blurred = tex2D(_Blurred, i.uv1.xy);
 		float4 frame = tex2D(_MainTex, i.uv.xy);
@@ -125,7 +124,7 @@
 		return lerp(frame, blurred, saturate(blurred.a));
 	}
 
-	float4 fragIris (v2f i) : SV_Target 
+		float4 fragIris(v2f i) : SV_Target
 	{
 		float4 centerTap = tex2D(_MainTex, i.uv.xy);
 		float4 sum = centerTap;
@@ -133,22 +132,22 @@
 		float w = clamp(WeightIrisMode(i.uv.xy), 0, _BlurSize);
 
 		float4 poissonScale = _MainTex_TexelSize.xyxy * w;
-		
+
 		#ifndef SHADER_API_D3D9
-		if(w<1e-2f)
+		if (w < 1e-2f)
 			return sum;
 		#endif
 
-		for(int l=0; l<NumDiscSamples; l++)
+		for (int l = 0; l < NumDiscSamples; l++)
 		{
 			float2 sampleUV = i.uv.xy + DiscKernel[l].xy * poissonScale.xy;
 			float4 sample0 = SAMPLE_TEX(_MainTex, sampleUV.xy);
 			sum += sample0;
 		}
-		return float4(sum.rgb / (1.0 + NumDiscSamples), w);	
+		return float4(sum.rgb / (1.0 + NumDiscSamples), w);
 	}
-	
-	float4 fragField (v2f i) : SV_Target 
+
+		float4 fragField(v2f i) : SV_Target
 	{
 		float4 centerTap = tex2D(_MainTex, i.uv.xy);
 		float4 sum = centerTap;
@@ -156,22 +155,22 @@
 		float w = clamp(WeightFieldMode(i.uv.xy), 0, _BlurSize);
 
 		float4 poissonScale = _MainTex_TexelSize.xyxy * w;
-		
+
 		#ifndef SHADER_API_D3D9
-		if(w<1e-2f)
+		if (w < 1e-2f)
 			return sum;
 		#endif
 
-		for(int l=0; l<NumDiscSamples; l++)
+		for (int l = 0; l < NumDiscSamples; l++)
 		{
 			float2 sampleUV = i.uv.xy + DiscKernel[l].xy * poissonScale.xy;
 			float4 sample0 = SAMPLE_TEX(_MainTex, sampleUV.xy);
 			sum += sample0;
 		}
-		return float4(sum.rgb / (1.0 + NumDiscSamples), w);	
+		return float4(sum.rgb / (1.0 + NumDiscSamples), w);
 	}
 
-	float4 fragIrisHQ (v2f i) : SV_Target 
+		float4 fragIrisHQ(v2f i) : SV_Target
 	{
 		float4 centerTap = tex2D(_MainTex, i.uv.xy);
 		float4 sum = centerTap;
@@ -179,13 +178,13 @@
 		float w = clamp(WeightIrisMode(i.uv.xy), 0, _BlurSize);
 
 		float4 poissonScale = _MainTex_TexelSize.xyxy * float4(1,1,-1,-1) * 2;
-		
+
 		#ifndef SHADER_API_D3D9
-		if(w<1e-2f)
+		if (w < 1e-2f)
 			return sum;
 		#endif
 
-		for(int l=0; l<NumDiscSamples; l++)
+		for (int l = 0; l < NumDiscSamples; l++)
 		{
 			float4 sampleUV = i.uv.xyxy + DiscKernel[l].xyxy * poissonScale;
 			float4 sample0 = SAMPLE_TEX(_MainTex, sampleUV.xy);
@@ -195,8 +194,8 @@
 		}
 		return float4(sum.rgb / (1.0 + 2.0 * NumDiscSamples), w);
 	}
-	
-	float4 fragFieldHQ (v2f i) : SV_Target 
+
+		float4 fragFieldHQ(v2f i) : SV_Target
 	{
 		float4 centerTap = tex2D(_MainTex, i.uv.xy);
 		float4 sum = centerTap;
@@ -204,13 +203,13 @@
 		float w = clamp(WeightFieldMode(i.uv.xy), 0, _BlurSize);
 
 		float4 poissonScale = _MainTex_TexelSize.xyxy * float4(1,1,-1,-1) * w;
-				
+
 		#ifndef SHADER_API_D3D9
-		if(w<1e-2f)
+		if (w < 1e-2f)
 			return sum;
 		#endif
 
-		for(int l=0; l<NumDiscSamples; l++)
+		for (int l = 0; l < NumDiscSamples; l++)
 		{
 			float4 sampleUV = i.uv.xyxy + DiscKernel[l].xyxy * poissonScale;
 			float4 sample0 = SAMPLE_TEX(_MainTex, sampleUV.xy);
@@ -219,91 +218,83 @@
 			sum += sample0 + sample1;
 		}
 		return float4(sum.rgb / (1.0 + 2.0 * NumDiscSamples), w);
-	}		
- 
-	ENDCG
-	
-Subshader {
-	  ZTest Always Cull Off ZWrite Off
-  
-   Pass { // 0 
+	}
 
-      CGPROGRAM
-      
-      #pragma target 3.0
-      #pragma vertex vert
-      #pragma fragment fragFieldPreview
+		ENDCG
 
-      ENDCG
-  	}
+		Subshader {
+		ZTest Always Cull Off ZWrite Off
 
- Pass { // 1
+			Pass{ // 0
+			   CGPROGRAM
 
-      CGPROGRAM
-      
-      #pragma target 3.0
-      #pragma vertex vert
-      #pragma fragment fragIrisPreview
+			   #pragma target 3.0
+			   #pragma vertex vert
+			   #pragma fragment fragFieldPreview
 
-      ENDCG
-  	} 
+			   ENDCG
+		}
 
-  Pass { // 2
+			Pass{ // 1
+				 CGPROGRAM
 
-      CGPROGRAM
-      
-      #pragma target 3.0
-      #pragma vertex vert
-      #pragma fragment fragField
+				 #pragma target 3.0
+				 #pragma vertex vert
+				 #pragma fragment fragIrisPreview
 
-      ENDCG
-  	}
+				 ENDCG
+		}
 
- Pass { // 3
+			Pass{ // 2
+				CGPROGRAM
 
-      CGPROGRAM
-      
-      #pragma target 3.0
-      #pragma vertex vert
-      #pragma fragment fragIris
+				#pragma target 3.0
+				#pragma vertex vert
+				#pragma fragment fragField
 
-      ENDCG
-  	}
+				ENDCG
+		}
 
-  Pass { // 4
+			Pass{ // 3
+				 CGPROGRAM
 
-      CGPROGRAM
-      
-      #pragma target 3.0
-      #pragma vertex vert
-      #pragma fragment fragFieldHQ
+				 #pragma target 3.0
+				 #pragma vertex vert
+				 #pragma fragment fragIris
 
-      ENDCG
-  	}
+				 ENDCG
+		}
 
- Pass { // 5
+			Pass{ // 4
+				CGPROGRAM
 
-      CGPROGRAM
-      
-      #pragma target 3.0
-      #pragma vertex vert
-      #pragma fragment fragIrisHQ
+				#pragma target 3.0
+				#pragma vertex vert
+				#pragma fragment fragFieldHQ
 
-      ENDCG
-  	}  	
+				ENDCG
+		}
 
- Pass { // 6
+			Pass{ // 5
+				 CGPROGRAM
 
-      CGPROGRAM
-      
-      #pragma target 3.0
-      #pragma vertex vert
-      #pragma fragment fragUpsample
+				 #pragma target 3.0
+				 #pragma vertex vert
+				 #pragma fragment fragIrisHQ
 
-      ENDCG
-  	} 	
-  }
-  
-Fallback off
+				 ENDCG
+		}
 
+			Pass{ // 6
+				 CGPROGRAM
+
+				 #pragma target 3.0
+				 #pragma vertex vert
+				 #pragma fragment fragUpsample
+
+				 ENDCG
+		}
+	}
+
+	Fallback off
 }

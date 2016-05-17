@@ -57,5 +57,4 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
         Destroy(_spawnedDungeonEntrance.gameObject);
         _spawnedDungeonEntrance = null;
     }
-
 }

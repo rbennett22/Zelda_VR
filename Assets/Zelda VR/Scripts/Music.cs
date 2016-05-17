@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections;
-using Immersio.Utility;
+using UnityEngine;
 
 public class Music : Singleton<Music>
 {
@@ -13,14 +13,14 @@ public class Music : Singleton<Music>
     public void PlayDeathMountain() { GetComponent<AudioSource>().loop = true; Play(deathMountain); }
     public void PlayEnding() { GetComponent<AudioSource>().loop = false; Play(ending); }
 
-    public void Play(AudioClip clip, ulong delay = 0) 
+    public void Play(AudioClip clip, ulong delay = 0)
     {
         if (!_isEnabled) { return; }
         if (GetComponent<AudioSource>().clip == clip && GetComponent<AudioSource>().isPlaying) { return; }
-        GetComponent<AudioSource>().clip = clip; 
-        GetComponent<AudioSource>().Play(delay); 
+        GetComponent<AudioSource>().clip = clip;
+        GetComponent<AudioSource>().Play(delay);
     }
-    public void PlayOpeningThenLoop(AudioClip openingClip, AudioClip loopClip) 
+    public void PlayOpeningThenLoop(AudioClip openingClip, AudioClip loopClip)
     {
         if (!_isEnabled) { return; }
         if (GetComponent<AudioSource>().isPlaying && (GetComponent<AudioSource>().clip == openingClip || GetComponent<AudioSource>().clip == loopClip)) { return; }
@@ -85,7 +85,7 @@ public class Music : Singleton<Music>
         }
         else if (w.IsOverworld)
         {
-            PlayOverworld(); 
+            PlayOverworld();
         }
         else if (w.IsInDungeon)
         {

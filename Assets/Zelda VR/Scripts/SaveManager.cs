@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.IO;
-using Immersio.Utility;
+using UnityEngine;
 
 
 public class SaveManager : Singleton<SaveManager>
@@ -24,7 +24,7 @@ public class SaveManager : Singleton<SaveManager>
     {
         return Application.persistentDataPath + "/" + GAME_FILE_NAME_BASE + id + ".txt";
     }
-    
+
     static bool DataExistsForID(int id)
     {
         return File.Exists(GameFilePathForID(id));
@@ -43,7 +43,7 @@ public class SaveManager : Singleton<SaveManager>
         print(" SaveGame :: Game:" + ActiveGameFilePath + "\n   EntryData: " + ActiveEntryDataFilePath);
 
         ZeldaSerializer.Instance.SaveGame(ActiveGameFilePath);
-        ZeldaSerializer.Instance.SaveEntryData(ActiveEntryDataFilePath);  
+        ZeldaSerializer.Instance.SaveEntryData(ActiveEntryDataFilePath);
     }
 
     public void LoadGame(int id)
@@ -81,5 +81,4 @@ public class SaveManager : Singleton<SaveManager>
 
         return true;
     }
-
 }

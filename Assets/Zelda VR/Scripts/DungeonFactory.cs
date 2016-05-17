@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections.Generic;
-using Immersio.Utility;
+using UnityEngine;
 
 public class DungeonFactory : Singleton<DungeonFactory>
 {
@@ -92,16 +92,16 @@ public class DungeonFactory : Singleton<DungeonFactory>
 
         _dungeonRoomsList = new List<DungeonRoom>();
 
-		int dungeonNum = WorldInfo.Instance.DungeonNum;
-		string dungeonInfoName = "Dungeon Info " + dungeonNum;
-		Transform dungeonInfo = GameObject.Find(dungeonInfoName).transform;
+        int dungeonNum = WorldInfo.Instance.DungeonNum;
+        string dungeonInfoName = "Dungeon Info " + dungeonNum;
+        Transform dungeonInfo = GameObject.Find(dungeonInfoName).transform;
 
         // Create Rooms
         foreach (Transform child in dungeonInfo)
         {
             DungeonRoomInfo info = child.GetComponent<DungeonRoomInfo>();
             if (info == null) { continue; }
-            
+
             CreateRoom(info);
         }
 
@@ -174,7 +174,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
     {
         Vector2 scale = new Vector2(EastWestMaterialTiling, 1);
         Vector2 offset = new Vector2(EastWestMaterialOffset, 0);
-        
+
         wall_EW = new Material(wall);
         wall_EW.SetTextureScale("_MainTex", scale);
         wall_EW.SetTextureOffset("_MainTex", offset);
@@ -347,9 +347,9 @@ public class DungeonFactory : Singleton<DungeonFactory>
             if (sp != null)
             {
                 DungeonRoom dr = DungeonRoom.GetRoomForPosition(sp.transform.position);
-                if (dr == null) 
-                { 
-                    //print(" sp -> " + sp.name + ": " + sp.transform.position.x + ", " + sp.transform.position.z); 
+                if (dr == null)
+                {
+                    //print(" sp -> " + sp.name + ": " + sp.transform.position.x + ", " + sp.transform.position.z);
                     continue;
                 }
                 dr.AddEnemySpawnPoint(sp);
@@ -369,7 +369,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
             DungeonRoom dr = DungeonRoom.GetRoomForPosition(hole.position);
             if (dr == null)
             {
-                //print(" hole -> " + hole.name + ": " + hole.transform.position.x + ", " + hole.transform.position.z); 
+                //print(" hole -> " + hole.name + ": " + hole.transform.position.x + ", " + hole.transform.position.z);
                 continue;
             }
 
@@ -488,17 +488,23 @@ public class DungeonFactory : Singleton<DungeonFactory>
         Material mat = null;
         switch (wallType)
         {
-            case DungeonRoomInfo.WallType.Closed: mat = northSouthWall ? wall : wall_EW;
+            case DungeonRoomInfo.WallType.Closed:
+                mat = northSouthWall ? wall : wall_EW;
                 break;
-            case DungeonRoomInfo.WallType.DoorOpen: mat = northSouthWall ? wallOpen : wallOpen_EW;
+            case DungeonRoomInfo.WallType.DoorOpen:
+                mat = northSouthWall ? wallOpen : wallOpen_EW;
                 break;
-            case DungeonRoomInfo.WallType.DoorSealed: mat = northSouthWall ? wallSealed : wallSealed_EW;
+            case DungeonRoomInfo.WallType.DoorSealed:
+                mat = northSouthWall ? wallSealed : wallSealed_EW;
                 break;
-            case DungeonRoomInfo.WallType.DoorLocked: mat = northSouthWall ? wallLocked : wallLocked_EW;
+            case DungeonRoomInfo.WallType.DoorLocked:
+                mat = northSouthWall ? wallLocked : wallLocked_EW;
                 break;
-            case DungeonRoomInfo.WallType.Bombed: mat = northSouthWall ? wallBombed : wallBombed_EW;
+            case DungeonRoomInfo.WallType.Bombed:
+                mat = northSouthWall ? wallBombed : wallBombed_EW;
                 break;
-            case DungeonRoomInfo.WallType.Top: mat = northSouthWall ? wallTop : wallTop_EW;
+            case DungeonRoomInfo.WallType.Top:
+                mat = northSouthWall ? wallTop : wallTop_EW;
                 break;
             default:
                 break;

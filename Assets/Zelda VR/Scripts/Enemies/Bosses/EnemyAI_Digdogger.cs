@@ -53,5 +53,4 @@ public class EnemyAI_Digdogger : EnemyAI
             _healthController.Kill(null, true);
         }
     }
-
 }

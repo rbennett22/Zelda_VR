@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class SubDungeonPortal : MonoBehaviour 
+public class SubDungeonPortal : MonoBehaviour
 {
     public SubDungeon subDungeon;
 

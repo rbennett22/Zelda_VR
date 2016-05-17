@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Xml.Serialization;
+﻿using Immersio.Utility;
 using System.IO;
-using Immersio.Utility;
+using System.Xml.Serialization;
+using UnityEngine;
 
 public class ZeldaSerializer : Singleton<ZeldaSerializer>
 {
@@ -26,7 +26,7 @@ public class ZeldaSerializer : Singleton<ZeldaSerializer>
         {
             XmlSerializer serializer = new XmlSerializer(typeof(GameData));
             FileStream fs = new FileStream(filename, FileMode.Open);
-            
+
             GameData data = (GameData)serializer.Deserialize(fs);
             fs.Close();
 
@@ -39,7 +39,7 @@ public class ZeldaSerializer : Singleton<ZeldaSerializer>
         public string name = "Link";        // TODO
         public int deathCount;
         public int armorLevel, swordLevel, numHeartContainers, numHalfHearts;
-        
+
 
         public static void SaveToFile(EntryData info, string filename)
         {
@@ -72,9 +72,9 @@ public class ZeldaSerializer : Singleton<ZeldaSerializer>
         data.owInfo = GameObject.FindGameObjectWithTag("OverworldInfo").GetComponent<OverworldInfo>().GetInfo();
         data.dungInfo = new DungeonInfo.Serializable[WorldInfo.NUM_DUNGEONS];
         for (int i = 0; i < WorldInfo.NUM_DUNGEONS; i++)
-		{
-			 data.dungInfo[i] = WorldInfo.Instance.GetDungeon(i+1).GetComponent<DungeonInfo>().GetInfo();
-		}
+        {
+            data.dungInfo[i] = WorldInfo.Instance.GetDungeon(i + 1).GetComponent<DungeonInfo>().GetInfo();
+        }
 
         GameData.SaveToFile(data, filePath);
     }
@@ -103,8 +103,8 @@ public class ZeldaSerializer : Singleton<ZeldaSerializer>
         Inventory.Instance.InitWithInfo(data.invInfo);
         GameObject.FindGameObjectWithTag("OverworldInfo").GetComponent<OverworldInfo>().InitWithInfo(data.owInfo);
         for (int i = 0; i < WorldInfo.NUM_DUNGEONS; i++)
-		{
-			 WorldInfo.Instance.GetDungeon(i+1).GetComponent<DungeonInfo>().InitWithInfo(data.dungInfo[i]);
-		}
+        {
+            WorldInfo.Instance.GetDungeon(i + 1).GetComponent<DungeonInfo>().InitWithInfo(data.dungInfo[i]);
+        }
     }
 }

@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections.Generic;
-using Immersio.Utility;
+using UnityEngine;
 
-public class Inventory : Singleton<Inventory> 
+public class Inventory : Singleton<Inventory>
 {
     const int BOMB_MAX_COUNT_BASE = 8;
     const int BOMBS_PER_UPGRADE = 4;
@@ -122,8 +122,8 @@ public class Inventory : Singleton<Inventory>
     }
 
 
-    Item[, ,] _equippableSecondaryItems;
-    
+    Item[,,] _equippableSecondaryItems;
+
     int _targetRupeeCount;
     bool _animateRupeeCount;
     public int RupeeCount { get { return GetItem("Rupee").count; } }
@@ -160,7 +160,7 @@ public class Inventory : Singleton<Inventory>
         }
     }
 
-    
+
     void Update()
     {
         if (_animateRupeeCount)
@@ -191,7 +191,7 @@ public class Inventory : Singleton<Inventory>
         base.Awake();
 
         InitItems();
-	}
+    }
 
     void InitItems()
     {
@@ -206,7 +206,7 @@ public class Inventory : Singleton<Inventory>
             Items.Add(g.name, g.GetComponent<Item>());
         }
 
-        _equippableSecondaryItems = new Item[3, 2, 4] { 
+        _equippableSecondaryItems = new Item[3, 2, 4] {
             {{ null,                        null,               null,                       null },
              { null,                        null,               GetItem("Letter"),          null }},
             {{ GetItem("WoodenBoomerang"),  null,               GetItem("WoodenBow"),       GetItem("BlueCandle") },
@@ -310,7 +310,7 @@ public class Inventory : Singleton<Inventory>
                 subItem.OnCollected();
             }
         }
-        
+
         if (item.name == "HeartContainer")
         {
             SyncPlayerHealthWithHeartContainers();
@@ -329,7 +329,7 @@ public class Inventory : Singleton<Inventory>
         {
             OnItemCollected("SilverBow");
         }
-        
+
 
         if (item.useImmediately)
         {
@@ -342,8 +342,8 @@ public class Inventory : Singleton<Inventory>
         if (item == null) { return false; }
 
         return (
-            (item.name == "WoodenSword") || 
-            (item.name == "WhiteSword") || 
+            (item.name == "WoodenSword") ||
+            (item.name == "WhiteSword") ||
             (item.name == "MagicSword"));
     }
 
@@ -524,7 +524,7 @@ public class Inventory : Singleton<Inventory>
         SyncPlayerHealthWithHeartContainers();
     }
 
-    #endregion
+    #endregion Save/Load
 
 
     void Print()
@@ -532,7 +532,7 @@ public class Inventory : Singleton<Inventory>
         string output = " ~~~  INVENTORY  ~~~\n";
         foreach (var item in _items.Values)
         {
-           output += item.name + ": " + item.count + "\n";
+            output += item.name + ": " + item.count + "\n";
         }
         print(output);
     }

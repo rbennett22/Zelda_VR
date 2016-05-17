@@ -21,7 +21,6 @@ limitations under the License.
 
 using UnityEngine;
 using VR = UnityEngine.VR;
-using System.Collections;
 
 /// <summary>
 /// This is a simple behavior that can be attached to a parent of the CameraRig in order
@@ -32,91 +31,97 @@ using System.Collections;
 /// You must also have an OVRGamepadController somewhere in your scene.
 /// Alternatively, this behavior can be placed directly on the OVRCameraRig object, but
 /// that is not guaranteed to work if OVRCameraRig functionality changes in the future.
-/// In the parent case, the object with OVRDebugHeadController can be thougt of as a 
-/// platform that your camera is attached to. When the platform moves or rotates, the 
+/// In the parent case, the object with OVRDebugHeadController can be thougt of as a
+/// platform that your camera is attached to. When the platform moves or rotates, the
 /// camera moves or rotates, but the camera can still move independently while "on" the
 /// platform.
 /// In general, this behavior should be disabled when not debugging.
 /// </summary>
-public class OVRDebugHeadController : MonoBehaviour 
+public class OVRDebugHeadController : MonoBehaviour
 {
-	[SerializeField]
-	public bool AllowPitchLook = false;
-	[SerializeField]
-	public bool AllowYawLook = true;
-	[SerializeField]
-	public bool InvertPitch = false;
-	[SerializeField]
-	public float GamePad_PitchDegreesPerSec = 90.0f;
-	[SerializeField]
-	public float GamePad_YawDegreesPerSec = 90.0f;
-	[SerializeField]
-	public bool AllowMovement = false;
-	[SerializeField]
-	public float ForwardSpeed = 2.0f;
-	[SerializeField]
-	public float StrafeSpeed = 2.0f;
-	
-	protected OVRCameraRig CameraRig = null;
+    [SerializeField]
+    public bool AllowPitchLook = false;
 
-	void Awake()
-	{
-		// locate the camera rig so we can use it to get the current camera transform each frame
-		OVRCameraRig[] CameraRigs = gameObject.GetComponentsInChildren<OVRCameraRig>();
-		
-		if( CameraRigs.Length == 0 )
-			Debug.LogWarning("OVRCamParent: No OVRCameraRig attached.");
-		else if (CameraRigs.Length > 1)
-			Debug.LogWarning("OVRCamParent: More then 1 OVRCameraRig attached.");
-		else
-			CameraRig = CameraRigs[0];
-	}
-	
-	// Use this for initialization
-	void Start () 
-	{
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-		if ( AllowMovement )
-		{
-			float gamePad_FwdAxis = OVRGamepadController.GPC_GetAxis( OVRGamepadController.Axis.LeftYAxis );
-			float gamePad_StrafeAxis = OVRGamepadController.GPC_GetAxis( OVRGamepadController.Axis.LeftXAxis );
-			
-			Vector3 fwdMove = ( CameraRig.centerEyeAnchor.rotation * Vector3.forward ) * gamePad_FwdAxis * Time.deltaTime * ForwardSpeed;
-			Vector3 strafeMove = ( CameraRig.centerEyeAnchor.rotation * Vector3.right ) * gamePad_StrafeAxis * Time.deltaTime * StrafeSpeed;
-			transform.position += fwdMove + strafeMove;
-		}
+    [SerializeField]
+    public bool AllowYawLook = true;
 
-		if ( !VR.VRDevice.isPresent && ( AllowYawLook || AllowPitchLook ) )
-		{
-			Quaternion r = transform.rotation;
-			if ( AllowYawLook )
-			{
-				float gamePadYaw = OVRGamepadController.GPC_GetAxis( OVRGamepadController.Axis.RightXAxis );
-				float yawAmount = gamePadYaw * Time.deltaTime * GamePad_YawDegreesPerSec;
-				Quaternion yawRot = Quaternion.AngleAxis( yawAmount, Vector3.up );
-				r = yawRot * r;
-			}
-			if ( AllowPitchLook )
-			{
-				float gamePadPitch = OVRGamepadController.GPC_GetAxis( OVRGamepadController.Axis.RightYAxis );
-				if ( Mathf.Abs( gamePadPitch ) > 0.0001f )
-				{
-					if ( InvertPitch )
-					{
-						gamePadPitch *= -1.0f;
-					}
-					float pitchAmount = gamePadPitch * Time.deltaTime * GamePad_PitchDegreesPerSec;
-					Quaternion pitchRot = Quaternion.AngleAxis( pitchAmount, Vector3.left );
-					r = r * pitchRot;
-				}
-			}
-			
-			transform.rotation = r;
-		}
-	}
+    [SerializeField]
+    public bool InvertPitch = false;
+
+    [SerializeField]
+    public float GamePad_PitchDegreesPerSec = 90.0f;
+
+    [SerializeField]
+    public float GamePad_YawDegreesPerSec = 90.0f;
+
+    [SerializeField]
+    public bool AllowMovement = false;
+
+    [SerializeField]
+    public float ForwardSpeed = 2.0f;
+
+    [SerializeField]
+    public float StrafeSpeed = 2.0f;
+
+    protected OVRCameraRig CameraRig = null;
+
+    void Awake()
+    {
+        // locate the camera rig so we can use it to get the current camera transform each frame
+        OVRCameraRig[] CameraRigs = gameObject.GetComponentsInChildren<OVRCameraRig>();
+
+        if (CameraRigs.Length == 0)
+            Debug.LogWarning("OVRCamParent: No OVRCameraRig attached.");
+        else if (CameraRigs.Length > 1)
+            Debug.LogWarning("OVRCamParent: More then 1 OVRCameraRig attached.");
+        else
+            CameraRig = CameraRigs[0];
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (AllowMovement)
+        {
+            float gamePad_FwdAxis = OVRGamepadController.GPC_GetAxis(OVRGamepadController.Axis.LeftYAxis);
+            float gamePad_StrafeAxis = OVRGamepadController.GPC_GetAxis(OVRGamepadController.Axis.LeftXAxis);
+
+            Vector3 fwdMove = (CameraRig.centerEyeAnchor.rotation * Vector3.forward) * gamePad_FwdAxis * Time.deltaTime * ForwardSpeed;
+            Vector3 strafeMove = (CameraRig.centerEyeAnchor.rotation * Vector3.right) * gamePad_StrafeAxis * Time.deltaTime * StrafeSpeed;
+            transform.position += fwdMove + strafeMove;
+        }
+
+        if (!VR.VRDevice.isPresent && (AllowYawLook || AllowPitchLook))
+        {
+            Quaternion r = transform.rotation;
+            if (AllowYawLook)
+            {
+                float gamePadYaw = OVRGamepadController.GPC_GetAxis(OVRGamepadController.Axis.RightXAxis);
+                float yawAmount = gamePadYaw * Time.deltaTime * GamePad_YawDegreesPerSec;
+                Quaternion yawRot = Quaternion.AngleAxis(yawAmount, Vector3.up);
+                r = yawRot * r;
+            }
+            if (AllowPitchLook)
+            {
+                float gamePadPitch = OVRGamepadController.GPC_GetAxis(OVRGamepadController.Axis.RightYAxis);
+                if (Mathf.Abs(gamePadPitch) > 0.0001f)
+                {
+                    if (InvertPitch)
+                    {
+                        gamePadPitch *= -1.0f;
+                    }
+                    float pitchAmount = gamePadPitch * Time.deltaTime * GamePad_PitchDegreesPerSec;
+                    Quaternion pitchRot = Quaternion.AngleAxis(pitchAmount, Vector3.left);
+                    r = r * pitchRot;
+                }
+            }
+
+            transform.rotation = r;
+        }
+    }
 }

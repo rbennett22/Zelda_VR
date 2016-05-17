@@ -2,9 +2,8 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 
-public class AutoSnapToGrid : MonoBehaviour 
+public class AutoSnapToGrid : MonoBehaviour
 {
-
     public float xSnap = 0;
     public float ySnap = 0;
     public float zSnap = 0;
@@ -16,14 +15,14 @@ public class AutoSnapToGrid : MonoBehaviour
 
     void Awake()
     {
-        if (Application.isPlaying) 
+        if (Application.isPlaying)
         {
             enabled = false;
         }
     }
 
 
-	void Update ()
+    void Update()
     {
         foreach (Transform child in transform)
         {
@@ -33,6 +32,5 @@ public class AutoSnapToGrid : MonoBehaviour
             if (zSnap > 0) { pos.z = (((int)((pos.z - zOffset) / zSnap)) * zSnap) + zOffset; }*/
             child.localPosition = child.localPosition.SnappedToGrid(new Vector3(xSnap, ySnap, zSnap), new Vector3(xOffset, yOffset, zOffset));
         }
-	}
-
+    }
 }

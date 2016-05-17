@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class MouseStylus : Stylus
 {
-
     public Camera activeCamera;
 
 
@@ -20,16 +19,16 @@ public class MouseStylus : Stylus
 
     public override bool GetStylusButtonUp(int idx = 0)
     {
-		return Input.GetMouseButtonUp(idx);
-	}
+        return Input.GetMouseButtonUp(idx);
+    }
     public override bool GetStylusButtonDown(int idx = 0)
     {
-		return Input.GetMouseButtonDown(idx);
-	}
+        return Input.GetMouseButtonDown(idx);
+    }
     public override bool GetStylusButton(int idx = 0)
     {
-		return Input.GetMouseButton(idx);
-	}
+        return Input.GetMouseButton(idx);
+    }
 
 
     void Start()

@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
 
-public class Dungeon7Entrance : MonoBehaviour 
+public class Dungeon7Entrance : MonoBehaviour
 {
-
     public GameObject dryLakeOverlay, fullLakeOverlay;
 
 
@@ -53,5 +52,4 @@ public class Dungeon7Entrance : MonoBehaviour
 
         LakeIsFull = true;
     }
-
 }

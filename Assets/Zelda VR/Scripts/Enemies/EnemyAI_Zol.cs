@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class EnemyAI_Zol : EnemyAI 
+public class EnemyAI_Zol : EnemyAI
 {
     public GameObject gelPrefab;
 

@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using Immersio.Utility;
 
 public class WorldInfo : Singleton<WorldInfo>
 {
@@ -13,6 +13,7 @@ public class WorldInfo : Singleton<WorldInfo>
 
     [SerializeField]
     Index2 _lostWoodsSector = new Index2(1, 6);
+
     public Index2 LostWoodsSector { get { return _lostWoodsSector; } }
 
 
@@ -22,8 +23,10 @@ public class WorldInfo : Singleton<WorldInfo>
     public bool IsSpecial { get { return SceneManager.GetActiveScene().name == Locations.SPECIAL_SCENE_NAME; } }
     public bool IsOverworld { get { return SceneManager.GetActiveScene().name == Locations.OVERWORLD_SCENE_NAME; } }
     public bool IsInDungeon { get { return DungeonNum != -1; } }
-    public int DungeonNum { 
-        get {
+    public int DungeonNum
+    {
+        get
+        {
             if (IsOverworld || IsSpecial || IsTitleScene || IsCommonScene || IsEmptyScene) { return -1; }
             else
             {

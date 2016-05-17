@@ -74,11 +74,11 @@ public class SavedGamesScreen : MonoBehaviour
     }
 
 
-    void Update () 
+    void Update()
     {
         UpdateCursor();
 
-        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Start) 
+        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Start)
             || ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack))
         {
             PlaySelectSound();
@@ -89,7 +89,7 @@ public class SavedGamesScreen : MonoBehaviour
         {
             DeleteSelectedEntry();
         }
-	}
+    }
 
     void UpdateCursor()
     {
@@ -107,7 +107,7 @@ public class SavedGamesScreen : MonoBehaviour
         print("SelectEntry: " + id);
 
         // Deselect previous
-        if(_selectedEntry != null)
+        if (_selectedEntry != null)
         {
             _selectedEntry.MarkAsSelected(false);
         }
@@ -141,7 +141,7 @@ public class SavedGamesScreen : MonoBehaviour
 
     void DeleteSelectedEntry()
     {
-        if(_selectedEntry == null)
+        if (_selectedEntry == null)
         {
             return;
         }

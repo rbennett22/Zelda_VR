@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Diagnostics;
 
 namespace Zigfu.KinectAudio
 {
@@ -11,26 +10,30 @@ namespace Zigfu.KinectAudio
 
         public UInt32 ReadStaleThreshold_Bytes { get; private set; }
 
-        public override bool CanRead    { get { return true; } }
-        public override bool CanWrite   { get { return false; } }
-        public override bool CanSeek    { get { return false; } }
+        public override bool CanRead { get { return true; } }
+        public override bool CanWrite { get { return false; } }
+        public override bool CanSeek { get { return false; } }
 
 
         #region Unsupported Overrides
 
         public override long Length { get { return -1; } }
-        public override long Position {
+        public override long Position
+        {
             get { throw CreateNotSupportedException("seeking"); }
-            set { throw CreateNotSupportedException("seeking"); } 
+            set { throw CreateNotSupportedException("seeking"); }
         }
 
-        public override void SetLength(long value) {
+        public override void SetLength(long value)
+        {
             throw CreateNotSupportedException("both writing and seeking");
         }
-        public override void Write(byte[] buffer, int offset, int count) {
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             throw CreateNotSupportedException("writing");
         }
-        public override long Seek(long offset, SeekOrigin origin) {
+        public override long Seek(long offset, SeekOrigin origin)
+        {
             throw CreateNotSupportedException("seeking");
         }
 
@@ -39,7 +42,7 @@ namespace Zigfu.KinectAudio
             return new NotSupportedException("AudioStream does not support " + typeStr + ".");
         }
 
-        #endregion
+        #endregion Unsupported Overrides
 
 
         #region Init
@@ -50,7 +53,7 @@ namespace Zigfu.KinectAudio
             ReadStaleThreshold_Bytes = readStaleThreshold_bytes;
         }
 
-        #endregion
+        #endregion Init
 
 
         public void AppendBytes(byte[] buffer, int offset, uint count)
@@ -89,11 +92,11 @@ namespace Zigfu.KinectAudio
 
         // Summary:
         //      Overwrites the bytes from index [0 to cutoffPoint] with the bytes from [cutoffPoint to Length],
-        //       and adjusts Position and Length accordingly. 
+        //       and adjusts Position and Length accordingly.
         //      If Position was before cutoffPoint, it will be set to 0.
         void DiscardOldSamples(long cutoffPoint)
         {
-            long newLength   = (long)Math.Max(0, base.Length   - (int)cutoffPoint);
+            long newLength = (long)Math.Max(0, base.Length - (int)cutoffPoint);
             long newPosition = (long)Math.Max(0, base.Position - (int)cutoffPoint);
             Byte[] tempBuffer = new Byte[newLength];
 

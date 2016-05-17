@@ -11,20 +11,20 @@ public class EnemyAI_Tektite : EnemyAI
     bool _wasJumping = false;
 
 
-	void Start () 
+    void Start()
     {
         _lastJumpTime = Time.time;
         _jumpCooldownDuration = 1.0f;
-	}
+    }
 
 
     void Update()
     {
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
-        
+
         if (_wasJumping)
-        { 
+        {
             OnLanded();
         }
 
@@ -46,7 +46,7 @@ public class EnemyAI_Tektite : EnemyAI
                     JumpToPlayer();
                 }
             }
-        }        
+        }
     }
 
     void LateUpdate()
@@ -56,7 +56,7 @@ public class EnemyAI_Tektite : EnemyAI
 
     bool IsBlockingAnExit()
     {
-        if(WorldInfo.Instance.IsSpecial)
+        if (WorldInfo.Instance.IsSpecial)
         {
             return false;
         }

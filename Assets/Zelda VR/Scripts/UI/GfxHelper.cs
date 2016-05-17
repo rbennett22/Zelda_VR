@@ -31,5 +31,5 @@ public static class GfxHelper
         tex.SetColorForArea(0, 0, tex.width, tex.height, color);
     }
 
-    #endregion
+    #endregion Texture2D Extensions
 }

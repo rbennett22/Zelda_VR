@@ -19,8 +19,6 @@ limitations under the License.
 
 ************************************************************************************/
 
-using System;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using VR = UnityEngine.VR;
@@ -30,126 +28,130 @@ using VR = UnityEngine.VR;
 /// </summary>
 public class OVRDisplay
 {
-	/// <summary>
-	/// Specifies the size and field-of-view for one eye texture.
-	/// </summary>
-	public struct EyeRenderDesc
-	{
-		/// <summary>
-		/// The horizontal and vertical size of the texture.
-		/// </summary>
-		public Vector2 resolution;
+    /// <summary>
+    /// Specifies the size and field-of-view for one eye texture.
+    /// </summary>
+    public struct EyeRenderDesc
+    {
+        /// <summary>
+        /// The horizontal and vertical size of the texture.
+        /// </summary>
+        public Vector2 resolution;
 
-		/// <summary>
-		/// The angle of the horizontal and vertical field of view in degrees.
-		/// </summary>
-		public Vector2 fov;
-	}
+        /// <summary>
+        /// The angle of the horizontal and vertical field of view in degrees.
+        /// </summary>
+        public Vector2 fov;
+    }
 
-	/// <summary>
-	/// Contains latency measurements for a single frame of rendering.
-	/// </summary>
-	public struct LatencyData
-	{
-		/// <summary>
-		/// The time it took to render both eyes in seconds.
-		/// </summary>
-		public float render;
+    /// <summary>
+    /// Contains latency measurements for a single frame of rendering.
+    /// </summary>
+    public struct LatencyData
+    {
+        /// <summary>
+        /// The time it took to render both eyes in seconds.
+        /// </summary>
+        public float render;
 
-		/// <summary>
-		/// The time it took to perform TimeWarp in seconds.
-		/// </summary>
-		public float timeWarp;
+        /// <summary>
+        /// The time it took to perform TimeWarp in seconds.
+        /// </summary>
+        public float timeWarp;
 
-		/// <summary>
-		/// The time between the end of TimeWarp and scan-out in seconds.
-		/// </summary>
-		public float postPresent;
-		public float renderError;
-		public float timeWarpError;
-	}
+        /// <summary>
+        /// The time between the end of TimeWarp and scan-out in seconds.
+        /// </summary>
+        public float postPresent;
 
-	private bool needsConfigureTexture;
-	private EyeRenderDesc[] eyeDescs = new EyeRenderDesc[2];
+        public float renderError;
+        public float timeWarpError;
+    }
 
-	/// <summary>
-	/// Creates an instance of OVRDisplay. Called by OVRManager.
-	/// </summary>
-	public OVRDisplay()
-	{
-		UpdateTextures();
-	}
+    private bool needsConfigureTexture;
+    private EyeRenderDesc[] eyeDescs = new EyeRenderDesc[2];
 
-	/// <summary>
-	/// Updates the internal state of the OVRDisplay. Called by OVRManager.
-	/// </summary>
-	public void Update()
-	{
-		UpdateTextures();
-	}
+    /// <summary>
+    /// Creates an instance of OVRDisplay. Called by OVRManager.
+    /// </summary>
+    public OVRDisplay()
+    {
+        UpdateTextures();
+    }
 
-	/// <summary>
-	/// Occurs when the head pose is reset.
-	/// </summary>
-	public event System.Action RecenteredPose;
+    /// <summary>
+    /// Updates the internal state of the OVRDisplay. Called by OVRManager.
+    /// </summary>
+    public void Update()
+    {
+        UpdateTextures();
+    }
 
-	/// <summary>
-	/// Recenters the head pose.
-	/// </summary>
-	public void RecenterPose()
-	{
+    /// <summary>
+    /// Occurs when the head pose is reset.
+    /// </summary>
+    public event System.Action RecenteredPose;
+
+    /// <summary>
+    /// Recenters the head pose.
+    /// </summary>
+    public void RecenterPose()
+    {
         VR.InputTracking.Recenter();
 
-		if (RecenteredPose != null)
-		{
-			RecenteredPose();
-		}
-	}
+        if (RecenteredPose != null)
+        {
+            RecenteredPose();
+        }
+    }
 
-	/// <summary>
-	/// Gets the current acceleration of the head.
-	/// </summary>
-	public Vector3 acceleration
-	{
-		get {			
-			if (!OVRManager.isHmdPresent)
-				return Vector3.zero;
+    /// <summary>
+    /// Gets the current acceleration of the head.
+    /// </summary>
+    public Vector3 acceleration
+    {
+        get
+        {
+            if (!OVRManager.isHmdPresent)
+                return Vector3.zero;
 
             OVRPose ret = OVRPlugin.GetEyeAcceleration(OVRPlugin.Eye.None).ToOVRPose();
             return -ret.position;
-		}
-	}
-	
-	/// <summary>
-	/// Gets the current angular velocity of the head.
-	/// </summary>
-	public Vector3 angularVelocity
-	{
-		get {
-			if (!OVRManager.isHmdPresent)
-				return Vector3.zero;
+        }
+    }
 
-			OVRPose ret = OVRPlugin.GetEyeVelocity(OVRPlugin.Eye.None).ToOVRPose();
-			return ret.orientation.eulerAngles;
-		}
-	}
+    /// <summary>
+    /// Gets the current angular velocity of the head.
+    /// </summary>
+    public Vector3 angularVelocity
+    {
+        get
+        {
+            if (!OVRManager.isHmdPresent)
+                return Vector3.zero;
 
-	/// <summary>
-	/// Gets the resolution and field of view for the given eye.
-	/// </summary>
+            OVRPose ret = OVRPlugin.GetEyeVelocity(OVRPlugin.Eye.None).ToOVRPose();
+            return ret.orientation.eulerAngles;
+        }
+    }
+
+    /// <summary>
+    /// Gets the resolution and field of view for the given eye.
+    /// </summary>
     public EyeRenderDesc GetEyeRenderDesc(VR.VRNode eye)
-	{
-		return eyeDescs[(int)eye];
-	}
+    {
+        return eyeDescs[(int)eye];
+    }
 
-	/// <summary>
-	/// Gets the current measured latency values.
-	/// </summary>
-	public LatencyData latency
-	{
-		get {
-			if (!OVRManager.isHmdPresent)
-				return new LatencyData();
+    /// <summary>
+    /// Gets the current measured latency values.
+    /// </summary>
+    public LatencyData latency
+    {
+        get
+        {
+            if (!OVRManager.isHmdPresent)
+                return new LatencyData();
 
             string latency = OVRPlugin.latency;
 
@@ -162,31 +164,31 @@ public class OVRDisplay
             {
                 ret.render = float.Parse(match.Groups[1].Value);
                 ret.timeWarp = float.Parse(match.Groups[2].Value);
-                ret.postPresent = float.Parse(match.Groups[3].Value);     
+                ret.postPresent = float.Parse(match.Groups[3].Value);
             }
 
             return ret;
-		}
-	}
+        }
+    }
 
-	private void UpdateTextures()
-	{
-		ConfigureEyeDesc(VR.VRNode.LeftEye);
+    private void UpdateTextures()
+    {
+        ConfigureEyeDesc(VR.VRNode.LeftEye);
         ConfigureEyeDesc(VR.VRNode.RightEye);
-	}
+    }
 
     private void ConfigureEyeDesc(VR.VRNode eye)
-	{
-		if (!OVRManager.isHmdPresent)
-			return;
+    {
+        if (!OVRManager.isHmdPresent)
+            return;
 
-		OVRPlugin.Sizei size = OVRPlugin.GetEyeTextureSize((OVRPlugin.Eye)eye);
-		OVRPlugin.Frustumf frust = OVRPlugin.GetEyeFrustum((OVRPlugin.Eye)eye);
+        OVRPlugin.Sizei size = OVRPlugin.GetEyeTextureSize((OVRPlugin.Eye)eye);
+        OVRPlugin.Frustumf frust = OVRPlugin.GetEyeFrustum((OVRPlugin.Eye)eye);
 
-		eyeDescs[(int)eye] = new EyeRenderDesc()
-		{
-			resolution = new Vector2(size.w, size.h),
+        eyeDescs[(int)eye] = new EyeRenderDesc()
+        {
+            resolution = new Vector2(size.w, size.h),
             fov = Mathf.Rad2Deg * new Vector2(frust.fovX, frust.fovY),
-		};
-	}
+        };
+    }
 }

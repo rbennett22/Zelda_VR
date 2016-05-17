@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
 
-public class Patrol : MonoBehaviour 
+public class Patrol : MonoBehaviour
 {
-
     public Vector3 positionA;
     public Vector3 positionB;
     public float speed = 1;
@@ -12,7 +11,7 @@ public class Patrol : MonoBehaviour
     bool movingToA = false;
 
 
-	void Update () 
+    void Update()
     {
         Vector3 pos = transform.position;
         Vector3 dest = movingToA ? positionA : positionB;
@@ -30,5 +29,5 @@ public class Patrol : MonoBehaviour
         {
             movingToA = !movingToA;
         }
-	}
+    }
 }

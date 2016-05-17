@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
+using UnityEngine;
 
 public class OptionsViewController : Singleton<OptionsViewController>
 {
@@ -8,6 +8,7 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
     [SerializeField]
     OptionsView _view;
+
     OptionsView View { get { return _view ?? (_view = InstantiateView(OPTIONS_VIEW_PREFAB_PATH, _canvasOffsetT)); } }
     OptionsView InstantiateView(string prefabPath, Transform canvasOffsetT = null)
     {
@@ -119,11 +120,11 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
         PauseManager.Instance.ResumeGame_Options();
         PauseManager.Instance.ResumeGame_Inventory();
-        
+
         Locations.Instance.LoadTitleScreen();
     }
 
-    #endregion
+    #endregion Button Click Handlers
 
 
     void Update()

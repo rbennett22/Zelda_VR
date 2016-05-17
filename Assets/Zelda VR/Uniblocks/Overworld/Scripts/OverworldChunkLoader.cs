@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using Uniblocks;
+﻿using Uniblocks;
 
-public class OverworldChunkLoader : ChunkLoader 
+public class OverworldChunkLoader : ChunkLoader
 {
-	public void DoSpawnChunks () 
-	{
+    public void DoSpawnChunks()
+    {
         if (!Engine.Initialized || !ChunkManager.Initialized)
         {
             return;

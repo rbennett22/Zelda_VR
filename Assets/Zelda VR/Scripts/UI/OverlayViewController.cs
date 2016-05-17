@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
+using UnityEngine;
 
 public class OverlayViewController : Singleton<OverlayViewController>
 {
     [SerializeField]
     OverlayView _playerDiedOverlay;
+
     [SerializeField]
     OverlayView _triforceAquiredOverlay;
 
@@ -29,7 +30,7 @@ public class OverlayViewController : Singleton<OverlayViewController>
 
     void FadeOverlay(OverlayView overlay, bool fadeIn, float duration)
     {
-        if(fadeIn)
+        if (fadeIn)
         {
             overlay.FadeOut(0);
             overlay.FadeIn(duration);

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class EnemyAI_Armos : MonoBehaviour 
+public class EnemyAI_Armos : MonoBehaviour
 {
     const float ProximityThreshold = 1.5f;
     const float ProximityThresholdSq = ProximityThreshold * ProximityThreshold;
@@ -16,9 +16,11 @@ public class EnemyAI_Armos : MonoBehaviour
         White
     }
     StatueType _type;
-    public StatueType Type {
+    public StatueType Type
+    {
         get { return _type; }
-        set {
+        set
+        {
             _type = value;
             switch (_type)
             {
@@ -26,7 +28,7 @@ public class EnemyAI_Armos : MonoBehaviour
                 case StatueType.Green: _statue = greenStatue; break;
                 case StatueType.White: _statue = whiteStatue; break;
             }
-            if(_isInStatueMode)
+            if (_isInStatueMode)
             {
                 StatueActive = true;
             }
@@ -70,9 +72,11 @@ public class EnemyAI_Armos : MonoBehaviour
         StatueActive = true;
     }
 
-    public bool StatueActive {
+    public bool StatueActive
+    {
         get { return (_statue == null) ? false : _statue.activeSelf; }
-        set { if (_statue != null) { _statue.SetActive(value); } } }
+        set { if (_statue != null) { _statue.SetActive(value); } }
+    }
 
     void OnTriggerEnter(Collider otherCollider)
     {
@@ -90,7 +94,7 @@ public class EnemyAI_Armos : MonoBehaviour
     {
         _isInStatueMode = false;
         GetComponent<HealthController>().isIndestructible = false;
-        
+
         StatueActive = false;
         animator.gameObject.SetActive(true);
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
@@ -148,5 +152,4 @@ public class EnemyAI_Armos : MonoBehaviour
             Destroy(linkedTiles[i]);
         }
     }
-
 }

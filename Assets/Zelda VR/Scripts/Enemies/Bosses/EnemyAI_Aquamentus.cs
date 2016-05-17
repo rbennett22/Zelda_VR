@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
+using UnityEngine;
 
-public class EnemyAI_Aquamentus : EnemyAI 
+public class EnemyAI_Aquamentus : EnemyAI
 {
     public TileDirection.Direction forwardDirection = TileDirection.Direction.Left;
 
@@ -9,7 +9,7 @@ public class EnemyAI_Aquamentus : EnemyAI
     TileDirection _forwardTileDirection;
 
 
-    void Start () 
+    void Start()
     {
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;
         _enemyMove.AlwaysFaceTowardsMoveDirection = false;
@@ -18,7 +18,7 @@ public class EnemyAI_Aquamentus : EnemyAI
         _forwardTileDirection = TileDirection.TileDirectionForDirection(forwardDirection);
         transform.forward = _forwardTileDirection.ToVector3();
         MoveDirection = _forwardTileDirection;
-	}
+    }
 
 
     void OnTargetPositionReached(EnemyMove sender, Vector3 moveDirection)
@@ -41,7 +41,7 @@ public class EnemyAI_Aquamentus : EnemyAI
 
         Vector3 dir = ToPlayer;
         Vector3 dirL = Vector3.RotateTowards(dir, -dir, -radiansDelta, 999);
-        Vector3 dirR = Vector3.RotateTowards(dir, -dir,  radiansDelta, 999);
+        Vector3 dirR = Vector3.RotateTowards(dir, -dir, radiansDelta, 999);
 
         _enemy.weapon.Fire(dir);
         _enemy.weapon.Fire(dirL);

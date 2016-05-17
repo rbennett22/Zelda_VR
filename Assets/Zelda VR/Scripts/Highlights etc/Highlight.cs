@@ -18,7 +18,7 @@ namespace Eyefluence.Utility
         {
             _renderer = GetComponentInChildren<Renderer>();
             _graphic = GetComponentInChildren<Graphic>();
-            
+
             /*if (_renderer != null)
             {
                 Material m = useSharedMaterial ? _renderer.sharedMaterial : _renderer.material;

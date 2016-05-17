@@ -1,6 +1,6 @@
-using UnityEngine;
-using UnityEditor;
 using System.Collections;
+using UnityEditor;
+using UnityEngine;
 
 public class FindObjects : ScriptableWizard
 {
@@ -13,6 +13,7 @@ public class FindObjects : ScriptableWizard
 
     //query parameters
     public string searchFor = "";
+
     public SearchType searchBy = SearchType.Name;
     public bool caseSensitive = false;
     public bool wholeWord = false;
@@ -20,6 +21,7 @@ public class FindObjects : ScriptableWizard
 
     //stored parameters and results for Find Next
     static string lastSearch = "";
+
     static SearchType lastSearchType = SearchType.Name;
     static bool lastSearchWhole = false;
     static ArrayList foundItems;
@@ -125,7 +127,6 @@ public class FindObjects : ScriptableWizard
                 SelectObject(0);
                 AnnounceResult();
             }
-
         }
     }
 
@@ -213,5 +214,4 @@ public class FindObjects : ScriptableWizard
             Debug.Log("Object " + (foundIndex + 1) + " of " + foundItems.Count +
                         " with name containing \"" + lastSearch + "\"");
     }
-
 }

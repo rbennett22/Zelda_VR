@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
+using UnityEngine;
 
 public class TileMapTexture : MonoBehaviour
 {
@@ -30,7 +30,7 @@ public class TileMapTexture : MonoBehaviour
         //print("tileCode: " + tileCode + ", Rect: " + r);
 
         Color[] pixels = _texture.GetPixels_Safe((int)r.x, (int)r.y, (int)r.width, (int)r.height);
-        if(pixels == null)
+        if (pixels == null)
         {
             return null;
         }

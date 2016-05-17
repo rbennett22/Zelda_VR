@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ZeldaPlayerController : OVRPlayerController 
+public class ZeldaPlayerController : OVRPlayerController
 {
     public bool gravityEnabled = true;
     public bool airJumpingEnabled = false;

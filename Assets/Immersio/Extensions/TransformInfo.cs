@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System;
-using System.IO;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
 
 
 public class TransformInfo
@@ -101,7 +101,7 @@ public class TransformInfo
         return tInfo;
     }
 
-    #endregion
+    #endregion Storage
 }
 
 

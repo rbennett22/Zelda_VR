@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyAI_Vire : EnemyAI 
+public class EnemyAI_Vire : EnemyAI
 {
     const float KEESE_SPAWN_POS_Y = 0.5f;
 

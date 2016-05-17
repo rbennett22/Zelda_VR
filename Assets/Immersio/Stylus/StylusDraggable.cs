@@ -42,8 +42,8 @@ public class StylusDraggable : MonoBehaviour
 
         IsBeingDragged = true;
     }
-	
-	void OnStylusDrag()
+
+    void OnStylusDrag()
     {
         transform.position = StylusRayEndPosition() + _selectionOffset;
         SendMessage("OnDrag", SendMessageOptions.DontRequireReceiver);
@@ -54,7 +54,7 @@ public class StylusDraggable : MonoBehaviour
         IsBeingDragged = false;
     }
 
-    #endregion
+    #endregion Stylus Event handlers
 
 
     Vector3 StylusRayEndPosition()
@@ -67,5 +67,4 @@ public class StylusDraggable : MonoBehaviour
     {
         if (verbose) { print(msg); }
     }
-
 }

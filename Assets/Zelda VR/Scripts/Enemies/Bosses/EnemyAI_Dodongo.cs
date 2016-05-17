@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class EnemyAI_Dodongo : EnemyAI 
+public class EnemyAI_Dodongo : EnemyAI
 {
     public bool StunnedByBomb { get { return AnimatorInstance.GetBool("Bombed"); } }
 
@@ -42,5 +42,4 @@ public class EnemyAI_Dodongo : EnemyAI
 
         AnimatorInstance.SetBool("Bombed", false);
     }
-
 }

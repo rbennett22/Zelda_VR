@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 
 public class Menu
 {
@@ -11,7 +10,7 @@ public class Menu
     {
         Selection.activeObject = ZeldaVRSettings.Instance;
     }
-        
+
     /*[CustomEditor(typeof(ZeldaVRSettings))]
     public class ESettingsObject : Editor
     {

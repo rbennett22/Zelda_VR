@@ -1,6 +1,6 @@
-using UnityEngine;
-using Uniblocks;
 using Immersio.Utility;
+using Uniblocks;
+using UnityEngine;
 
 public class OverworldTerrainGenerator : TerrainGenerator
 {
@@ -40,7 +40,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
     }
 
 
-    public override void GenerateVoxelData ()
+    public override void GenerateVoxelData()
     {
         if (_overworldTileMap == null)
         {
@@ -141,7 +141,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
                         }
                     }
                 }
-                if(isRegularTile)
+                if (isRegularTile)
                 {
                     blockHeight = GetBlockHeightForTileCode(tileCode);
                 }
@@ -165,7 +165,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
                     }
                     if (worldY > blockHeight - 1)
                     {
-                        if(TileInfo.IsTileFlatImpassable(tileCode) && worldY == blockHeight)
+                        if (TileInfo.IsTileFlatImpassable(tileCode) && worldY == blockHeight)
                         {
                             chunk.SetVoxelSimple(x, y, z, INVISIBLE_COLLIDER_VOXEL);
                         }
@@ -175,8 +175,8 @@ public class OverworldTerrainGenerator : TerrainGenerator
                     chunk.SetVoxelSimple(x, y, z, data);
                 }
             }
-		}
-	}
+        }
+    }
 
     float GetBlockHeightForTileCode(int tileCode)
     {
@@ -194,7 +194,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
         }
         else
         {
-            return  GetRandomHeight();
+            return GetRandomHeight();
         }
     }
 

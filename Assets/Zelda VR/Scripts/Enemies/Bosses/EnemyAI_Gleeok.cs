@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyAI_Gleeok : EnemyAI 
+public class EnemyAI_Gleeok : EnemyAI
 {
     public GameObject headPrefab;
     public GameObject angryHeadPrefab;

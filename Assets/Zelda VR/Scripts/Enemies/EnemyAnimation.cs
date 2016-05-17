@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 
 public class EnemyAnimation : MonoBehaviour
@@ -17,13 +16,13 @@ public class EnemyAnimation : MonoBehaviour
     float _storedSpeed;
 
 
-	void Awake () 
+    void Awake()
     {
         _animator = GetComponent<Animator>();
         _animator.logWarnings = false;
 
         _enemy = transform.parent.GetComponent<Enemy>();
-	}
+    }
 
 
     public void PlayDeathAnimation()

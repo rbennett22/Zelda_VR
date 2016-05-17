@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System;
+﻿using System;
 using System.Reflection;
 using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Eyefluence.Utility
 {

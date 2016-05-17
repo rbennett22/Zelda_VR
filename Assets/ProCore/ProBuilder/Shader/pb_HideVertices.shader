@@ -1,8 +1,8 @@
-Shader "Hidden/ProBuilder/HideVertices" 
+Shader "Hidden/ProBuilder/HideVertices"
 {
 	SubShader
 	{
-		Tags { "IgnoreProjector"="True" "RenderType"="Geometry" }
+		Tags { "IgnoreProjector" = "True" "RenderType" = "Geometry" }
 		Lighting Off
 		ZTest On
 		ZWrite On
@@ -14,7 +14,7 @@ Shader "Hidden/ProBuilder/HideVertices"
 			#pragma vertex vert
 			#pragma fragment frag
 			#include "UnityCG.cginc"
-	
+
 			struct appdata
 			{
 				float4 vertex : POSITION;
@@ -25,7 +25,7 @@ Shader "Hidden/ProBuilder/HideVertices"
 				float4 pos : SV_POSITION;
 			};
 
-			v2f vert (appdata v)
+			v2f vert(appdata v)
 			{
 				v2f o;
 				o.pos = fixed4(0,0,0,0);
@@ -33,7 +33,7 @@ Shader "Hidden/ProBuilder/HideVertices"
 				return o;
 			}
 
-			half4 frag (v2f i) : COLOR
+			half4 frag(v2f i) : COLOR
 			{
 				return fixed4(0,0,0,0);
 			}

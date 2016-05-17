@@ -24,300 +24,310 @@ limitations under the License.
 #endif
 
 using System;
-using System.Collections;
-using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
-using VR = UnityEngine.VR;
 
 /// <summary>
 /// Configuration data for Oculus virtual reality.
 /// </summary>
 public class OVRManager : MonoBehaviour
 {
-	/// <summary>
-	/// Gets the singleton instance.
-	/// </summary>
-	public static OVRManager instance { get; private set; }
-		
-	/// <summary>
-	/// Gets a reference to the active OVRDisplay
-	/// </summary>
-	public static OVRDisplay display { get; private set; }
+    /// <summary>
+    /// Gets the singleton instance.
+    /// </summary>
+    public static OVRManager instance { get; private set; }
 
-	/// <summary>
-	/// Gets a reference to the active OVRTracker
-	/// </summary>
-	public static OVRTracker tracker { get; private set; }
+    /// <summary>
+    /// Gets a reference to the active OVRDisplay
+    /// </summary>
+    public static OVRDisplay display { get; private set; }
 
-	/// <summary>
-	/// Gets a reference to the active OVRInput
-	/// </summary>
-	public static OVRInput input { get; private set; }
+    /// <summary>
+    /// Gets a reference to the active OVRTracker
+    /// </summary>
+    public static OVRTracker tracker { get; private set; }
 
-	private static bool _profileIsCached = false;
-	private static OVRProfile _profile;
-	/// <summary>
-	/// Gets the current profile, which contains information about the user's settings and body dimensions.
-	/// </summary>
-	public static OVRProfile profile
-	{
-		get {
-			if (!_profileIsCached)
-			{
-				_profile = new OVRProfile();
-				_profile.TriggerLoad();
-				
-				while (_profile.state == OVRProfile.State.LOADING)
-					System.Threading.Thread.Sleep(1);
-				
-				if (_profile.state != OVRProfile.State.READY)
-					Debug.LogWarning("Failed to load profile.");
-				
-				_profileIsCached = true;
-			}
+    /// <summary>
+    /// Gets a reference to the active OVRInput
+    /// </summary>
+    public static OVRInput input { get; private set; }
 
-			return _profile;
-		}
-	}
+    private static bool _profileIsCached = false;
+    private static OVRProfile _profile;
+    /// <summary>
+    /// Gets the current profile, which contains information about the user's settings and body dimensions.
+    /// </summary>
+    public static OVRProfile profile
+    {
+        get
+        {
+            if (!_profileIsCached)
+            {
+                _profile = new OVRProfile();
+                _profile.TriggerLoad();
 
-	/// <summary>
-	/// Occurs when an HMD attached.
-	/// </summary>
-	public static event Action HMDAcquired;
+                while (_profile.state == OVRProfile.State.LOADING)
+                    System.Threading.Thread.Sleep(1);
 
-	/// <summary>
-	/// Occurs when an HMD detached.
-	/// </summary>
-	public static event Action HMDLost;
+                if (_profile.state != OVRProfile.State.READY)
+                    Debug.LogWarning("Failed to load profile.");
 
-	/// <summary>
-	/// Occurs when the tracker gained tracking.
-	/// </summary>
-	public static event Action TrackingAcquired;
+                _profileIsCached = true;
+            }
 
-	/// <summary>
-	/// Occurs when the tracker lost tracking.
-	/// </summary>
-	public static event Action TrackingLost;
-	
-	/// <summary>
-	/// Occurs when HSW dismissed.
-	/// </summary>
-	public static event Action HSWDismissed;
-	
-	private static bool _isHmdPresentCached = false;
-	private static bool _isHmdPresent = false;
-	/// <summary>
-	/// If true, a head-mounted display is connected and present.
-	/// </summary>
-	public static bool isHmdPresent
-	{
-		get {
-			if (!_isHmdPresentCached)
-			{
-				_isHmdPresentCached = true;
-				_isHmdPresent = OVRPlugin.hmdPresent;
-			}
+            return _profile;
+        }
+    }
 
-			return _isHmdPresent;
-		}
+    /// <summary>
+    /// Occurs when an HMD attached.
+    /// </summary>
+    public static event Action HMDAcquired;
 
-		private set {
-			_isHmdPresentCached = true;
-			_isHmdPresent = value;
-		}
-	}
+    /// <summary>
+    /// Occurs when an HMD detached.
+    /// </summary>
+    public static event Action HMDLost;
 
-	private static bool _isHSWDisplayedCached = false;
-	private static bool _isHSWDisplayed = false;
-	private static bool _wasHSWDisplayed;
-	/// <summary>
-	/// If true, then the Oculus health and safety warning (HSW) is currently visible.
-	/// </summary>
-	public static bool isHSWDisplayed
-	{
-		get {
-			if (!isHmdPresent)
-				return false;
+    /// <summary>
+    /// Occurs when the tracker gained tracking.
+    /// </summary>
+    public static event Action TrackingAcquired;
 
-			if (!_isHSWDisplayedCached)
-			{
-				_isHSWDisplayedCached = true;
-				_isHSWDisplayed = OVRPlugin.hswVisible;
-			}
+    /// <summary>
+    /// Occurs when the tracker lost tracking.
+    /// </summary>
+    public static event Action TrackingLost;
 
-			return _isHSWDisplayed;
-		}
+    /// <summary>
+    /// Occurs when HSW dismissed.
+    /// </summary>
+    public static event Action HSWDismissed;
 
-		private set {
-			_isHSWDisplayedCached = true;
-			_isHSWDisplayed = value;
-		}
-	}
-	
-	/// <summary>
-	/// If the HSW has been visible for the necessary amount of time, this will make it disappear.
-	/// </summary>
-	public static void DismissHSWDisplay()
-	{
-		if (!isHmdPresent)
-			return;
+    private static bool _isHmdPresentCached = false;
+    private static bool _isHmdPresent = false;
+    /// <summary>
+    /// If true, a head-mounted display is connected and present.
+    /// </summary>
+    public static bool isHmdPresent
+    {
+        get
+        {
+            if (!_isHmdPresentCached)
+            {
+                _isHmdPresentCached = true;
+                _isHmdPresent = OVRPlugin.hmdPresent;
+            }
 
-		OVRPlugin.DismissHSW();
-	}
+            return _isHmdPresent;
+        }
 
-	/// <summary>
-	/// If true, chromatic de-aberration will be applied, improving the image at the cost of texture bandwidth.
-	/// </summary>
-	public bool chromatic
-	{
-		get {
-			if (!isHmdPresent)
-				return false;
+        private set
+        {
+            _isHmdPresentCached = true;
+            _isHmdPresent = value;
+        }
+    }
 
-			return OVRPlugin.chromatic;
-		}
+    private static bool _isHSWDisplayedCached = false;
+    private static bool _isHSWDisplayed = false;
+    private static bool _wasHSWDisplayed;
+    /// <summary>
+    /// If true, then the Oculus health and safety warning (HSW) is currently visible.
+    /// </summary>
+    public static bool isHSWDisplayed
+    {
+        get
+        {
+            if (!isHmdPresent)
+                return false;
 
-		set {
-			if (!isHmdPresent)
-				return;
+            if (!_isHSWDisplayedCached)
+            {
+                _isHSWDisplayedCached = true;
+                _isHSWDisplayed = OVRPlugin.hswVisible;
+            }
 
-			OVRPlugin.chromatic = value;
-		}
-	}
-	
-	/// <summary>
-	/// If true, both eyes will see the same image, rendered from the center eye pose, saving performance.
-	/// </summary>
-	public bool monoscopic
-	{
-		get {
-			if (!isHmdPresent)
-				return true;
+            return _isHSWDisplayed;
+        }
 
-			return OVRPlugin.monoscopic;
-		}
-		
-		set {
-			if (!isHmdPresent)
-				return;
+        private set
+        {
+            _isHSWDisplayedCached = true;
+            _isHSWDisplayed = value;
+        }
+    }
 
-			OVRPlugin.monoscopic = value;
-		}
-	}
+    /// <summary>
+    /// If the HSW has been visible for the necessary amount of time, this will make it disappear.
+    /// </summary>
+    public static void DismissHSWDisplay()
+    {
+        if (!isHmdPresent)
+            return;
 
-	/// <summary>
-	/// If true, distortion rendering work is submitted a quarter-frame early to avoid pipeline stalls and increase CPU-GPU parallelism.
-	/// </summary>
-	public bool queueAhead = true;
-	
-	/// <summary>
-	/// Gets the current battery level.
-	/// </summary>
-	/// <returns><c>battery level in the range [0.0,1.0]</c>
-	/// <param name="batteryLevel">Battery level.</param>
-	public static float batteryLevel
-	{
-		get {
-			if (!isHmdPresent)
-				return 1f;
+        OVRPlugin.DismissHSW();
+    }
 
-			return OVRPlugin.batteryLevel;
-		}
-	}
-	
-	/// <summary>
-	/// Gets the current battery temperature.
-	/// </summary>
-	/// <returns><c>battery temperature in Celsius</c>
-	/// <param name="batteryTemperature">Battery temperature.</param>
-	public static float batteryTemperature
-	{
-		get {
-			if (!isHmdPresent)
-				return 0f;
+    /// <summary>
+    /// If true, chromatic de-aberration will be applied, improving the image at the cost of texture bandwidth.
+    /// </summary>
+    public bool chromatic
+    {
+        get
+        {
+            if (!isHmdPresent)
+                return false;
 
-			return OVRPlugin.batteryTemperature;
-		}
-	}
-	
-	/// <summary>
-	/// Gets the current battery status.
-	/// </summary>
-	/// <returns><c>battery status</c>
-	/// <param name="batteryStatus">Battery status.</param>
-	public static int batteryStatus
-	{
-		get {
-			if (!isHmdPresent)
-				return -1;
+            return OVRPlugin.chromatic;
+        }
 
-			return (int)OVRPlugin.batteryStatus;
-		}
-	}
+        set
+        {
+            if (!isHmdPresent)
+                return;
 
-	/// <summary>
-	/// Gets the current volume level.
-	/// </summary>
-	/// <returns><c>volume level in the range [0,1].</c>
-	public static float volumeLevel
-	{
-		get {
-			if (!isHmdPresent)
-				return 0f;
+            OVRPlugin.chromatic = value;
+        }
+    }
 
-			return OVRPlugin.systemVolume;
-		}
-	}
+    /// <summary>
+    /// If true, both eyes will see the same image, rendered from the center eye pose, saving performance.
+    /// </summary>
+    public bool monoscopic
+    {
+        get
+        {
+            if (!isHmdPresent)
+                return true;
 
-	/// <summary>
-	/// If true, head tracking will affect the orientation of each OVRCameraRig's cameras.
-	/// </summary>
-	public bool usePositionTracking = true;
+            return OVRPlugin.monoscopic;
+        }
 
-	/// <summary>
-	/// If true, each scene load will cause the head pose to reset.
-	/// </summary>
-	public bool resetTrackerOnLoad = true;
+        set
+        {
+            if (!isHmdPresent)
+                return;
 
-	/// <summary>
-	/// True if the current platform supports virtual reality.
-	/// </summary>
+            OVRPlugin.monoscopic = value;
+        }
+    }
+
+    /// <summary>
+    /// If true, distortion rendering work is submitted a quarter-frame early to avoid pipeline stalls and increase CPU-GPU parallelism.
+    /// </summary>
+    public bool queueAhead = true;
+
+    /// <summary>
+    /// Gets the current battery level.
+    /// </summary>
+    /// <returns><c>battery level in the range [0.0,1.0]</c>
+    /// <param name="batteryLevel">Battery level.</param>
+    public static float batteryLevel
+    {
+        get
+        {
+            if (!isHmdPresent)
+                return 1f;
+
+            return OVRPlugin.batteryLevel;
+        }
+    }
+
+    /// <summary>
+    /// Gets the current battery temperature.
+    /// </summary>
+    /// <returns><c>battery temperature in Celsius</c>
+    /// <param name="batteryTemperature">Battery temperature.</param>
+    public static float batteryTemperature
+    {
+        get
+        {
+            if (!isHmdPresent)
+                return 0f;
+
+            return OVRPlugin.batteryTemperature;
+        }
+    }
+
+    /// <summary>
+    /// Gets the current battery status.
+    /// </summary>
+    /// <returns><c>battery status</c>
+    /// <param name="batteryStatus">Battery status.</param>
+    public static int batteryStatus
+    {
+        get
+        {
+            if (!isHmdPresent)
+                return -1;
+
+            return (int)OVRPlugin.batteryStatus;
+        }
+    }
+
+    /// <summary>
+    /// Gets the current volume level.
+    /// </summary>
+    /// <returns><c>volume level in the range [0,1].</c>
+    public static float volumeLevel
+    {
+        get
+        {
+            if (!isHmdPresent)
+                return 0f;
+
+            return OVRPlugin.systemVolume;
+        }
+    }
+
+    /// <summary>
+    /// If true, head tracking will affect the orientation of each OVRCameraRig's cameras.
+    /// </summary>
+    public bool usePositionTracking = true;
+
+    /// <summary>
+    /// If true, each scene load will cause the head pose to reset.
+    /// </summary>
+    public bool resetTrackerOnLoad = true;
+
+    /// <summary>
+    /// True if the current platform supports virtual reality.
+    /// </summary>
     public bool isSupportedPlatform { get; private set; }
 
-	private static bool wasHmdPresent = false;
-	private static bool wasPositionTracked = false;
+    private static bool wasHmdPresent = false;
+    private static bool wasPositionTracked = false;
 
-	[NonSerialized]
-	private static OVRVolumeControl volumeController = null;
-	[NonSerialized]
-	private Transform volumeControllerTransform = null;
+    [NonSerialized]
+    private static OVRVolumeControl volumeController = null;
 
-#region Unity Messages
+    [NonSerialized]
+    private Transform volumeControllerTransform = null;
 
-	private void Awake()
-	{
-		// Only allow one instance at runtime.
-		if (instance != null)
-		{
-			enabled = false;
-			DestroyImmediate(this);
-			return;
-		}
+    #region Unity Messages
 
-		instance = this;
+    private void Awake()
+    {
+        // Only allow one instance at runtime.
+        if (instance != null)
+        {
+            enabled = false;
+            DestroyImmediate(this);
+            return;
+        }
 
-		System.Version netVersion = OVRPlugin.wrapperVersion;
-		System.Version ovrVersion = OVRPlugin.version;
+        instance = this;
 
-		Debug.Log("Unity v" + Application.unityVersion + ", " +
-		          "Oculus Utilities v" + netVersion + ", " +
-		          "OVRPlugin v" + ovrVersion + ".");
+        System.Version netVersion = OVRPlugin.wrapperVersion;
+        System.Version ovrVersion = OVRPlugin.version;
+
+        Debug.Log("Unity v" + Application.unityVersion + ", " +
+                  "Oculus Utilities v" + netVersion + ", " +
+                  "OVRPlugin v" + ovrVersion + ".");
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-		if (SystemInfo.graphicsDeviceType != UnityEngine.Rendering.GraphicsDeviceType.Direct3D11)
-			Debug.LogWarning("VR rendering requires Direct3D11. Your graphics device: " + SystemInfo.graphicsDeviceType);
+        if (SystemInfo.graphicsDeviceType != UnityEngine.Rendering.GraphicsDeviceType.Direct3D11)
+            Debug.LogWarning("VR rendering requires Direct3D11. Your graphics device: " + SystemInfo.graphicsDeviceType);
 #endif
 
         // Detect whether this platform is a supported platform
@@ -344,127 +354,127 @@ public class OVRManager : MonoBehaviour
 
         InitVolumeController();
 
-		if (display == null)
-			display = new OVRDisplay();
-		if (tracker == null)
-			tracker = new OVRTracker();
-		if (input == null)
-			input = new OVRInput();
+        if (display == null)
+            display = new OVRDisplay();
+        if (tracker == null)
+            tracker = new OVRTracker();
+        if (input == null)
+            input = new OVRInput();
 
-		if (resetTrackerOnLoad)
-			display.RecenterPose();
-	}
-
-	private void OnEnable()
-	{
-		if (volumeController != null)
-		{
-			volumeController.UpdatePosition(volumeControllerTransform);
-		}
+        if (resetTrackerOnLoad)
+            display.RecenterPose();
     }
 
-	private void Update()
-	{
-		tracker.isEnabled = usePositionTracking;
+    private void OnEnable()
+    {
+        if (volumeController != null)
+        {
+            volumeController.UpdatePosition(volumeControllerTransform);
+        }
+    }
 
-		// Dispatch any events.
-		isHmdPresent = OVRPlugin.hmdPresent;
+    private void Update()
+    {
+        tracker.isEnabled = usePositionTracking;
 
-		if (isHmdPresent)
-		{
-			OVRPlugin.queueAheadFraction = (queueAhead) ? 0.25f : 0f;
-		}
+        // Dispatch any events.
+        isHmdPresent = OVRPlugin.hmdPresent;
 
-		if (HMDLost != null && wasHmdPresent && !isHmdPresent)
-			HMDLost();
+        if (isHmdPresent)
+        {
+            OVRPlugin.queueAheadFraction = (queueAhead) ? 0.25f : 0f;
+        }
+
+        if (HMDLost != null && wasHmdPresent && !isHmdPresent)
+            HMDLost();
 
         if (HMDAcquired != null && !wasHmdPresent && isHmdPresent)
-			HMDAcquired();
+            HMDAcquired();
 
         wasHmdPresent = isHmdPresent;
 
-		if (TrackingLost != null && wasPositionTracked && !tracker.isPositionTracked)
-			TrackingLost();
+        if (TrackingLost != null && wasPositionTracked && !tracker.isPositionTracked)
+            TrackingLost();
 
-		if (TrackingAcquired != null && !wasPositionTracked && tracker.isPositionTracked)
-			TrackingAcquired();
+        if (TrackingAcquired != null && !wasPositionTracked && tracker.isPositionTracked)
+            TrackingAcquired();
 
-		wasPositionTracked = tracker.isPositionTracked;
+        wasPositionTracked = tracker.isPositionTracked;
 
-		isHSWDisplayed = OVRPlugin.hswVisible;
+        isHSWDisplayed = OVRPlugin.hswVisible;
 
-		if (isHSWDisplayed && Input.anyKeyDown)
-			DismissHSWDisplay();
-		
-		if (!isHSWDisplayed && _wasHSWDisplayed)
-		{
-			if (HSWDismissed != null)
-				HSWDismissed();
-		}
-		
-		_wasHSWDisplayed = isHSWDisplayed;
+        if (isHSWDisplayed && Input.anyKeyDown)
+            DismissHSWDisplay();
 
-		display.Update();
-		input.Update();
-		
-		if (volumeController != null)
-		{
-			if (volumeControllerTransform == null)
-			{
-				if (gameObject.GetComponent<OVRCameraRig>() != null)
-				{
-					volumeControllerTransform = gameObject.GetComponent<OVRCameraRig>().centerEyeAnchor;
-				}
-			}
-			volumeController.UpdatePosition(volumeControllerTransform);
-		}
+        if (!isHSWDisplayed && _wasHSWDisplayed)
+        {
+            if (HSWDismissed != null)
+                HSWDismissed();
+        }
+
+        _wasHSWDisplayed = isHSWDisplayed;
+
+        display.Update();
+        input.Update();
+
+        if (volumeController != null)
+        {
+            if (volumeControllerTransform == null)
+            {
+                if (gameObject.GetComponent<OVRCameraRig>() != null)
+                {
+                    volumeControllerTransform = gameObject.GetComponent<OVRCameraRig>().centerEyeAnchor;
+                }
+            }
+            volumeController.UpdatePosition(volumeControllerTransform);
+        }
     }
 
-	/// <summary>
-	/// Creates a popup dialog that shows when volume changes.
-	/// </summary>
-	private static void InitVolumeController()
-	{
-		if (volumeController == null)
-		{
-			Debug.Log("Creating volume controller...");
-			// Create the volume control popup
-			GameObject go = GameObject.Instantiate(Resources.Load("OVRVolumeController")) as GameObject;
-			if (go != null)
-			{
-				volumeController = go.GetComponent<OVRVolumeControl>();
-			}
-			else
-			{
-				Debug.LogError("Unable to instantiate volume controller");
-			}
-		}
-	}
+    /// <summary>
+    /// Creates a popup dialog that shows when volume changes.
+    /// </summary>
+    private static void InitVolumeController()
+    {
+        if (volumeController == null)
+        {
+            Debug.Log("Creating volume controller...");
+            // Create the volume control popup
+            GameObject go = GameObject.Instantiate(Resources.Load("OVRVolumeController")) as GameObject;
+            if (go != null)
+            {
+                volumeController = go.GetComponent<OVRVolumeControl>();
+            }
+            else
+            {
+                Debug.LogError("Unable to instantiate volume controller");
+            }
+        }
+    }
 
-	/// <summary>
-	/// Leaves the application/game and returns to the launcher/dashboard
-	/// </summary>
-	public void ReturnToLauncher()
-	{
-		// show the platform UI quit prompt
-		OVRManager.PlatformUIConfirmQuit();
-	}
+    /// <summary>
+    /// Leaves the application/game and returns to the launcher/dashboard
+    /// </summary>
+    public void ReturnToLauncher()
+    {
+        // show the platform UI quit prompt
+        OVRManager.PlatformUIConfirmQuit();
+    }
 
-#endregion
+    #endregion Unity Messages
 
     public static void PlatformUIConfirmQuit()
-	{
-		if (!isHmdPresent)
-			return;
+    {
+        if (!isHmdPresent)
+            return;
 
-		OVRPlugin.ShowUI(OVRPlugin.PlatformUI.ConfirmQuit);
+        OVRPlugin.ShowUI(OVRPlugin.PlatformUI.ConfirmQuit);
     }
 
     public static void PlatformUIGlobalMenu()
-	{
-		if (!isHmdPresent)
-			return;
+    {
+        if (!isHmdPresent)
+            return;
 
-		OVRPlugin.ShowUI(OVRPlugin.PlatformUI.GlobalMenu);
+        OVRPlugin.ShowUI(OVRPlugin.PlatformUI.GlobalMenu);
     }
 }

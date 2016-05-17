@@ -1,9 +1,5 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.IO;
 using System.Xml.Serialization;
-using System.IO;
 
 // This serves as a "template" for XML Serialization
 
@@ -34,6 +30,5 @@ public class XmlSerializationTemplate
         return (XmlSerializationTemplate)serializer.Deserialize(fs);
     }
 
-    #endregion
-
+    #endregion Save/Load
 }

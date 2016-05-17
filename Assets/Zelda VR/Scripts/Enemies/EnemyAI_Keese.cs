@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class EnemyAI_Keese : EnemyAI 
+public class EnemyAI_Keese : EnemyAI
 {
     public float speedShiftFrequency = 1;
-    public float phaseOffset = Mathf.PI; 
+    public float phaseOffset = Mathf.PI;
 
 
     float _baseSpeed;

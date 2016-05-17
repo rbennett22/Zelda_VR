@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 
 public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
@@ -66,13 +66,11 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
 
     void IHealthControllerDelegate.OnHealthRestored(HealthController healthController, uint healAmount)
     {
-        
     }
     void IHealthControllerDelegate.OnTempInvincibilityActivation(HealthController healthController, bool didActivate)
     {
-
     }
-    void IHealthControllerDelegate.OnDeath(HealthController healthController, GameObject killer) 
+    void IHealthControllerDelegate.OnDeath(HealthController healthController, GameObject killer)
     {
         _player.DeathCount++;
 

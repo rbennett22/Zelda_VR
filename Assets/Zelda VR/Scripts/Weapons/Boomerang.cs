@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 public class Boomerang : MonoBehaviour
@@ -11,7 +11,7 @@ public class Boomerang : MonoBehaviour
     public int damage = 1;
     public float maxDistance = 5;
     public string[] kills;          // Enemies that can be killed by boomerang
-    public string[] invulnerables;  // Enemies that cannot be stunned (or hurt) by boomerang 
+    public string[] invulnerables;  // Enemies that cannot be stunned (or hurt) by boomerang
 
     public AudioClip flySound;
     public Vector3 boomerangPositionOffset = new Vector3(0, 0.15f, 0);
@@ -58,7 +58,7 @@ public class Boomerang : MonoBehaviour
 
     public void Throw(Transform thrower, Vector3 direction)
     {
-        if(!CanUse) { return; }
+        if (!CanUse) { return; }
 
         _thrower = thrower;
         _origin = _thrower.position + boomerangPositionOffset;
@@ -79,7 +79,7 @@ public class Boomerang : MonoBehaviour
         }
     }
 
-	void Update() 
+    void Update()
     {
         if (_isDeparting)
         {
@@ -104,7 +104,7 @@ public class Boomerang : MonoBehaviour
         }
 
         transform.position += _direction * speed * Time.deltaTime;
-	}
+    }
 
     void CollectAttachedCollectibles()
     {
@@ -218,5 +218,4 @@ public class Boomerang : MonoBehaviour
 
         GetComponent<AudioSource>().Stop();
     }
-
 }

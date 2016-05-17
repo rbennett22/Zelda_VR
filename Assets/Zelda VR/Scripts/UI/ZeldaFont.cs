@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections.Generic;
-using Immersio.Utility;
+using UnityEngine;
 
-public class ZeldaFont : Singleton<ZeldaFont> 
+public class ZeldaFont : Singleton<ZeldaFont>
 {
     const int TILE_WIDTH = 48, TILE_HEIGHT = 48;
     const int CHAR_WIDTH = 24, CHAR_HEIGHT = 24;
@@ -44,7 +44,7 @@ public class ZeldaFont : Singleton<ZeldaFont>
 
     public Texture2D TextureForString(string str)
     {
-        if(FontTexture == null)
+        if (FontTexture == null)
         {
             return null;
         }
@@ -63,7 +63,7 @@ public class ZeldaFont : Singleton<ZeldaFont>
 
         int texWidth = (int)(longestLineLength * CHAR_WIDTH);
         int texHeight = (int)(lines.Length * CHAR_HEIGHT);
-       
+
         Texture2D tex = new Texture2D(texWidth, texHeight);
 
         Color[] clearPixels = new Color[texWidth * texHeight];
@@ -80,16 +80,16 @@ public class ZeldaFont : Singleton<ZeldaFont>
         int sampleY = (int)(0.5f * (TILE_HEIGHT - CHAR_HEIGHT));
 
         Color[] pixels = new Color[CHAR_WIDTH * CHAR_HEIGHT];
-        
+
         foreach (char c in str.ToCharArray())
         {
             //print("CHAR: " + c);
-            if (c == '\n') 
+            if (c == '\n')
             {
                 lineNum++;
                 y -= CHAR_HEIGHT;
                 x = (int)((texWidth - (lines[lineNum].Length * CHAR_WIDTH)) * 0.5f);
-                continue; 
+                continue;
             }
             if (c == ' ') { x += CHAR_WIDTH; continue; }
 

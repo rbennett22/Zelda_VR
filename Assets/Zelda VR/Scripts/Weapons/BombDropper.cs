@@ -29,7 +29,7 @@ public class BombDropper : MonoBehaviour
         _spawnedBomb = Instantiate(bombPrefab) as GameObject;
         DetermineBombDropPosition(_spawnedBomb);
         _spawnedBomb.transform.parent = _projectilesContainer;
-        
+
         SoundFx.Instance.PlayOneShot(bombDropSound);
 
         NotifyOnDestroy n = _spawnedBomb.AddComponent<NotifyOnDestroy>();

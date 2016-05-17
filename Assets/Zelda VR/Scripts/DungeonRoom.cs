@@ -1,22 +1,22 @@
 ﻿#pragma warning disable 0162 // unreachable code detected
 
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class DungeonRoom : MonoBehaviour 
+public class DungeonRoom : MonoBehaviour
 {
     const bool ALWAYS_SEAL_DOORS_FOR_BOSS = false;       // <-- Design Decision
 
     const int BombUpgradeCost = 100;
     public const float TilesWide = 12, TilesLong = 7;
     public const float TilesWide_WithHalls = 16, TilesLong_WithHalls = 11;
-    
+
 
     public GameObject wall_N, wall_E, wall_S, wall_W, floor, ceiling;
-	public GameObject wall_N2, wall_E2, wall_S2, wall_W2;
+    public GameObject wall_N2, wall_E2, wall_S2, wall_W2;
     public GameObject wall_bombedInner_N, wall_bombedInner_E, wall_bombedInner_S, wall_bombedInner_W;
     public GameObject doorTrigger_N, doorTrigger_E, doorTrigger_S, doorTrigger_W;
-	public GameObject hall_N, hall_E, hall_S, hall_W;
+    public GameObject hall_N, hall_E, hall_S, hall_W;
     public GameObject entranceBlock_N, entranceBlock_E, entranceBlock_S, entranceBlock_W;
     public GameObject torchLights;
     public Light torchLight_A, torchLight_B;
@@ -203,7 +203,7 @@ public class DungeonRoom : MonoBehaviour
             }
         }
     }
-    
+
 
     void SpawnEnemies()
     {
@@ -303,7 +303,6 @@ public class DungeonRoom : MonoBehaviour
         wall.GetComponent<Renderer>().material = CommonObjects.CurrentDungeonFactory.GetWallMaterial(direction, type);
 
         wall.GetComponent<LightsOnOffMaterial>().OnMaterialChanged();
-
     }
     public DungeonRoomInfo.WallDirection GetWallDirectionForWall(GameObject wall)
     {
@@ -432,9 +431,9 @@ public class DungeonRoom : MonoBehaviour
             UnsealDoors();
         }
 
-        if(direction != DungeonRoomInfo.WallDirection.None)
+        if (direction != DungeonRoomInfo.WallDirection.None)
         {
-            if(GetWallTypeForDirection(direction) == DungeonRoomInfo.WallType.DoorSealed)
+            if (GetWallTypeForDirection(direction) == DungeonRoomInfo.WallType.DoorSealed)
             {
                 SoundFx.Instance.PlayOneShot(SoundFx.Instance.sealDoor);
             }
@@ -506,7 +505,7 @@ public class DungeonRoom : MonoBehaviour
 
         // UnsealDoors after boss fight
         if (ContainsBoss)
-        { 
+        {
             Info.BossHasBeenDefeated = true;
             UnsealDoors();
         }
@@ -595,7 +594,7 @@ public class DungeonRoom : MonoBehaviour
         float tileHeight_pixels = floorTexture.height / TilesLong;
 
         return new Rect(
-            tile.x * tileWidth_pixels, 
+            tile.x * tileWidth_pixels,
             tile.y * tileHeight_pixels,
             tileWidth_pixels,
             tileHeight_pixels);

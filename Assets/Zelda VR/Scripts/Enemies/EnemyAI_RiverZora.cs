@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections.Generic;
-using Immersio.Utility;
+using UnityEngine;
 
-public class EnemyAI_RiverZora : EnemyAI 
+public class EnemyAI_RiverZora : EnemyAI
 {
     const int WARP_RANGE = 5;
 
@@ -106,13 +106,13 @@ public class EnemyAI_RiverZora : EnemyAI
         if (tileMap == null) { return; }
 
         Rect area = new Rect(
-            (int)_origin.x - WARP_RANGE - EPSILON, 
+            (int)_origin.x - WARP_RANGE - EPSILON,
             (int)_origin.z - WARP_RANGE - EPSILON,
-            2 * WARP_RANGE + EPSILON, 
+            2 * WARP_RANGE + EPSILON,
             2 * WARP_RANGE + EPSILON);
         _warpableTiles = tileMap.GetTilesInArea(area, TileInfo.WaterTiles);
     }
-    
+
     void WarpToRandomNearbyWaterTile()
     {
         if (WorldInfo.Instance.IsSpecial) { return; }

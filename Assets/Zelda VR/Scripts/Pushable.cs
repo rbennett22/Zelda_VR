@@ -120,10 +120,10 @@ public class Pushable : MonoBehaviour
         Vector3 vec = Vector3.zero;
         switch (dir)
         {
-            case Direction.North:   vec = new Vector3(0, 0, 1); break;
-            case Direction.East:    vec = new Vector3(1, 0, 0); break;
-            case Direction.South:   vec = new Vector3(0, 0, -1); break;
-            case Direction.West:    vec = new Vector3(-1, 0, 0); break;
+            case Direction.North: vec = new Vector3(0, 0, 1); break;
+            case Direction.East: vec = new Vector3(1, 0, 0); break;
+            case Direction.South: vec = new Vector3(0, 0, -1); break;
+            case Direction.West: vec = new Vector3(-1, 0, 0); break;
             default: break;
         }
         return vec;

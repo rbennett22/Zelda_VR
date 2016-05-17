@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class EnemySpawnPoint : MonoBehaviour 
+public class EnemySpawnPoint : MonoBehaviour
 {
-    const float ProximityThresholdMin_OW = 8;           // how far away player must be to trigger the spawn               
-    const float ProximityThresholdMax_OW = 12;          // how close player must be to trigger the spawn 
+    const float ProximityThresholdMin_OW = 8;           // how far away player must be to trigger the spawn
+    const float ProximityThresholdMax_OW = 12;          // how close player must be to trigger the spawn
     const float ProximityThresholdMin_Dungeon = 1;
     const float ProximityThresholdMax_Dungeon = 11;
 

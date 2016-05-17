@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class EnemyAI_Manhandla : EnemyAI 
+﻿public class EnemyAI_Manhandla : EnemyAI
 {
     public float[] speeds = new float[4];
 
@@ -8,7 +6,7 @@ public class EnemyAI_Manhandla : EnemyAI
     public int NumMouths { get { return transform.childCount - 1; } }
 
 
-    void Update ()
+    void Update()
     {
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
@@ -22,5 +20,5 @@ public class EnemyAI_Manhandla : EnemyAI
         {
             _enemyMove.Speed = speeds[NumMouths - 1];
         }
-	}
+    }
 }

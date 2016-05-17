@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CollectibleSpawnPoint : MonoBehaviour 
+public class CollectibleSpawnPoint : MonoBehaviour
 {
     public GameObject collectiblePrefab;
     public bool hideUnderArmos;
@@ -16,7 +16,7 @@ public class CollectibleSpawnPoint : MonoBehaviour
     }
 
 
-	public GameObject SpawnCollectible () 
+    public GameObject SpawnCollectible()
     {
         if (HasBeenCollected) { return null; }
 
@@ -33,11 +33,11 @@ public class CollectibleSpawnPoint : MonoBehaviour
         if (hideUnderArmos) { g.SetActive(false); }
 
         return g;
-	}
+    }
 
     public void DestroySpawnedCollectible()
     {
-        if(SpawnedCollectible == null)
+        if (SpawnedCollectible == null)
         {
             return;
         }
@@ -76,5 +76,4 @@ public class CollectibleSpawnPoint : MonoBehaviour
     }
 
     #endregion*/
-
 }

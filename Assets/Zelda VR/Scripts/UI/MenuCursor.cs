@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System;
-using Immersio.Utility;
+using UnityEngine;
 
-public class MenuCursor : MonoBehaviour 
+public class MenuCursor : MonoBehaviour
 {
     const float CURSOR_COOLDOWN_DURATION = 0.2f;
 
@@ -14,7 +14,7 @@ public class MenuCursor : MonoBehaviour
 
 
     Index2 _cursorIndex = new Index2();
-    
+
 
     public Index2 CursorIndex
     {
@@ -36,7 +36,7 @@ public class MenuCursor : MonoBehaviour
     }
     void OnIndexChanged()
     {
-        if(onIndexChanged_Callback != null)
+        if (onIndexChanged_Callback != null)
         {
             onIndexChanged_Callback(this);
         }
@@ -109,5 +109,5 @@ public class MenuCursor : MonoBehaviour
         }
     }
 
-    #endregion
+    #endregion Cursor Cooldown
 }

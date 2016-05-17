@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
-public class UIMessageQueue : MonoBehaviour 
+public class UIMessageQueue : MonoBehaviour
 {
     const float FadeOutDuration = 3.0f;
 
@@ -17,16 +17,16 @@ public class UIMessageQueue : MonoBehaviour
     Queue<string> _queue = new Queue<string>();
 
 
-	void Awake () 
-	{
+    void Awake()
+    {
         Clear();
-	}
+    }
 
 
     public void AddEntry(string message)
     {
         _queue.Enqueue(message);
-        if(_queue.Count > textEntries.Count)
+        if (_queue.Count > textEntries.Count)
         {
             _queue.Dequeue();
         }
@@ -34,8 +34,8 @@ public class UIMessageQueue : MonoBehaviour
         RefreshUI();
 
         ShowEntries();
-        
-        if(hideEntries)
+
+        if (hideEntries)
         {
             Invoke(HideEntries_MethodName, showForTime);
         }
@@ -97,7 +97,7 @@ public class UIMessageQueue : MonoBehaviour
     const string FadeOutOnComplete_MethodName = "FadeOutOnComplete";
     void FadeOutOnComplete()
     {
-        if(autoClearOnHide)
+        if (autoClearOnHide)
         {
             Clear();
         }
@@ -113,7 +113,7 @@ public class UIMessageQueue : MonoBehaviour
             entry.color = c;
         }
     }
-    
+
 
     /*void Update()
     {
@@ -124,5 +124,4 @@ public class UIMessageQueue : MonoBehaviour
             AddEntry(msg);
         }
     }*/
-
 }

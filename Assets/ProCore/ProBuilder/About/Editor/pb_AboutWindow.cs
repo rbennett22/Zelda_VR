@@ -1,8 +1,6 @@
-using UnityEngine;
-using UnityEditor;
-using System.Collections;
 using System.Text;
-using System.Text.RegularExpressions;
+using UnityEditor;
+using UnityEngine;
 
 /**
  * INSTRUCTIONS
@@ -14,40 +12,41 @@ using System.Text.RegularExpressions;
 /**
  * Used to pop up the window on import.
  */
+
 public class pb_AboutWindowSetup : AssetPostprocessor
 {
-#region Initialization
+    #region Initialization
 
-	static void OnPostprocessAllAssets (
-		string[] importedAssets,
-		string[] deletedAssets,
-		string[] movedAssets,
-		string[] movedFromAssetPaths)
-	{
+    static void OnPostprocessAllAssets(
+        string[] importedAssets,
+        string[] deletedAssets,
+        string[] movedAssets,
+        string[] movedFromAssetPaths)
+    {
+        string[] entries = System.Array.FindAll(importedAssets, name => name.Contains("pc_AboutEntry") && !name.EndsWith(".meta"));
 
-		string[] entries = System.Array.FindAll(importedAssets, name => name.Contains("pc_AboutEntry") && !name.EndsWith(".meta"));
-		
-		foreach(string str in entries)
-			if( pb_AboutWindow.Init(str, false) )
-				break;
-	}
-#endregion
+        foreach (string str in entries)
+            if (pb_AboutWindow.Init(str, false))
+                break;
+    }
+
+    #endregion Initialization
 }
 
 public class pb_AboutWindow : EditorWindow
 {
+    /**
+     * Modify these constants to customize about screen.
+     */
 
-/**
- * Modify these constants to customize about screen.
- */
-#region User Settings
+    #region User Settings
 
- 	const string PACKAGE_NAME = "ProBuilder";
+    const string PACKAGE_NAME = "ProBuilder";
 
-	 /* Path to the root folder */
-	const string ABOUT_ROOT = "Assets/ProCore/" + PACKAGE_NAME + "/About";
-	
-	/**
+    /* Path to the root folder */
+    const string ABOUT_ROOT = "Assets/ProCore/" + PACKAGE_NAME + "/About";
+
+    /**
 	 * Changelog.txt file should follow this format:
 	 *
 	 *	| -- Product Name 2.1.0 -
@@ -56,11 +55,11 @@ public class pb_AboutWindow : EditorWindow
 	 *	| 	- All kinds of awesome stuff
 	 *	| 	- New flux capacitor design achieves time travel at lower velocities.
 	 *	| 	- Dark matter reactor recalibrated.
-	 *	| 
+	 *	|
 	 *	| # Bug Fixes
 	 *	| 	- No longer explodes when spacebar is pressed.
 	 *	| 	- Fix rolling issue in Rickmeter.
-	 *	| 	
+	 *	|
 	 *	| # Changes
 	 *	| 	- Changed Blue to Red.
 	 *	| 	- Enter key now causes explosions.
@@ -71,347 +70,355 @@ public class pb_AboutWindow : EditorWindow
 	 * entry will be displayed.
 	 */
 
-	/**
+    /**
 	 * Advertisement thumb constructor is:
 	 * new AdvertisementThumb( PathToAdImage : string, URLToPurchase : string, ProductDescription : string )
 	 * Provide as many or few (or none) as desired.
 	 *
 	 * Notes - The http:// part is required.  Partial URLs do not work on Mac.
 	 */
-	[SerializeField]
-	public static AdvertisementThumb[] advertisements = new AdvertisementThumb[] {
-		new AdvertisementThumb( ABOUT_ROOT + "/Images/ProBuilder_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/probuilder/", "Build and Texture Geometry In-Editor"),
-		new AdvertisementThumb( ABOUT_ROOT + "/Images/ProGrids_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/progrids/", "True Grids and Grid-Snapping"),
-		new AdvertisementThumb( ABOUT_ROOT + "/Images/ProGroups_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/progroups/", "Hide, Freeze, Group, & Organize"),
-		new AdvertisementThumb( ABOUT_ROOT + "/Images/Prototype_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/prototype/", "Design and Build With Zero Lag"),
-		new AdvertisementThumb( ABOUT_ROOT + "/Images/QuickBrush_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/quickbrush/", "Quickly Add Detail Geometry"),
-		new AdvertisementThumb( ABOUT_ROOT + "/Images/QuickDecals_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/quickdecals/", "Add Dirt, Splatters, Posters, etc"),
-		new AdvertisementThumb( ABOUT_ROOT + "/Images/QuickEdit_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/quickedit/", "Edit Imported Meshes!"),
-	};
-#endregion	
+    [SerializeField]
+    public static AdvertisementThumb[] advertisements = new AdvertisementThumb[] {
+        new AdvertisementThumb( ABOUT_ROOT + "/Images/ProBuilder_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/probuilder/", "Build and Texture Geometry In-Editor"),
+        new AdvertisementThumb( ABOUT_ROOT + "/Images/ProGrids_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/progrids/", "True Grids and Grid-Snapping"),
+        new AdvertisementThumb( ABOUT_ROOT + "/Images/ProGroups_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/progroups/", "Hide, Freeze, Group, & Organize"),
+        new AdvertisementThumb( ABOUT_ROOT + "/Images/Prototype_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/prototype/", "Design and Build With Zero Lag"),
+        new AdvertisementThumb( ABOUT_ROOT + "/Images/QuickBrush_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/quickbrush/", "Quickly Add Detail Geometry"),
+        new AdvertisementThumb( ABOUT_ROOT + "/Images/QuickDecals_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/quickdecals/", "Add Dirt, Splatters, Posters, etc"),
+        new AdvertisementThumb( ABOUT_ROOT + "/Images/QuickEdit_AssetStore_Icon_96px.png", "http://www.protoolsforunity3d.com/quickedit/", "Edit Imported Meshes!"),
+    };
 
-/* Recommend you do not modify these. */
-#region Private Fields (automatically populated)
+    #endregion User Settings
 
-	private string AboutEntryPath = "";
+    /* Recommend you do not modify these. */
 
-	private string ProductName = "";
-	// private string ProductIdentifer = "";
-	private string ProductVersion = "";
-	private string ProductRevision = "";
-	private string ChangelogPath = "";
-	private string BannerPath = ABOUT_ROOT + "/Images/Banner.png";
+    #region Private Fields (automatically populated)
 
-	
-	const int AD_HEIGHT = 96;
+    private string AboutEntryPath = "";
 
-	/**
+    private string ProductName = "";
+    // private string ProductIdentifer = "";
+    private string ProductVersion = "";
+
+    private string ProductRevision = "";
+    private string ChangelogPath = "";
+    private string BannerPath = ABOUT_ROOT + "/Images/Banner.png";
+
+
+    const int AD_HEIGHT = 96;
+
+    /**
 	 * Struct containing data for use in Advertisement shelf.
 	 */
-	[System.Serializable]
-	public struct AdvertisementThumb
-	{
-		public Texture2D image;
-		public string url;
-		public string about;
-		public GUIContent guiContent;
 
-		public AdvertisementThumb(string imagePath, string url, string about)
-		{
-			guiContent = new GUIContent("", about);
-			this.image = LoadAssetAtPath<Texture2D>(imagePath);
+    [System.Serializable]
+    public struct AdvertisementThumb
+    {
+        public Texture2D image;
+        public string url;
+        public string about;
+        public GUIContent guiContent;
 
-			guiContent.image = this.image;
-			this.url = url;
-			this.about = about;
-		}
-	}
+        public AdvertisementThumb(string imagePath, string url, string about)
+        {
+            guiContent = new GUIContent("", about);
+            this.image = LoadAssetAtPath<Texture2D>(imagePath);
 
-	Texture2D banner;
+            guiContent.image = this.image;
+            this.url = url;
+            this.about = about;
+        }
+    }
 
-	// populated by first entry in changelog
-	string changelog = "";
-#endregion
+    Texture2D banner;
 
-#region Init
+    // populated by first entry in changelog
+    string changelog = "";
 
-	/**
+    #endregion Private Fields (automatically populated)
+
+    #region Init
+
+    /**
 	 * Return true if Init took place, false if not.
 	 */
-	public static bool Init (string aboutEntryPath, bool fromMenu)
-	{
-		string identifier, version;
+    public static bool Init(string aboutEntryPath, bool fromMenu)
+    {
+        string identifier, version;
 
-		if( !GetField(aboutEntryPath, "version: ", out version) || !GetField(aboutEntryPath, "identifier: ", out identifier))
-			return false;
+        if (!GetField(aboutEntryPath, "version: ", out version) || !GetField(aboutEntryPath, "identifier: ", out identifier))
+            return false;
 
-		if(fromMenu || EditorPrefs.GetString(identifier) != version)
-		{
-			string tname;	
-			pb_AboutWindow win;
+        if (fromMenu || EditorPrefs.GetString(identifier) != version)
+        {
+            string tname;
+            pb_AboutWindow win;
 
-			if(GetField(aboutEntryPath, "name: ", out tname))
-				win = (pb_AboutWindow)EditorWindow.GetWindow(typeof(pb_AboutWindow), true, tname, true);
-			else
-				win = (pb_AboutWindow)EditorWindow.GetWindow(typeof(pb_AboutWindow));
+            if (GetField(aboutEntryPath, "name: ", out tname))
+                win = (pb_AboutWindow)EditorWindow.GetWindow(typeof(pb_AboutWindow), true, tname, true);
+            else
+                win = (pb_AboutWindow)EditorWindow.GetWindow(typeof(pb_AboutWindow));
 
-			win.SetAboutEntryPath(aboutEntryPath);
-			win.ShowUtility();
+            win.SetAboutEntryPath(aboutEntryPath);
+            win.ShowUtility();
 
-			EditorPrefs.SetString(identifier, version);
+            EditorPrefs.SetString(identifier, version);
 
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
-	public void OnEnable()
-	{
-		banner = LoadAssetAtPath<Texture2D>(BannerPath);
+    public void OnEnable()
+    {
+        banner = LoadAssetAtPath<Texture2D>(BannerPath);
 
-		// With Unity 4 (on PC) if you have different values for minSize and maxSize,
-		// they do not apply restrictions to window size.
+        // With Unity 4 (on PC) if you have different values for minSize and maxSize,
+        // they do not apply restrictions to window size.
 #if !UNITY_5
 		this.minSize = new Vector2(banner.width + 12, banner.height * 7);
 		this.maxSize = new Vector2(banner.width + 12, banner.height * 7);
 #else
-		this.minSize = new Vector2(banner.width + 12, banner.height * 6);
-		this.maxSize = new Vector2(banner.width + 12, 1440);
+        this.minSize = new Vector2(banner.width + 12, banner.height * 6);
+        this.maxSize = new Vector2(banner.width + 12, 1440);
 #endif
-	}
+    }
 
-	public void SetAboutEntryPath(string path)
-	{
-		AboutEntryPath = path;
-		PopulateDataFields(AboutEntryPath);
-	}
+    public void SetAboutEntryPath(string path)
+    {
+        AboutEntryPath = path;
+        PopulateDataFields(AboutEntryPath);
+    }
 
-	static T LoadAssetAtPath<T>(string InPath) where T : UnityEngine.Object
-	{
-		return (T) AssetDatabase.LoadAssetAtPath(InPath, typeof(T));
-	}
-#endregion
+    static T LoadAssetAtPath<T>(string InPath) where T : UnityEngine.Object
+    {
+        return (T)AssetDatabase.LoadAssetAtPath(InPath, typeof(T));
+    }
 
-#region GUI
+    #endregion Init
 
-	Color LinkColor = new Color(0f, .682f, .937f, 1f);
+    #region GUI
 
-	GUIStyle 	boldTextStyle,
-				headerTextStyle,
-				linkTextStyle;
+    Color LinkColor = new Color(0f, .682f, .937f, 1f);
 
-	GUIStyle advertisementStyle;
-	Vector2 scroll = Vector2.zero, adScroll = Vector2.zero;
-	// int mm = 32;
-	void OnGUI()
-	{
-		headerTextStyle = headerTextStyle ?? new GUIStyle( EditorStyles.boldLabel );//GUI.skin.label);
-		headerTextStyle.fontSize = 16;
-		
-		linkTextStyle = linkTextStyle ?? new GUIStyle( GUI.skin.label );//GUI.skin.label);
-		linkTextStyle.normal.textColor = LinkColor; 
-		linkTextStyle.alignment = TextAnchor.MiddleLeft;
+    GUIStyle boldTextStyle,
+                headerTextStyle,
+                linkTextStyle;
 
-		boldTextStyle = boldTextStyle ?? new GUIStyle( GUI.skin.label );//GUI.skin.label);
-		boldTextStyle.fontStyle = FontStyle.Bold;
-		boldTextStyle.alignment = TextAnchor.MiddleLeft;
+    GUIStyle advertisementStyle;
+    Vector2 scroll = Vector2.zero, adScroll = Vector2.zero;
+    // int mm = 32;
+    void OnGUI()
+    {
+        headerTextStyle = headerTextStyle ?? new GUIStyle(EditorStyles.boldLabel);//GUI.skin.label);
+        headerTextStyle.fontSize = 16;
 
-		// #if UNITY_4
-		// richTextLabel.richText = true;
-		// #endif
+        linkTextStyle = linkTextStyle ?? new GUIStyle(GUI.skin.label);//GUI.skin.label);
+        linkTextStyle.normal.textColor = LinkColor;
+        linkTextStyle.alignment = TextAnchor.MiddleLeft;
 
-		advertisementStyle = advertisementStyle ?? new GUIStyle(GUI.skin.button);
-		advertisementStyle.normal.background = null;
-		
-		if(banner != null)
-			GUILayout.Label(banner);
+        boldTextStyle = boldTextStyle ?? new GUIStyle(GUI.skin.label);//GUI.skin.label);
+        boldTextStyle.fontStyle = FontStyle.Bold;
+        boldTextStyle.alignment = TextAnchor.MiddleLeft;
 
-		// mm = EditorGUI.IntField(new Rect(Screen.width - 200, 100, 200, 18), "W: ", mm);
+        // #if UNITY_4
+        // richTextLabel.richText = true;
+        // #endif
 
-		// grr stupid rich text faiiilluuure
-		{
-			GUILayout.Label("Thank you for purchasing " + ProductName + ". Your support allows us to keep developing this and future tools for everyone.", EditorStyles.wordWrappedLabel);
-			GUILayout.Space(2);
-			GUILayout.Label("Read these quick \"ProTips\" before starting:", headerTextStyle);
-			
-			GUILayout.BeginHorizontal();
-				GUILayout.Label("1) ", GUILayout.MinWidth(16), GUILayout.MaxWidth(16));	
-				GUILayout.Label("Register", boldTextStyle, GUILayout.MinWidth(58), GUILayout.MaxWidth(58));	
-				GUILayout.Label("for instant email updates, send your invoice # to", GUILayout.MinWidth(284), GUILayout.MaxWidth(284));	
-				if( GUILayout.Button("contact@procore3d.com", linkTextStyle, GUILayout.MinWidth(142), GUILayout.MaxWidth(142)) )
-					Application.OpenURL("mailto:contact@procore3d.com?subject=Sign me up for the Beta!");
-			GUILayout.EndHorizontal();
+        advertisementStyle = advertisementStyle ?? new GUIStyle(GUI.skin.button);
+        advertisementStyle.normal.background = null;
 
-			GUILayout.BeginHorizontal();
-				GUILayout.Label("2) ", GUILayout.MinWidth(16), GUILayout.MaxWidth(16));	
-				GUILayout.Label("Report bugs", boldTextStyle, GUILayout.MinWidth(82), GUILayout.MaxWidth(82));	
-				GUILayout.Label("to the ProCore Forum at", GUILayout.MinWidth(144), GUILayout.MaxWidth(144));	
-				if( GUILayout.Button("www.procore3d.com/forum", linkTextStyle, GUILayout.MinWidth(162), GUILayout.MaxWidth(162)) )
-					Application.OpenURL("http://www.procore3d.com/forum");
-			GUILayout.EndHorizontal();
+        if (banner != null)
+            GUILayout.Label(banner);
 
-			GUILayout.BeginHorizontal();
-				GUILayout.Label("3) ", GUILayout.MinWidth(16), GUILayout.MaxWidth(16));	
-				GUILayout.Label("Customize!", boldTextStyle, GUILayout.MinWidth(74), GUILayout.MaxWidth(74));	
-				GUILayout.Label("Click on \"Edit > Preferences\" then \"" + ProductName + "\"", GUILayout.MinWidth(276), GUILayout.MaxWidth(276));	
-			GUILayout.EndHorizontal();
+        // mm = EditorGUI.IntField(new Rect(Screen.width - 200, 100, 200, 18), "W: ", mm);
 
-			GUILayout.BeginHorizontal();
-				GUILayout.Label("4) ", GUILayout.MinWidth(16), GUILayout.MaxWidth(16));	
-				GUILayout.Label("Documentation", boldTextStyle, GUILayout.MinWidth(102), GUILayout.MaxWidth(102));	
-				GUILayout.Label("Tutorials, & more info:", GUILayout.MinWidth(132), GUILayout.MaxWidth(132));	
-				if( GUILayout.Button("www.procore3d.com/" + ProductName.ToLower(), linkTextStyle, GUILayout.MinWidth(190), GUILayout.MaxWidth(190)) )
-					Application.OpenURL("http://www.procore3d.com/" + ProductName.ToLower());
-			GUILayout.EndHorizontal();
+        // grr stupid rich text faiiilluuure
+        {
+            GUILayout.Label("Thank you for purchasing " + ProductName + ". Your support allows us to keep developing this and future tools for everyone.", EditorStyles.wordWrappedLabel);
+            GUILayout.Space(2);
+            GUILayout.Label("Read these quick \"ProTips\" before starting:", headerTextStyle);
 
-			GUILayout.Space(4);
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("1) ", GUILayout.MinWidth(16), GUILayout.MaxWidth(16));
+            GUILayout.Label("Register", boldTextStyle, GUILayout.MinWidth(58), GUILayout.MaxWidth(58));
+            GUILayout.Label("for instant email updates, send your invoice # to", GUILayout.MinWidth(284), GUILayout.MaxWidth(284));
+            if (GUILayout.Button("contact@procore3d.com", linkTextStyle, GUILayout.MinWidth(142), GUILayout.MaxWidth(142)))
+                Application.OpenURL("mailto:contact@procore3d.com?subject=Sign me up for the Beta!");
+            GUILayout.EndHorizontal();
 
-			GUILayout.BeginHorizontal(GUILayout.MaxWidth(50));
-				
-				GUILayout.Label("Links:", boldTextStyle);
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("2) ", GUILayout.MinWidth(16), GUILayout.MaxWidth(16));
+            GUILayout.Label("Report bugs", boldTextStyle, GUILayout.MinWidth(82), GUILayout.MaxWidth(82));
+            GUILayout.Label("to the ProCore Forum at", GUILayout.MinWidth(144), GUILayout.MaxWidth(144));
+            if (GUILayout.Button("www.procore3d.com/forum", linkTextStyle, GUILayout.MinWidth(162), GUILayout.MaxWidth(162)))
+                Application.OpenURL("http://www.procore3d.com/forum");
+            GUILayout.EndHorizontal();
 
-				linkTextStyle.fontStyle = FontStyle.Italic;
-				linkTextStyle.alignment = TextAnchor.MiddleCenter;
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("3) ", GUILayout.MinWidth(16), GUILayout.MaxWidth(16));
+            GUILayout.Label("Customize!", boldTextStyle, GUILayout.MinWidth(74), GUILayout.MaxWidth(74));
+            GUILayout.Label("Click on \"Edit > Preferences\" then \"" + ProductName + "\"", GUILayout.MinWidth(276), GUILayout.MaxWidth(276));
+            GUILayout.EndHorizontal();
 
-				if( GUILayout.Button("procore3d.com", linkTextStyle))
-					Application.OpenURL("http://www.procore3d.com");
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("4) ", GUILayout.MinWidth(16), GUILayout.MaxWidth(16));
+            GUILayout.Label("Documentation", boldTextStyle, GUILayout.MinWidth(102), GUILayout.MaxWidth(102));
+            GUILayout.Label("Tutorials, & more info:", GUILayout.MinWidth(132), GUILayout.MaxWidth(132));
+            if (GUILayout.Button("www.procore3d.com/" + ProductName.ToLower(), linkTextStyle, GUILayout.MinWidth(190), GUILayout.MaxWidth(190)))
+                Application.OpenURL("http://www.procore3d.com/" + ProductName.ToLower());
+            GUILayout.EndHorizontal();
 
-				if( GUILayout.Button("facebook", linkTextStyle))
-					Application.OpenURL("http://www.facebook.com/probuilder3d");
+            GUILayout.Space(4);
 
-				if( GUILayout.Button("twitter", linkTextStyle))
-					Application.OpenURL("http://www.twitter.com/probuilder3d");
+            GUILayout.BeginHorizontal(GUILayout.MaxWidth(50));
 
-				linkTextStyle.fontStyle = FontStyle.Normal;
-			GUILayout.EndHorizontal();
+            GUILayout.Label("Links:", boldTextStyle);
 
-			GUILayout.Space(4);
-		}
+            linkTextStyle.fontStyle = FontStyle.Italic;
+            linkTextStyle.alignment = TextAnchor.MiddleCenter;
 
-		HorizontalLine();
+            if (GUILayout.Button("procore3d.com", linkTextStyle))
+                Application.OpenURL("http://www.procore3d.com");
 
-		// always bold the first line (cause it's the version info stuff)
-		scroll = EditorGUILayout.BeginScrollView(scroll);
-		GUILayout.Label(ProductName + "  |  version: " + ProductVersion + "  |  revision: " + ProductRevision, EditorStyles.boldLabel);
-		GUILayout.Label("\n" + changelog);
-		EditorGUILayout.EndScrollView();
-		
-		HorizontalLine();
-		
-		GUILayout.Label("More ProCore Products", EditorStyles.boldLabel);
+            if (GUILayout.Button("facebook", linkTextStyle))
+                Application.OpenURL("http://www.facebook.com/probuilder3d");
 
-		int pad = advertisements.Length * AD_HEIGHT > Screen.width ? 22 : 6;
-		adScroll = EditorGUILayout.BeginScrollView(adScroll, false, false, GUILayout.MinHeight(AD_HEIGHT + pad), GUILayout.MaxHeight(AD_HEIGHT + pad));
-		GUILayout.BeginHorizontal();
+            if (GUILayout.Button("twitter", linkTextStyle))
+                Application.OpenURL("http://www.twitter.com/probuilder3d");
 
-		foreach(AdvertisementThumb ad in advertisements)
-		{
-			if(ad.url.ToLower().Contains(ProductName.ToLower()))
-				continue;
-				
-			if(GUILayout.Button(ad.guiContent, advertisementStyle,
-				GUILayout.MinWidth(AD_HEIGHT), GUILayout.MaxWidth(AD_HEIGHT),
-				GUILayout.MinHeight(AD_HEIGHT), GUILayout.MaxHeight(AD_HEIGHT)))
-			{
-				Application.OpenURL(ad.url);
-			}
-		}
-		GUILayout.EndHorizontal();
-		EditorGUILayout.EndScrollView();
-		/* shill other products */
-	}
+            linkTextStyle.fontStyle = FontStyle.Normal;
+            GUILayout.EndHorizontal();
 
-	/**
+            GUILayout.Space(4);
+        }
+
+        HorizontalLine();
+
+        // always bold the first line (cause it's the version info stuff)
+        scroll = EditorGUILayout.BeginScrollView(scroll);
+        GUILayout.Label(ProductName + "  |  version: " + ProductVersion + "  |  revision: " + ProductRevision, EditorStyles.boldLabel);
+        GUILayout.Label("\n" + changelog);
+        EditorGUILayout.EndScrollView();
+
+        HorizontalLine();
+
+        GUILayout.Label("More ProCore Products", EditorStyles.boldLabel);
+
+        int pad = advertisements.Length * AD_HEIGHT > Screen.width ? 22 : 6;
+        adScroll = EditorGUILayout.BeginScrollView(adScroll, false, false, GUILayout.MinHeight(AD_HEIGHT + pad), GUILayout.MaxHeight(AD_HEIGHT + pad));
+        GUILayout.BeginHorizontal();
+
+        foreach (AdvertisementThumb ad in advertisements)
+        {
+            if (ad.url.ToLower().Contains(ProductName.ToLower()))
+                continue;
+
+            if (GUILayout.Button(ad.guiContent, advertisementStyle,
+                GUILayout.MinWidth(AD_HEIGHT), GUILayout.MaxWidth(AD_HEIGHT),
+                GUILayout.MinHeight(AD_HEIGHT), GUILayout.MaxHeight(AD_HEIGHT)))
+            {
+                Application.OpenURL(ad.url);
+            }
+        }
+        GUILayout.EndHorizontal();
+        EditorGUILayout.EndScrollView();
+        /* shill other products */
+    }
+
+    /**
 	 * Draw a horizontal line across the screen and update the guilayout.
 	 */
-	void HorizontalLine()
-	{
-		Rect r = GUILayoutUtility.GetLastRect();
-		Color og = GUI.backgroundColor;
-		GUI.backgroundColor = Color.black;
-		GUI.Box(new Rect(0f, r.y + r.height + 2, Screen.width, 2f), "");
-		GUI.backgroundColor = og;
+    void HorizontalLine()
+    {
+        Rect r = GUILayoutUtility.GetLastRect();
+        Color og = GUI.backgroundColor;
+        GUI.backgroundColor = Color.black;
+        GUI.Box(new Rect(0f, r.y + r.height + 2, Screen.width, 2f), "");
+        GUI.backgroundColor = og;
 
-		GUILayout.Space(6);
-	}
-#endregion
+        GUILayout.Space(6);
+    }
 
-#region Data Parsing
+    #endregion GUI
 
-	/* rich text ain't wuurkin' in unity 3.5 */
-	const string RemoveBraketsRegex = "(\\<.*?\\>)";
+    #region Data Parsing
 
-	/**
+    /* rich text ain't wuurkin' in unity 3.5 */
+    const string RemoveBraketsRegex = "(\\<.*?\\>)";
+
+    /**
 	 * Open VersionInfo and Changelog and pull out text to populate vars for OnGUI to display.
 	 */
-	void PopulateDataFields(string entryPath)
-	{
-		/* Get data from VersionInfo.txt */
-		TextAsset versionInfo = LoadAssetAtPath<TextAsset>( entryPath );
-		
-		ProductName = "";
-		// ProductIdentifer = "";
-		ProductVersion = "";
-		ProductRevision = "";
-		ChangelogPath = "";
+    void PopulateDataFields(string entryPath)
+    {
+        /* Get data from VersionInfo.txt */
+        TextAsset versionInfo = LoadAssetAtPath<TextAsset>(entryPath);
 
-		if(versionInfo != null)
-		{
-			string[] txt = versionInfo.text.Split('\n');
-			foreach(string cheese in txt)
-			{
-				if(cheese.StartsWith("name:")) 
-					ProductName = cheese.Replace("name: ", "").Trim();
-				else 
-				if(cheese.StartsWith("version:"))
-					ProductVersion = cheese.Replace("version: ", "").Trim();
-				else 
-				if(cheese.StartsWith("revision:"))
-					ProductRevision = cheese.Replace("revision: ", "").Trim();
-				else 
-				if(cheese.StartsWith("changelog:"))
-					ChangelogPath = cheese.Replace("changelog: ", "").Trim();
-			}
-		}
+        ProductName = "";
+        // ProductIdentifer = "";
+        ProductVersion = "";
+        ProductRevision = "";
+        ChangelogPath = "";
 
-		// notes = notes.Trim();
+        if (versionInfo != null)
+        {
+            string[] txt = versionInfo.text.Split('\n');
+            foreach (string cheese in txt)
+            {
+                if (cheese.StartsWith("name:"))
+                    ProductName = cheese.Replace("name: ", "").Trim();
+                else
+                if (cheese.StartsWith("version:"))
+                    ProductVersion = cheese.Replace("version: ", "").Trim();
+                else
+                if (cheese.StartsWith("revision:"))
+                    ProductRevision = cheese.Replace("revision: ", "").Trim();
+                else
+                if (cheese.StartsWith("changelog:"))
+                    ChangelogPath = cheese.Replace("changelog: ", "").Trim();
+            }
+        }
 
-		/* Get first entry in changelog.txt */
-		TextAsset changelogText = LoadAssetAtPath<TextAsset>( ChangelogPath );
+        // notes = notes.Trim();
 
-		if(changelogText)
-		{
-			string[] split = changelogText.text.Split( new string[] {"--"}, System.StringSplitOptions.RemoveEmptyEntries );
-			StringBuilder sb = new StringBuilder();
-			string[] newLineSplit = split[0].Trim().Split('\n');
-			for(int i = 2; i < newLineSplit.Length; i++)
-				sb.AppendLine(newLineSplit[i]);
-			
-			changelog = sb.ToString();
-		}
-	}
+        /* Get first entry in changelog.txt */
+        TextAsset changelogText = LoadAssetAtPath<TextAsset>(ChangelogPath);
 
-	private static bool GetField(string path, string field, out string value)
-	{
-		TextAsset entry = LoadAssetAtPath<TextAsset>(path);
+        if (changelogText)
+        {
+            string[] split = changelogText.text.Split(new string[] { "--" }, System.StringSplitOptions.RemoveEmptyEntries);
+            StringBuilder sb = new StringBuilder();
+            string[] newLineSplit = split[0].Trim().Split('\n');
+            for (int i = 2; i < newLineSplit.Length; i++)
+                sb.AppendLine(newLineSplit[i]);
 
-		value = "";
+            changelog = sb.ToString();
+        }
+    }
 
-		if(!entry) return false;
+    private static bool GetField(string path, string field, out string value)
+    {
+        TextAsset entry = LoadAssetAtPath<TextAsset>(path);
 
-		foreach(string str in entry.text.Split('\n'))
-		{
-			if(str.Contains(field))
-			{
-				value = str.Replace(field, "").Trim();
-				return true;
-			}
-		}
+        value = "";
 
-		return false;		
-	}
-#endregion
+        if (!entry) return false;
+
+        foreach (string str in entry.text.Split('\n'))
+        {
+            if (str.Contains(field))
+            {
+                value = str.Replace(field, "").Trim();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    #endregion Data Parsing
 }

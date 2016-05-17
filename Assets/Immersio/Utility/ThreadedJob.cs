@@ -7,13 +7,16 @@
 
 
         bool m_IsDone = false;
-        public bool IsDone {
-            get {
+        public bool IsDone
+        {
+            get
+            {
                 bool tmp;
                 lock (m_Handle) { tmp = m_IsDone; }
                 return tmp;
             }
-            set {
+            set
+            {
                 lock (m_Handle) { m_IsDone = value; }
             }
         }
@@ -28,7 +31,7 @@
             m_Thread.Abort();
         }
 
-        
+
         public virtual bool Update()
         {
             if (IsDone) { OnFinished(); }

@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using Uniblocks;
-
-public class OverworldTerrainEngine : Uniblocks.Engine
+﻿public class OverworldTerrainEngine : Uniblocks.Engine
 {
     public TileMap TileMap { get { return FindObjectOfType<TileMap>(); } }
     public OverworldChunkLoader ChunkLoader { get { return FindObjectOfType<OverworldChunkLoader>(); } }

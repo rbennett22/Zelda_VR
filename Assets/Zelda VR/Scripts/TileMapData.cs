@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using System;
-using System.IO;
+﻿using Immersio.Utility;
 using System.Globalization;
-using Immersio.Utility;
+using System.IO;
+using UnityEngine;
 
-public class TileMapData : MonoBehaviour 
+public class TileMapData : MonoBehaviour
 {
     const int INVALID_TILE = -1;
 
@@ -89,7 +88,7 @@ public class TileMapData : MonoBehaviour
 
     public void LoadMap()
     {
-        if(HasLoaded)
+        if (HasLoaded)
         {
             Debug.LogError("Attempting to Load TileMapData more than once");
             return;
@@ -157,9 +156,9 @@ public class TileMapData : MonoBehaviour
                 string hexStr;
                 string str = _tiles[y, x].ToString();
                 if (str == " -1")
-                    { hexStr = "-1"; }
+                { hexStr = "-1"; }
                 else
-                    { hexStr = _tiles[y, x].ToString("X2"); }
+                { hexStr = _tiles[y, x].ToString("X2"); }
                 output += hexStr + " ";
             }
             output += "\n";
@@ -176,9 +175,9 @@ public class TileMapData : MonoBehaviour
             string hexStr;
             string str = _tiles[row, x].ToString();
             if (str == " -1")
-                { hexStr = "-1"; }
+            { hexStr = "-1"; }
             else
-                { hexStr = _tiles[row, x].ToString("X2"); }
+            { hexStr = _tiles[row, x].ToString("X2"); }
             output += hexStr + " ";
         }
 

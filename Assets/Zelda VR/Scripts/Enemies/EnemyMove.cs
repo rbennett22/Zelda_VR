@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(Enemy))]
 
-public class EnemyMove : MonoBehaviour 
+public class EnemyMove : MonoBehaviour
 {
     public enum MovementMode
     {
@@ -11,7 +11,8 @@ public class EnemyMove : MonoBehaviour
         DirectionOnly,
     }
     MovementMode _mode;
-    public MovementMode Mode {
+    public MovementMode Mode
+    {
         get { return _mode; }
         set
         {

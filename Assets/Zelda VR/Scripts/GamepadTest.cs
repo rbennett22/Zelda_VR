@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class GamepadTest : MonoBehaviour 
+public class GamepadTest : MonoBehaviour
 {
     public bool printJoysticks, printAxes, printButtons;
 

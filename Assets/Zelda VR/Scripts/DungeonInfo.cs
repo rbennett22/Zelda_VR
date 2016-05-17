@@ -44,5 +44,5 @@ public class DungeonInfo : MonoBehaviour
         }
     }
 
-    #endregion
+    #endregion Serialization
 }

@@ -2,7 +2,6 @@
 
 public class DungeonDoorTrigger : MonoBehaviour
 {
-
     public DungeonRoom dungeonRoom;
     public DungeonRoomInfo.WallDirection wallDirection;
 
@@ -48,5 +47,4 @@ public class DungeonDoorTrigger : MonoBehaviour
         GameObject g = CommonObjects.Player_G;
         Physics.IgnoreLayerCollision(g.layer, LayerMask.NameToLayer("Walls"), ignore);
     }
-
 }

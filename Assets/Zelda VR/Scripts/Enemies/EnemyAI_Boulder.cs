@@ -8,14 +8,14 @@ public class EnemyAI_Boulder : EnemyAI
     const float SpawnHeightOffset = 2.5f;
 
 
-	void Start ()
+    void Start()
     {
         PositionAtopBlocks();
 
         Push(Vector3.back);     // Blocks always fall towards the "south"
 
         Destroy(gameObject, LifeTime);
-	}
+    }
 
     void PositionAtopBlocks()
     {

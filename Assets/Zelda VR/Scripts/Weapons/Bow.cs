@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class Bow : MonoBehaviour 
+public class Bow : MonoBehaviour
 {
     public GameObject arrowPrefab;
     public AudioClip arrowFireSound;
@@ -38,7 +38,6 @@ public class Bow : MonoBehaviour
     void Start()
     {
         transform.localPosition += bowPositionOffset;
-
     }
 
 
@@ -65,7 +64,7 @@ public class Bow : MonoBehaviour
             SphereCollider sc = _spawnedArrow.GetComponent<SphereCollider>();
             if (sc != null) { arrowLength = sc.radius * 2; }
         }
-        
+
         Vector3 offset = arrowLength * 0.7f * transform.forward;
 
         SimpleProjectile p = _spawnedArrow.GetComponent<SimpleProjectile>();
@@ -91,5 +90,4 @@ public class Bow : MonoBehaviour
         //print("OnArrowDestroyed");
         _spawnedArrow = null;
     }
-
 }

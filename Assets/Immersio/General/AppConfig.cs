@@ -1,9 +1,8 @@
-using UnityEngine;
-using System;
-using System.Xml.Serialization;
 using System.IO;
+using System.Xml.Serialization;
+using UnityEngine;
 
-public class AppConfig 
+public class AppConfig
 {
     const string DefaultConfigFileName = "config.xml";
 
@@ -21,22 +20,24 @@ public class AppConfig
 
     #region Properties
 
-    public static bool HotKeysEnabled   { get { return Instance.hotKeysEnabled; } }
-    public static bool GuiEnabled       { get { return Instance.guiEnabled; } }
+    public static bool HotKeysEnabled { get { return Instance.hotKeysEnabled; } }
+    public static bool GuiEnabled { get { return Instance.guiEnabled; } }
 
-    public static string ServerIP       { get { return Instance.serverIP; } }
-    public static int ServerPort        { get { return Instance.serverPort; } }
+    public static string ServerIP { get { return Instance.serverIP; } }
+    public static int ServerPort { get { return Instance.serverPort; } }
 
-    public static string AssetBundleFullURL_http { 
-        get {
+    public static string AssetBundleFullURL_http
+    {
+        get
+        {
             string http = Instance.assetBundleURL_http;
             if (string.IsNullOrEmpty(http)) { return AssetBundleFullURL_file; }
-            return http + Instance.assetBundleName + ".unity3d"; 
-        } 
+            return http + Instance.assetBundleName + ".unity3d";
+        }
     }
     public static string AssetBundleFullURL_file { get { return @"file:///" + Instance.assetBundleURL_file + Instance.assetBundleName + ".unity3d"; } }
 
-    #endregion
+    #endregion Properties
 
 
     #region Init
@@ -54,21 +55,22 @@ public class AppConfig
         }
     }
 
-    public static string ConfigFilePath 
-    { 
-        get {
+    public static string ConfigFilePath
+    {
+        get
+        {
             string path = Application.dataPath;
             path = path.Remove(path.LastIndexOf(@"/"));
 
             string configFileName = GetConfigFileNameFromCommandLineArg();
-            if (string.IsNullOrEmpty(configFileName)) 
+            if (string.IsNullOrEmpty(configFileName))
             {
                 configFileName = DefaultConfigFileName;
             }
 
             path += @"/" + configFileName;
-            return path; 
-        } 
+            return path;
+        }
     }
 
     static string GetConfigFileNameFromCommandLineArg()
@@ -91,7 +93,7 @@ public class AppConfig
         return fileName;
     }
 
-    #endregion
+    #endregion Init
 
 
     #region Save/Load
@@ -124,8 +126,8 @@ public class AppConfig
     public static AppConfig LoadFromFile() { return LoadFromFile(TestFilePath); }
     public static AppConfig LoadFromFile(string filePath)
     {
-        /*if (!Directory.Exists(filePath)) 
-        { 
+        /*if (!Directory.Exists(filePath))
+        {
             Debug.LogError("Could not load config file.  No file was found at path: " + filePath);
             return null;
         }*/
@@ -136,7 +138,7 @@ public class AppConfig
         return (AppConfig)serializer.Deserialize(fs);
     }
 
-    #endregion
+    #endregion Save/Load
 
 
     public override string ToString()
@@ -155,5 +157,4 @@ public class AppConfig
 
         return s;
     }
-
 }

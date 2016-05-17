@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections.Generic;
-using Immersio.Utility;
+using UnityEngine;
 
 [RequireComponent(typeof(EnemyAI_Random))]
 
-public class EnemyAI_Leever : EnemyAI 
+public class EnemyAI_Leever : EnemyAI
 {
     const int WARP_RANGE = 5;
     const float OFFSCREEN_OFFSET = -30;      // How far to offset the Leever's y position when it is underground

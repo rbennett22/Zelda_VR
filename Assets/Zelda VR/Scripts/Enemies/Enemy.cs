@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 
 public class Enemy : MonoBehaviour
@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
     public EnemyAnimation enemyAnim;
     public Weapon weapon;
     public bool hasShield;
-    
+
     public int meleeDamage = 1;
     public float speed = 1;
     public float jumpPower = 1;
@@ -57,16 +57,16 @@ public class Enemy : MonoBehaviour
         _healthController = GetComponent<HealthController>();
     }
 
-	void Start () 
+    void Start()
     {
         Vector3 pos = transform.position;
         Boundary = new Rect(
-            pos.x - BoundaryWidth * 0.5f, 
-            pos.z - BoundaryHeight * 0.5f, 
-            BoundaryWidth, 
+            pos.x - BoundaryWidth * 0.5f,
+            pos.z - BoundaryHeight * 0.5f,
+            BoundaryWidth,
             BoundaryHeight
             );
-	}
+    }
 
 
     public void PauseAnimation()
@@ -199,10 +199,10 @@ public class Enemy : MonoBehaviour
     float _prevY;
     IEnumerator CheckForLanding()
     {
-        do {
+        do
+        {
             _prevY = transform.position.y;
             yield return new WaitForSeconds(0.02f);
-
         } while (transform.position.y != _prevY);
 
         OnLanded();

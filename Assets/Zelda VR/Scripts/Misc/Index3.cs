@@ -55,7 +55,6 @@ namespace Immersio.Utility
         public override string ToString()
         {
             return ("[" + x.ToString() + "," + y.ToString() + "," + z.ToString() + "]");
-
         }
 
         public bool IsEqual(Index3 n)
@@ -66,8 +65,8 @@ namespace Immersio.Utility
             }
 
             return (
-                x == n.x && 
-                y == n.y && 
+                x == n.x &&
+                y == n.y &&
                 z == n.z);
         }
 

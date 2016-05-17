@@ -141,7 +141,7 @@ public class DungeonMapView : MonoBehaviour
         {
             _mapTexture.SetColorForArea(sX + _sectorWidth - hh, EW_Y, hh, hw, _hallColor);
         }
-        if (room.CanPassThrough(DungeonRoomInfo.WallDirection.South)) 
+        if (room.CanPassThrough(DungeonRoomInfo.WallDirection.South))
         {
             _mapTexture.SetColorForArea(NS_X, sY, hw, hh, _hallColor);
         }

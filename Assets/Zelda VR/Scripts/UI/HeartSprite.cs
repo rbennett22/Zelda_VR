@@ -10,10 +10,10 @@ public class HeartSprite : MonoBehaviour
     SpriteRenderer _spriteRenderer;
 
 
-	void Awake ()
+    void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-	}
+    }
 
     void OnEnable()
     {

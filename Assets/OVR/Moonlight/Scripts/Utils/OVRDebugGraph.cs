@@ -20,76 +20,75 @@ limitations under the License.
 ************************************************************************************/
 
 using UnityEngine;
-using VR = UnityEngine.VR;
 
 /// <summary>
 /// Toggles an on-screen debug graph with VR rendering and performance statistics.
 /// </summary>
 public class OVRDebugGraph : MonoBehaviour
 {
-	public enum DebugPerfMode
-	{
-		DEBUG_PERF_OFF,         // data still being collected, just not displayed
-		DEBUG_PERF_RUNNING,     // display continuously changing graph
-		DEBUG_PERF_FROZEN,      // no new data collection, but displayed
-		DEBUG_PERF_MAX,
-	}
+    public enum DebugPerfMode
+    {
+        DEBUG_PERF_OFF,         // data still being collected, just not displayed
+        DEBUG_PERF_RUNNING,     // display continuously changing graph
+        DEBUG_PERF_FROZEN,      // no new data collection, but displayed
+        DEBUG_PERF_MAX,
+    }
 
-	/// <summary>
-	/// The current display mode.
-	/// </summary>
-	public DebugPerfMode debugMode = DebugPerfMode.DEBUG_PERF_OFF;
+    /// <summary>
+    /// The current display mode.
+    /// </summary>
+    public DebugPerfMode debugMode = DebugPerfMode.DEBUG_PERF_OFF;
 
-	/// <summary>
-	/// The gamepad button that will toggle the display mode.
-	/// </summary>
-	public OVRGamepadController.Button toggleButton = OVRGamepadController.Button.Start;
+    /// <summary>
+    /// The gamepad button that will toggle the display mode.
+    /// </summary>
+    public OVRGamepadController.Button toggleButton = OVRGamepadController.Button.Start;
 
-	/// <summary>
-	/// Initialize the debug mode
-	/// </summary>
-	void Start()
-	{
-		if (!OVRManager.isHmdPresent)
-		{
-			enabled = false;
-			return;
-		}
+    /// <summary>
+    /// Initialize the debug mode
+    /// </summary>
+    void Start()
+    {
+        if (!OVRManager.isHmdPresent)
+        {
+            enabled = false;
+            return;
+        }
 
-		OVRPlugin.debugDisplay = (debugMode != DebugPerfMode.DEBUG_PERF_OFF);
-		OVRPlugin.collectPerf = (debugMode != DebugPerfMode.DEBUG_PERF_FROZEN);
-	}
+        OVRPlugin.debugDisplay = (debugMode != DebugPerfMode.DEBUG_PERF_OFF);
+        OVRPlugin.collectPerf = (debugMode != DebugPerfMode.DEBUG_PERF_FROZEN);
+    }
 
-	/// <summary>
-	/// Check input and toggle the debug graph.
-	/// See the input mapping setup in the Unity Integration guide.
-	/// </summary>
-	void Update()
-	{
-		// NOTE: some of the buttons defined in OVRGamepadController.Button are not available on the Android game pad controller
-		if (OVRGamepadController.GPC_GetButtonDown( toggleButton ))
-		{
-			Debug.Log(" TOGGLE GRAPH ");
+    /// <summary>
+    /// Check input and toggle the debug graph.
+    /// See the input mapping setup in the Unity Integration guide.
+    /// </summary>
+    void Update()
+    {
+        // NOTE: some of the buttons defined in OVRGamepadController.Button are not available on the Android game pad controller
+        if (OVRGamepadController.GPC_GetButtonDown(toggleButton))
+        {
+            Debug.Log(" TOGGLE GRAPH ");
 
-			//*************************
-			// toggle the debug graph .. off -> running -> paused
-			//*************************
-			switch (debugMode)
-			{
-				case DebugPerfMode.DEBUG_PERF_OFF:
-					debugMode = DebugPerfMode.DEBUG_PERF_RUNNING;
-					break;
-				case DebugPerfMode.DEBUG_PERF_RUNNING:
-					debugMode = DebugPerfMode.DEBUG_PERF_FROZEN;
-					break;
-				case DebugPerfMode.DEBUG_PERF_FROZEN:
-					debugMode = DebugPerfMode.DEBUG_PERF_OFF;
-					break;
-			}
-			
-			// Turn on/off debug graph
-			OVRPlugin.debugDisplay = (debugMode != DebugPerfMode.DEBUG_PERF_OFF);
-			OVRPlugin.collectPerf = (debugMode == DebugPerfMode.DEBUG_PERF_FROZEN);
-		}
-	}
+            //*************************
+            // toggle the debug graph .. off -> running -> paused
+            //*************************
+            switch (debugMode)
+            {
+                case DebugPerfMode.DEBUG_PERF_OFF:
+                    debugMode = DebugPerfMode.DEBUG_PERF_RUNNING;
+                    break;
+                case DebugPerfMode.DEBUG_PERF_RUNNING:
+                    debugMode = DebugPerfMode.DEBUG_PERF_FROZEN;
+                    break;
+                case DebugPerfMode.DEBUG_PERF_FROZEN:
+                    debugMode = DebugPerfMode.DEBUG_PERF_OFF;
+                    break;
+            }
+
+            // Turn on/off debug graph
+            OVRPlugin.debugDisplay = (debugMode != DebugPerfMode.DEBUG_PERF_OFF);
+            OVRPlugin.collectPerf = (debugMode == DebugPerfMode.DEBUG_PERF_FROZEN);
+        }
+    }
 }

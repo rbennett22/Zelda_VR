@@ -10,7 +10,6 @@
 - Use flat tiles at same voxel tile height as unit blocks
 - Integrate Lost Woods with Uniblocks
 
-- EventSystem Standalone Input Module doesn't work very well at all.  Need to change PauseMenu navigation implementation
 - NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
 
 - Lost Hills
@@ -39,7 +38,7 @@
 - Boss Death anim (blink 2-3 times, then "poof")
 - Gleeok Heads Poof onDeath
 
-- ImageEffect on camera (bloom etc)?
+- ImageEffects on camera (bloom etc)?
 - Make Map display an arrow for Link instead of a square
 - Place "signs" above Grottos indicating type
 - Inventory Cursor should blink red/blue
@@ -52,10 +51,6 @@
 - When WandProjectile hits Link's shield you should see it reflect off 
 - Particles for MagicSword, MagicBoomerang, SilverArrow
 - Cannon transportation
-
-
--- Other --
-- Use Zelda Font for Controls text
 
 
 -- BUGS --

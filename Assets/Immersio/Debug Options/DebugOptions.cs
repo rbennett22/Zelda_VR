@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Immersio.Utility;
+using UnityEngine;
 
 public class DebugOption
 {
@@ -57,10 +57,10 @@ public class DebugOptions : Singleton<DebugOptions>
     #region Options
 
     List<DebugOption> _options = new List<DebugOption> {
-
         new DebugOption(KeyCode.F1, "Show Debug Options", DebugOptionsUI_SetActive),
         DebugOption.EmptyOption(),
     };
+
     public List<DebugOption> Options { get { return _options; } }
 
 
@@ -74,7 +74,7 @@ public class DebugOptions : Singleton<DebugOptions>
         return true;
     }
 
-    #endregion
+    #endregion Options
 
 
     #region UI Stuff
@@ -145,7 +145,7 @@ public class DebugOptions : Singleton<DebugOptions>
         return g;
     }
 
-    #endregion
+    #endregion UI Stuff
 
 
     /*void OnLevelWasLoaded(int level)

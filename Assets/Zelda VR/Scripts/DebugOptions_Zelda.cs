@@ -8,11 +8,10 @@ public class DebugOptions_Zelda : MonoBehaviour
 
 
     DebugOption[] _options = {
-
         new DebugOption(KeyCode.F2, "God Mode", ToggleGodMode),
         new DebugOption(KeyCode.F3, "Invincibility", ToggleInvincibility),
         new DebugOption(KeyCode.F4, "Ghost Mode", ToggleGhostMode),
-      
+
         new DebugOption(KeyCode.F5, "Air Jumping", ToggleAirJumping),
         new DebugOption(KeyCode.F6, "Moon Mode", ToggleMoonMode),
 

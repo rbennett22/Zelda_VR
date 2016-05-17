@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
+using UnityEngine;
 
-public class EnemyAI_Bladetrap : EnemyAI 
+public class EnemyAI_Bladetrap : EnemyAI
 {
     public float triggerSpeed = 2;
     public float returnSpeed = 1;

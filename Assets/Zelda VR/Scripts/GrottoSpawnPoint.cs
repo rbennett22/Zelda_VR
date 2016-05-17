@@ -34,7 +34,7 @@ public class GrottoSpawnPoint : MonoBehaviour
     {
         get { return _overworldInfo.HasGrottoBeenTapped(this); }
         set { _overworldInfo.SetGrottoHasBeenTapped(this, value); }
-    }      
+    }
 
 
     public Collectible saleItemPrefabA, saleItemPrefabB, saleItemPrefabC;
@@ -99,5 +99,5 @@ public class GrottoSpawnPoint : MonoBehaviour
         HasSpecialResourceBeenTapped = info.hasSpecialResourceBeenTapped;
     }
 
-    #endregion
+    #endregion Serialization
 }

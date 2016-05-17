@@ -1,9 +1,9 @@
 ﻿#pragma warning disable 0649 // variable is never assigned to
 
+using Immersio.Utility;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using Immersio.Utility;
 
 public class InventoryView : MonoBehaviour
 {
@@ -18,7 +18,8 @@ public class InventoryView : MonoBehaviour
     }
 
     DisplayModeEnum _displayMode;
-    public DisplayModeEnum DisplayMode {
+    public DisplayModeEnum DisplayMode
+    {
         get { return _displayMode; }
         set
         {
@@ -32,8 +33,10 @@ public class InventoryView : MonoBehaviour
 
     [SerializeField]
     OverlayView _bgOverlay;
+
     [SerializeField]
     GameObject _overworldView, _dungeonView;
+
     [SerializeField]
     DungeonMapView _dungeonMapView;
 
@@ -53,6 +56,7 @@ public class InventoryView : MonoBehaviour
 
     [SerializeField]
     MenuCursor _cursor;
+
     [SerializeField]
     GameObject _cursorView;
 
@@ -107,7 +111,7 @@ public class InventoryView : MonoBehaviour
 
     public void SetTextureForMappedItem(Texture texture, InventoryViewItemMapping mapping, bool isEquippedItemB = false)
     {
-        if(mapping.Type == InventoryViewItemMapping.TypeEnum.Triforce)
+        if (mapping.Type == InventoryViewItemMapping.TypeEnum.Triforce)
         {
             return;
         }
@@ -141,10 +145,10 @@ public class InventoryView : MonoBehaviour
 
         switch (mapping.Type)
         {
-            case InventoryViewItemMapping.TypeEnum.Passive:     itemSlot = _passiveItemSlots[mapping.Column]; break;
-            case InventoryViewItemMapping.TypeEnum.Active:      itemSlot = _activeItemSlots[mapping.Row, mapping.Column]; break;
-            case InventoryViewItemMapping.TypeEnum.Auxillary:   itemSlot = _auxItemSlots[mapping.Aux]; break;
-            case InventoryViewItemMapping.TypeEnum.Triforce:    break;
+            case InventoryViewItemMapping.TypeEnum.Passive: itemSlot = _passiveItemSlots[mapping.Column]; break;
+            case InventoryViewItemMapping.TypeEnum.Active: itemSlot = _activeItemSlots[mapping.Row, mapping.Column]; break;
+            case InventoryViewItemMapping.TypeEnum.Auxillary: itemSlot = _auxItemSlots[mapping.Aux]; break;
+            case InventoryViewItemMapping.TypeEnum.Triforce: break;
             default: break;
         }
 
@@ -154,7 +158,7 @@ public class InventoryView : MonoBehaviour
     void SetTextureForItemSlot(GameObject itemSlot, Texture texture)
     {
         RawImage img = itemSlot.GetComponent<RawImage>();
-        if(img == null)
+        if (img == null)
         {
             Debug.LogError("No RawImage component exists on itemSlot, '" + itemSlot.name + "'");
             return;
@@ -177,7 +181,8 @@ public class InventoryView : MonoBehaviour
     }
 
 
-    public Index2 CursorIndex {
+    public Index2 CursorIndex
+    {
         get { return _cursor.CursorIndex; }
         set { _cursor.CursorIndex = value; }
     }

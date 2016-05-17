@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyAI_WallMaster : EnemyAI 
+public class EnemyAI_WallMaster : EnemyAI
 {
     const float GROUND_HEIGHT = 0.5f;
     const float GROUND_HEIGHT_BIG = 2.0f;
@@ -38,9 +38,9 @@ public class EnemyAI_WallMaster : EnemyAI
     State _state;
 
     bool _hasControlOfLink;
-    
 
-    public new Vector3 MoveDirection 
+
+    public new Vector3 MoveDirection
     {
         get { return _enemyMove.MoveDirection; }
         set

@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
+using UnityEngine;
 using UnityEngine.UI;
-using Immersio.Utility;
 
 [RequireComponent(typeof(RawImage))]
 
-public class OverworldMapView : MonoBehaviour 
+public class OverworldMapView : MonoBehaviour
 {
     [SerializeField]
     int _sectorWidth = 4, _sectorHeight = 4;
@@ -43,7 +43,7 @@ public class OverworldMapView : MonoBehaviour
 
     public void UpdateMap(Index2 playerOccupiedSector)
     {
-        if(_mapTexture == null)
+        if (_mapTexture == null)
         {
             Debug.Log("_mapTexture is null.  You probably need to call Init");
             return;

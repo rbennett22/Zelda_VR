@@ -14,10 +14,9 @@ public class FairyWander : MonoBehaviour
         _direction.z = Random.Range(-1.0f, 1.0f);
         _direction.Normalize();
     }
-	
-	void Update () 
+
+    void Update()
     {
         transform.position += (Time.deltaTime * speed) * _direction;
-	}
-
+    }
 }

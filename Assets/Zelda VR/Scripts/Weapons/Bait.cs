@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class Bait : MonoBehaviour
 {
@@ -13,11 +13,11 @@ public class Bait : MonoBehaviour
     public Animator animator;
 
 
-	void Awake() 
+    void Awake()
     {
         animator.GetComponent<Renderer>().enabled = false;
         animator.SetTrigger("SkipSpawn");
-	}
+    }
 
     IEnumerator Start()
     {
@@ -38,10 +38,10 @@ public class Bait : MonoBehaviour
     bool IsHungryGoriyaNpcPresent(out DungeonRoom room)
     {
         room = null;
-        if (!WorldInfo.Instance.IsInDungeon) { return false;}
-        
+        if (!WorldInfo.Instance.IsInDungeon) { return false; }
+
         room = DungeonRoom.GetRoomForPosition(transform.position);
-        if (room == null || !room.Info.containsGoriyaNPC || room.Info.GoriyaNpcHasBeenFed) 
+        if (room == null || !room.Info.containsGoriyaNPC || room.Info.GoriyaNpcHasBeenFed)
         {
             return false;
         }

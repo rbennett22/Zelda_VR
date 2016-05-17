@@ -20,68 +20,67 @@ limitations under the License.
 ************************************************************************************/
 
 using UnityEngine;
-using VR = UnityEngine.VR;
 
 /// <summary>
 /// Logs when the application enters power save mode and allows you to a low-power CPU/GPU level with a button press.
 /// </summary>
 public class OVRModeParms : MonoBehaviour
 {
-#region Member Variables
+    #region Member Variables
 
-	/// <summary>
-	/// The gamepad button that will switch the application to CPU level 0 and GPU level 1.
-	/// </summary>
-	public OVRGamepadController.Button	resetButton = OVRGamepadController.Button.X;	
+    /// <summary>
+    /// The gamepad button that will switch the application to CPU level 0 and GPU level 1.
+    /// </summary>
+    public OVRGamepadController.Button resetButton = OVRGamepadController.Button.X;
 
-#endregion
+    #endregion Member Variables
 
-	/// <summary>
-	/// Invoke power state mode test.
-	/// </summary>
-	void Start()
-	{		
-		if (!OVRManager.isHmdPresent)
-		{
-			enabled = false;
-			return;
-		}
+    /// <summary>
+    /// Invoke power state mode test.
+    /// </summary>
+    void Start()
+    {
+        if (!OVRManager.isHmdPresent)
+        {
+            enabled = false;
+            return;
+        }
 
-		// Call TestPowerLevelState after 10 seconds 
-		// and repeats every 10 seconds.
-		InvokeRepeating ( "TestPowerStateMode", 10, 10.0f );
-	}
+        // Call TestPowerLevelState after 10 seconds
+        // and repeats every 10 seconds.
+        InvokeRepeating("TestPowerStateMode", 10, 10.0f);
+    }
 
-	/// <summary>
-	/// Change default vr mode parms dynamically.
-	/// </summary>
-	void Update()
-	{
-		// NOTE: some of the buttons defined in OVRGamepadController.Button are not available on the Android game pad controller
-		if ( OVRGamepadController.GPC_GetButtonDown(resetButton)) 
-		{
-			//*************************
-			// Dynamically change VrModeParms cpu and gpu level.
-			// NOTE: Reset will cause 1 frame of flicker as it leaves
-			// and re-enters Vr mode.
-			//*************************
-			OVRPlugin.cpuLevel = 0;
-			OVRPlugin.gpuLevel = 1;
-		}
-	}
+    /// <summary>
+    /// Change default vr mode parms dynamically.
+    /// </summary>
+    void Update()
+    {
+        // NOTE: some of the buttons defined in OVRGamepadController.Button are not available on the Android game pad controller
+        if (OVRGamepadController.GPC_GetButtonDown(resetButton))
+        {
+            //*************************
+            // Dynamically change VrModeParms cpu and gpu level.
+            // NOTE: Reset will cause 1 frame of flicker as it leaves
+            // and re-enters Vr mode.
+            //*************************
+            OVRPlugin.cpuLevel = 0;
+            OVRPlugin.gpuLevel = 1;
+        }
+    }
 
-	/// <summary>
-	/// Check current power state mode.
-	/// </summary>
-	void TestPowerStateMode()
-	{
-		//*************************
-		// Check power-level state mode
-		//*************************
-		if (OVRPlugin.powerSaving)
-		{
-			// The device has been throttled
-			Debug.Log("POWER SAVE MODE ACTIVATED");
-		}
-	}
+    /// <summary>
+    /// Check current power state mode.
+    /// </summary>
+    void TestPowerStateMode()
+    {
+        //*************************
+        // Check power-level state mode
+        //*************************
+        if (OVRPlugin.powerSaving)
+        {
+            // The device has been throttled
+            Debug.Log("POWER SAVE MODE ACTIVATED");
+        }
+    }
 }

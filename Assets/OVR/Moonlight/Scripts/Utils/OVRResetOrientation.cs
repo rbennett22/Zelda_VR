@@ -26,24 +26,24 @@ using UnityEngine;
 /// </summary>
 public class OVRResetOrientation : MonoBehaviour
 {
-	/// <summary>
-	/// The gamepad button that will reset VR input tracking.
-	/// </summary>
-	public OVRGamepadController.Button resetButton = OVRGamepadController.Button.Y;
+    /// <summary>
+    /// The gamepad button that will reset VR input tracking.
+    /// </summary>
+    public OVRGamepadController.Button resetButton = OVRGamepadController.Button.Y;
 
-	/// <summary>
-	/// Check input and reset orientation if necessary
-	/// See the input mapping setup in the Unity Integration guide
-	/// </summary>
-	void Update()
-	{
-		// NOTE: some of the buttons defined in OVRGamepadController.Button are not available on the Android game pad controller
-		if (OVRGamepadController.GPC_GetButtonDown(resetButton))
-		{
-			//*************************
-			// reset orientation
-			//*************************
-			OVRManager.display.RecenterPose();
-		}
-	}
+    /// <summary>
+    /// Check input and reset orientation if necessary
+    /// See the input mapping setup in the Unity Integration guide
+    /// </summary>
+    void Update()
+    {
+        // NOTE: some of the buttons defined in OVRGamepadController.Button are not available on the Android game pad controller
+        if (OVRGamepadController.GPC_GetButtonDown(resetButton))
+        {
+            //*************************
+            // reset orientation
+            //*************************
+            OVRManager.display.RecenterPose();
+        }
+    }
 }

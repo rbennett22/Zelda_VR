@@ -15,12 +15,12 @@ public class Hover : MonoBehaviour
         up.Normalize();
     }
 
-	void Update () 
+    void Update()
     {
         float t = amplitude * Mathf.Sin(speed * Time.time);
-        
+
         transform.localPosition += (t - _prevT) * up;
 
         _prevT = t;
-	}
+    }
 }

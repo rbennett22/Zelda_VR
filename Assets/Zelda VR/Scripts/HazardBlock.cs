@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class HazardBlock : MonoBehaviour
 {
@@ -113,5 +112,4 @@ public class HazardBlock : MonoBehaviour
     {
         _physicsCollider.enabled = false;
     }
-
 }

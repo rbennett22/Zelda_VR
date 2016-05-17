@@ -1,26 +1,24 @@
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 public class Bomb : MonoBehaviour
 {
-
     public int explosionDamage = 1;
     public float explosionRadius = 1.5f;
-	public bool beginCountdownOnEnable = true;
-	public float countdownDuration = 1.0f;
+    public bool beginCountdownOnEnable = true;
+    public float countdownDuration = 1.0f;
     public AudioClip explodeSound;
 
 
-	float _countdownTimer = 0.0f;
-	public bool CountdownHasBegun { get; private set; }
-	public float TimeRemaining { get { return _countdownTimer; } }
-	public float TimeRemainingRatio { get { return Mathf.Max(0, _countdownTimer / countdownDuration); } }
+    float _countdownTimer = 0.0f;
+    public bool CountdownHasBegun { get; private set; }
+    public float TimeRemaining { get { return _countdownTimer; } }
+    public float TimeRemainingRatio { get { return Mathf.Max(0, _countdownTimer / countdownDuration); } }
 
-	bool _doDetonateOnNextFixedUpdate = false;
+    bool _doDetonateOnNextFixedUpdate = false;
     public Animator animator;
-    public string[] invulnerables;  // Enemies that cannot be hurt by bomb 
+    public string[] invulnerables;  // Enemies that cannot be hurt by bomb
 
     public bool IsExploding { get { return animator.GetCurrentAnimatorStateInfo(0).IsTag("Explode"); } }
 
@@ -28,63 +26,63 @@ public class Bomb : MonoBehaviour
     List<string> _invulnerables;
 
 
-	void Awake () 
+    void Awake()
     {
-		CountdownHasBegun = false;
+        CountdownHasBegun = false;
         _invulnerables = new List<string>(invulnerables);
-	}
+    }
 
-	void OnEnable () 
+    void OnEnable()
     {
-		if(beginCountdownOnEnable)
-			BeginCountDown();
-	}
+        if (beginCountdownOnEnable)
+            BeginCountDown();
+    }
 
 
-	public void BeginCountDown () 
+    public void BeginCountDown()
     {
-		if(CountdownHasBegun)
-			return;
-		_countdownTimer = countdownDuration;
-		CountdownHasBegun = true;
-	}
-	public void AbortCountDown () 
+        if (CountdownHasBegun)
+            return;
+        _countdownTimer = countdownDuration;
+        CountdownHasBegun = true;
+    }
+    public void AbortCountDown()
     {
-		CountdownHasBegun = false;
-	}
+        CountdownHasBegun = false;
+    }
 
 
-	void Update () 
+    void Update()
     {
-		if(CountdownHasBegun)
+        if (CountdownHasBegun)
         {
-			_countdownTimer -= Time.deltaTime;
-			if(_countdownTimer <= 0)
+            _countdownTimer -= Time.deltaTime;
+            if (_countdownTimer <= 0)
             {
-				_doDetonateOnNextFixedUpdate = true;		// Will blow up in FixedUpdate
-			}
-		}
-	}
+                _doDetonateOnNextFixedUpdate = true;        // Will blow up in FixedUpdate
+            }
+        }
+    }
 
-	void FixedUpdate () 
+    void FixedUpdate()
     {
-		if(_doDetonateOnNextFixedUpdate)
+        if (_doDetonateOnNextFixedUpdate)
         {
-			Detonate();
-			_doDetonateOnNextFixedUpdate = false;
-		}
-	}
+            Detonate();
+            _doDetonateOnNextFixedUpdate = false;
+        }
+    }
 
 
-	public void RequestDetonation () 
+    public void RequestDetonation()
     {
-		_doDetonateOnNextFixedUpdate = true;
-	}
-	void Detonate () 
+        _doDetonateOnNextFixedUpdate = true;
+    }
+    void Detonate()
     {
         CountdownHasBegun = false;
 
-		Vector3 explosionPos = transform.position;
+        Vector3 explosionPos = transform.position;
 
         Collider[] colliders = Physics.OverlapSphere(explosionPos, explosionRadius);
         foreach (Collider hit in colliders)
@@ -127,7 +125,7 @@ public class Bomb : MonoBehaviour
         SoundFx.Instance.PlayOneShot3D(transform.position, explodeSound);
 
         Destroy(gameObject, 0.3f);
-	}
+    }
 
     void ApplyExplosionDamage(GameObject g, Vector3 explosionPos)
     {
@@ -153,10 +151,10 @@ public class Bomb : MonoBehaviour
 
         DungeonRoom dr = p2.GetComponent<DungeonRoom>();
         if (dr == null) { return; }
-        
+
         DungeonRoomInfo.WallDirection wallDir = dr.GetWallDirectionForWall(wall);
-        if(!dr.Info.IsBombable(wallDir)) { return; }
-        
+        if (!dr.Info.IsBombable(wallDir)) { return; }
+
         Vector3 wallCenter = wall.transform.position;
         wallCenter.y = 0;
         float dist = Vector3.Distance(wallCenter, transform.position);
@@ -165,5 +163,4 @@ public class Bomb : MonoBehaviour
             dr.BlowHoleInWall(wallDir);
         }
     }
-
 }

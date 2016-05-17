@@ -1,8 +1,8 @@
 ﻿#pragma warning disable 0649 // variable is never assigned to
 
+using Immersio.Utility;
 using UnityEngine;
 using UnityEngine.UI;
-using Immersio.Utility;
 
 public class GameplayHUDView : MonoBehaviour
 {
@@ -15,14 +15,19 @@ public class GameplayHUDView : MonoBehaviour
 
     [SerializeField]
     DungeonMapView _dungeonMapView;
+
     [SerializeField]
     OverworldMapView _overworldMapView;
+
     [SerializeField]
     GameObject _equippedItemA, _equippedItemB;
+
     [SerializeField]
     HeartsView _heartsView;
+
     [SerializeField]
     ZeldaText _rupeesText, _keysText, _bombsText;
+
     [SerializeField]
     ZeldaText _levelNumText;
 
@@ -72,7 +77,7 @@ public class GameplayHUDView : MonoBehaviour
         string amountStr = amount.ToString();
         _rupeesText.Text = (amount < 100) ? "x" + amountStr : amountStr;
     }
-    
+
     public void UpdateKeysCountText(int amount)
     {
         _keysText.Text = "x" + amount.ToString();
@@ -101,7 +106,7 @@ public class GameplayHUDView : MonoBehaviour
     {
         _overworldMapView.UpdateMap(playerOccupiedSector);
     }
-    
+
 
     public bool ShouldDungeonMapRevealUnvisitedRooms { set { _dungeonMapView.DoRenderUnvisitedRooms = value; } }
     public bool ShouldDungeonMapRevealTriforceRoom { set { _dungeonMapView.DoRenderTriforceSymbol = value; } }

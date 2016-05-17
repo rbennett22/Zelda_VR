@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class MagicWand : MonoBehaviour 
+public class MagicWand : MonoBehaviour
 {
     public GameObject shotPrefab;
     public AudioClip shotFireSound;
@@ -82,5 +82,4 @@ public class MagicWand : MonoBehaviour
             dr.ActivateTorchLights();
         }
     }
-
 }

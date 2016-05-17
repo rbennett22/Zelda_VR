@@ -15,8 +15,10 @@ public class BaitDropper : MonoBehaviour
     float _lastBaitDropTime = float.NegativeInfinity;
 
 
-    public bool CanUse { 
-        get {
+    public bool CanUse
+    {
+        get
+        {
             if (_spawnedBait != null) { return false; }
             return Time.time - _lastBaitDropTime > cooldown;
         }
@@ -68,5 +70,4 @@ public class BaitDropper : MonoBehaviour
         //print("OnBaitDestroyed");
         _spawnedBait = null;
     }
-
 }

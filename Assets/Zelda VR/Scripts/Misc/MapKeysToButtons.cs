@@ -3,12 +3,13 @@
 public class MapKeysToButtons : MonoBehaviour
 {
     [SerializeField]
-    KeyCode[] _keys;    
+    KeyCode[] _keys;
+
     [SerializeField]
-    GameObject[] _buttons;     
+    GameObject[] _buttons;
 
 
-	void Update ()
+    void Update()
     {
         for (int i = 0; i < _keys.Length; i++)
         {
@@ -22,15 +23,15 @@ public class MapKeysToButtons : MonoBehaviour
 
     void PressButtonCorrespondingToKeyIndex(int keyIdx)
     {
-        if(keyIdx < 0 || keyIdx > _buttons.Length - 1)
+        if (keyIdx < 0 || keyIdx > _buttons.Length - 1)
         {
             return;
         }
 
         GameObject btn = _buttons[keyIdx];
-        if(btn != null)
+        if (btn != null)
         {
-            if(!btn.activeSelf)
+            if (!btn.activeSelf)
             {
                 btn.SetActive(true);
             }

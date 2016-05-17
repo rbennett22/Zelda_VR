@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class HoleMarker : MonoBehaviour 
+public class HoleMarker : MonoBehaviour
 {
     public bool appearsOnPushBlock;
 

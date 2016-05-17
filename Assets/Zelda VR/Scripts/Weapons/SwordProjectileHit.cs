@@ -14,14 +14,13 @@ public class SwordProjectileHit : MonoBehaviour
         Destroy(gameObject, lifetime);
     }
 
-	void Update () 
+    void Update()
     {
         float moveDist = speed * Time.deltaTime;
 
         TL.localPosition += new Vector3(-1, 1, 0) * moveDist;
-        TR.localPosition += new Vector3( 1, 1, 0) * moveDist;
-        BL.localPosition += new Vector3(-1,-1, 0) * moveDist;
-        BR.localPosition += new Vector3( 1,-1, 0) * moveDist;
-	}
-
+        TR.localPosition += new Vector3(1, 1, 0) * moveDist;
+        BL.localPosition += new Vector3(-1, -1, 0) * moveDist;
+        BR.localPosition += new Vector3(1, -1, 0) * moveDist;
+    }
 }

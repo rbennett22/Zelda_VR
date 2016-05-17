@@ -14,5 +14,4 @@ public class EntranceBlock_Dungeon : MonoBehaviour
 
         Locations.Instance.WarpToDungeonEntranceStairs(dungeon);
     }
-
 }

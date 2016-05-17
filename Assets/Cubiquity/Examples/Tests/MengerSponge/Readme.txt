@@ -1,0 +1,1 @@
+This test scene contains 20 Menger sponges arranges to form a single larger Menger sponge. Each sponge has its own volume data asset but all the assets share the same underlying voxel database. It serves as a stress test and demonstration of volume instancing.

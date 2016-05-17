@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlaySound : MonoBehaviour 
+public class PlaySound : MonoBehaviour
 {
     public AudioClip clip;
 

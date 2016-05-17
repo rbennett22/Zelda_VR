@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
+using UnityEngine;
 
 [RequireComponent(typeof(Enemy))]
 

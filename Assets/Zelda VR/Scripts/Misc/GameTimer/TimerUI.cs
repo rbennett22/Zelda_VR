@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class TimerUI : MonoBehaviour 
+public class TimerUI : MonoBehaviour
 {
     public Text gameTimerMinsTensText, gameTimerMinsOnesText, gameTimerSecsTensText, gameTimerSecsOnesText;
 
 
-    public void SetTime_TotalSecs(float totalSecs) 
-	{
+    public void SetTime_TotalSecs(float totalSecs)
+    {
         int minutesPart = (int)Mathf.Floor(totalSecs / 60);
         int secondsPart = (int)Mathf.Floor(totalSecs % 60);
 
@@ -20,5 +20,5 @@ public class TimerUI : MonoBehaviour
         gameTimerMinsOnesText.text = minutesOnesPart.ToString();
         gameTimerSecsTensText.text = secondsTensPart.ToString();
         gameTimerSecsOnesText.text = secondsOnesPart.ToString();
-	}
+    }
 }

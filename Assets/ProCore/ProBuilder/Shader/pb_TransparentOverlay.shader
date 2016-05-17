@@ -1,13 +1,13 @@
-﻿Shader "Hidden/ProBuilder/pb_TransparentOverlay" 
+﻿Shader "Hidden/ProBuilder/pb_TransparentOverlay"
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
+		_MainTex("Texture", 2D) = "white" {}
 	}
 
-	SubShader
+		SubShader
 	{
-		Tags { "IgnoreProjector"="True" "RenderType"="Transparent" }
+		Tags { "IgnoreProjector" = "True" "RenderType" = "Transparent" }
 		Lighting Off
 		ZTest LEqual
 		ZWrite On
@@ -29,7 +29,7 @@
 			{
 				float4 vertex : POSITION;
 				float4 color : COLOR;
-        		float4 texcoord0 : TEXCOORD0;
+				float4 texcoord0 : TEXCOORD0;
 			};
 
 			struct v2f
@@ -39,7 +39,7 @@
 				float2 uv : TEXCOORD0;
 			};
 
-			v2f vert (appdata v)
+			v2f vert(appdata v)
 			{
 				v2f o;
 
@@ -52,7 +52,7 @@
 				return o;
 			}
 
-			half4 frag (v2f i) : COLOR
+			half4 frag(v2f i) : COLOR
 			{
 				return tex2D(_MainTex, i.uv) * i.color;
 			}

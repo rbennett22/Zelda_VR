@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class EnemyAI_Gannon : EnemyAI 
+public class EnemyAI_Gannon : EnemyAI
 {
     const float VisibleDuration = 1.3f;
     const float BoundsWidth = 8;
@@ -27,8 +27,8 @@ public class EnemyAI_Gannon : EnemyAI
     {
         Vector3 center = _enemy.DungeonRoomRef.transform.position;
         _bounds = new Rect(
-            center.x - BoundsWidth * 0.5f, 
-            center.z - BoundsHeight * 0.5f, 
+            center.x - BoundsWidth * 0.5f,
+            center.z - BoundsHeight * 0.5f,
             BoundsWidth, BoundsHeight
             );
 
@@ -105,11 +105,11 @@ public class EnemyAI_Gannon : EnemyAI
     {
         if (_swordHitsTaken < swordHitsNeededToKill)
         {
-            AnimatorInstance.SetTrigger("NextPose"); 
+            AnimatorInstance.SetTrigger("NextPose");
         }
         else
         {
-            AnimatorInstance.SetTrigger("NextHurtPose"); 
+            AnimatorInstance.SetTrigger("NextHurtPose");
         }
     }
 

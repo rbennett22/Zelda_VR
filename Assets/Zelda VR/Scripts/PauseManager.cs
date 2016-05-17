@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using Immersio.Utility;
+﻿using Immersio.Utility;
+using UnityEngine;
 
-public class PauseManager : Singleton<PauseManager> 
+public class PauseManager : Singleton<PauseManager>
 {
     const ZeldaInput.Button SHOW_OPTIONS_BUTTON = ZeldaInput.Button.Back;
     const ZeldaInput.Button SHOW_INVENTORY_BUTTON = ZeldaInput.Button.Start;
@@ -9,6 +9,7 @@ public class PauseManager : Singleton<PauseManager>
 
     [SerializeField]
     OptionsViewController _optionsViewController;
+
     [SerializeField]
     InventoryViewController _inventoryViewController;
 
@@ -17,7 +18,7 @@ public class PauseManager : Singleton<PauseManager>
     public bool IsPaused_Options { get; private set; }
     public void PauseGame_Options()
     {
-        if(IsPaused_Options)
+        if (IsPaused_Options)
             return;
         IsPaused_Options = true;
 
@@ -93,7 +94,7 @@ public class PauseManager : Singleton<PauseManager>
 
     void RefreshFreezeState()
     {
-        if(IsPaused_Any)
+        if (IsPaused_Any)
         {
             FreezeTime();
         }

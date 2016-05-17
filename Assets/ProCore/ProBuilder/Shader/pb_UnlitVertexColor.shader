@@ -2,14 +2,14 @@
 {
 	SubShader
 	{
-		Tags { "Queue"="AlphaTest" "IgnoreProjector"="True" "RenderType"="Transparent" }
+		Tags { "Queue" = "AlphaTest" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
 		Lighting Off
 		ZTest LEqual
 		Blend SrcAlpha OneMinusSrcAlpha
 		ZWrite On
 		Cull Off
 
-		Pass 
+		Pass
 		{
 			AlphaTest Greater .25
 
@@ -33,7 +33,7 @@
 				float4 color : COLOR;
 			};
 
-			v2f vert (appdata v)
+			v2f vert(appdata v)
 			{
 				v2f o;
 
@@ -43,7 +43,7 @@
 				return o;
 			}
 
-			half4 frag (v2f i) : COLOR
+			half4 frag(v2f i) : COLOR
 			{
 				return i.color;
 			}

@@ -70,5 +70,4 @@ public class SubDungeonSpawnPoint : MonoBehaviour
         Destroy(_spawnedSubDungeon.gameObject);
         _spawnedSubDungeon = null;
     }
-
 }

@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class ExitOnEscape : MonoBehaviour 
+public class ExitOnEscape : MonoBehaviour
 {
     [SerializeField]
     bool _requireShiftKey;
 
 
-	void Update ()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -17,7 +17,7 @@ public class ExitOnEscape : MonoBehaviour
 
             Quit();     // TODO: "Are you sure?"
         }
-	}
+    }
 
     void Quit()
     {

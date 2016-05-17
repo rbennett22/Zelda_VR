@@ -1,7 +1,6 @@
 using UnityEngine;
-using System;
 
-public class LogCommandLineArgs : MonoBehaviour 
+public class LogCommandLineArgs : MonoBehaviour
 {
     public bool logToConsole = true;
     public bool logToGUI = false;
@@ -12,14 +11,14 @@ public class LogCommandLineArgs : MonoBehaviour
     string _outputText_Lines;
 
 
-	void Awake () 
+    void Awake()
     {
         _args = System.Environment.GetCommandLineArgs();
         //_outputText_Commas = GetOutputText_Commas();
         _outputText_Lines = GetOutputText_Lines();
 
         if (logToConsole) { print(_outputText_Lines); }
-	}
+    }
 
     string GetOutputText_Commas()
     {

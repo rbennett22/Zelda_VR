@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections.Generic;
-using Immersio.Utility;
+using UnityEngine;
 
 
-public class LostWoods : MonoBehaviour 
+public class LostWoods : MonoBehaviour
 {
     public float fogStartDist_Min, fogEndDist_Min;
     public float innerRadius, outerRadius;
@@ -43,7 +43,7 @@ public class LostWoods : MonoBehaviour
     }
 
 
-	void Update ()
+    void Update()
     {
         // TODO: optimize (remove LostWoods when player is far away)
 
@@ -57,7 +57,7 @@ public class LostWoods : MonoBehaviour
             RenderSettings.fogEndDistance = MathHelper.ConvertFromRangeToRange(innerRadius, outerRadius, fogEndDist_Min, _fogEndDistNormal, r);
             _sunlight.intensity = MathHelper.ConvertFromRangeToRange(innerRadius, outerRadius, 0.1f, _sunlightIntensityNormal, r);
         }
-	}
+    }
 
 
     public void OnPlayerEnteredPortal(LostWoodsPortal portal)
@@ -168,5 +168,4 @@ public class LostWoods : MonoBehaviour
             }
         }
     }
-
 }

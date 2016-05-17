@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemyAI_Wizzrobe : EnemyAI
 {
@@ -187,5 +187,4 @@ public class EnemyAI_Wizzrobe : EnemyAI
 
         return newPosition;
     }
-
 }

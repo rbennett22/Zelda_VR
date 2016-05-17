@@ -20,60 +20,58 @@ limitations under the License.
 ************************************************************************************/
 
 using UnityEngine;
-using System.Collections;
 
 /// <summary>
 /// An on-screen display that shows the current system audio volume.
 /// </summary>
 public class OVRVolumeControl : MonoBehaviour
 {
-	private const float 		showPopupTime = 3;
-	private const float			popupOffsetY = 64.0f / 500.0f;
-	private const float			popupDepth = 1.8f;
-	private const int 			maxVolume = 15;
-	private const int 			numVolumeImages = maxVolume + 1;
-	
-	private Transform			myTransform = null;
-	private double				lastVolumeChange = double.NegativeInfinity;
-	private float				prevVolumeLevel = -1;
-	
-	void Start()
-	{
-		DontDestroyOnLoad( gameObject );
-		myTransform = transform;
-		GetComponent<Renderer>().enabled = false;
-		
-	}
-	
-	/// <summary>
-	/// Updates the position of the volume popup. 
-	/// </summary>
-	public virtual void UpdatePosition(Transform cameraTransform)
-	{
-		if (prevVolumeLevel == -1)
-			prevVolumeLevel = OVRManager.volumeLevel;
+    private const float showPopupTime = 3;
+    private const float popupOffsetY = 64.0f / 500.0f;
+    private const float popupDepth = 1.8f;
+    private const int maxVolume = 15;
+    private const int numVolumeImages = maxVolume + 1;
 
-		if (prevVolumeLevel != OVRManager.volumeLevel)
-		{
-			prevVolumeLevel = OVRManager.volumeLevel;
-			lastVolumeChange = Time.time;
-		}
+    private Transform myTransform = null;
+    private double lastVolumeChange = double.NegativeInfinity;
+    private float prevVolumeLevel = -1;
 
-		if (Time.time - lastVolumeChange < showPopupTime)
-		{
-			GetComponent<Renderer>().enabled = true;
-			int volume = (int)(OVRManager.volumeLevel * 15.0f + 0.5f);
-			GetComponent<Renderer>().material.mainTextureOffset = new Vector2(0.0f, (float)(maxVolume - volume) / (float)numVolumeImages);
-			if (myTransform != null && cameraTransform != null)
-			{
-				// place in front of camera
-				myTransform.rotation = cameraTransform.rotation;
-				myTransform.position = cameraTransform.position + (myTransform.forward * popupDepth) + (myTransform.up * popupOffsetY);
-			}
-		}
-		else
-		{
-			GetComponent<Renderer>().enabled = false;
-		}
-	}
+    void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+        myTransform = transform;
+        GetComponent<Renderer>().enabled = false;
+    }
+
+    /// <summary>
+    /// Updates the position of the volume popup.
+    /// </summary>
+    public virtual void UpdatePosition(Transform cameraTransform)
+    {
+        if (prevVolumeLevel == -1)
+            prevVolumeLevel = OVRManager.volumeLevel;
+
+        if (prevVolumeLevel != OVRManager.volumeLevel)
+        {
+            prevVolumeLevel = OVRManager.volumeLevel;
+            lastVolumeChange = Time.time;
+        }
+
+        if (Time.time - lastVolumeChange < showPopupTime)
+        {
+            GetComponent<Renderer>().enabled = true;
+            int volume = (int)(OVRManager.volumeLevel * 15.0f + 0.5f);
+            GetComponent<Renderer>().material.mainTextureOffset = new Vector2(0.0f, (float)(maxVolume - volume) / (float)numVolumeImages);
+            if (myTransform != null && cameraTransform != null)
+            {
+                // place in front of camera
+                myTransform.rotation = cameraTransform.rotation;
+                myTransform.position = cameraTransform.position + (myTransform.forward * popupDepth) + (myTransform.up * popupOffsetY);
+            }
+        }
+        else
+        {
+            GetComponent<Renderer>().enabled = false;
+        }
+    }
 }

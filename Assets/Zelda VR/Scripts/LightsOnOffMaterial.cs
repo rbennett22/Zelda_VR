@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
-public class LightsOnOffMaterial : MonoBehaviour 
+public class LightsOnOffMaterial : MonoBehaviour
 {
-
     Color _origColor;
 
 
@@ -41,5 +40,4 @@ public class LightsOnOffMaterial : MonoBehaviour
         _origColor = m.color;
         m.color = new Color(0, 0, 0, m.color.a);
     }
-
 }

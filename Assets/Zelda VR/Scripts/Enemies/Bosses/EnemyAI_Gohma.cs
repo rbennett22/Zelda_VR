@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections;
-using Immersio.Utility;
+using UnityEngine;
 
-public class EnemyAI_Gohma : EnemyAI 
+public class EnemyAI_Gohma : EnemyAI
 {
     public float pathWidth = 5.0f, pathHeight = 2.0f;
     public float chanceToAttack = 0.15f;
@@ -10,15 +10,15 @@ public class EnemyAI_Gohma : EnemyAI
     public float chanceToOpenEye = 0.10f;
     public float openEyeDuration = 2.0f;
 
-    
+
     Rect _moveBounds;
-    
+
 
     public bool IsEyeOpen { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("EyeOpen"); } }
     public bool IsEyeClosed { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("EyeClosed"); } }
 
 
-	void Start () 
+    void Start()
     {
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;
         _enemyMove.AlwaysFaceTowardsMoveDirection = false;
@@ -26,13 +26,13 @@ public class EnemyAI_Gohma : EnemyAI
 
         Vector3 p = transform.position;
         _moveBounds = new Rect(
-            p.x - pathWidth * 0.5f, 
+            p.x - pathWidth * 0.5f,
             p.z - pathHeight,
             pathWidth, pathHeight
             );
 
         MoveDirection = (Extensions.FlipCoin(0.5f)) ? TileDirection.Left : TileDirection.Right;
-	}
+    }
 
 
     void OnTargetPositionReached(EnemyMove sender, Vector3 moveDirection)

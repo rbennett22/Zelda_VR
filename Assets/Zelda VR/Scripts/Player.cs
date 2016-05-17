@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System.Collections;
-using Immersio.Utility;
+using UnityEngine;
 
-public class Player : Singleton<Player> 
+public class Player : Singleton<Player>
 {
     const float ShieldBlockDotThreshold = 0.6f;   // [0-1].  Closer to 1 means player has to be facing an incoming projectile more directly in order to block it.
     const float MoonModeGravityModifier = 1 / 6.0f;
@@ -14,6 +14,7 @@ public class Player : Singleton<Player>
 
     [SerializeField]
     ZeldaPlayerController _playerController;
+
     public ZeldaPlayerController PlayerController { get { return _playerController; } }
 
 
@@ -31,12 +32,14 @@ public class Player : Singleton<Player>
     public int HealthInHalfHearts { get { return PlayerHealthDelegate.HealthToHalfHearts(HealthController.Health); } }
 
     int _jumpHeight = 0;
-    public int JumpHeight { 
+    public int JumpHeight
+    {
         get { return _jumpHeight; }
-        set {
+        set
+        {
             _jumpHeight = value;
             _playerController.JumpForce = _jumpHeight * 0.25f;
-        } 
+        }
     }
     public Inventory Inventory { get { return _inventory; } }
     public GameObject EquippedItem { get { return _equippedItem; } }
@@ -45,14 +48,15 @@ public class Player : Singleton<Player>
 
     public bool IsJinxed { get; set; }      // Can't use sword when jinxed
     public bool IsInLikeLikeTrap            // Paralyzed, and will lose MagicShield if player doesn't press buttons fast enough
-    {          
-        get { return _isInLikeLikeTrap; } 
-        private set {
+    {
+        get { return _isInLikeLikeTrap; }
+        private set
+        {
             if (value == false && _isInLikeLikeTrap) { HealthController.ActivateTempInvinc(); }
-            _isInLikeLikeTrap = value; 
-            _likeLikeTrapCounter = 0; 
+            _isInLikeLikeTrap = value;
+            _likeLikeTrapCounter = 0;
             IsParalyzed = value;
-        } 
+        }
     }
     public bool IsParalyzed { get { return _isParalyzed; } set { _isParalyzed = value; _playerController.enabled = !_isParalyzed; } }
     public bool IsInvincible { get { return HealthController.isIndestructible; } set { HealthController.isIndestructible = value; } }
@@ -60,9 +64,11 @@ public class Player : Singleton<Player>
 
     bool _IsMoonModeEnabled;
     float _normalGravityModifier;
-    public bool IsMoonModeEnabled { 
-        get { return _IsMoonModeEnabled; } 
-        set {
+    public bool IsMoonModeEnabled
+    {
+        get { return _IsMoonModeEnabled; }
+        set
+        {
             if (!_IsMoonModeEnabled) { _normalGravityModifier = _playerController.GravityModifier; }
             _IsMoonModeEnabled = value;
 
@@ -94,7 +100,7 @@ public class Player : Singleton<Player>
     }
 
 
-    bool _isInLikeLikeTrap;                 
+    bool _isInLikeLikeTrap;
     int _likeLikeTrapCounter;
     bool _isParalyzed;
 
@@ -234,9 +240,9 @@ public class Player : Singleton<Player>
         if (w != null)
         {
             if (w.CanUse)
-            { 
+            {
                 w.DropBomb();
-                _inventory.UseItemB(); 
+                _inventory.UseItemB();
             }
             return;
         }
@@ -254,7 +260,7 @@ public class Player : Singleton<Player>
         Boomerang b = _equippedItem.GetComponent<Boomerang>();
         if (b != null)
         {
-            if (b.CanUse) 
+            if (b.CanUse)
             {
                 b.Throw(weaponContainerLeft, _playerController.ForwardDirection);
             }
@@ -364,7 +370,6 @@ public class Player : Singleton<Player>
 
                     canWarpToDungeon = inv.HasTriforcePieceForDungeon(_nextWarpDungeonNum);
                 } while (!canWarpToDungeon);
-                
             }
         }
     }
@@ -373,7 +378,7 @@ public class Player : Singleton<Player>
     public DungeonRoom OccupiedDungeonRoom()
     {
         if (!WorldInfo.Instance.IsInDungeon) { return null; }
-        
+
         return DungeonRoom.GetRoomForPosition(_playerController.transform.position);
     }
 
@@ -435,7 +440,7 @@ public class Player : Singleton<Player>
     public void DeactivateJinx()
     {
         if (!IsJinxed) { return; }
-        
+
         StopCoroutine("JinxCoroutine");
         IsJinxed = false;
     }
@@ -490,7 +495,6 @@ public class Player : Singleton<Player>
             foreach (Enemy enemy in roomPlayerIsIn.Enemies)
             {
                 enemy.Paralyze(duration);
-
             }
         }
     }

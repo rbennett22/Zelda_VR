@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyItemDrop : MonoBehaviour 
+public class EnemyItemDrop : MonoBehaviour
 {
     const float CHANCE_TO_DROP_SOMETHING = 0.5f;
     const float DROP_HEIGHT = 0.25f;

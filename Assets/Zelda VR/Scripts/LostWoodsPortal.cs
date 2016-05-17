@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
 
-public class LostWoodsPortal : MonoBehaviour 
+public class LostWoodsPortal : MonoBehaviour
 {
-
     public LostWoods lostWoods;
 
 
@@ -14,5 +13,4 @@ public class LostWoodsPortal : MonoBehaviour
 
         lostWoods.OnPlayerEnteredPortal(this);
     }
-
 }

@@ -1,8 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
 public static class Extensions
 {
@@ -64,7 +64,7 @@ public static class Extensions
         Vector3 p = t.localPosition;
         t.localPosition = new Vector3(p.x, p.y, p.z + amount);
     }
-    
+
 
     public static void InsertNewParentAtPosition(this Transform t, Vector3 newPos_World)
     {
@@ -82,7 +82,7 @@ public static class Extensions
         t.localScale = s;
     }
 
-    // Removes t's parent Transform from the hierarchy and 
+    // Removes t's parent Transform from the hierarchy and
     //  assigns t's grandparent as the new parent for t and all of t's siblings
     public static Transform RemoveParent(this Transform t)
     {
@@ -210,7 +210,7 @@ public static class Extensions
     {
         Vector2 unitDirection = dir;
 
-        if(Mathf.Abs(dir.x) <= Mathf.Abs(dir.y))
+        if (Mathf.Abs(dir.x) <= Mathf.Abs(dir.y))
         {
             unitDirection.x = 0;
 
@@ -320,13 +320,13 @@ public static class Extensions
     public static Color[] GetPixels_Safe(this Texture2D tex, int x, int y, int blockWidth, int blockHeight)
     {
         if (x < 0 || y < 0 || (x + blockWidth > tex.width) || (y + blockHeight > tex.height))
-            { return null; }
+        { return null; }
         return tex.GetPixels(x, y, blockWidth, blockHeight);
     }
     public static Color[] GetPixels_Safe(this Texture2D tex, int x, int y, int blockWidth, int blockHeight, int miplevel)
     {
         if (x < 0 || y < 0 || (x + blockWidth > tex.width) || (y + blockHeight > tex.height))
-            { return null; }
+        { return null; }
         return tex.GetPixels(x, y, blockWidth, blockHeight, miplevel);
     }
 
@@ -392,6 +392,5 @@ public static class Extensions
     }
     */
 
-    #endregion
-
+    #endregion Untested
 }

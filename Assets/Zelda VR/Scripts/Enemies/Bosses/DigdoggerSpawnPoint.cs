@@ -11,5 +11,5 @@ public class DigdoggerSpawnPoint : MonoBehaviour
     {
         EnemyAI_Digdogger digdogger = enemy.GetComponent<EnemyAI_Digdogger>();
         digdogger.numBabies = numBabies;
-	}
+    }
 }

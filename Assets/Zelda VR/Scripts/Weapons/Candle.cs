@@ -16,8 +16,10 @@ public class Candle : MonoBehaviour
     float _lastFlameDropTime = float.NegativeInfinity;
 
 
-    public bool CanUse { 
-        get {
+    public bool CanUse
+    {
+        get
+        {
             if (_spawnedFlame != null) { return false; }
             return Time.time - _lastFlameDropTime > cooldown;
         }
@@ -77,5 +79,4 @@ public class Candle : MonoBehaviour
         //print("OnFlameDestroyed");
         _spawnedFlame = null;
     }
-
 }

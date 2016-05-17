@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Immersio.Utility;
 using System;
-using Immersio.Utility;
+using UnityEngine;
 
 public class OverlayShuttersViewController : Singleton<OverlayShuttersViewController>, IOverlayShutterViewDelegate
 {
@@ -12,7 +12,7 @@ public class OverlayShuttersViewController : Singleton<OverlayShuttersViewContro
     float _prevRealTime;
     float _intermissionTimer;
     float _intermissionDuration;
-    
+
     Action _onCloseCompleteCallback, _onOpenCompleteCallback;
 
 
@@ -132,5 +132,5 @@ public class OverlayShuttersViewController : Singleton<OverlayShuttersViewContro
         }
     }
 
-    #endregion
+    #endregion IOverlayShutterViewDelegate Methods
 }

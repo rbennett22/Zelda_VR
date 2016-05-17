@@ -3,14 +3,16 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(RawImage))]
 
-public class OverlayView : MonoBehaviour 
+public class OverlayView : MonoBehaviour
 {
     RawImage _rawImage;
 
 
-    public float Transparency {
+    public float Transparency
+    {
         get { return _rawImage.color.a; }
-        set {
+        set
+        {
             Color c = _rawImage.color;
             c.a = value;
             _rawImage.color = c;
@@ -18,8 +20,8 @@ public class OverlayView : MonoBehaviour
     }
 
 
-    void Awake () 
-	{
+    void Awake()
+    {
         _rawImage = GetComponent<RawImage>();
     }
 
