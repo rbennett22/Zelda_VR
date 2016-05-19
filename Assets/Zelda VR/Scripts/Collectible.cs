@@ -74,10 +74,10 @@ public class Collectible : MonoBehaviour
         {
             if (!MustBePurchased)
             {
-                Boomerang boomerang = other.GetComponent<Boomerang>();
-                if (boomerang != null)
+                Weapon_Melee w = other.GetComponent<Weapon_Melee>();
+                if (w != null)
                 {
-                    boomerang.OnHitCollectible(this);
+                    w.OnHitCollectible(this);
                 }
             }
         }

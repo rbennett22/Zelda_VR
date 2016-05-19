@@ -11,7 +11,7 @@ public class EnemyAI_Dodongo : EnemyAI
         GameObject other = otherCollider.gameObject;
         //print("EnemyAI_Dodongo::OnTriggerEnter: " + other.name);
 
-        Bomb bomb = other.GetComponent<Bomb>();
+        Projectile_Bomb bomb = other.GetComponent<Projectile_Bomb>();
         if (bomb != null)
         {
             if (!StunnedByBomb && IsBombInFrontOfDodongo(bomb.transform))
@@ -28,9 +28,9 @@ public class EnemyAI_Dodongo : EnemyAI
         return Vector3.Dot(toBomb, transform.forward) > 0.5f;
     }
 
-    IEnumerator EatBomb(Bomb bomb)
+    IEnumerator EatBomb(Projectile_Bomb bomb)
     {
-        _healthController.TakeDamage((uint)bomb.explosionDamage, bomb.gameObject);
+        _healthController.TakeDamage((uint)bomb.DamageDealerAOE.damage, bomb.gameObject);
         Destroy(bomb.gameObject);
 
         float duration = _healthController.tempInvincibilityDuration;

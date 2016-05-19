@@ -1,5 +1,9 @@
 --- TODO ---
 
+- Adjust enemy health (x4) and increase all weapons dmg, then eliminate the Enemy versions of weapons
+- Increase maxNumProjectiles for certain bosses?
+
+
 -- Third-Person Camera Mode --
 - Tracked head movement should not effect Link facing direction/position
 - Change controls

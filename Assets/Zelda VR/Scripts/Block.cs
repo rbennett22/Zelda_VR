@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Block : MonoBehaviour
+public class Block : MonoBehaviour, IBombable, IBurnable
 {
     public int tileCode;
 
@@ -20,7 +20,7 @@ public class Block : MonoBehaviour
     }
 
 
-    public void Burn()
+    void IBurnable.Burn(BurningFlame sender)
     {
         if (!isBurnable) { return; }
 
@@ -28,7 +28,7 @@ public class Block : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void Bomb()
+    void IBombable.Bomb(BombExplosion sender)
     {
         if (!isBombable) { return; }
 

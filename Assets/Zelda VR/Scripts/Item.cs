@@ -137,6 +137,11 @@ public class Item : MonoBehaviour
 
     public void Use()
     {
+        if (count == 0)
+        {
+            return;
+        }
+
         if (consumable)
         {
             count = Mathf.Max(count - 1, 0);

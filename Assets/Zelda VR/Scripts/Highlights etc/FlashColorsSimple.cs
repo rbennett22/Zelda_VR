@@ -3,11 +3,10 @@
 public class FlashColorsSimple : MonoBehaviour
 {
     int _flashIdx = 0;
-    Color[] _flashColors = {
-                               Color.white,
-                               new Color(1, 0.3f, 0.3f),
-                               new Color(0.3f, 1, 0.3f),
-                               new Color(0.3f, 0.3f, 1) };
+    Color[] _flashColors = {Color.white,
+                            new Color(1, 0.3f, 0.3f),
+                            new Color(0.3f, 1, 0.3f),
+                            new Color(0.3f, 0.3f, 1) };
 
 
     void OnDisable()

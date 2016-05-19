@@ -43,8 +43,8 @@ public class EnemyAI_Aquamentus : EnemyAI
         Vector3 dirL = Vector3.RotateTowards(dir, -dir, -radiansDelta, 999);
         Vector3 dirR = Vector3.RotateTowards(dir, -dir, radiansDelta, 999);
 
-        _enemy.weapon.Fire(dir);
-        _enemy.weapon.Fire(dirL);
-        _enemy.weapon.Fire(dirR);
+        _enemy.Attack(dir);
+        _enemy.Attack(dirL);
+        _enemy.Attack(dirR);
     }
 }

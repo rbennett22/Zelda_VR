@@ -351,11 +351,11 @@ public class Inventory : Singleton<Inventory>
     public void UseItem(string itemName)
     {
         Item item = GetItem(itemName);
-        if (item.count == 0) { return; }
+        if (!HasItem(itemName)) { return; }
 
         item.Use();
 
-        if (item.count == 0)
+        if (!HasItem(itemName))
         {
             if (EquippedItemB == item)
             {

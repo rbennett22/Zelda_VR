@@ -56,7 +56,7 @@ public class EnemyAI_Gannon : EnemyAI
 
     void Attack()
     {
-        _enemy.weapon.Fire(ToPlayer);
+        _enemy.Attack(ToPlayer);
     }
 
     void MoveToRandomLocation()
@@ -71,7 +71,7 @@ public class EnemyAI_Gannon : EnemyAI
     }
 
 
-    void OnHitWithSword(Sword sword)
+    void OnHitWithSword(Weapon_Melee_Sword sword)
     {
         if (Visible) { return; }
 

@@ -24,6 +24,12 @@ public class EnemyAI : MonoBehaviour
     protected bool IsPreoccupied { get { return _enemy.IsPreoccupied; } }
 
 
+    protected void FacePlayer()
+    {
+        transform.forward = ToPlayer;
+    }
+
+
     public TileDirection MoveDirection
     {
         get

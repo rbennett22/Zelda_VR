@@ -9,11 +9,16 @@ public class CommonObjects : Singleton<CommonObjects>
     public static Player Player_C { get { return Instance.player_C; } }
     public static ZeldaPlayerController PlayerController_C { get { return Instance.playerController_C; } }
 
+    public static Transform ProjectilesContainer { get { return Instance._projectilesContainer; } }
+
 
     public GameObject player_G;
     public Player player_C;
     public GameObject playerController_G;
     public ZeldaPlayerController playerController_C;
+
+    [SerializeField]
+    Transform _projectilesContainer;
 
     public Canvas headSpaceCanvas;
 

@@ -2,8 +2,14 @@
 
 public class DisableOnAwake : MonoBehaviour
 {
+    [SerializeField]
+    bool _override;
+
     void Awake()
     {
-        gameObject.SetActive(false);
+        if (!_override)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

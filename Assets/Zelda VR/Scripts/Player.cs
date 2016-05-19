@@ -84,7 +84,7 @@ public class Player : Singleton<Player>
         get
         {
             if (_sword == null) { return false; }
-            return _sword.GetComponent<Sword>().IsAttacking;
+            return _sword.GetComponent<Weapon_Melee_Sword>().IsAttacking;
         }
     }
 
@@ -124,9 +124,9 @@ public class Player : Singleton<Player>
 
         _sword = Instantiate(swordPrefab) as GameObject;
         _sword.name = swordName;
-        _sword.transform.parent = weaponContainerRight;
+        _sword.transform.SetParent(weaponContainerRight);
         _sword.transform.localPosition = Vector3.zero;
-        _sword.transform.localRotation = Quaternion.Euler(90, 0, 0);
+        _sword.transform.localRotation = Quaternion.identity;
 
         EnableSwordProjectiles(HealthController.IsAtFullHealth);
     }
@@ -140,8 +140,8 @@ public class Player : Singleton<Player>
     public void EnableSwordProjectiles(bool doEnable = true)
     {
         if (_sword == null) { return; }
-        Sword st = _sword.GetComponent<Sword>();
-        st.projectileEnabled = doEnable;
+        Weapon_Melee_Sword st = _sword.GetComponent<Weapon_Melee_Sword>();
+        st.ProjectilesEnabled = doEnable;
     }
 
 
@@ -204,7 +204,7 @@ public class Player : Singleton<Player>
         {
             if (_sword != null && !IsJinxed)
             {
-                _sword.GetComponent<Sword>().Attack();
+                _sword.GetComponent<Weapon_Melee_Sword>().Attack();
             }
         }
 
@@ -212,7 +212,7 @@ public class Player : Singleton<Player>
 
         if (_equippedItem != null)
         {
-            Bow bow = _equippedItem.GetComponent<Bow>();
+            Weapon_Gun_Bow bow = _equippedItem.GetComponent<Weapon_Gun_Bow>();
             if (bow != null)
             {
                 if (ZeldaInput.GetButtonUp(ZeldaInput.Button.UseItemB))
@@ -236,68 +236,50 @@ public class Player : Singleton<Player>
 
     void UseSecondaryItem()
     {
-        BombDropper w = _equippedItem.GetComponent<BombDropper>();
+        //Item itemB = _equippedItem.GetComponent<Item>();
+
+        Weapon_Gun_Dropper w = _equippedItem.GetComponent<Weapon_Gun_Dropper>();
         if (w != null)
         {
-            if (w.CanUse)
+            if (w.CanAttack)
             {
-                w.DropBomb();
+                w.Attack();
                 _inventory.UseItemB();
             }
             return;
         }
 
-        Candle c = _equippedItem.GetComponent<Candle>();
-        if (c != null)
-        {
-            if (c.CanUse)
-            {
-                c.DropFlame();
-            }
-            return;
-        }
-
-        Boomerang b = _equippedItem.GetComponent<Boomerang>();
+        Weapon_Melee_Boomerang b = _equippedItem.GetComponent<Weapon_Melee_Boomerang>();
         if (b != null)
         {
-            if (b.CanUse)
+            if (b.CanAttack)
             {
-                b.Throw(weaponContainerLeft, _playerController.ForwardDirection);
+                b.Attack(_playerController.ForwardDirection);
             }
             return;
         }
 
-        Bow bow = _equippedItem.GetComponent<Bow>();
+        Weapon_Gun_Bow bow = _equippedItem.GetComponent<Weapon_Gun_Bow>();
         if (bow != null)
         {
             if (_inventory.HasItem("WoodenArrow") || _inventory.HasItem("SilverArrow"))
             {
-                if (bow.CanUse && _inventory.HasItem("Rupee"))
+                if (bow.CanAttack && _inventory.HasItem("Rupee"))
                 {
-                    bow.Fire();
+                    bow.Attack();
                     _inventory.UseItem("Rupee");
                 }
             }
             return;
         }
 
-        MagicWand wand = _equippedItem.GetComponent<MagicWand>();
+        Weapon_Gun_MagicWand wand = _equippedItem.GetComponent<Weapon_Gun_MagicWand>();
         if (wand != null)
         {
-            if (wand.CanUse)
+            if (wand.CanAttack)
             {
                 wand.spawnFlame = Inventory.Instance.HasItem("MagicBook");
-                wand.Fire();
-            }
-            return;
-        }
-
-        BaitDropper bd = _equippedItem.GetComponent<BaitDropper>();
-        if (bd != null)
-        {
-            if (bd.CanUse)
-            {
-                bd.DropBait();
+                wand.Attack();
             }
             return;
         }
@@ -398,7 +380,9 @@ public class Player : Singleton<Player>
 
     public bool CanBlockAttack(bool isBlockableByWoodenShield, bool isBlockableByMagicShield, Vector3 attacksForwardDirection)
     {
-        if (_sword != null && _sword.GetComponent<Sword>().IsAttacking)
+        // TODO: Determine isBlockableByWoodenShield and isBlockableByMagicShield using a lookup table internally
+
+        if (_sword != null && _sword.GetComponent<Weapon_Melee_Sword>().IsAttacking)
         {
             return false;
         }

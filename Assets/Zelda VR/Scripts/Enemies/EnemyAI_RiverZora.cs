@@ -94,12 +94,6 @@ public class EnemyAI_RiverZora : EnemyAI
         _healthController.RestoreHealth();
     }
 
-    void FacePlayer()
-    {
-        transform.forward = ToPlayer;
-    }
-
-
     void AssignWarpableTiles()
     {
         TileMap tileMap = CommonObjects.OverworldTileMap;

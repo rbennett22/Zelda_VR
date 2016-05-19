@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
 
 
     public EnemyAnimation enemyAnim;
-    public Weapon weapon;
+    public Weapon_Base weapon;
     public bool hasShield;
 
     public int meleeDamage = 1;
@@ -32,11 +32,11 @@ public class Enemy : MonoBehaviour
     public EnemySpawnPoint SpawnPoint { get; set; }
     public DungeonRoom DungeonRoomRef { get; set; }    // (Will be null in overworld)
     public GameObject PlayerController { get { return CommonObjects.PlayerController_G; } }
-
-    public bool IsJumping { get; private set; }
-    public bool IsAttacking { get { return (weapon != null && weapon.IsAttacking); } }
+  
+    public bool IsAttacking { get { return (weapon != null && weapon.IsCooldownActive); } }
     public bool IsSpawning { get { return (enemyAnim != null && enemyAnim.IsSpawning); } }
 
+    public bool IsJumping { get; private set; }
     public bool IsStunned { get; private set; }
     public bool IsParalyzed { get; private set; }
 
@@ -95,11 +95,17 @@ public class Enemy : MonoBehaviour
 
     public void Attack()
     {
-        weapon.Fire();
+        if (weapon != null)
+        {
+            weapon.Attack();
+        }
     }
     public void Attack(Vector3 direction)
     {
-        weapon.Fire(direction);
+        if (weapon != null)
+        {
+            weapon.Attack(direction);
+        }
     }
 
     public void Stun()

@@ -110,7 +110,7 @@ public class EnemyAI_Gohma : EnemyAI
 
     void Attack()
     {
-        _enemy.weapon.Fire(ToPlayer);
+        _enemy.Attack(ToPlayer);
     }
 
 

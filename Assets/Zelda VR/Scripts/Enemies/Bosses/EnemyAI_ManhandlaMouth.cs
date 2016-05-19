@@ -35,6 +35,6 @@ public class EnemyAI_ManhandlaMouth : EnemyAI
 
     void Attack()
     {
-        _enemy.weapon.Fire(ToPlayer);
+        _enemy.Attack(ToPlayer);
     }
 }

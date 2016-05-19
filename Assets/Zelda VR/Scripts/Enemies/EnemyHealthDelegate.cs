@@ -44,7 +44,7 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
         EnemyAI_Gannon gannon = GetComponent<EnemyAI_Gannon>();
         if (gannon != null)
         {
-            Sword sword = damageDealer.GetComponent<Sword>();
+            Weapon_Melee_Sword sword = damageDealer.GetComponent<Weapon_Melee_Sword>();
             if (sword != null)
             {
                 damageAmount = 0;
@@ -159,11 +159,11 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     // TODO: this is a hack.  the Weapon should store whether it does pushback
     bool DoesWeaponApplyPushbackForce(GameObject weapon)
     {
-        Boomerang boomerang = weapon.GetComponent<Boomerang>();
-        if (boomerang != null) { return false; }
+        Weapon_Melee_Boomerang b = weapon.GetComponent<Weapon_Melee_Boomerang>();
+        if (b != null) { return false; }
 
-        CandleFlame candleFlame = weapon.GetComponent<CandleFlame>();
-        if (candleFlame != null) { return false; }
+        Projectile_Flame f = weapon.GetComponent<Projectile_Flame>();
+        if (f != null) { return false; }
 
         return true;
     }
