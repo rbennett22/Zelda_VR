@@ -5,57 +5,86 @@ public class Grotto : MonoBehaviour
     public static Grotto OccupiedGrotto;        // The Grotto the player is currently in
 
 
+    public GameObject entranceWalls;            // The part of the Grotto that exists above ground level
+
     public GameObject flame1, flame2;
     public Transform npcContainer;
     public Transform uniqueItemContainer;
     public Transform giftContainer;
     public ZeldaText giftTextDisplay;
-    public Transform rupeeTriggers;
+
     public GameObject shopContainer;
+    public Transform rupeeTriggers;
     public Transform salesItemContainerA, salesItemContainerB, salesItemContainerC;
     public ZeldaText priceTextDisplayA, priceTextDisplayB, priceTextDisplayC;
     public GameObject rupeePriceSymbol;
-    public GameObject entranceWalls;
 
-
+    
     GrottoSpawnPoint _grottoSpawnPoint;
     EnemySpawnPoint _npcSpawnPoint;
     GameObject _npc;
     Collectible _uniqueCollectibleItem;
     Collectible _giftItem;
     Collectible _salesItemA, _salesItemB, _salesItemC;
+
     bool _storedFogSetting;
     bool _hasMadeChoice_Gamble;
     bool _hasMadeChoice_PayForInfo;
 
 
     public GrottoSpawnPoint GrottoSpawnPoint { get { return _grottoSpawnPoint; } set { _grottoSpawnPoint = value; } }
-    public GameObject NpcSpawnPointPrefab { get { return _grottoSpawnPoint.npcSpawnPointPrefab; } }
     public GrottoSpawnPoint.GrottoType GrottoType { get { return _grottoSpawnPoint.grottoType; } }
-    public string Text { get { return _grottoSpawnPoint.text; } }
-    public Collectible UniqueCollectiblePrefab { get { return _grottoSpawnPoint.uniqueCollectiblePrefab; } }
-    public bool NoSalesItemsToShow { get { return (_salesItemA == null && _salesItemB == null && _salesItemC == null); } }
     public bool PlayerIsInside { get; private set; }
+
+    GameObject NpcSpawnPointPrefab { get { return _grottoSpawnPoint.npcSpawnPointPrefab; } }
+    Collectible UniqueCollectiblePrefab { get { return _grottoSpawnPoint.uniqueCollectiblePrefab; } }
+    string MessageStr { get { return _grottoSpawnPoint.text; } }   
+    bool SoldOut { get { return (_salesItemA == null && _salesItemB == null && _salesItemC == null); } }
+
+
+    public bool ShopContainerActive
+    {
+        get { return (shopContainer == null) ? false : shopContainer.activeSelf; }
+        set { if (shopContainer != null) { shopContainer.SetActive(value); } }
+    }
+    public bool RupeeTriggersActive
+    {
+        get { return (rupeeTriggers == null) ? false : rupeeTriggers.gameObject.activeSelf; }
+        set { if (rupeeTriggers != null) { rupeeTriggers.gameObject.SetActive(value); } }
+    }
 
 
     void Start()
     {
-        if (_npcSpawnPoint == null)
-        {
-            _npcSpawnPoint = (Instantiate(NpcSpawnPointPrefab) as GameObject).GetComponent<EnemySpawnPoint>();
-            _npcSpawnPoint.transform.parent = npcContainer;
-            _npcSpawnPoint.transform.localPosition = Vector3.zero;
-        }
-        if (shopContainer != null) { shopContainer.gameObject.SetActive(false); }
-        if (rupeeTriggers != null) { rupeeTriggers.gameObject.SetActive(false); }
+        InstantiateNPCSpawnPoint();
+
+        ShopContainerActive = false;
+        RupeeTriggersActive = false;
 
         entranceWalls.SetActive(_grottoSpawnPoint.showEntranceWalls);
+    }
+
+    void InstantiateNPCSpawnPoint()
+    {
+        if (_npcSpawnPoint != null)
+        {
+            return;
+        }
+
+        GameObject g = Instantiate(NpcSpawnPointPrefab);
+        g.transform.SetParent(npcContainer);
+        g.transform.localPosition = Vector3.zero;
+
+        _npcSpawnPoint = g.GetComponent<EnemySpawnPoint>();
     }
 
 
     public void OnPlayerEnter()
     {
         if (PlayerIsInside) { return; }
+
+        PlayerIsInside = true;
+        OccupiedGrotto = this;
 
         if (WorldInfo.Instance.IsOverworld)
         {
@@ -121,16 +150,14 @@ public class Grotto : MonoBehaviour
             ShowNpc();
             ShowTheGoods();
         }
-
-        PlayerIsInside = true;
-        OccupiedGrotto = this;
     }
 
     public void OnPlayerExit()
     {
         if (!PlayerIsInside) { return; }
 
-        PlaySound_Stairs();
+        PlayerIsInside = false;
+        OccupiedGrotto = null;
 
         if (WorldInfo.Instance.IsOverworld)
         {
@@ -141,6 +168,7 @@ public class Grotto : MonoBehaviour
         {
             Music.Instance.PlayAppropriateMusic();
         }
+        PlaySound_Stairs();
 
         ShowFlames(false);
         ShowNpc(false);
@@ -149,9 +177,6 @@ public class Grotto : MonoBehaviour
 
         _hasMadeChoice_Gamble = false;
         _hasMadeChoice_PayForInfo = false;
-
-        PlayerIsInside = false;
-        OccupiedGrotto = null;
     }
 
 
@@ -280,12 +305,12 @@ public class Grotto : MonoBehaviour
         else if (GrottoType == GrottoSpawnPoint.GrottoType.Shop)
         {
             ShowTheShopItems(doShow);
-            if (NoSalesItemsToShow) { displayMessage = false; }
+            if (SoldOut) { displayMessage = false; }
         }
         else if (GrottoType == GrottoSpawnPoint.GrottoType.Medicine)
         {
             ShowTheShopItems(doShow);
-            if (NoSalesItemsToShow) { displayMessage = false; }
+            if (SoldOut) { displayMessage = false; }
         }
         else if (GrottoType == GrottoSpawnPoint.GrottoType.Gift)
         {
@@ -302,7 +327,7 @@ public class Grotto : MonoBehaviour
         else if (GrottoType == GrottoSpawnPoint.GrottoType.HeartContainer)
         {
             ShowTheShopItems(doShow, false);
-            if (NoSalesItemsToShow) { displayMessage = false; }
+            if (SoldOut) { displayMessage = false; }
         }
         else if (GrottoType == GrottoSpawnPoint.GrottoType.PayForInfo)
         {
@@ -398,14 +423,7 @@ public class Grotto : MonoBehaviour
         }
         rupeePriceSymbol.SetActive(showPrice);
 
-        if (NoSalesItemsToShow)
-        {
-            shopContainer.gameObject.SetActive(false);
-        }
-        else
-        {
-            shopContainer.gameObject.SetActive(doShow);
-        }
+        ShopContainerActive = SoldOut ? false : doShow;
     }
 
     void ShowGift(bool doShow = true)
@@ -430,25 +448,23 @@ public class Grotto : MonoBehaviour
 
     void ShowGambleChoices(bool doShow = true)
     {
-        rupeeTriggers.gameObject.SetActive(doShow);
-
         string priceStr = "-10";
         priceTextDisplayA.Text = priceStr;
         priceTextDisplayB.Text = priceStr;
         priceTextDisplayC.Text = priceStr;
 
-        shopContainer.gameObject.SetActive(doShow);
+        RupeeTriggersActive = doShow;
+        ShopContainerActive = doShow;
     }
 
     void ShowPayForInfoChoices(bool doShow = true)
     {
-        rupeeTriggers.gameObject.SetActive(doShow);
-
         priceTextDisplayA.Text = "-" + _grottoSpawnPoint.saleItemPriceA.ToString();
         priceTextDisplayB.Text = "-" + _grottoSpawnPoint.saleItemPriceB.ToString();
         priceTextDisplayC.Text = "-" + _grottoSpawnPoint.saleItemPriceC.ToString();
 
-        shopContainer.gameObject.SetActive(doShow);
+        RupeeTriggersActive = doShow;
+        ShopContainerActive = doShow;
     }
 
     Collectible InstantiateItem(GameObject prefab, Transform container, int price = 0)
@@ -456,7 +472,7 @@ public class Grotto : MonoBehaviour
         Collectible c = (Instantiate(prefab) as GameObject).GetComponent<Collectible>();
         c.Grotto = this;
         c.price = price;
-        c.transform.parent = container;
+        c.transform.SetParent(container);
         c.transform.localPosition = Vector3.zero;
 
         return c;
@@ -488,9 +504,10 @@ public class Grotto : MonoBehaviour
         }
     }
 
+
     void DisplayMessage(bool doShow = true, string msg = null)
     {
-        if (msg == null) { msg = Text; }
+        if (msg == null) { msg = MessageStr; }
 
         if (doShow)
         {
@@ -504,11 +521,14 @@ public class Grotto : MonoBehaviour
         }
     }
 
+
     const float _fadeDuration = 2.0f;
     void FadeAwayNpc()
     {
-        iTween.FadeTo(_npc, 0.0f, _fadeDuration);
-        iTween.FadeTo(MessageBoard.Instance.gameObject, 0.0f, _fadeDuration);
+        iTween.FadeTo(_npc, 
+            0.0f, _fadeDuration);
+        iTween.FadeTo(MessageBoard.Instance.gameObject, 
+            0.0f, _fadeDuration);
 
         Destroy(_npc, _fadeDuration);
     }

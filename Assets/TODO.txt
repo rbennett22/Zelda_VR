@@ -1,35 +1,28 @@
 --- TODO ---
 
-- Adjust enemy health (x4) and increase all weapons dmg, then eliminate the Enemy versions of weapons
-- Increase maxLiveProjectiles for certain bosses?
-- What's up with Manhandla projectiles/damage?
+High Priority:
 
-
--- Third-Person Camera Mode --
-- Tracked head movement should not effect Link facing direction/position
-- Change controls
-- Decide how to move camera to follow Link
-- Link Sprite
-- Transition between Camera modes
-
-- Use flat tiles at same voxel tile height as unit blocks
-- Integrate Lost Woods with Uniblocks
-
-- NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
+- Grotto::DeliverLetter() "TODO"?
+- Often getting stuck towards mid-top of Grotto stairs
+- Fog disappears abruptly in grottos close to Lost Woods
 
 - Lost Hills
 - Waterfall cave
-- D6 OW Entrance
+- D6 OW Entrance (2 blocks wide)
 - Grotto Warps
-- Fog disappears abruptly in grottos close to Lost Woods
+
 - Update Controls image
-- SavedGamesScreen - Choose Name, Elimination Mode, Name text align
 - OptionsMenu: Controls
-- OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
-- "Continue or Save & Quit?" GUI
-- Gannon - Intro, Death
 - Ending
 - Credits
+
+- Gannon Intro, Death
+
+
+Mid Priority:
+
+- Refactor Grottos
+- Refactor Items/Inventory
 
 - Bow Crosshair
 - LikeLike - Show an effect to indicate what's happening when player is trapped
@@ -43,75 +36,133 @@
 - Boss Death anim (blink 2-3 times, then "poof")
 - Gleeok Heads Poof onDeath
 
-- ImageEffects on camera (bloom etc)?
+- SavedGamesScreen - Choose Name, Elimination Mode, Name text align
+- OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
+- "Continue or Save & Quit?" GUI
+- Inventory Cursor should blink red/blue
+
+- Sometimes fall through floor when walking down staircases, there should be a fail-safe
+- I sometimes fall through the floor after using the whistle
+- Difficult to use ladder to cross water
+- Difficult to fire wand through narrow passages
+- Too easy to burn self with candle, even when not moving
+- Old men in dungeons don't fight me back
+- Text faces wrong way for many of the old men in dungeons, and "Grumble, grumble"
+- There should be an event sound when you present meat to "Grumble, grumble"
+- Need event sound in "Pick any one you want" caves
+- Wrong sound effect for both types of fairies
+- Fairies fly to other rooms in dungeons
+- Enemies can walk through statues
+- I'm not sure darknuts are supposed to be hurt by fire, or gleeoks by the wand
+- Enemies stunned by boomerang can still hurt me
+- Boulders should bounce around
+- Boulders appear in red leever desert (NE of Level 1) where they should not
+
+- When leevers are burrowing and zolas are diving they shouldn't be harmful, nor should they use the guard sound effect when attacked
+- Apparently like-like stole my shield yet I never noticed myself being swallowed
+- Consider making the shield appear every time you deflect something
+- No rolling rupee sound after "Secret to everybody" or door repair
+- Hearts floating around in "Secret to everybody" cave that runs beneath fairy fountain
+- Door wouldn't reopen in Level 1 old man room
+- Door wouldn't reopen in Level 3 red darknut room (near where ladder is kept)
+- Cannot walk to NE corner of map ("Secret to everybody" house behind money making game)
+- Should be a roaring sound when in or next to a boss room
+- Master sword should not split vires into keese
+- Having the map item doesn't mean every room in the pause map should be filled in
+- Movable blocks in dungeons should be pushable from any side
+- Should be event sound for riding raft
+- Beams from many dungeon enemies should be unblockable
+- There should be a sound and gradual heart refill when using potion
+- There should be a wizzrobe sound
+- Blue wizzrobes should not teleport
+- No event when Ganon is encountered or defeated, or when Zelda is saved
+- After Ganon is hit he should be temporarily invincible so that I can't take advantage
+- Dungeon tunnels have passages with zero-thickness walls (this will be fixed if the mirror is implemented)
+
+
+Weapons:
+
+- Adjust enemy health (x4) and increase all weapons dmg, then eliminate the Enemy versions of weapons
+- Increase maxLiveProjectiles for certain bosses?
+- What's up with Manhandla projectiles/damage?
+- Have Enemy's pushBack force applied in weapon's moveDirection. (Have all weapons/projectiles transform.forward point in their direction of travel.)
+
+
+Voxel Engine:
+
+- Use flat tiles at same voxel tile height as unit blocks
+- Integrate Lost Woods with Uniblocks
+
+
+3rd-Person Camera Mode:
+
+- Tracked head movement should not effect Link facing direction/position
+- Change controls
+- Decide how to move camera to follow Link
+- Link Sprite
+- Transition between Camera modes
+
+
+Low Priority / WishList:
+
 - Make Map display an arrow for Link instead of a square
 - Place "signs" above Grottos indicating type
-- Inventory Cursor should blink red/blue
-- Have Statues charge up each shot with a sound effect so player knows when to dodge
+- Cannon Transportation for Grotto Warps
+
 - Allow pushback force to send enemies flying upwards
-- Have Enemy's pushBack force applied in weapon's moveDirection. (Have all weapons/projectiles transform.forward point in their direction of travel.)
-- Have enemies make some noise to alert you of their presence
 - Show Shield, indicate MagicShield?
 - When WandProjectile hits Link's shield you should see it reflect off 
 - Particles for MagicSword, MagicBoomerang, SilverArrow
-- Cannon transportation
+
+- ImageEffects on camera (bloom etc)?
+- SoundFX DSP (ie. reverb in dungeons)
+- Have enemies make some noise to alert you of their presence
+- Have Statues charge up each shot with a sound effect so player knows when to dodge
 - Music Fade In/Out
 
+- Trees and rocks are shorter than a full tile
+- Consider having dark rooms show walls dimly like the original
+- Being able to aim arrows upward is a nice touch, but it's annoying when I shoot the ground, so maybe downward arrows should instead go parallel to the ground, like beam sword or wand. 
 
--- BUGS --
-- BUG: Moldorm looks crazy when resuming after pause
-- BUG: Enemies can end up walking through walls in Lost Woods
-- BUG: Enemies that spawn after clock has activated aren't paralyzed
-- BUG: Vire can jump through wall
-- BUG: Sword often malfunctions (either becomes invisible or gets "stuck", I'm not sure)
-- BUG: Projectiles can't pass over water in OW
+- Unlockable bonus Zelda remixes
+- Unlockable Fan Art
+- Unlockable Cheats
+
+
+BUGS:
+
+- BUG: NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
+
+- BUG: Moldorm looks crazy when resuming after pause
+- BUG: Enemies that spawn after clock has activated aren't paralyzed
+- BUG: Enemies can end up walking through walls in Lost Woods
+- BUG: Vire can jump through wall
+- BUG: Projectiles can't pass over water in OW
+
 - BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)
 
 
--- Optimizations --
+OPTIMIZATIONS:
+
 - Spawn LostWoods only when needed
 - Only update HUD text when info changes (i.e. keys, bombs, rupees, level)
 
 
---- NEEDS TESTING  ---
+NEEDS TESTING:
 
 - LikeLike MagicShield stealing
 - Bait
 - Darknut shields against MagicWand (no flame)
 - Vires - No redKeese if MagicSword or magicSwordProjectile kills
 - Wand Flame should light up dark room
+- Sword should be able to collect Collectibles
 
+Thought these were done already:
 
---- DONE ---
-
-- DK2 Support
-- Uniblocks voxel engine now used to render OverWorld terrain
-- Shrunk PlayerController (scaled from 1 to 0.5)
-- Fixed several major memory leaks that would eventually cause crash if left running for long enough.
-- Allow both Keyboard/Mouse and XBOX GamePad to be used simultaneously
-
-- Black overlay shutters now close vertically onDeath
-- Playing flute, dying, or triforceFanfare properly stops the background music
-- Music gets quiet during pause to options menu
-
--- BUG FIXES --
-
-- BUG: If you Pause during music opening, the loop won't play automatically when the opening finishes. -FIXED
-
-
-
---- NOTES ---
-
-- Enemy Type Count:  
-   Overworld - 4 small, 5 big.  
-   Dungeon   - 5 small, 6 big.  
-   Bosses    - 8
-
-
---- CREDITS ---
-
-Ramón A Olivares - "zeldaCollage_25Aniv"
-Michael Gallagher - "Zelda VR" promo artwork
- http://gamingaddictmike125.deviantart.com/art/The-Legend-of-Zelda-8-Bit-90311894
-David Linderman - Beta Tester
+- Incomplete shops
+- Can't buy blue potion
+- Can't buy arrows anywhere, so I can't beat Gohma
+- Can't find power bracelet where it should be
+- When I revisit a dungeon I can collects keys and other reward items that I have already collected
+- Invincible ghinis should die when the vulnerable ghini is killed

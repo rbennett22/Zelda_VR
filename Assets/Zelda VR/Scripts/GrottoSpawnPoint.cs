@@ -18,7 +18,7 @@ public class GrottoSpawnPoint : MonoBehaviour
 
 
     public GameObject grottoPrefab;
-    public GameObject marker;
+    public GameObject marker;           // Marks the Grotto's ground-level entrance location
 
     public GrottoType grottoType;
     public string text;
@@ -29,7 +29,7 @@ public class GrottoSpawnPoint : MonoBehaviour
     public Collectible uniqueCollectiblePrefab;
     public Collectible giftPrefab;
 
-    public bool showEntranceWalls;
+    public bool showEntranceWalls;                  // Entrance Walls are the part of the Grotto that exists above ground level
     public bool HasSpecialResourceBeenTapped        // (i.e. HeartContainer or Potion collected, Gift collected, UniqueCollectible collected)
     {
         get { return _overworldInfo.HasGrottoBeenTapped(this); }
@@ -52,6 +52,8 @@ public class GrottoSpawnPoint : MonoBehaviour
 
     void Awake()
     {
+        // TODO: Don't use GameObject.Find
+
         _grottosContainer = GameObject.Find("Grottos").transform;
         _overworldInfo = GameObject.FindGameObjectWithTag("OverworldInfo").GetComponent<OverworldInfo>();
 
@@ -61,18 +63,32 @@ public class GrottoSpawnPoint : MonoBehaviour
 
     public Grotto SpawnGrotto()
     {
-        GameObject g = Instantiate(grottoPrefab, transform.position, transform.rotation) as GameObject;
-
-        SpawnedGrotto = g.GetComponent<Grotto>();
-        SpawnedGrotto.name = "Grotto - " + grottoType.ToString();
-        SpawnedGrotto.transform.parent = _grottosContainer;
-        SpawnedGrotto.GrottoSpawnPoint = this;
-
+        if(SpawnedGrotto != null)
+        {
+            Debug.LogWarning("SpawnedGrotto already exists.  It will be Destroyed and replaced with a new instance.");
+            DestroyGrotto();
+        }
+        SpawnedGrotto = InstantiateGrotto();
         return SpawnedGrotto;
+    }
+
+    Grotto InstantiateGrotto()
+    {
+        GameObject g = Instantiate(grottoPrefab, transform.position, transform.rotation) as GameObject;
+        g.name = "Grotto - " + grottoType.ToString();
+        g.transform.SetParent(_grottosContainer);
+
+        Grotto gr = g.GetComponent<Grotto>();
+        gr.GrottoSpawnPoint = this;
+
+        return gr;
     }
 
     public void DestroyGrotto()
     {
+        if(SpawnedGrotto == null)
+            return;
+        
         Destroy(SpawnedGrotto.gameObject);
         SpawnedGrotto = null;
     }

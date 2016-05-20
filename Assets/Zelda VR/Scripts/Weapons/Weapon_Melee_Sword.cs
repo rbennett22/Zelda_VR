@@ -2,8 +2,7 @@
 
 public class Weapon_Melee_Sword : Weapon_Melee
 {
-    const string EXTEND_TWEEN_NAME = "ExtendTween";
-    const string RETRACT_TWEEN_NAME = "RetractTween";
+    const iTween.EaseType STAB_TWEEN_EASE_TYPE = iTween.EaseType.linear;
 
 
     [SerializeField]
@@ -53,11 +52,10 @@ public class Weapon_Melee_Sword : Weapon_Melee
         Vector3 targetPosLocal = transform.localPosition + _stabDirection_Local * _reach;
 
         iTween.MoveTo(gameObject, iTween.Hash(
-            "name", EXTEND_TWEEN_NAME,
             "islocal", true,
             "position", targetPosLocal,
             "speed", _speed,
-            "easetype", iTween.EaseType.linear,
+            "easetype", STAB_TWEEN_EASE_TYPE,
             "oncomplete", "OnExtendedCompletely")
         );
 
@@ -96,11 +94,10 @@ public class Weapon_Melee_Sword : Weapon_Melee
         }
 
         iTween.MoveTo(gameObject, iTween.Hash(
-            "name", RETRACT_TWEEN_NAME,
             "islocal", true,
             "position", _originLocal,
             "speed", _speed,
-            "easetype", iTween.EaseType.linear,
+            "easetype", STAB_TWEEN_EASE_TYPE,
             "oncomplete", "OnRetractedCompletely")
         );
 
@@ -117,15 +114,6 @@ public class Weapon_Melee_Sword : Weapon_Melee
 
     void OnCollisionEnter(Collision collision)
     {
-        ForceRetract();
-    }
-    void ForceRetract()
-    {
-        if(_isExtending)
-        {
-            iTween.Stop(gameObject, EXTEND_TWEEN_NAME);
-        }
-
         Retract();
     }
 }

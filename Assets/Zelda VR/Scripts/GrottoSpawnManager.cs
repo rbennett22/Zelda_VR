@@ -3,61 +3,78 @@
 public class GrottoSpawnManager : MonoBehaviour
 {
     [SerializeField]
-    float _updateInterval_ms = 500;
-
+    float _updateInterval = 0.5f;
     [SerializeField]
-    float _spawnDistance = 8;
+    float _spawnDistThreshold = 8;
+    float _spawnDistThresholdSq;
 
 
-    float _spawnDistanceSq;
     GrottoSpawnPoint _activeGrottoSP;
 
 
     void Start()
     {
-        _spawnDistanceSq = _spawnDistance * _spawnDistance;
+        _spawnDistThresholdSq = _spawnDistThreshold * _spawnDistThreshold;
 
-        InvokeRepeating("Tick", 0, _updateInterval_ms * 0.001f);
+        InvokeRepeating("Tick", 0, _updateInterval);
     }
 
 
     void Tick()
     {
-        if (_activeGrottoSP == null || !_activeGrottoSP.SpawnedGrotto.PlayerIsInside)
+        if (_activeGrottoSP != null && _activeGrottoSP.SpawnedGrotto.PlayerIsInside)
         {
-            Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
+            return;
+        }
 
-            float closestDistSq = float.PositiveInfinity;
-            Transform closestGrottoSP = null;
-            foreach (Transform child in transform)
+        GrottoSpawnPoint closestGSP = null;
+        float closestDistSq = GetGrottoClosestToPlayer(out closestGSP);
+        
+        if (closestDistSq > _spawnDistThresholdSq || closestGSP != _activeGrottoSP)
+        {
+            DestroyCurrentlyActiveGrotto();
+        }
+
+        if (closestDistSq <= _spawnDistThresholdSq && closestGSP != _activeGrottoSP)
+        {
+            SpawnNewActiveGrotto(closestGSP);
+        }
+    }
+
+    float GetGrottoClosestToPlayer(out GrottoSpawnPoint gSP)
+    {
+        Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
+
+        float closestDistSq = float.PositiveInfinity;
+        Transform closestGSP = null;
+        foreach (Transform child in transform)
+        {
+            Vector3 toPlayer = playerPos - child.GetComponent<GrottoSpawnPoint>().marker.transform.position;
+            float distanceToPlayerSqr = Vector3.SqrMagnitude(toPlayer);
+            if (distanceToPlayerSqr < closestDistSq)
             {
-                Vector3 toPlayer = playerPos - child.GetComponent<GrottoSpawnPoint>().marker.transform.position;
-                float distanceToPlayerSqr = Vector3.SqrMagnitude(toPlayer);
-                if (distanceToPlayerSqr < closestDistSq)
-                {
-                    closestDistSq = distanceToPlayerSqr;
-                    closestGrottoSP = child;
-                }
-            }
-
-            GrottoSpawnPoint gsp = closestGrottoSP.GetComponent<GrottoSpawnPoint>();
-
-            // Destroy currently active grotto?
-            if (closestDistSq > _spawnDistanceSq || gsp != _activeGrottoSP)
-            {
-                if (_activeGrottoSP != null)
-                {
-                    _activeGrottoSP.DestroyGrotto();
-                    _activeGrottoSP = null;
-                }
-            }
-
-            // Spawn new
-            if (closestDistSq < _spawnDistanceSq && gsp != _activeGrottoSP)
-            {
-                gsp.SpawnGrotto();
-                _activeGrottoSP = gsp;
+                closestDistSq = distanceToPlayerSqr;
+                closestGSP = child;
             }
         }
+
+        gSP = closestGSP.GetComponent<GrottoSpawnPoint>();
+
+        return closestDistSq;
+    }
+
+    void DestroyCurrentlyActiveGrotto()
+    {
+        if (_activeGrottoSP == null)
+            return;
+
+        _activeGrottoSP.DestroyGrotto();
+        _activeGrottoSP = null;
+    }
+
+    void SpawnNewActiveGrotto(GrottoSpawnPoint gSP)
+    {
+        gSP.SpawnGrotto();
+        _activeGrottoSP = gSP;
     }
 }

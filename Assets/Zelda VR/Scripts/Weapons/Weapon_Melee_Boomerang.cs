@@ -50,6 +50,7 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
         transform.SetParent(null);
 
         RendererEnabled = true;
+        CollisionEnabled = true;
         PlayFlySoundLoop();
 
         _isDeparting = true;
@@ -112,6 +113,8 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
         transform.SetParent(_thrower);
         _direction = Vector3.zero;
         RendererEnabled = false;
+        CollisionEnabled = false;
+
         StopFlySound();
 
         CollectAttachedCollectibles();

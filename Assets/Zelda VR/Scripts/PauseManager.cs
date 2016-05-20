@@ -6,6 +6,9 @@ public class PauseManager : Singleton<PauseManager>
     const ZeldaInput.Button SHOW_OPTIONS_BUTTON = ZeldaInput.Button.Back;
     const ZeldaInput.Button SHOW_INVENTORY_BUTTON = ZeldaInput.Button.Start;
 
+    const float NORMAL_MUSIC_VOLUME = 1.0f;
+    const float PAUSED_MUSIC_VOLUME = 0.3f;
+
 
     [SerializeField]
     OptionsViewController _optionsViewController;
@@ -25,7 +28,7 @@ public class PauseManager : Singleton<PauseManager>
         _optionsViewController.ShowView();
         RefreshFreezeState();
 
-        Music.Instance.Volume = 0.3f;
+        Music.Instance.Volume = PAUSED_MUSIC_VOLUME;
     }
     public void ResumeGame_Options()
     {
@@ -36,7 +39,7 @@ public class PauseManager : Singleton<PauseManager>
         _optionsViewController.HideView();
         RefreshFreezeState();
 
-        Music.Instance.Volume = 1.0f;
+        Music.Instance.Volume = NORMAL_MUSIC_VOLUME;
     }
     public void TogglePause_Options()
     {

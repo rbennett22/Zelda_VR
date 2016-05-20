@@ -1,0 +1,45 @@
+---  ZeldaVR v3.0.0 Release Notes  ---
+
+RECENTLY DONE:
+
+
+
+
+DONE:
+
+- DK2 Support
+- Uniblocks voxel engine now used to render OverWorld terrain
+- Shrunk PlayerController (scaled from 1 to 0.5)
+- Fixed several major memory leaks that would eventually cause crash if left running for long enough.
+- Allow both Keyboard/Mouse and XBOX GamePad to be used simultaneously
+
+- Black overlay shutters now close vertically onDeath
+- Playing flute, dying, or triforceFanfare properly stops the background music
+- Music gets quiet during pause to options menu
+
+- Enemies now drop bombs in bundles of 4
+- Player respawns with 3 hearts instead of full life 
+- Getting heart container refills one heart instead of refilling it entirely
+
+
+BUG FIXES:
+
+- BUG: Leevers change elevation when hit. -FIXED
+- BUG: Boomerang doesn't spin. -FIXED
+- BUG: If you Pause during music opening, the loop won't play automatically when the opening finishes. -FIXED
+
+
+NOTES:
+
+- Enemy Type Count:  
+   Overworld - 4 small, 5 big.  
+   Dungeon   - 5 small, 6 big.  
+   Bosses    - 8
+
+
+CREDITS:
+
+Ramón A Olivares - "zeldaCollage_25Aniv"
+Michael Gallagher - "Zelda VR" promo artwork
+ http://gamingaddictmike125.deviantart.com/art/The-Legend-of-Zelda-8-Bit-90311894
+David Linderman - Beta Tester
