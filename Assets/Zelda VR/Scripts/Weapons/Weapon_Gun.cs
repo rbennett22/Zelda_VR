@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Weapon_Gun : Weapon_Base, IProjectileWeapon
+public class Weapon_Gun : Weapon_Base
 {
     [SerializeField]
     GameObject _projectilePrefab;
@@ -35,7 +35,7 @@ public class Weapon_Gun : Weapon_Base, IProjectileWeapon
         GameObject g = Instantiate(_projectilePrefab) as GameObject;
 
         Projectile_Base p = g.GetComponent<Projectile_Base>();
-        p.projectileWeapon = this;
+        p.onProjectileWillBeDestroyed_Callback = OnProjectileWillBeDestroyed;
 
 
         Transform t = p.transform;
@@ -55,7 +55,7 @@ public class Weapon_Gun : Weapon_Base, IProjectileWeapon
     }
 
 
-    void IProjectileWeapon.OnProjectileWillBeDestroyed(Projectile_Base sender)
+    virtual protected void OnProjectileWillBeDestroyed(Projectile_Base sender)
     {
         _firedProjectiles.Remove(sender);
     }

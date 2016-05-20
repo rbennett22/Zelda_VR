@@ -1,16 +1,12 @@
 ﻿#pragma warning disable 0649 // variable is never assigned to
 
 using UnityEngine;
+using System;
 using System.Collections.Generic;
-
-public interface IProjectileWeapon
-{
-    void OnProjectileWillBeDestroyed(Projectile_Base sender);
-}
 
 public class Projectile_Base : MonoBehaviour, IDamageDealerDelegate
 {
-    public IProjectileWeapon projectileWeapon;        // The weapon that fired this Projectile
+    public Action<Projectile_Base> onProjectileWillBeDestroyed_Callback;
 
     [SerializeField]
     protected DamageDealer_Base _damageDealer;      // The DamageDealer component of this projectile
@@ -163,9 +159,9 @@ public class Projectile_Base : MonoBehaviour, IDamageDealerDelegate
 
     virtual protected void OnDestroy()
     {
-        if (projectileWeapon != null)
+        if (onProjectileWillBeDestroyed_Callback != null)
         {
-            projectileWeapon.OnProjectileWillBeDestroyed(this);
+            onProjectileWillBeDestroyed_Callback(this);
         }
     }
 }

@@ -2,7 +2,14 @@
 
 High Priority:
 
-- Grotto::DeliverLetter() "TODO"?
+- Navigatable Cheat Menu
+- Add Cheat for returning to ground level in case of fall through floor
+- Make GhostMode compatible with Uniblocks
+- FlyMode
+
+- Use flat tiles for ground at same voxel tile height as unit blocks?
+- Integrate Lost Woods with Uniblocks
+- Grotto::DeliverLetter() -> Play Sequence with text or w/e
 - Often getting stuck towards mid-top of Grotto stairs
 - Fog disappears abruptly in grottos close to Lost Woods
 
@@ -16,7 +23,8 @@ High Priority:
 - Ending
 - Credits
 
-- Gannon Intro, Death
+- Gannon Intro
+- Gannon Death
 
 
 Mid Priority:
@@ -39,7 +47,6 @@ Mid Priority:
 - SavedGamesScreen - Choose Name, Elimination Mode, Name text align
 - OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
 - "Continue or Save & Quit?" GUI
-- Inventory Cursor should blink red/blue
 
 - Sometimes fall through floor when walking down staircases, there should be a fail-safe
 - I sometimes fall through the floor after using the whistle
@@ -53,7 +60,6 @@ Mid Priority:
 - Wrong sound effect for both types of fairies
 - Fairies fly to other rooms in dungeons
 - Enemies can walk through statues
-- I'm not sure darknuts are supposed to be hurt by fire, or gleeoks by the wand
 - Enemies stunned by boomerang can still hurt me
 - Boulders should bounce around
 - Boulders appear in red leever desert (NE of Level 1) where they should not
@@ -75,23 +81,16 @@ Mid Priority:
 - There should be a sound and gradual heart refill when using potion
 - There should be a wizzrobe sound
 - Blue wizzrobes should not teleport
-- No event when Ganon is encountered or defeated, or when Zelda is saved
 - After Ganon is hit he should be temporarily invincible so that I can't take advantage
-- Dungeon tunnels have passages with zero-thickness walls (this will be fixed if the mirror is implemented)
+- Dungeon tunnels have passages with zero-thickness walls
 
 
 Weapons:
 
-- Adjust enemy health (x4) and increase all weapons dmg, then eliminate the Enemy versions of weapons
 - Increase maxLiveProjectiles for certain bosses?
 - What's up with Manhandla projectiles/damage?
 - Have Enemy's pushBack force applied in weapon's moveDirection. (Have all weapons/projectiles transform.forward point in their direction of travel.)
-
-
-Voxel Engine:
-
-- Use flat tiles at same voxel tile height as unit blocks
-- Integrate Lost Woods with Uniblocks
+- I'm not sure darknuts are supposed to be hurt by fire, or gleeoks by the wand
 
 
 3rd-Person Camera Mode:

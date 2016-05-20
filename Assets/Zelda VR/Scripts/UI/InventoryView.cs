@@ -55,7 +55,7 @@ public class InventoryView : MonoBehaviour
 
 
     [SerializeField]
-    MenuCursor _cursor;
+    MenuCursor _menuCursor;
 
     [SerializeField]
     GameObject _cursorView;
@@ -80,9 +80,9 @@ public class InventoryView : MonoBehaviour
 
         DisplayMode = _displayMode;
 
-        _cursor.numColumns = ACTIVE_ITEM_COLS;
-        _cursor.numRows = ACTIVE_ITEM_ROWS;
-        _cursor.onIndexChanged_Callback = OnCursorIndexChanged;
+        _menuCursor.numColumns = ACTIVE_ITEM_COLS;
+        _menuCursor.numRows = ACTIVE_ITEM_ROWS;
+        _menuCursor.onIndexChanged_Callback = OnCursorIndexChanged;
     }
 
     public void ClearAllItemSlots()
@@ -183,12 +183,12 @@ public class InventoryView : MonoBehaviour
 
     public Index2 CursorIndex
     {
-        get { return _cursor.CursorIndex; }
-        set { _cursor.CursorIndex = value; }
+        get { return _menuCursor.CursorIndex; }
+        set { _menuCursor.CursorIndex = value; }
     }
     void OnCursorIndexChanged(MenuCursor sender)
     {
-        if (sender != _cursor)
+        if (sender != _menuCursor)
         {
             return;
         }
@@ -206,14 +206,14 @@ public class InventoryView : MonoBehaviour
 
     public void MoveCursor(Vector2 vec)
     {
-        if (_cursor.TryMoveCursor(vec))
+        if (_menuCursor.TryMoveCursor(vec))
         {
             PlayCursorMoveSound();
         }
     }
     public void MoveCursor(Index2.Direction dir)
     {
-        if (_cursor.TryMoveCursor(dir))
+        if (_menuCursor.TryMoveCursor(dir))
         {
             PlayCursorMoveSound();
         }
