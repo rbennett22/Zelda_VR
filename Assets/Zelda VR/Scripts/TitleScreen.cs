@@ -37,7 +37,7 @@ public class TitleScreen : MonoBehaviour
 
     void ShowSavedGamesScreen()
     {
-        Music.Instance.Stop();
+        //Music.Instance.Stop();
 
         savedGamesScreen.SetActive(true);
         gameObject.SetActive(false);

@@ -1,7 +1,8 @@
 --- TODO ---
 
 - Adjust enemy health (x4) and increase all weapons dmg, then eliminate the Enemy versions of weapons
-- Increase maxNumProjectiles for certain bosses?
+- Increase maxLiveProjectiles for certain bosses?
+- What's up with Manhandla projectiles/damage?
 
 
 -- Third-Person Camera Mode --
@@ -49,16 +50,15 @@
 - Have Statues charge up each shot with a sound effect so player knows when to dodge
 - Allow pushback force to send enemies flying upwards
 - Have Enemy's pushBack force applied in weapon's moveDirection. (Have all weapons/projectiles transform.forward point in their direction of travel.)
-- Music Fade In/Out
 - Have enemies make some noise to alert you of their presence
 - Show Shield, indicate MagicShield?
 - When WandProjectile hits Link's shield you should see it reflect off 
 - Particles for MagicSword, MagicBoomerang, SilverArrow
 - Cannon transportation
+- Music Fade In/Out
 
 
 -- BUGS --
-- BUG: If you Pause during music opening, the loop won't play automatically when the opening finishes
 - BUG: Moldorm looks crazy when resuming after pause
 - BUG: Enemies can end up walking through walls in Lost Woods
 - BUG: Enemies that spawn after clock has activated aren't paralyzed
@@ -81,7 +81,6 @@
 - Darknut shields against MagicWand (no flame)
 - Vires - No redKeese if MagicSword or magicSwordProjectile kills
 - Wand Flame should light up dark room
-- Playing flute, gameOver, or triforceFanfare should stop music
 
 
 --- DONE ---
@@ -93,6 +92,13 @@
 - Allow both Keyboard/Mouse and XBOX GamePad to be used simultaneously
 
 - Black overlay shutters now close vertically onDeath
+- Playing flute, dying, or triforceFanfare properly stops the background music
+- Music gets quiet during pause to options menu
+
+-- BUG FIXES --
+
+- BUG: If you Pause during music opening, the loop won't play automatically when the opening finishes. -FIXED
+
 
 
 --- NOTES ---

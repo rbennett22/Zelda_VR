@@ -1,71 +1,36 @@
 ﻿using Immersio.Utility;
-using System.Collections;
 using UnityEngine;
+
+[RequireComponent(typeof(AudioSource))]
 
 public class Music : Singleton<Music>
 {
     public AudioClip intro, overworld_open, overworld_loop, labyrinth, deathMountain, ending;
 
 
-    public void PlayIntro() { GetComponent<AudioSource>().loop = true; Play(intro); }
-    public void PlayOverworld() { PlayOpeningThenLoop(overworld_open, overworld_loop); }
-    public void PlayLabyrinth() { GetComponent<AudioSource>().loop = true; Play(labyrinth); }
-    public void PlayDeathMountain() { GetComponent<AudioSource>().loop = true; Play(deathMountain); }
-    public void PlayEnding() { GetComponent<AudioSource>().loop = false; Play(ending); }
+    AudioSource _audio;
+    AudioClip _queuedClip;
 
-    public void Play(AudioClip clip, ulong delay = 0)
+
+    public bool IsPlaying { get { return _audio.isPlaying; } }
+    public AudioClip ActiveClip { get { return _audio.clip; } }
+    public float Volume { get { return _audio.volume; } set { _audio.volume = value; } }
+
+
+    override protected void Awake()
     {
-        if (!_isEnabled) { return; }
-        if (GetComponent<AudioSource>().clip == clip && GetComponent<AudioSource>().isPlaying) { return; }
-        GetComponent<AudioSource>().clip = clip;
-        GetComponent<AudioSource>().Play(delay);
-    }
-    public void PlayOpeningThenLoop(AudioClip openingClip, AudioClip loopClip)
-    {
-        if (!_isEnabled) { return; }
-        if (GetComponent<AudioSource>().isPlaying && (GetComponent<AudioSource>().clip == openingClip || GetComponent<AudioSource>().clip == loopClip)) { return; }
+        base.Awake();
 
-        GetComponent<AudioSource>().loop = false;
-        Play(openingClip);
-
-        StartCoroutine("WaitThenPlay", loopClip);
-    }
-    public IEnumerator WaitThenPlay(AudioClip loopClip)
-    {
-        while (IsPlaying) { yield return new WaitForSeconds(0.01f); }
-
-        GetComponent<AudioSource>().loop = true;
-        Play(loopClip);
-    }
-    public void Stop() { GetComponent<AudioSource>().Stop(); StopCoroutine("WaitThenPlay"); }
-    public void Pause() { GetComponent<AudioSource>().Pause(); }
-    public void Resume() { GetComponent<AudioSource>().Play(); }
-
-    public bool IsPlaying { get { return GetComponent<AudioSource>().isPlaying; } }
-    public AudioClip ActiveSong { get { return GetComponent<AudioSource>().clip; } }
-
-
-    bool _isEnabled = true;
-    public bool IsEnabled
-    {
-        get { return _isEnabled; }
-        set
-        {
-            _isEnabled = value;
-            if (_isEnabled)
-            {
-                PlayAppropriateMusic();
-            }
-            else
-            {
-                Stop();
-            }
-        }
+        _audio = GetComponent<AudioSource>();
     }
 
-    public void ToggleEnabled()
+    void OnEnable()
     {
-        IsEnabled = !IsEnabled;
+        PlayAppropriateMusic();
+    }
+    void OnDisable()
+    {
+        Stop();
     }
 
     void OnLevelWasLoaded(int level)
@@ -73,10 +38,9 @@ public class Music : Singleton<Music>
         PlayAppropriateMusic();
     }
 
-
     public void PlayAppropriateMusic()
     {
-        if (!_isEnabled) { return; }
+        if (!enabled) { return; }
 
         WorldInfo w = WorldInfo.Instance;
         if (w.IsTitleScene)
@@ -99,4 +63,50 @@ public class Music : Singleton<Music>
             }
         }
     }
+
+    public void PlayIntro() { Play(intro); }
+    public void PlayOverworld() { PlayOpeningThenLoop(overworld_open, overworld_loop); }
+    public void PlayLabyrinth() { Play(labyrinth); }
+    public void PlayDeathMountain() { Play(deathMountain); }
+    public void PlayEnding() { Play(ending, false); }
+
+    public void Play(AudioClip clip, bool loop = true, ulong delay = 0)
+    {
+        if (!enabled) { return; }
+
+        _audio.loop = loop;
+
+        if (IsPlaying && ActiveClip == clip) { return; }
+
+        _audio.clip = clip;
+        _audio.Play(delay);
+    }
+    public void PlayOpeningThenLoop(AudioClip openingClip, AudioClip loopingClip)
+    {
+        if (!enabled) { return; }
+        if (IsPlaying && (ActiveClip == openingClip || ActiveClip == loopingClip)) { return; }
+
+        Play(openingClip, false);
+
+        _queuedClip = loopingClip;
+    }
+
+
+    void Update()
+    {
+        if(_queuedClip != null)
+        {
+            if(!IsPlaying)
+            {
+                Play(_queuedClip);
+                _queuedClip = null;
+            }
+        }
+    }
+
+
+    public void Stop() { _audio.Stop(); _queuedClip = null; }
+
+    public void Pause() { _audio.Pause(); }
+    public void UnPause() { _audio.UnPause(); }  
 }

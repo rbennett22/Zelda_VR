@@ -5,11 +5,10 @@ public class ZeldaConfig : Singleton<ZeldaConfig>
     public int version, subVersion, subSubVersion;
     public bool defaultMusicEnabled;
 
-
     override protected void Awake()
     {
         base.Awake();
 
-        Music.Instance.IsEnabled = defaultMusicEnabled;
+        Music.Instance.enabled = defaultMusicEnabled;
     }
 }

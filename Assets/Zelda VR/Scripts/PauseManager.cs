@@ -24,6 +24,8 @@ public class PauseManager : Singleton<PauseManager>
 
         _optionsViewController.ShowView();
         RefreshFreezeState();
+
+        Music.Instance.Volume = 0.3f;
     }
     public void ResumeGame_Options()
     {
@@ -33,6 +35,8 @@ public class PauseManager : Singleton<PauseManager>
 
         _optionsViewController.HideView();
         RefreshFreezeState();
+
+        Music.Instance.Volume = 1.0f;
     }
     public void TogglePause_Options()
     {

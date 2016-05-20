@@ -106,7 +106,7 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
     public void ToggleMusic()
     {
-        Music.Instance.ToggleEnabled();
+        Music.Instance.enabled = !Music.Instance.enabled;
     }
 
     public void DisplayControls()
