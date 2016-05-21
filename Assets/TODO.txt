@@ -73,7 +73,6 @@ Mid Priority:
 - Door wouldn't reopen in Level 3 red darknut room (near where ladder is kept)
 - Cannot walk to NE corner of map ("Secret to everybody" house behind money making game)
 - Should be a roaring sound when in or next to a boss room
-- Master sword should not split vires into keese
 - Having the map item doesn't mean every room in the pause map should be filled in
 - Movable blocks in dungeons should be pushable from any side
 - Should be event sound for riding raft
@@ -151,9 +150,8 @@ OPTIMIZATIONS:
 NEEDS TESTING:
 
 - LikeLike MagicShield stealing
-- Bait
 - Darknut shields against MagicWand (no flame)
-- Vires - No redKeese if MagicSword or magicSwordProjectile kills
+- Vires don't spawn Keese if killed by MagicSword
 - Wand Flame should light up dark room
 - Sword should be able to collect Collectibles
 

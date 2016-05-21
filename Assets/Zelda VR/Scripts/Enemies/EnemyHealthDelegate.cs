@@ -95,7 +95,7 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
         EnemyAI_Vire vire = GetComponent<EnemyAI_Vire>();
         if (vire != null)
         {
-            if (killer.name != "MagicSword_Weapon" && killer.name != "MagicSword_Projectile")
+            if (killer.name != "MagicSword_Weapon")
             {
                 vire.SpawnKeese();
             }
