@@ -4,49 +4,55 @@ using UnityEngine;
 
 public class Player : Singleton<Player>
 {
-    const float ShieldBlockDotThreshold = 0.6f;   // [0-1].  Closer to 1 means player has to be facing an incoming projectile more directly in order to block it.
-    const float MoonModeGravityModifier = 1 / 6.0f;
-    const float DefaultJinxDuration = 2.0f;
-    const float DefaultLikeLikeTrapDuration = 3.5f;
-    const int LikeLikeEscapeCount = 8;
-    const float WhistleMelodyDuration = 4.0f;
+    const float MOON_MODE_GRAVITY_MODIFIER = 1 / 6.0f;
+    const float DEFAULT_JINX_DURATION = 2.0f;
+    const float DEFAULT_LIKE_LIKE_TRAP_DURATION = 3.5f;
+    const int LIKE_LIKE_ESCAPE_COUNT = 8;
+    const float WHISTLE_MELODY_DURATION = 4.0f;
 
 
     [SerializeField]
     ZeldaPlayerController _playerController;
-
     public ZeldaPlayerController PlayerController { get { return _playerController; } }
 
 
     Inventory _inventory;
-    GameObject _sword;
+    public Inventory Inventory { get { return _inventory; } }
+
+    Weapon_Melee_Sword _equippedSword;
+    public bool IsAttackingWithSword { get { return (_equippedSword != null) && _equippedSword.IsAttacking; } }
+    void AttackWithSword()
+    {
+        if (_equippedSword == null) { return; }
+        if (IsAttackingWithSword || IsJinxed) { return; }
+        _equippedSword.Attack();
+    }
+
+    Shield_Base _equippedShield;
+    public Shield_Base EquippedShield { get { return _equippedShield; } }
+
     GameObject _equippedItem;
+    public GameObject EquippedItem { get { return _equippedItem; } }
+
+    [SerializeField]
+    Transform _weaponContainerLeft, _weaponContainerRight, _shieldContainer;
+
 
     HealthController _healthController;
     public HealthController HealthController { get { return _healthController ?? (_healthController = GetComponent<HealthController>()); } }
+    public bool IsAtFullHealth { get { return HealthController.IsAtFullHealth; } }
+    public int HealthInHalfHearts { get { return PlayerHealthDelegate.HealthToHalfHearts(HealthController.Health); } }
+    public bool IsAlive { get { return HealthController.IsAlive; } }
+
 
     public string RegisteredName { get; set; }
     public int DeathCount { get; set; }
 
-    public bool IsAtFullHealth { get { return HealthController.IsAtFullHealth; } }
-    public int HealthInHalfHearts { get { return PlayerHealthDelegate.HealthToHalfHearts(HealthController.Health); } }
+    
+    public bool IsJinxed { get; private set; }      // Can't use sword when jinxed
 
-    int _jumpHeight = 0;
-    public int JumpHeight
-    {
-        get { return _jumpHeight; }
-        set
-        {
-            _jumpHeight = value;
-            _playerController.JumpForce = _jumpHeight * 0.25f;
-        }
-    }
-    public Inventory Inventory { get { return _inventory; } }
-    public GameObject EquippedItem { get { return _equippedItem; } }
-
-    public Transform weaponContainerLeft, weaponContainerRight;
-
-    public bool IsJinxed { get; set; }      // Can't use sword when jinxed
+    bool _isInLikeLikeTrap;
+    int _likeLikeTrapCounter;
     public bool IsInLikeLikeTrap            // Paralyzed, and will lose MagicShield if player doesn't press buttons fast enough
     {
         get { return _isInLikeLikeTrap; }
@@ -58,9 +64,34 @@ public class Player : Singleton<Player>
             IsParalyzed = value;
         }
     }
+
+    bool _isParalyzed;
     public bool IsParalyzed { get { return _isParalyzed; } set { _isParalyzed = value; _playerController.enabled = !_isParalyzed; } }
+
     public bool IsInvincible { get { return HealthController.isIndestructible; } set { HealthController.isIndestructible = value; } }
+    public void MakeInvincible(float duration)
+    {
+        StartCoroutine("MakeInvincibleCoroutine", duration);
+    }
+    IEnumerator MakeInvincibleCoroutine(float duration)
+    {
+        IsInvincible = true;
+        yield return new WaitForSeconds(duration);
+        IsInvincible = Cheats.Instance.InvincibilityIsEnabled;
+    }
+
     public bool IsAirJumpingEnabled { get { return _playerController.airJumpingEnabled; } set { _playerController.airJumpingEnabled = value; } }
+
+    int _jumpHeight = 0;
+    public int JumpHeight
+    {
+        get { return _jumpHeight; }
+        set
+        {
+            _jumpHeight = value;
+            _playerController.JumpForce = _jumpHeight * 0.25f;
+        }
+    }
 
     bool _IsMoonModeEnabled;
     float _normalGravityModifier;
@@ -73,37 +104,11 @@ public class Player : Singleton<Player>
             _IsMoonModeEnabled = value;
 
             float gravMod = _normalGravityModifier;
-            if (_IsMoonModeEnabled) { gravMod *= MoonModeGravityModifier; }
+            if (_IsMoonModeEnabled) { gravMod *= MOON_MODE_GRAVITY_MODIFIER; }
             _playerController.GravityModifier = gravMod;
         }
     }
-    public bool IsDead { get { return !HealthController.IsAlive; } }
-
-    public bool IsAttackingWithSword
-    {
-        get
-        {
-            if (_sword == null) { return false; }
-            return _sword.GetComponent<Weapon_Melee_Sword>().IsAttacking;
-        }
-    }
-
-    public void MakeInvincible(float duration)
-    {
-        StartCoroutine("MakeInvincibleCoroutine", duration);
-    }
-    IEnumerator MakeInvincibleCoroutine(float duration)
-    {
-        IsInvincible = true;
-        yield return new WaitForSeconds(duration);
-        IsInvincible = Cheats.Instance.InvincibilityIsEnabled;
-    }
-
-
-    bool _isInLikeLikeTrap;
-    int _likeLikeTrapCounter;
-    bool _isParalyzed;
-
+    
 
     override protected void Awake()
     {
@@ -115,33 +120,58 @@ public class Player : Singleton<Player>
     }
 
 
+    public void EquipShield(string shieldName)
+    {
+        if (_equippedShield != null) { DeequipShield(); }
+
+        Item item = _inventory.GetItem(shieldName);
+        GameObject prefab = item.shieldPrefab;
+
+        GameObject g = Instantiate(prefab) as GameObject;
+        g.name = shieldName;
+
+        Transform t = g.transform;
+        t.SetParent(_shieldContainer);
+        t.localPosition = Vector3.zero;
+        t.localRotation = Quaternion.identity;
+
+        _equippedShield = g.GetComponent<Shield_Base>();
+    }
+    public void DeequipShield()
+    {
+        Destroy(_equippedShield);
+        _equippedShield = null;
+    }
+
     public void EquipSword(string swordName)
     {
-        if (_sword != null) { DeequipSword(); }
+        if (_equippedSword != null) { DeequipSword(); }
 
-        Item sworditem = _inventory.GetItem(swordName);
-        GameObject swordPrefab = sworditem.weaponPrefab;
+        Item item = _inventory.GetItem(swordName);
+        GameObject prefab = item.weaponPrefab;
 
-        _sword = Instantiate(swordPrefab) as GameObject;
-        _sword.name = swordName;
-        _sword.transform.SetParent(weaponContainerRight);
-        _sword.transform.localPosition = Vector3.zero;
-        _sword.transform.localRotation = Quaternion.identity;
+        GameObject g = Instantiate(prefab) as GameObject;
+        g.name = swordName;
 
-        EnableSwordProjectiles(HealthController.IsAtFullHealth);
+        Transform t = g.transform;
+        t.SetParent(_weaponContainerRight);
+        t.localPosition = Vector3.zero;
+        t.localRotation = Quaternion.identity;
+
+        _equippedSword = g.GetComponent<Weapon_Melee_Sword>();
+
+        SwordProjectilesEnabled = HealthController.IsAtFullHealth;
     }
 
     public void DeequipSword()
     {
-        Destroy(_sword);
-        _sword = null;
+        Destroy(_equippedSword);
+        _equippedSword = null;
     }
 
-    public void EnableSwordProjectiles(bool doEnable = true)
-    {
-        if (_sword == null) { return; }
-        Weapon_Melee_Sword st = _sword.GetComponent<Weapon_Melee_Sword>();
-        st.ProjectilesEnabled = doEnable;
+    public bool SwordProjectilesEnabled {
+        get { return (_equippedSword != null) && _equippedSword.ProjectilesEnabled; }
+        set { if (_equippedSword != null) { _equippedSword.ProjectilesEnabled = value; } }
     }
 
 
@@ -166,7 +196,7 @@ public class Player : Singleton<Player>
 
         _equippedItem = Instantiate(weaponItem.weaponPrefab) as GameObject;
         _equippedItem.name = weaponName;
-        _equippedItem.transform.parent = weaponContainerLeft;
+        _equippedItem.transform.parent = _weaponContainerLeft;
         _equippedItem.transform.localPosition = Vector3.zero;
         _equippedItem.transform.localRotation = Quaternion.identity;
     }
@@ -184,13 +214,13 @@ public class Player : Singleton<Player>
     void Update()
     {
         if (PauseManager.Instance.IsPaused_Any) { return; }
-        if (IsDead) { return; }
+        if (!IsAlive) { return; }
 
         if (IsInLikeLikeTrap)
         {
             if (ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack))
             {
-                if (++_likeLikeTrapCounter >= LikeLikeEscapeCount)
+                if (++_likeLikeTrapCounter >= LIKE_LIKE_ESCAPE_COUNT)
                 {
                     IsInLikeLikeTrap = false;
                 }
@@ -202,13 +232,10 @@ public class Player : Singleton<Player>
 
         if (ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack))
         {
-            if (_sword != null && !IsJinxed)
-            {
-                _sword.GetComponent<Weapon_Melee_Sword>().Attack();
-            }
+            AttackWithSword();
         }
 
-        weaponContainerLeft.transform.forward = _playerController.LineOfSight;
+        _weaponContainerLeft.transform.forward = _playerController.LineOfSight;
 
         if (_equippedItem != null)
         {
@@ -222,9 +249,9 @@ public class Player : Singleton<Player>
             }
             else
             {
-                Vector3 frwd = weaponContainerLeft.transform.forward;
+                Vector3 frwd = _weaponContainerLeft.transform.forward;
                 frwd.y = 0;
-                weaponContainerLeft.transform.forward = frwd;
+                _weaponContainerLeft.transform.forward = frwd;
 
                 if (ZeldaInput.GetButtonDown(ZeldaInput.Button.UseItemB))
                 {
@@ -301,13 +328,13 @@ public class Player : Singleton<Player>
             DeactivateJinx();
         }
 
-        ParalyzeAllNearbyEnemies(WhistleMelodyDuration);
-        ActivateParalyze(WhistleMelodyDuration);
+        ParalyzeAllNearbyEnemies(WHISTLE_MELODY_DURATION);
+        ActivateParalyze(WHISTLE_MELODY_DURATION);
 
         Music.Instance.Stop();
         SoundFx.Instance.PlayOneShot(SoundFx.Instance.whistle);
 
-        yield return new WaitForSeconds(WhistleMelodyDuration);
+        yield return new WaitForSeconds(WHISTLE_MELODY_DURATION);
 
         Music.Instance.PlayAppropriateMusic();
 
@@ -378,19 +405,19 @@ public class Player : Singleton<Player>
         return mod;
     }
 
-    public bool CanBlockAttack(bool isBlockableByWoodenShield, bool isBlockableByMagicShield, Vector3 attacksForwardDirection)
+    public bool CanBlockAttack(bool isBlockableByWoodenShield, bool isBlockableByMagicShield, Vector3 directionOfAttack)
     {
         // TODO: Determine isBlockableByWoodenShield and isBlockableByMagicShield using a lookup table internally
 
-        if (_sword != null && _sword.GetComponent<Weapon_Melee_Sword>().IsAttacking)
+        if (IsAttackingWithSword)
         {
             return false;
         }
 
         bool canBlock = false;
 
-        bool attackIsDirectlyInFrontOfPlayer = Vector3.Dot(_playerController.ForwardDirection, -attacksForwardDirection) > ShieldBlockDotThreshold;
-        if (attackIsDirectlyInFrontOfPlayer)
+        bool shieldCanBlockAttack = (_equippedShield != null) && _equippedShield.CanBlockAttack(directionOfAttack);
+        if (shieldCanBlockAttack)
         {
             if (isBlockableByWoodenShield && _inventory.HasItem("WoodenShield"))
             {
@@ -417,7 +444,7 @@ public class Player : Singleton<Player>
         IsParalyzed = false;
     }
 
-    public void ActivateJinx(float duration = DefaultJinxDuration)
+    public void ActivateJinx(float duration = DEFAULT_JINX_DURATION)
     {
         StartCoroutine("JinxCoroutine", duration);
     }
@@ -436,7 +463,7 @@ public class Player : Singleton<Player>
     }
 
     EnemyAI_Random _likeLikeTrappingPlayer;
-    public void ActivateLikeLikeTrap(GameObject likeLike, float duration = DefaultLikeLikeTrapDuration)
+    public void ActivateLikeLikeTrap(GameObject likeLike, float duration = DEFAULT_LIKE_LIKE_TRAP_DURATION)
     {
         if (IsInLikeLikeTrap) { return; }
         _likeLikeTrappingPlayer = likeLike.GetComponent<EnemyAI_Random>();
@@ -452,7 +479,7 @@ public class Player : Singleton<Player>
         {
             _likeLikeTrappingPlayer.enabled = true;
             // If player didn't escape from trap in time, he loses MagicShield
-            if (IsInLikeLikeTrap) { _inventory.GetItem("MagicShield").count = 0; }
+            if (IsInLikeLikeTrap) { _inventory.RemoveItem("MagicShield"); }
         }
 
         IsInLikeLikeTrap = false;
@@ -496,15 +523,15 @@ public class Player : Singleton<Player>
     }
 
 
+    public void RestoreHearts(int hearts)
+    {
+        RestoreHalfHearts(hearts * 2);
+    }
     public void RestoreHalfHearts(int halfHearts)
     {
         if (halfHearts <= 0) { return; }
 
         int healAmount = PlayerHealthDelegate.HalfHeartsToHealth(halfHearts);
         HealthController.RestoreHealth((uint)healAmount);
-    }
-    public void RestoreHearts(int hearts)
-    {
-        RestoreHalfHearts(hearts * 2);
     }
 }

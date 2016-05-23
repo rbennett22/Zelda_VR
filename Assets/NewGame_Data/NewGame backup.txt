@@ -81,6 +81,7 @@
     </itemCounts>
     <equippedItemA>null</equippedItemA>
     <equippedItemB>null</equippedItemB>
+	<equippedShield>WoodenShield</equippedShield>
     <hasCompassForDungeon>
       <boolean>false</boolean>
       <boolean>false</boolean>

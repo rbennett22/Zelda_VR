@@ -40,7 +40,7 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
 
     void IHealthControllerDelegate.OnHealthChanged(HealthController healthController, int newHealth)
     {
-        _player.EnableSwordProjectiles(healthController.IsAtFullHealth);
+        _player.SwordProjectilesEnabled = healthController.IsAtFullHealth;
         SoundFx.Instance.PlayLowHealth(_player.HealthInHalfHearts <= 2);
     }
     void IHealthControllerDelegate.OnDamageTaken(HealthController healthController, ref uint damageAmount, GameObject damageDealer)
@@ -143,7 +143,7 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
         }
 
         _player.IsParalyzed = false;
-        _player.EnableSwordProjectiles();
+        _player.SwordProjectilesEnabled = true;
 
         if (WorldInfo.Instance.IsPausingAllowedInCurrentScene())
         {

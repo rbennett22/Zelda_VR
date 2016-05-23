@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Inventory : Singleton<Inventory>
 {
-    const int BOMB_MAX_COUNT_BASE = 8;
+    const int BOMB_CAPACITY_BASE = 8;
     const int BOMBS_PER_UPGRADE = 4;
 
     const string ITEM_PREFABS_PATH = "ZeldaItemPrefabs";        // (relative to a Resources folder)
@@ -21,6 +21,7 @@ public class Inventory : Singleton<Inventory>
         Item item = GetItem(name);
         return (item != null) && (item.count > 0);
     }
+    public void RemoveItem(string name) { if (HasItem(name)) { GetItem(name).count = 0; } }
 
 
     public int GetArmorLevel()
@@ -121,6 +122,24 @@ public class Inventory : Singleton<Inventory>
         }
     }
 
+    Item _equippedShield;
+    public Item EquippedShield
+    {
+        get { return _equippedShield; }
+        set
+        {
+            _equippedShield = value;
+            if (_equippedShield != null)
+            {
+                CommonObjects.Player_C.EquipShield(_equippedShield.name);
+            }
+            else
+            {
+                CommonObjects.Player_C.DeequipShield();
+            }
+        }
+    }
+
 
     Item[,,] _equippableSecondaryItems;
 
@@ -130,7 +149,7 @@ public class Inventory : Singleton<Inventory>
     public bool CanAfford(int price) { return RupeeCount >= price; }
     public bool SpendRupees(int amount)
     {
-        if (amount > RupeeCount) { return false; }
+        if (!CanAfford(amount)) { return false; }
 
         if (amount < 10)
         {
@@ -290,6 +309,16 @@ public class Inventory : Singleton<Inventory>
                 }
             }
         }
+        else if (IsItemAShield(item))
+        {
+            if (prevCount == 0)
+            {
+                if (item.IsTheHighestUpgradeInInventory())
+                {
+                    EquippedShield = item;
+                }
+            }
+        }
         else if (IsItemAnEquippableSecondaryItem(itemName))
         {
             if (_equippedItemB == null || item.IsItemInUpgradeChain(_equippedItemB))
@@ -345,6 +374,14 @@ public class Inventory : Singleton<Inventory>
             (item.name == "WoodenSword") ||
             (item.name == "WhiteSword") ||
             (item.name == "MagicSword"));
+    }
+    public bool IsItemAShield(Item item)
+    {
+        if (item == null) { return false; }
+
+        return (
+            (item.name == "WoodenShield") ||
+            (item.name == "MagicShield"));
     }
 
 
@@ -443,6 +480,7 @@ public class Inventory : Singleton<Inventory>
 
         EquippedItemA = GetItem("MagicSword");
         EquippedItemB = GetItem("SilverBow");
+        EquippedShield = GetItem("MagicShield");
 
         SyncPlayerHealthWithHeartContainers(true);
     }
@@ -450,7 +488,7 @@ public class Inventory : Singleton<Inventory>
 
     void ApplyBombUpgrades()
     {
-        GetItem("Bomb").maxCount = BOMB_MAX_COUNT_BASE + GetItem("BombUpgrade").count * BOMBS_PER_UPGRADE;
+        GetItem("Bomb").maxCount = BOMB_CAPACITY_BASE + GetItem("BombUpgrade").count * BOMBS_PER_UPGRADE;
     }
 
 
@@ -461,7 +499,7 @@ public class Inventory : Singleton<Inventory>
         public string[] itemNames;
         public int[] itemCounts;
 
-        public string equippedItemA, equippedItemB;
+        public string equippedItemA, equippedItemB, equippedShield;
 
         public bool[] hasCompassForDungeon = new bool[WorldInfo.NUM_DUNGEONS];
         public bool[] hasMapForDungeon = new bool[WorldInfo.NUM_DUNGEONS];
@@ -488,6 +526,7 @@ public class Inventory : Singleton<Inventory>
 
         info.equippedItemA = (_equippedItemA == null) ? "null" : _equippedItemA.name;
         info.equippedItemB = (_equippedItemB == null) ? "null" : _equippedItemB.name;
+        info.equippedShield = (_equippedShield == null) ? "null" : _equippedShield.name;
 
         info.hasCompassForDungeon = _hasCompassForDungeon;
         info.hasMapForDungeon = _hasMapForDungeon;
@@ -509,16 +548,20 @@ public class Inventory : Singleton<Inventory>
 
         string a = info.equippedItemA;
         if (a == "null") { a = null; }
+        EquippedItemA = GetItem(a);
+
         string b = info.equippedItemB;
         if (b == "null") { b = null; }
-        EquippedItemA = GetItem(a);
         EquippedItemB = GetItem(b);
+
+        string sh = info.equippedShield;
+        if (sh == "null") { sh = null; }
+        EquippedShield = GetItem(sh);
 
         _hasCompassForDungeon = info.hasCompassForDungeon;
         _hasMapForDungeon = info.hasMapForDungeon;
         _hasTriforcePieceForDungeon = info.hasTriforcePieceForDungeon;
         HasDeliveredLetterToOldWoman = info.hasDeliveredLetterToOldWoman;
-
 
         ApplyBombUpgrades();
         SyncPlayerHealthWithHeartContainers();

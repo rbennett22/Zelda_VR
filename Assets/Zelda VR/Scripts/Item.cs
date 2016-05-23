@@ -8,7 +8,7 @@ public class Item : MonoBehaviour
 
     public int count, maxCount = 1;
     public bool AppearsInInventoryGUI;
-    public GameObject weaponPrefab;
+    public GameObject weaponPrefab, shieldPrefab;
 
     public Item upgradesTo;         // The Item that this Item will upgrade to (if any)
     public Item UpgradedFrom { get; set; }
