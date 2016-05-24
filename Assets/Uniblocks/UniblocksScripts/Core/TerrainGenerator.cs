@@ -23,18 +23,18 @@ namespace Uniblocks
             GenerateVoxelData();
 
             // set empty
-            chunk.Empty = true;
-            foreach (ushort voxel in chunk.VoxelData)
+            chunk.empty = true;
+            foreach (ushort voxel in chunk.voxelData)
             {
                 if (voxel != 0)
                 {
-                    chunk.Empty = false;
+                    chunk.empty = false;
                     break;
                 }
             }
 
             // flag as done
-            chunk.VoxelsDone = true;
+            chunk.voxelsDone = true;
         }
 
         public virtual void GenerateVoxelData()

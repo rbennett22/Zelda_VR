@@ -44,7 +44,7 @@ namespace Uniblocks
 
             ChunkDataFiles.DecompressData(chunk, GetString(data)); // decompress data
                                                                    //		ChunkManager.DataReceivedCount ++; // let ChunkManager know that we have received the data
-            chunk.VoxelsDone = true; // let Chunk know that it can update it's mesh
+            chunk.voxelsDone = true; // let Chunk know that it can update it's mesh
             Chunk.CurrentChunkDataRequests--;
         }
 
@@ -52,9 +52,9 @@ namespace Uniblocks
         public void SendPlaceBlock(VoxelInfo info, ushort data)
         {   // sends a voxel change to the server, which then redistributes it to other clients
             // convert to ints
-            int chunkx = info.chunk.ChunkIndex.x;
-            int chunky = info.chunk.ChunkIndex.y;
-            int chunkz = info.chunk.ChunkIndex.z;
+            int chunkx = info.chunk.chunkIndex.x;
+            int chunky = info.chunk.chunkIndex.y;
+            int chunkz = info.chunk.chunkIndex.z;
 
             // send to server
             if (Network.isServer)
@@ -69,9 +69,9 @@ namespace Uniblocks
         public void SendChangeBlock(VoxelInfo info, ushort data)
         {
             // convert to ints
-            int chunkx = info.chunk.ChunkIndex.x;
-            int chunky = info.chunk.ChunkIndex.y;
-            int chunkz = info.chunk.ChunkIndex.z;
+            int chunkx = info.chunk.chunkIndex.x;
+            int chunky = info.chunk.chunkIndex.y;
+            int chunkz = info.chunk.chunkIndex.z;
 
             // send to server
             if (Network.isServer)

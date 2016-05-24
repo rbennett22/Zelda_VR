@@ -58,7 +58,9 @@ namespace Uniblocks
                 engine.lChunkSpawnDistance = EditorGUILayout.IntField("Chunk spawn distance", engine.lChunkSpawnDistance);
                 engine.lChunkDespawnDistance = EditorGUILayout.IntField("Chunk despawn distance", engine.lChunkDespawnDistance);
                 engine.lHeightRange = EditorGUILayout.IntField("Chunk height range", engine.lHeightRange);
-                engine.lChunkSideLength = EditorGUILayout.IntField("Chunk side length", engine.lChunkSideLength);
+                engine.lChunkSizeX = EditorGUILayout.IntField("Chunk side length X", engine.lChunkSizeX);
+                engine.lChunkSizeY = EditorGUILayout.IntField("Chunk side length Y", engine.lChunkSizeY);
+                engine.lChunkSizeZ = EditorGUILayout.IntField("Chunk side length Z", engine.lChunkSizeZ);
                 engine.lTextureUnit = EditorGUILayout.FloatField("Texture unit", engine.lTextureUnit);
                 engine.lTexturePadding = EditorGUILayout.FloatField("Texture padding", engine.lTexturePadding);
                 engine.lGenerateMeshes = EditorGUILayout.Toggle("Generate meshes", engine.lGenerateMeshes);

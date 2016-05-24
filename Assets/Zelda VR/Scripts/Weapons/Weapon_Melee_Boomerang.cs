@@ -85,6 +85,15 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
     }
 
 
+    public override void OnHitCollectible(Collectible collectible)
+    {
+        base.OnHitCollectible(collectible);
+
+        if (!canGatherCollectibles) { return; }
+
+        ReturnToThrower();
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         ReturnToThrower();

@@ -43,8 +43,8 @@ namespace Uniblocks
             frameStopwatch = new Stopwatch();
 
             Engine.ChunkScale = ChunkObject.transform.localScale;
-            ChunkObject.GetComponent<Chunk>().MeshContainer.transform.localScale = ChunkObject.transform.localScale; // set correct scale of trigger collider and additional mesh collider
-            ChunkObject.GetComponent<Chunk>().ChunkCollider.transform.localScale = ChunkObject.transform.localScale;
+            ChunkObject.GetComponent<Chunk>().meshContainer.transform.localScale = ChunkObject.transform.localScale; // set correct scale of trigger collider and additional mesh collider
+            ChunkObject.GetComponent<Chunk>().chunkCollider.transform.localScale = ChunkObject.transform.localScale;
 
             Done = true;
             ChunkManager.SpawningChunks = false;
@@ -72,11 +72,11 @@ namespace Uniblocks
             // update the first chunk and remove it from the queue
             Chunk currentChunk = ChunkUpdateQueue[0];
 
-            if (!currentChunk.Empty && !currentChunk.DisableMesh)
+            if (!currentChunk.empty && !currentChunk.disableMesh)
             {
                 currentChunk.RebuildMesh();
             }
-            currentChunk.Fresh = false;
+            currentChunk.fresh = false;
             ChunkUpdateQueue.RemoveAt(0);
         }
 
@@ -97,12 +97,12 @@ namespace Uniblocks
 
         public static void RegisterChunk(Chunk chunk)
         { // adds a reference to the chunk to the global chunk list
-            ChunkManager.Chunks.Add(chunk.ChunkIndex.ToString(), chunk);
+            ChunkManager.Chunks.Add(chunk.chunkIndex.ToString(), chunk);
         }
 
         public static void UnregisterChunk(Chunk chunk)
         {
-            ChunkManager.Chunks.Remove(chunk.ChunkIndex.ToString());
+            ChunkManager.Chunks.Remove(chunk.chunkIndex.ToString());
         }
 
         public static GameObject GetChunk(int x, int y, int z)
@@ -169,8 +169,8 @@ namespace Uniblocks
             {
                 chunk = Engine.ChunkManagerInstance.DoSpawnChunk(index);
                 Chunk chunkComponent = chunk.GetComponent<Chunk>();
-                chunkComponent.EnableTimeout = true;
-                chunkComponent.DisableMesh = true;
+                chunkComponent.enableTimeout = true;
+                chunkComponent.disableMesh = true;
                 return chunk;
             }
             else return chunk; // don't disable mesh generation and don't enable timeout for chunks that are already spawned
@@ -267,11 +267,11 @@ namespace Uniblocks
             ChunksToDestroy = new List<Chunk>();
             foreach (Chunk chunk in Chunks.Values)
             {
-                if (Vector2.Distance(new Vector2(chunk.ChunkIndex.x, chunk.ChunkIndex.z), new Vector2(originX, originZ)) > range + Engine.ChunkDespawnDistance)
+                if (Vector2.Distance(new Vector2(chunk.chunkIndex.x, chunk.chunkIndex.z), new Vector2(originX, originZ)) > range + Engine.ChunkDespawnDistance)
                 {
                     ChunksToDestroy.Add(chunk);
                 }
-                else if (Mathf.Abs(chunk.ChunkIndex.y - originY) > range + Engine.ChunkDespawnDistance)
+                else if (Mathf.Abs(chunk.chunkIndex.y - originY) > range + Engine.ChunkDespawnDistance)
                 { // destroy chunks outside of vertical range
                     ChunksToDestroy.Add(chunk);
                 }
@@ -308,25 +308,25 @@ namespace Uniblocks
                                     if (currentChunk != null)
                                     {
                                         // chunks without meshes spawned by server should be changed to regular chunks
-                                        if (currentChunk.DisableMesh || currentChunk.EnableTimeout)
+                                        if (currentChunk.disableMesh || currentChunk.enableTimeout)
                                         {
-                                            currentChunk.DisableMesh = false;
-                                            currentChunk.EnableTimeout = false;
-                                            currentChunk.Fresh = true;
+                                            currentChunk.disableMesh = false;
+                                            currentChunk.enableTimeout = false;
+                                            currentChunk.fresh = true;
                                         }
 
-                                        if (currentChunk.Fresh)
+                                        if (currentChunk.fresh)
                                         {
                                             // spawn neighbor chunks
                                             for (int d = 0; d < 6; d++)
                                             {
-                                                Index neighborIndex = currentChunk.ChunkIndex.GetAdjacentIndex((Direction)d);
+                                                Index neighborIndex = currentChunk.chunkIndex.GetAdjacentIndex((Direction)d);
                                                 GameObject neighborChunk = GetChunk(neighborIndex);
                                                 if (neighborChunk == null)
                                                 {
                                                     neighborChunk = Instantiate(ChunkObject, neighborIndex.ToVector3(), transform.rotation) as GameObject;
                                                 }
-                                                currentChunk.NeighborChunks[d] = neighborChunk.GetComponent<Chunk>(); // always add the neighbor to NeighborChunks, in case it's not there already
+                                                currentChunk.neighborChunks[d] = neighborChunk.GetComponent<Chunk>(); // always add the neighbor to NeighborChunks, in case it's not there already
 
                                                 // continue loop in next frame if the current frame time is exceeded
                                                 if (frameStopwatch.Elapsed.TotalSeconds >= targetFrameDuration)
@@ -352,13 +352,13 @@ namespace Uniblocks
                                         // spawn neighbor chunks if they're not spawned yet
                                         for (int d = 0; d < 6; d++)
                                         {
-                                            Index neighborIndex = currentChunk.ChunkIndex.GetAdjacentIndex((Direction)d);
+                                            Index neighborIndex = currentChunk.chunkIndex.GetAdjacentIndex((Direction)d);
                                             GameObject neighborChunk = GetChunk(neighborIndex);
                                             if (neighborChunk == null)
                                             {
                                                 neighborChunk = Instantiate(ChunkObject, neighborIndex.ToVector3(), transform.rotation) as GameObject;
                                             }
-                                            currentChunk.NeighborChunks[d] = neighborChunk.GetComponent<Chunk>(); // always add the neighbor to NeighborChunks, in case it's not there already
+                                            currentChunk.neighborChunks[d] = neighborChunk.GetComponent<Chunk>(); // always add the neighbor to NeighborChunks, in case it's not there already
 
                                             // continue loop in next frame if the current frame time is exceeded
                                             if (frameStopwatch.Elapsed.TotalSeconds >= targetFrameDuration)

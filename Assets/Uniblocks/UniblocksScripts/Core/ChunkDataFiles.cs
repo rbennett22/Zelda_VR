@@ -16,12 +16,12 @@ namespace Uniblocks
         public bool LoadData()
         { // attempts to load data from file, returns false if data is not found
             Chunk chunk = GetComponent<Chunk>();
-            string chunkData = GetChunkData(chunk.ChunkIndex);
+            string chunkData = GetChunkData(chunk.chunkIndex);
 
             if (chunkData != "")
             {
-                ChunkDataFiles.DecompressData(chunk, GetChunkData(chunk.ChunkIndex));
-                chunk.VoxelsDone = true;
+                ChunkDataFiles.DecompressData(chunk, GetChunkData(chunk.chunkIndex));
+                chunk.voxelsDone = true;
                 return true;
             }
             else {
@@ -34,7 +34,7 @@ namespace Uniblocks
             Chunk chunk = GetComponent<Chunk>();
             string compressedData = ChunkDataFiles.CompressData(chunk);
 
-            WriteChunkData(chunk.ChunkIndex, compressedData);
+            WriteChunkData(chunk.chunkIndex, compressedData);
         }
 
         public static void DecompressData(Chunk chunk, string data)
@@ -42,7 +42,7 @@ namespace Uniblocks
             // check if chunk is empty
             if (data.Length == 2 && data[1] == (char)0)
             {
-                chunk.Empty = true;
+                chunk.empty = true;
             }
 
             StringReader reader = new StringReader(data);
@@ -69,7 +69,7 @@ namespace Uniblocks
             }
             catch (System.Exception)
             {
-                Debug.LogError("Uniblocks: Corrupt chunk data for chunk: " + chunk.ChunkIndex.ToString() + ". Has the data been saved using a different chunk size?");
+                Debug.LogError("Uniblocks: Corrupt chunk data for chunk: " + chunk.chunkIndex.ToString() + ". Has the data been saved using a different chunk size?");
                 reader.Close();
                 return;
             }

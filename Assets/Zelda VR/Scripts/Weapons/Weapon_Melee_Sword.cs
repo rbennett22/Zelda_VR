@@ -109,8 +109,19 @@ public class Weapon_Melee_Sword : Weapon_Melee
         _isExtending = _isRetracting = false;
 
         CollisionEnabled = false;
+
+        CollectAttachedCollectibles();
     }
 
+
+    public override void OnHitCollectible(Collectible collectible)
+    {
+        base.OnHitCollectible(collectible);
+
+        if (!canGatherCollectibles) { return; }
+
+        Retract();
+    }
 
     void OnCollisionEnter(Collision collision)
     {

@@ -61,7 +61,7 @@ namespace Uniblocks
             // >> You can check whether the request for voxel data is valid here <<
             // if (true) {
             Chunk chunk = ChunkManager.SpawnChunkFromServer(chunkx, chunky, chunkz).GetComponent<Chunk>(); // get the chunk (spawn it if it's not spawned already)
-            chunk.Lifetime = 0f; // refresh the chunk's lifetime
+            chunk.lifetime = 0f; // refresh the chunk's lifetime
             string data = ChunkDataFiles.CompressData(chunk); // get data from the chunk and compress it
             byte[] dataBytes = GetBytes(data); // convert to byte array (sending strings over RPC doesn't work too well)
             GetComponent<NetworkView>().RPC("ReceiveVoxelData", player, chunkx, chunky, chunkz, dataBytes); // send compressed data to the player who requested it
@@ -139,7 +139,7 @@ namespace Uniblocks
         void ApplyOnServer(int x, int y, int z, int chunkx, int chunky, int chunkz, int data, bool isChangeBlock)
         { // updates the voxel data stored on the server with the change sent by client
             Chunk chunk = ChunkManager.SpawnChunkFromServer(chunkx, chunky, chunkz).GetComponent<Chunk>();// if chunk is not loaded, load it
-            chunk.Lifetime = 0f; // refresh the chunk's lifetime
+            chunk.lifetime = 0f; // refresh the chunk's lifetime
             if (isChangeBlock)
             {
                 GetComponent<UniblocksClient>().ReceiveChangeBlock(Network.player, x, y, z, chunkx, chunky, chunkz, data);

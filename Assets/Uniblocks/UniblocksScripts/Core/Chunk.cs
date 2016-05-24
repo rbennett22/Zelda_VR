@@ -7,62 +7,59 @@ namespace Uniblocks
 {
     public class Chunk : MonoBehaviour
     {
-        // Chunk data
-        public ushort[] VoxelData; // main voxel data array
+        public ushort[] voxelData; 
 
-        public Index ChunkIndex; // corresponds to the position of the chunk
-        public Chunk[] NeighborChunks; // references to GameObjects of neighbor chunks
-        public bool Empty;
+        public Index chunkIndex;    // Corresponds to the position of the chunk
+        public Chunk[] neighborChunks;
+        public bool empty;
 
-        // Settings & flags
-        public bool Fresh = true;
+        public bool fresh = true;
 
-        public bool EnableTimeout;
-        public bool DisableMesh; // for chunks spawned from UniblocksServer; if true, the chunk will not build a mesh
-        private bool FlaggedToRemove;
-        public float Lifetime; // how long since the chunk has been spawned
+        public bool enableTimeout;
+        public bool disableMesh;    // for chunks spawned from UniblocksServer; if true, the chunk will not build a mesh
+        public float lifetime;      // how long since the chunk has been spawned
 
         // update queue
-        public bool FlaggedToUpdate,
-        InUpdateQueue,
-        VoxelsDone; // true when this chunk has finished generating or loading voxel data
+        public bool flaggedToUpdate;
+        public bool inUpdateQueue;
+        public bool voxelsDone;     // true when this chunk has finished generating or loading voxel data
+
+        public GameObject meshContainer, chunkCollider;
+
+        public int sizeX, sizeY, sizeZ;
 
 
-        // Semi-constants
-        public int SideLength;
-
-        private int SquaredSideLength;
-
-        private ChunkMeshCreator MeshCreator;
-
-        // object prefabs
-        public GameObject MeshContainer, ChunkCollider;
-
+        ChunkMeshCreator MeshCreator;
+        bool _flaggedToRemove;
 
 
         // ==== maintenance ===========================================================================================
 
         public void Awake()
-        { // chunk initialization (load/generate data, set position, etc.)
-            // Set variables
-            ChunkIndex = new Index(transform.position);
-            SideLength = Engine.ChunkSideLength;
-            SquaredSideLength = SideLength * SideLength;
-            NeighborChunks = new Chunk[6]; // 0 = up, 1 = down, 2 = right, 3 = left, 4 = forward, 5 = back
+        { 
+            chunkIndex = new Index(transform.position);
+
+            sizeX = Engine.chunkSizeX;
+            sizeY = Engine.chunkSizeY;
+            sizeZ = Engine.chunkSizeZ;
+
+            neighborChunks = new Chunk[6]; // 0 = up, 1 = down, 2 = right, 3 = left, 4 = forward, 5 = back
             MeshCreator = GetComponent<ChunkMeshCreator>();
-            Fresh = true;
+            fresh = true;
 
             // Register chunk
             ChunkManager.RegisterChunk(this);
 
             // Clear the voxel data
-            VoxelData = new ushort[SideLength * SideLength * SideLength];
+            voxelData = new ushort[sizeX * sizeY * sizeZ];
 
             // Set actual position
-            transform.position = ChunkIndex.ToVector3() * SideLength;
-
-            // multiply by scale
-            transform.position = new Vector3(transform.position.x * transform.localScale.x, transform.position.y * transform.localScale.y, transform.position.z * transform.localScale.z);
+            Vector3 idx = chunkIndex.ToVector3();
+            Vector3 s = transform.localScale;
+            transform.position = new Vector3(
+                idx.x * sizeX * s.x, 
+                idx.y * sizeY * s.y, 
+                idx.z * sizeZ * s.z);
 
             // Grab voxel data
             if (Engine.EnableMultiplayer && !Network.isServer)
@@ -92,9 +89,9 @@ namespace Uniblocks
         { // adds chunk to the UpdateQueue when this chunk and all known neighbors have their data ready
             StartCoroutine(DoAddToQueueWhenReady());
         }
-        private IEnumerator DoAddToQueueWhenReady()
+        IEnumerator DoAddToQueueWhenReady()
         {
-            while (VoxelsDone == false || AllNeighborsHaveData() == false)
+            while (voxelsDone == false || AllNeighborsHaveData() == false)
             {
                 if (ChunkManager.StopSpawning)
                 { // interrupt if the chunk spawn sequence is stopped. This will be restarted in the correct order from ChunkManager
@@ -105,13 +102,13 @@ namespace Uniblocks
             ChunkManager.AddChunkToUpdateQueue(this);
         }
 
-        private bool AllNeighborsHaveData()
+        bool AllNeighborsHaveData()
         { // returns false if at least one neighbor is known but doesn't have data ready yet
-            foreach (Chunk neighbor in NeighborChunks)
+            foreach (Chunk neighbor in neighborChunks)
             {
                 if (neighbor != null)
                 {
-                    if (neighbor.VoxelsDone == false)
+                    if (neighbor.voxelsDone == false)
                     {
                         return false;
                     }
@@ -120,7 +117,8 @@ namespace Uniblocks
             return true;
         }
 
-        private void OnDestroy()
+
+        void OnDestroy()
         {
             ChunkManager.UnregisterChunk(this);
         }
@@ -130,68 +128,70 @@ namespace Uniblocks
 
         public void ClearVoxelData()
         {
-            VoxelData = new ushort[SideLength * SideLength * SideLength];
+            voxelData = new ushort[sizeX * sizeY * sizeZ];
         }
 
         public int GetDataLength()
         {
-            return VoxelData.Length;
+            return voxelData.Length;
         }
+
+
+        int GetRawIndex(int x, int y, int z) { return (z * sizeY * sizeX) + (y * sizeX) + x; }
+        int GetRawIndex(Index index) { return GetRawIndex(index.x, index.y, index.z); }
 
 
         // == set voxel
+
         public void SetVoxelSimple(int rawIndex, ushort data)
         {
-            VoxelData[rawIndex] = data;
+            voxelData[rawIndex] = data;
         }
         public void SetVoxelSimple(int x, int y, int z, ushort data)
         {
-            VoxelData[(z * SquaredSideLength) + (y * SideLength) + x] = data;
+            SetVoxelSimple(GetRawIndex(x, y, z), data);
         }
         public void SetVoxelSimple(Index index, ushort data)
         {
-            VoxelData[(index.z * SquaredSideLength) + (index.y * SideLength) + index.x] = data;
+            SetVoxelSimple(GetRawIndex(index), data);
         }
+
         public void SetVoxel(int x, int y, int z, ushort data, bool updateMesh)
         {
-            // if outside of this chunk, change in neighbor instead (if possible)
+            // If outside of this chunk, change in neighbor instead (if possible)
             if (x < 0)
             {
-                if (NeighborChunks[(int)Direction.left] != null)
-                    NeighborChunks[(int)Direction.left].SetVoxel(x + SideLength, y, z, data, updateMesh); return;
+                SetVoxelForNeighbor(Direction.left, x + sizeX, y, z, data, updateMesh);
             }
-            else if (x >= SideLength)
+            else if (x >= sizeX)
             {
-                if (NeighborChunks[(int)Direction.right] != null)
-                    NeighborChunks[(int)Direction.right].SetVoxel(x - SideLength, y, z, data, updateMesh); return;
+                SetVoxelForNeighbor(Direction.right, x - sizeX, y, z, data, updateMesh);
             }
             else if (y < 0)
             {
-                if (NeighborChunks[(int)Direction.down] != null)
-                    NeighborChunks[(int)Direction.down].SetVoxel(x, y + SideLength, z, data, updateMesh); return;
+                SetVoxelForNeighbor(Direction.down, x, y + sizeY, z, data, updateMesh);
             }
-            else if (y >= SideLength)
+            else if (y >= sizeY)
             {
-                if (NeighborChunks[(int)Direction.up] != null)
-                    NeighborChunks[(int)Direction.up].SetVoxel(x, y - SideLength, z, data, updateMesh); return;
+                SetVoxelForNeighbor(Direction.down, x, y - sizeY, z, data, updateMesh);
             }
             else if (z < 0)
             {
-                if (NeighborChunks[(int)Direction.back] != null)
-                    NeighborChunks[(int)Direction.back].SetVoxel(x, y, z + SideLength, data, updateMesh); return;
+                SetVoxelForNeighbor(Direction.back, x, y, z + sizeZ, data, updateMesh);
             }
-            else if (z >= SideLength)
+            else if (z >= sizeZ)
             {
-                if (NeighborChunks[(int)Direction.forward] != null)
-                    NeighborChunks[(int)Direction.forward].SetVoxel(x, y, z - SideLength, data, updateMesh); return;
+                SetVoxelForNeighbor(Direction.forward, x, y, z - sizeZ, data, updateMesh);
             }
-
-            VoxelData[(z * SquaredSideLength) + (y * SideLength) + x] = data;
-
-            if (updateMesh)
+            else
             {
-                UpdateNeighborsIfNeeded(x, y, z);
-                FlagToUpdate();
+                SetVoxelSimple(x, y, z, data);
+
+                if (updateMesh)
+                {
+                    UpdateNeighborsIfNeeded(x, y, z);
+                    FlagToUpdate();
+                }
             }
         }
         public void SetVoxel(Index index, ushort data, bool updateMesh)
@@ -199,76 +199,73 @@ namespace Uniblocks
             SetVoxel(index.x, index.y, index.z, data, updateMesh);
         }
 
+        void SetVoxelForNeighbor(Direction dir, int x, int y, int z, ushort data, bool updateMesh)
+        {
+            Chunk n = neighborChunks[(int)dir];
+            if (n != null)
+            {
+                n.SetVoxel(x, y, z, data, updateMesh);
+            }
+        }
+
+
         // == get voxel
+
         public ushort GetVoxelSimple(int rawIndex)
         {
-            return VoxelData[rawIndex];
+            return voxelData[rawIndex];
         }
         public ushort GetVoxelSimple(int x, int y, int z)
         {
-            return VoxelData[(z * SquaredSideLength) + (y * SideLength) + x];
+            return GetVoxelSimple(GetRawIndex(x, y, z));
         }
         public ushort GetVoxelSimple(Index index)
         {
-            return VoxelData[(index.z * SquaredSideLength) + (index.y * SideLength) + index.x];
+            return GetVoxelSimple(GetRawIndex(index));
         }
+
         public ushort GetVoxel(int x, int y, int z)
         {
             if (x < 0)
             {
-                if (NeighborChunks[(int)Direction.left] != null)
-                {
-                    return NeighborChunks[(int)Direction.left].GetVoxel(x + SideLength, y, z);
-                }
-                else return ushort.MaxValue;
+                return GetVoxelForNeighbor(Direction.left, x + sizeX, y, z);
             }
-            else if (x >= SideLength)
+            else if (x >= sizeX)
             {
-                if (NeighborChunks[(int)Direction.right] != null)
-                {
-                    return NeighborChunks[(int)Direction.right].GetVoxel(x - SideLength, y, z);
-                }
-                else return ushort.MaxValue;
+                return GetVoxelForNeighbor(Direction.right, x - sizeX, y, z);
             }
             else if (y < 0)
             {
-                if (NeighborChunks[(int)Direction.down] != null)
-                {
-                    return NeighborChunks[(int)Direction.down].GetVoxel(x, y + SideLength, z);
-                }
-                else return ushort.MaxValue;
+                return GetVoxelForNeighbor(Direction.down, x, y + sizeY, z);
             }
-            else if (y >= SideLength)
+            else if (y >= sizeY)
             {
-                if (NeighborChunks[(int)Direction.up] != null)
-                {
-                    return NeighborChunks[(int)Direction.up].GetVoxel(x, y - SideLength, z);
-                }
-                else return ushort.MaxValue;
+                return GetVoxelForNeighbor(Direction.up, x, y - sizeY, z);
             }
             else if (z < 0)
             {
-                if (NeighborChunks[(int)Direction.back] != null)
-                {
-                    return NeighborChunks[(int)Direction.back].GetVoxel(x, y, z + SideLength);
-                }
-                else return ushort.MaxValue;
+                return GetVoxelForNeighbor(Direction.back, x, y, z + sizeZ);
             }
-            else if (z >= SideLength)
+            else if (z >= sizeZ)
             {
-                if (NeighborChunks[(int)Direction.forward] != null)
-                {
-                    return NeighborChunks[(int)Direction.forward].GetVoxel(x, y, z - SideLength);
-                }
-                else return ushort.MaxValue;
+                return GetVoxelForNeighbor(Direction.forward, x, y, z - sizeZ);
             }
-            else {
-                return VoxelData[(z * SquaredSideLength) + (y * SideLength) + x];
-            }
+            
+            return GetVoxelSimple(x, y, z);
         }
         public ushort GetVoxel(Index index)
         {
             return GetVoxel(index.x, index.y, index.z);
+        }
+
+        ushort GetVoxelForNeighbor(Direction dir, int x, int y, int z)
+        {
+            Chunk n = neighborChunks[(int)dir];
+            if (n == null)
+            {
+                return ushort.MaxValue;
+            }
+            return n.GetVoxel(x, y, z);
         }
 
 
@@ -276,11 +273,11 @@ namespace Uniblocks
 
         public void FlagToRemove()
         {
-            FlaggedToRemove = true;
+            _flaggedToRemove = true;
         }
         public void FlagToUpdate()
         {
-            FlaggedToUpdate = true;
+            flaggedToUpdate = true;
         }
 
 
@@ -294,27 +291,30 @@ namespace Uniblocks
         public void LateUpdate()
         {
             // timeout
-            if (Engine.EnableChunkTimeout && EnableTimeout)
+            if (Engine.EnableChunkTimeout && enableTimeout)
             {
-                Lifetime += Time.deltaTime;
-                if (Lifetime > Engine.ChunkTimeout)
+                lifetime += Time.deltaTime;
+                if (lifetime > Engine.ChunkTimeout)
                 {
-                    FlaggedToRemove = true;
+                    _flaggedToRemove = true;
                 }
             }
 
-            if (FlaggedToUpdate && VoxelsDone && !DisableMesh && Engine.GenerateMeshes)
-            { // check if we should update the mesh
-                FlaggedToUpdate = false;
+            // Update the mesh?
+            if (flaggedToUpdate && voxelsDone && !disableMesh && Engine.GenerateMeshes)
+            { 
+                flaggedToUpdate = false;
                 RebuildMesh();
             }
 
-            if (FlaggedToRemove)
+            if (_flaggedToRemove)
             {
                 if (Engine.SaveVoxelData)
-                { // save data over time, destroy chunk when done
+                { 
+                    // save data over time, destroy chunk when done
                     if (ChunkDataFiles.SavingChunks == false)
-                    { // only destroy chunks if they are not being saved currently
+                    { 
+                        // only destroy chunks if they are not being saved currently
                         if (ChunkManager.SavesThisFrame < Engine.MaxChunkSaves)
                         {
                             ChunkManager.SavesThisFrame++;
@@ -323,7 +323,9 @@ namespace Uniblocks
                         }
                     }
                 }
-                else { // if saving is disabled, destroy immediately
+                else
+                { 
+                    // if saving is disabled, destroy immediately
                     Destroy(this.gameObject);
                 }
             }
@@ -336,7 +338,7 @@ namespace Uniblocks
         }
 
 
-        private void SaveData()
+        void SaveData()
         {
             if (Engine.SaveVoxelData == false)
             {
@@ -351,30 +353,26 @@ namespace Uniblocks
         }
 
 
-
         // ==== Neighbors =======================================================================================
 
         public void ConnectNeighbors()
-        { // update the mesh on all neighbors that have a mesh but don't know about this chunk yet, and also pass them the reference to this chunk
+        { 
+            // update the mesh on all neighbors that have a mesh but don't know about this chunk yet, and also pass them the reference to this chunk
             int loop = 0;
             int i = loop;
 
             while (loop < 6)
             {
-                if (loop % 2 == 0)
-                { // for even indexes, add one; for odd, subtract one (because the neighbors are in opposite direction to this chunk)
-                    i = loop + 1;
-                }
-                else {
-                    i = loop - 1;
-                }
+                // for even indexes, add one; for odd, subtract one (because the neighbors are in opposite direction to this chunk)
+                i = (loop % 2 == 0) ? (loop + 1) : (loop - 1);
 
-                if (NeighborChunks[loop] != null && NeighborChunks[loop].gameObject.GetComponent<MeshFilter>().sharedMesh != null)
+                Chunk ch = neighborChunks[loop];
+                if (ch != null && ch.gameObject.GetComponent<MeshFilter>().sharedMesh != null)
                 {
-                    if (NeighborChunks[loop].NeighborChunks[i] == null)
+                    if (ch.neighborChunks[i] == null)
                     {
-                        NeighborChunks[loop].AddToQueueWhenReady();
-                        NeighborChunks[loop].NeighborChunks[i] = this;
+                        ch.AddToQueueWhenReady();
+                        ch.neighborChunks[i] = this;
                     }
                 }
 
@@ -383,17 +381,18 @@ namespace Uniblocks
         }
 
         public void GetNeighbors()
-        { // assign the neighbor chunk gameobjects to the NeighborChunks array
-            int x = ChunkIndex.x;
-            int y = ChunkIndex.y;
-            int z = ChunkIndex.z;
+        { 
+            // assign the neighbor chunk gameobjects to the NeighborChunks array
+            int x = chunkIndex.x;
+            int y = chunkIndex.y;
+            int z = chunkIndex.z;
 
-            if (NeighborChunks[0] == null) NeighborChunks[0] = ChunkManager.GetChunkComponent(x, y + 1, z);
-            if (NeighborChunks[1] == null) NeighborChunks[1] = ChunkManager.GetChunkComponent(x, y - 1, z);
-            if (NeighborChunks[2] == null) NeighborChunks[2] = ChunkManager.GetChunkComponent(x + 1, y, z);
-            if (NeighborChunks[3] == null) NeighborChunks[3] = ChunkManager.GetChunkComponent(x - 1, y, z);
-            if (NeighborChunks[4] == null) NeighborChunks[4] = ChunkManager.GetChunkComponent(x, y, z + 1);
-            if (NeighborChunks[5] == null) NeighborChunks[5] = ChunkManager.GetChunkComponent(x, y, z - 1);
+            if (neighborChunks[0] == null) neighborChunks[0] = ChunkManager.GetChunkComponent(x, y + 1, z);
+            if (neighborChunks[1] == null) neighborChunks[1] = ChunkManager.GetChunkComponent(x, y - 1, z);
+            if (neighborChunks[2] == null) neighborChunks[2] = ChunkManager.GetChunkComponent(x + 1, y, z);
+            if (neighborChunks[3] == null) neighborChunks[3] = ChunkManager.GetChunkComponent(x - 1, y, z);
+            if (neighborChunks[4] == null) neighborChunks[4] = ChunkManager.GetChunkComponent(x, y, z + 1);
+            if (neighborChunks[5] == null) neighborChunks[5] = ChunkManager.GetChunkComponent(x, y, z - 1);
         }
 
         public Index GetAdjacentIndex(Index index, Direction direction)
@@ -402,53 +401,62 @@ namespace Uniblocks
         }
 
         public Index GetAdjacentIndex(int x, int y, int z, Direction direction)
-        { // converts x,y,z, direction into a specific index
+        { 
+            // converts x,y,z, direction into a specific index
             if (direction == Direction.down) return new Index(x, y - 1, z);
             else if (direction == Direction.up) return new Index(x, y + 1, z);
             else if (direction == Direction.left) return new Index(x - 1, y, z);
             else if (direction == Direction.right) return new Index(x + 1, y, z);
             else if (direction == Direction.back) return new Index(x, y, z - 1);
             else if (direction == Direction.forward) return new Index(x, y, z + 1);
-            else {
+            else
+            {
                 Debug.LogError("Chunk.GetAdjacentIndex failed! Returning default index.");
                 return new Index(x, y, z);
             }
         }
 
-
         public void UpdateNeighborsIfNeeded(int x, int y, int z)
-        { // if the index lies at the border of a chunk, FlagToUpdate the neighbor at that border
-            if (x == 0 && NeighborChunks[(int)Direction.left] != null)
+        { 
+            // if the index lies at the border of a chunk, FlagToUpdate the neighbor at that border
+            if (x == 0)
             {
-                NeighborChunks[(int)Direction.left].GetComponent<Chunk>().FlagToUpdate();
+                FlagNeighborToUpdate(Direction.left);
             }
-            else if (x == SideLength - 1 && NeighborChunks[(int)Direction.right] != null)
+            else if (x == sizeX - 1)
             {
-                NeighborChunks[(int)Direction.right].GetComponent<Chunk>().FlagToUpdate();
-            }
-
-            if (y == 0 && NeighborChunks[(int)Direction.down] != null)
-            {
-                NeighborChunks[(int)Direction.down].GetComponent<Chunk>().FlagToUpdate();
-            }
-            else if (y == SideLength - 1 && NeighborChunks[(int)Direction.up] != null)
-            {
-                NeighborChunks[(int)Direction.up].GetComponent<Chunk>().FlagToUpdate();
+                FlagNeighborToUpdate(Direction.right);
             }
 
-            if (z == 0 && NeighborChunks[(int)Direction.back] != null)
+            if (y == 0)
             {
-                NeighborChunks[(int)Direction.back].GetComponent<Chunk>().FlagToUpdate();
+                FlagNeighborToUpdate(Direction.down);
             }
-            else if (z == SideLength - 1 && NeighborChunks[(int)Direction.forward] != null)
+            else if (y == sizeY - 1)
             {
-                NeighborChunks[(int)Direction.forward].GetComponent<Chunk>().FlagToUpdate();
+                FlagNeighborToUpdate(Direction.up);
+            }
+
+            if (z == 0)
+            {
+                FlagNeighborToUpdate(Direction.back);
+            }
+            else if (z == sizeZ - 1)
+            {
+                FlagNeighborToUpdate(Direction.forward);
+            }
+        }
+        void FlagNeighborToUpdate(Direction dir)
+        {
+            Chunk n = neighborChunks[(int)dir];
+            if (n != null)
+            {
+                n.FlagToUpdate();
             }
         }
 
 
         // ==== position / voxel index =======================================================================================
-
 
         public Index PositionToVoxelIndex(Vector3 position)
         {
@@ -465,30 +473,25 @@ namespace Uniblocks
 
         public Vector3 VoxelIndexToPosition(Index index)
         {
-            Vector3 localPoint = index.ToVector3(); // convert index to chunk's local position
-            return transform.TransformPoint(localPoint);// convert local position to world space
+            Vector3 localPoint = index.ToVector3();         // convert index to chunk's local position
+            return transform.TransformPoint(localPoint);    // convert local position to world space
         }
 
         public Vector3 VoxelIndexToPosition(int x, int y, int z)
         {
-            Vector3 localPoint = new Vector3(x, y, z); // convert index to chunk's local positio
-            return transform.TransformPoint(localPoint);// convert local position to world space
+            Vector3 localPoint = new Vector3(x, y, z);      // convert index to chunk's local positio
+            return transform.TransformPoint(localPoint);    // convert local position to world space
         }
 
         public Index PositionToVoxelIndex(Vector3 position, Vector3 normal, bool returnAdjacent)
-        { // converts the absolute position to the index of the voxel
-            if (returnAdjacent == false)
-            {
-                position = position - (normal * 0.25f); // push the hit point into the cube
-            }
-            else {
-                position = position + (normal * 0.25f); // push the hit point outside of the cube
-            }
-
+        {
+            // converts the absolute position to the index of the voxel
+            Vector3 offset = (normal * 0.25f);
+            int sign = returnAdjacent ? 1 : -1;     // push the hit point outside of the cube or into the cube?
+            position += sign * offset;
 
             // convert world position to chunk's local position
             Vector3 point = transform.InverseTransformPoint(position);
-
 
             // round it to get an int which we can convert to the voxel index
             Index index = new Index(0, 0, 0);
@@ -501,22 +504,26 @@ namespace Uniblocks
 
 
         // ==== network ==============
-        public static int CurrentChunkDataRequests; // how many chunk requests are currently queued in the server for this client. Increased by 1 every time a chunk requests data, and reduced by 1 when a chunk receives data.
+
+        // How many chunk requests are currently queued in the server for this client. 
+        // Increased by 1 every time a chunk requests data, and reduced by 1 when a chunk receives data.
+        public static int CurrentChunkDataRequests; 
 
         IEnumerator RequestVoxelData()
-        { // waits until we're connected to a server and then sends a request for voxel data for this chunk to the server
+        { 
+            // waits until we're connected to a server and then sends a request for voxel data for this chunk to the server
             while (!Network.isClient)
             {
-                Chunk.CurrentChunkDataRequests = 0; // reset the counter if we're not connected
+                CurrentChunkDataRequests = 0;   // reset the counter if we're not connected
                 yield return new WaitForEndOfFrame();
             }
-            while (Engine.MaxChunkDataRequests != 0 && Chunk.CurrentChunkDataRequests >= Engine.MaxChunkDataRequests)
+            while (Engine.MaxChunkDataRequests != 0 && CurrentChunkDataRequests >= Engine.MaxChunkDataRequests)
             {
                 yield return new WaitForEndOfFrame();
             }
 
-            Chunk.CurrentChunkDataRequests++;
-            Engine.UniblocksNetwork.GetComponent<NetworkView>().RPC("SendVoxelData", RPCMode.Server, Network.player, ChunkIndex.x, ChunkIndex.y, ChunkIndex.z);
+            CurrentChunkDataRequests++;
+            Engine.UniblocksNetwork.GetComponent<NetworkView>().RPC("SendVoxelData", RPCMode.Server, Network.player, chunkIndex.x, chunkIndex.y, chunkIndex.z);
         }
     }
 }

@@ -62,7 +62,7 @@ namespace Uniblocks
 
         public override void OnBlockEnter(GameObject enteringObject, VoxelInfo voxelInfo)
         {
-            Debug.Log("OnBlockEnter at " + voxelInfo.chunk.ChunkIndex.ToString() + " / " + voxelInfo.index.ToString());
+            Debug.Log("OnBlockEnter at " + voxelInfo.chunk.chunkIndex.ToString() + " / " + voxelInfo.index.ToString());
         }
     }
 }

@@ -23,18 +23,13 @@ High Priority:
 
 Mid Priority:
 
-- Refactor Grottos
 - Refactor Spells/Buffs/Effects
-- Refactor Items/Inventory
+- Refactor Grottos
 
-- Boomerang should return immediately upon colliding with a collectible
-- Bow Crosshair
-- LikeLike - Show an effect to indicate what's happening when player is trapped
-- Use sector Boundaries for OW enemies
 - Fog disappears abruptly in grottos close to Lost Woods
 - Whistle Warp - Wait for blocks to instantiate before opening shutters
 - Texture blocks correctly (use BoxMesh.cs?)
-- Texture OW DungeonEntrances correctly.
+- Texture OW DungeonEntrances correctly?
 - SubDungeon Warps - Mirror effect
 - Hold up HeartContainer if received in Grotto
 - Leevers - Emerge anim should only play through once
@@ -62,7 +57,6 @@ Mid Priority:
 - Boulders appear in red leever desert (NE of Level 1) where they should not
 
 - When leevers are burrowing and zolas are diving they shouldn't be harmful, nor should they use the guard sound effect when attacked
-- Apparently like-like stole my shield yet I never noticed myself being swallowed
 - Consider making the shield appear every time you deflect something
 - No rolling rupee sound after "Secret to everybody" or door repair
 - Hearts floating around in "Secret to everybody" cave that runs beneath fairy fountain
@@ -104,10 +98,13 @@ Low Priority / WishList:
 - Place "signs" above Grottos indicating type
 - Cannon Transportation for Grotto Warps
 
+- LikeLike: Show an effect to indicate what's happening when player is trapped ("swallowed")
 - Allow pushback force to send enemies flying upwards
 - Show Shield, indicate MagicShield?
 - When WandProjectile hits Link's shield you should see it reflect off 
 - Particles for MagicSword, MagicBoomerang, SilverArrow
+- Bow Crosshair
+- Use sector Boundaries for OW enemies
 
 - ImageEffects on camera (bloom etc)?
 - SoundFX DSP (ie. reverb in dungeons)
@@ -154,7 +151,6 @@ NEEDS TESTING:
 - Darknut shields against MagicWand (no flame)
 - Vires don't spawn Keese if killed by MagicSword
 - Wand Flame should light up dark room
-- Sword should be able to collect Collectibles
 
 Thought these were done already:
 

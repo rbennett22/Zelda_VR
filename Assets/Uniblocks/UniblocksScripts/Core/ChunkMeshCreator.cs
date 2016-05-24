@@ -12,35 +12,38 @@ namespace Uniblocks
 
     public class ChunkMeshCreator : MonoBehaviour
     {
-        private Chunk chunk;
-        private int SideLength;
-        private GameObject noCollideCollider;
+        Chunk chunk;
+        int _sizeX, _sizeY, _sizeZ;
+        GameObject noCollideCollider;
 
         public Mesh Cube;
 
         // variables for storing the mesh data
-        private List<Vector3> Vertices = new List<Vector3>();
+        List<Vector3> Vertices = new List<Vector3>();
 
-        private List<List<int>> Faces = new List<List<int>>();
-        private List<Vector2> UVs = new List<Vector2>();
-        private int FaceCount;
+        List<List<int>> Faces = new List<List<int>>();
+        List<Vector2> UVs = new List<Vector2>();
+        int FaceCount;
 
         // variables for storing collider data
-        private List<Vector3> SolidColliderVertices = new List<Vector3>();
+        List<Vector3> SolidColliderVertices = new List<Vector3>();
 
-        private List<int> SolidColliderFaces = new List<int>();
-        private int SolidFaceCount;
-        private List<Vector3> NoCollideVertices = new List<Vector3>();
-        private List<int> NoCollideFaces = new List<int>();
-        private int NoCollideFaceCount;
+        List<int> SolidColliderFaces = new List<int>();
+        int SolidFaceCount;
+        List<Vector3> NoCollideVertices = new List<Vector3>();
+        List<int> NoCollideFaces = new List<int>();
+        int NoCollideFaceCount;
 
-        private bool initialized;
+        bool initialized;
+
 
         public void Initialize()
         {
             // set variables
             chunk = GetComponent<Chunk>();
-            SideLength = chunk.SideLength;
+            _sizeX = chunk.sizeX;
+            _sizeY = chunk.sizeY;
+            _sizeZ = chunk.sizeZ;
 
             // make a list for each material (each material is a submesh)
             for (int i = 0; i < GetComponent<Renderer>().materials.Length; i++)
@@ -51,9 +54,8 @@ namespace Uniblocks
             initialized = true;
         }
 
+
         // ==== Voxel updates =====================================================================================
-
-
 
         public void RebuildMesh()
         {
@@ -74,11 +76,11 @@ namespace Uniblocks
             chunk.GetNeighbors();
 
             // for each voxel in Voxels, check if any of the voxel's faces are exposed, and if so, add their faces to the main mesh arrays (named Vertices and Faces)
-            while (x < SideLength)
+            while (x < _sizeX)
             {
-                while (y < SideLength)
+                while (y < _sizeY)
                 {
-                    while (z < SideLength)
+                    while (z < _sizeZ)
                     {
                         ushort voxel = chunk.GetVoxel(x, y, z); // the current voxel data
                         if (voxel != 0)
@@ -134,7 +136,7 @@ namespace Uniblocks
             UpdateMesh(GetComponent<MeshFilter>().mesh);
         }
 
-        private bool CheckAdjacent(int x, int y, int z, Direction direction, Transparency transparency)
+        bool CheckAdjacent(int x, int y, int z, Direction direction, Transparency transparency)
         { // returns true if a face should be spawned
             Index index = chunk.GetAdjacentIndex(x, y, z, direction);
             ushort adjacentVoxel = chunk.GetVoxel(index.x, index.y, index.z);
@@ -183,7 +185,7 @@ namespace Uniblocks
 
         // ==== mesh generation =======================================================================================
 
-        private void CreateFace(ushort voxel, Facing facing, ColliderType colliderType, int x, int y, int z)
+        void CreateFace(ushort voxel, Facing facing, ColliderType colliderType, int x, int y, int z)
         {
             Voxel voxelComponent = Engine.GetVoxelType(voxel);
             List<int> FacesList = Faces[voxelComponent.VSubmeshIndex];
@@ -319,7 +321,7 @@ namespace Uniblocks
             }
         }
 
-        private void CreateCustomMesh(ushort voxel, int x, int y, int z, Mesh mesh)
+        void CreateCustomMesh(ushort voxel, int x, int y, int z, Mesh mesh)
         {
             Voxel voxelComponent = Engine.GetVoxelType(voxel);
             List<int> FacesList = Faces[voxelComponent.VSubmeshIndex];
@@ -432,7 +434,7 @@ namespace Uniblocks
             }
         }
 
-        private void AddCubeMesh(int x, int y, int z, bool solid)
+        void AddCubeMesh(int x, int y, int z, bool solid)
         { // adds cube verts and faces to the chosen lists (for Solid or NoCollide colliders)
             if (solid)
             {
@@ -469,7 +471,7 @@ namespace Uniblocks
             }
         }
 
-        private void UpdateMesh(Mesh mesh)
+        void UpdateMesh(Mesh mesh)
         {
             // Update the mesh
             mesh.Clear();
@@ -508,7 +510,7 @@ namespace Uniblocks
                     nocolMesh.Optimize();
                     nocolMesh.RecalculateNormals();
 
-                    noCollideCollider = Instantiate(chunk.ChunkCollider, transform.position, transform.rotation) as GameObject;
+                    noCollideCollider = Instantiate(chunk.chunkCollider, transform.position, transform.rotation) as GameObject;
                     noCollideCollider.transform.parent = this.transform;
                     noCollideCollider.GetComponent<MeshCollider>().sharedMesh = nocolMesh;
                 }
@@ -541,9 +543,9 @@ namespace Uniblocks
 
 
 
-        private void CreateNewMeshObject()
+        void CreateNewMeshObject()
         { // in case the amount of vertices exceeds the maximum for one mesh, we need to create a new mesh
-            GameObject meshContainer = Instantiate(chunk.MeshContainer, transform.position, transform.rotation) as GameObject;
+            GameObject meshContainer = Instantiate(chunk.meshContainer, transform.position, transform.rotation) as GameObject;
             meshContainer.transform.parent = this.transform;
 
             UpdateMesh(meshContainer.GetComponent<MeshFilter>().mesh);

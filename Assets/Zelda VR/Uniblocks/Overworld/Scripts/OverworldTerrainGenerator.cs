@@ -52,17 +52,19 @@ public class OverworldTerrainGenerator : TerrainGenerator
                 return;
         }
 
-        int SideLength = Engine.ChunkSideLength;
+        int chunkSizeX = Engine.chunkSizeX;
+        int chunkSizeY = Engine.chunkSizeY;
+        int chunkSizeZ = Engine.chunkSizeZ;
 
-        int chunkX = SideLength * chunk.ChunkIndex.x;
-        int chunkY = SideLength * chunk.ChunkIndex.y;
-        int chunkZ = SideLength * chunk.ChunkIndex.z;
+        int chunkX = chunkSizeX * chunk.chunkIndex.x;
+        int chunkY = chunkSizeY * chunk.chunkIndex.y;
+        int chunkZ = chunkSizeZ * chunk.chunkIndex.z;
 
         _tiles = _overworldTileMap.TileMapData._tiles;
 
         Index2 lostWoodsSector = WorldInfo.Instance.LostWoodsSector;
 
-        for (int vX = 0; vX < SideLength; vX++)
+        for (int vX = 0; vX < chunkSizeX; vX++)
         {
             int x = vX + chunkX;
             if (x < 0 || x > _overworldTileMap.TilesWide - 1)
@@ -70,7 +72,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
                 continue;
             }
 
-            for (int vZ = 0; vZ < SideLength; vZ++)
+            for (int vZ = 0; vZ < chunkSizeZ; vZ++)
             {
                 int z = vZ + chunkZ;
                 if (z < 0 || z > _overworldTileMap.TilesHigh - 1)
@@ -113,7 +115,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
 
                 // TODO
 
-                for (int vY = 0; vY < SideLength; vY++)
+                for (int vY = 0; vY < chunkSizeY; vY++)
                 {
                     int y = vY + chunkY - yOffset;
                     if (y < -1)

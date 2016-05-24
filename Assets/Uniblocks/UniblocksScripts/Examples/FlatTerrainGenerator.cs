@@ -4,16 +4,19 @@ namespace Uniblocks
     { // generates a flat terrain
         public override void GenerateVoxelData()
         {
-            int chunky = chunk.ChunkIndex.y;
-            int SideLength = Engine.ChunkSideLength;
+            int chunkSizeX = Engine.chunkSizeX;
+            int chunkSizeY = Engine.chunkSizeY;
+            int chunkSizeZ = Engine.chunkSizeZ;
 
-            for (int x = 0; x < SideLength; x++)
+            int chunky = chunk.chunkIndex.y;
+
+            for (int x = 0; x < chunkSizeX; x++)
             {
-                for (int y = 0; y < SideLength; y++)
+                for (int y = 0; y < chunkSizeY; y++)
                 {
-                    for (int z = 0; z < SideLength; z++)
+                    for (int z = 0; z < chunkSizeZ; z++)
                     { // for all voxels in the chunk
-                        int currentHeight = y + (SideLength * chunky); // get absolute height for the voxel
+                        int currentHeight = y + (chunkSizeY * chunky); // get absolute height for the voxel
 
                         if (currentHeight < 8)
                         {

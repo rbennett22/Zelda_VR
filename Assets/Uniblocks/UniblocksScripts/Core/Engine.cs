@@ -41,9 +41,11 @@ namespace Uniblocks
         public GameObject[] lBlocks;
 
         // chunk spawn settings
-        public static int HeightRange, ChunkSpawnDistance, ChunkSideLength, ChunkDespawnDistance;
+        public static int HeightRange, ChunkSpawnDistance, ChunkDespawnDistance;
+        public static int chunkSizeX, chunkSizeY, chunkSizeZ;
 
-        public int lHeightRange, lChunkSpawnDistance, lChunkSideLength, lChunkDespawnDistance;
+        public int lHeightRange, lChunkSpawnDistance, lChunkDespawnDistance;
+        public int lChunkSizeX, lChunkSizeY, lChunkSizeZ;
 
         // texture settings
         public static float TextureUnit, TexturePadding;
@@ -83,14 +85,14 @@ namespace Uniblocks
         // ==== initialization ====
         public void Awake()
         {
-            Engine.EngineInstance = this;
-            Engine.ChunkManagerInstance = GetComponent<ChunkManager>();
+            EngineInstance = this;
+            ChunkManagerInstance = GetComponent<ChunkManager>();
 
             WorldName = lWorldName;
             UpdateWorldPath();
 
             BlocksPath = lBlocksPath;
-            Engine.Blocks = lBlocks;
+            Blocks = lBlocks;
 
             TargetFPS = lTargetFPS;
             MaxChunkSaves = lMaxChunkSaves;
@@ -112,8 +114,9 @@ namespace Uniblocks
             SendCameraLookEvents = lSendCameraLookEvents;
             SendCursorEvents = lSendCursorEvents;
 
-            ChunkSideLength = lChunkSideLength;
-            SquaredSideLength = lChunkSideLength * lChunkSideLength;
+            chunkSizeX = lChunkSizeX;
+            chunkSizeY = lChunkSizeY;
+            chunkSizeZ = lChunkSizeZ;
 
             ChunkDataFiles.LoadedRegions = new Dictionary<string, string[]>();
             ChunkDataFiles.TempChunkData = new Dictionary<string, string>();
@@ -146,45 +149,45 @@ namespace Uniblocks
 
 
             // check block array
-            if (Engine.Blocks.Length < 1)
+            if (Blocks.Length < 1)
             {
                 Debug.LogError("Uniblocks: The blocks array is empty! Use the Block Editor to update the blocks array.");
                 Debug.Break();
             }
 
-            if (Engine.Blocks[0] == null)
+            if (Blocks[0] == null)
             {
                 Debug.LogError("Uniblocks: Cannot find the empty block prefab (id 0)!");
                 Debug.Break();
             }
-            else if (Engine.Blocks[0].GetComponent<Voxel>() == null)
+            else if (Blocks[0].GetComponent<Voxel>() == null)
             {
                 Debug.LogError("Uniblocks: Voxel id 0 does not have the Voxel component attached!");
                 Debug.Break();
             }
 
             // check settings
-            if (Engine.ChunkSideLength < 1)
+            if (chunkSizeX < 1 || lChunkSizeY < 1 || lChunkSizeZ < 1)
             {
                 Debug.LogError("Uniblocks: Chunk side length must be greater than 0!");
                 Debug.Break();
             }
 
-            if (Engine.ChunkSpawnDistance < 1)
+            if (ChunkSpawnDistance < 1)
             {
-                Engine.ChunkSpawnDistance = 0;
+                ChunkSpawnDistance = 0;
                 Debug.LogWarning("Uniblocks: Chunk spawn distance is 0. No chunks will spawn!");
             }
 
-            if (Engine.HeightRange < 0)
+            if (HeightRange < 0)
             {
-                Engine.HeightRange = 0;
+                HeightRange = 0;
                 Debug.LogWarning("Uniblocks: Chunk height range can't be a negative number! Setting chunk height range to 0.");
             }
 
-            if (Engine.MaxChunkDataRequests < 0)
+            if (MaxChunkDataRequests < 0)
             {
-                Engine.MaxChunkDataRequests = 0;
+                MaxChunkDataRequests = 0;
                 Debug.LogWarning("Uniblocks: Max chunk data requests can't be a negative number! Setting max chunk data requests to 0.");
             }
 
@@ -192,11 +195,11 @@ namespace Uniblocks
             GameObject chunkPrefab = GetComponent<ChunkManager>().ChunkObject;
             int materialCount = chunkPrefab.GetComponent<Renderer>().sharedMaterials.Length - 1;
 
-            for (ushort i = 0; i < Engine.Blocks.Length; i++)
+            for (ushort i = 0; i < Blocks.Length; i++)
             {
-                if (Engine.Blocks[i] != null)
+                if (Blocks[i] != null)
                 {
-                    Voxel voxel = Engine.Blocks[i].GetComponent<Voxel>();
+                    Voxel voxel = Blocks[i].GetComponent<Voxel>();
 
                     if (voxel.VSubmeshIndex < 0)
                     {
@@ -219,20 +222,20 @@ namespace Uniblocks
             }
 
 
-            Engine.Initialized = true;
+            Initialized = true;
         }
 
         // ==== world data ====
 
         private static void UpdateWorldPath()
         {
-            WorldPath = Application.dataPath + "/../Worlds/" + Engine.WorldName + "/"; // you can set World Path here
-                                                                                       //WorldPath = "/mnt/sdcard/UniblocksWorlds/" + Engine.WorldName + "/"; // example mobile path for Android
+            WorldPath = Application.dataPath + "/../Worlds/" + WorldName + "/"; // you can set World Path here
+                                                                                       //WorldPath = "/mnt/sdcard/UniblocksWorlds/" + WorldName + "/"; // example mobile path for Android
         }
 
         public static void SetWorldName(string worldName)
         {
-            Engine.WorldName = worldName;
+            WorldName = worldName;
             WorldSeed = 0;
             UpdateWorldPath();
         }
@@ -241,13 +244,13 @@ namespace Uniblocks
         { // reads the world seed from file if it exists, else creates a new seed and saves it to file
             if (Application.isWebPlayer)
             { // don't save to file if webplayer
-                Engine.WorldSeed = Random.Range(ushort.MinValue, ushort.MaxValue);
+                WorldSeed = Random.Range(ushort.MinValue, ushort.MaxValue);
                 return;
             }
 
-            if (File.Exists(Engine.WorldPath + "seed"))
+            if (File.Exists(WorldPath + "seed"))
             {
-                StreamReader reader = new StreamReader(Engine.WorldPath + "seed");
+                StreamReader reader = new StreamReader(WorldPath + "seed");
                 WorldSeed = int.Parse(reader.ReadToEnd());
                 reader.Close();
             }
@@ -256,8 +259,8 @@ namespace Uniblocks
                 {
                     WorldSeed = Random.Range(ushort.MinValue, ushort.MaxValue);
                 }
-                System.IO.Directory.CreateDirectory(Engine.WorldPath);
-                StreamWriter writer = new StreamWriter(Engine.WorldPath + "seed");
+                System.IO.Directory.CreateDirectory(WorldPath);
+                StreamWriter writer = new StreamWriter(WorldPath + "seed");
                 writer.Write(WorldSeed.ToString());
                 writer.Flush();
                 writer.Close();
@@ -266,7 +269,7 @@ namespace Uniblocks
 
         public static void SaveWorld()
         { // saves the data over multiple frames
-            Engine.EngineInstance.StartCoroutine(ChunkDataFiles.SaveAllChunks());
+            EngineInstance.StartCoroutine(ChunkDataFiles.SaveAllChunks());
         }
 
         public static void SaveWorldInstant()
@@ -282,11 +285,11 @@ namespace Uniblocks
             try
             {
                 if (voxelId == ushort.MaxValue) voxelId = 0;
-                GameObject voxelObject = Engine.Blocks[voxelId];
+                GameObject voxelObject = Blocks[voxelId];
                 if (voxelObject.GetComponent<Voxel>() == null)
                 {
                     Debug.LogError("Uniblocks: Voxel id " + voxelId + " does not have the Voxel component attached!");
-                    return Engine.Blocks[0];
+                    return Blocks[0];
                 }
                 else {
                     return voxelObject;
@@ -295,7 +298,7 @@ namespace Uniblocks
             catch (System.Exception)
             {
                 Debug.LogError("Uniblocks: Invalid voxel id: " + voxelId);
-                return Engine.Blocks[0];
+                return Blocks[0];
             }
         }
 
@@ -304,7 +307,7 @@ namespace Uniblocks
             try
             {
                 if (voxelId == ushort.MaxValue) voxelId = 0;
-                Voxel voxel = Engine.Blocks[(int)voxelId].GetComponent<Voxel>();
+                Voxel voxel = Blocks[(int)voxelId].GetComponent<Voxel>();
                 if (voxel == null)
                 {
                     Debug.LogError("Uniblocks: Voxel id " + voxelId + " does not have the Voxel component attached!");
@@ -345,11 +348,11 @@ namespace Uniblocks
                     if (ignoreTransparent)
                     { // punch through transparent voxels by raycasting again when a transparent voxel is hit
                         ushort hitVoxel = hitObject.GetComponent<Chunk>().GetVoxel(hitIndex.x, hitIndex.y, hitIndex.z);
-                        if (Engine.GetVoxelType(hitVoxel).VTransparency != Transparency.solid)
+                        if (GetVoxelType(hitVoxel).VTransparency != Transparency.solid)
                         { // if the hit voxel is transparent
                             Vector3 newOrigin = hit.point;
                             newOrigin.y -= 0.5f; // push the new raycast down a bit
-                            return Engine.VoxelRaycast(newOrigin, Vector3.down, range - hit.distance, true);
+                            return VoxelRaycast(newOrigin, Vector3.down, range - hit.distance, true);
                         }
                     }
 
@@ -367,7 +370,7 @@ namespace Uniblocks
 
         public static VoxelInfo VoxelRaycast(Ray ray, float range, bool ignoreTransparent)
         {
-            return Engine.VoxelRaycast(ray.origin, ray.direction, range, ignoreTransparent);
+            return VoxelRaycast(ray.origin, ray.direction, range, ignoreTransparent);
         }
 
 
@@ -375,23 +378,23 @@ namespace Uniblocks
 
         public static Index PositionToChunkIndex(Vector3 position)
         {
-            Index chunkIndex = new Index(Mathf.RoundToInt(position.x / Engine.ChunkScale.x) / Engine.ChunkSideLength,
-                                          Mathf.RoundToInt(position.y / Engine.ChunkScale.y) / Engine.ChunkSideLength,
-                                          Mathf.RoundToInt(position.z / Engine.ChunkScale.z) / Engine.ChunkSideLength);
+            Index chunkIndex = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / chunkSizeX,
+                                          Mathf.RoundToInt(position.y / ChunkScale.y) / chunkSizeY,
+                                          Mathf.RoundToInt(position.z / ChunkScale.z) / chunkSizeZ);
             return chunkIndex;
         }
 
         public static GameObject PositionToChunk(Vector3 position)
         {
-            Index chunkIndex = new Index(Mathf.RoundToInt(position.x / Engine.ChunkScale.x) / Engine.ChunkSideLength,
-                                          Mathf.RoundToInt(position.y / Engine.ChunkScale.y) / Engine.ChunkSideLength,
-                                          Mathf.RoundToInt(position.z / Engine.ChunkScale.z) / Engine.ChunkSideLength);
+            Index chunkIndex = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / chunkSizeX,
+                                          Mathf.RoundToInt(position.y / ChunkScale.y) / chunkSizeY,
+                                          Mathf.RoundToInt(position.z / ChunkScale.z) / chunkSizeZ);
             return ChunkManager.GetChunk(chunkIndex);
         }
 
         public static VoxelInfo PositionToVoxelInfo(Vector3 position)
         {
-            GameObject chunkObject = Engine.PositionToChunk(position);
+            GameObject chunkObject = PositionToChunk(position);
             if (chunkObject != null)
             {
                 Chunk chunk = chunkObject.GetComponent<Chunk>();
@@ -415,7 +418,7 @@ namespace Uniblocks
 
         public static Vector2 GetTextureOffset(ushort voxel, Facing facing)
         {
-            Voxel voxelType = Engine.GetVoxelType(voxel);
+            Voxel voxelType = GetVoxelType(voxel);
             Vector2[] textureArray = voxelType.VTexture;
 
             if (textureArray.Length == 0)

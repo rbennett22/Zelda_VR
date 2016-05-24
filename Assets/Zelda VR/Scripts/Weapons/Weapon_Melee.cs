@@ -88,7 +88,7 @@ public class Weapon_Melee : Weapon_Base, IDamageDealerDelegate
     #endregion IDamageDealerDelegate
 
 
-    public void OnHitCollectible(Collectible collectible)
+    public virtual void OnHitCollectible(Collectible collectible)
     {
         if (!canGatherCollectibles) { return; }
 
@@ -97,13 +97,9 @@ public class Weapon_Melee : Weapon_Base, IDamageDealerDelegate
 
     protected void CollectAttachedCollectibles()
     {
-        foreach (Transform child in transform)
+        foreach (Collectible c in GetComponentsInChildren<Collectible>())
         {
-            Collectible c = child.GetComponent<Collectible>();
-            if (c != null)
-            {
-                c.Collect();
-            }
+            c.Collect();
         }
     }
 

@@ -126,12 +126,13 @@ public class LostWoods : MonoBehaviour
         }
         IsWarpedToDuplicate = true;
 
-        RegenerateTerrain();
+        //RegenerateTerrain();
 
-        //duplicate.SetActive(true);
+        duplicate.SetActive(true);
+
         _warpedObjects = GetNearbyObjects(enemyWarpProximity);
         _warpedObjects.Add(_playerTransform);
-        //WarpObjects(_warpedObjects, new Vector3(0, verticalTransportDistance, 0));
+        WarpObjects(_warpedObjects, new Vector3(0, verticalTransportDistance, 0));
     }
 
     void WarpBackToActualWoods()
@@ -142,10 +143,11 @@ public class LostWoods : MonoBehaviour
         }
         IsWarpedToDuplicate = false;
 
-        RegenerateTerrain();
+        //RegenerateTerrain();
 
-        //duplicate.SetActive(false);
-        //WarpObjects(_warpedObjects, new Vector3(0, -verticalTransportDistance, 0));
+        duplicate.SetActive(false);
+
+        WarpObjects(_warpedObjects, new Vector3(0, -verticalTransportDistance, 0));
         _warpedObjects = null;
     }
 
