@@ -2,6 +2,8 @@
 
 RECENTLY DONE:
 
+- GhostMode now compatible with Uniblocks
+- Added Cheat for returning to ground level (in case of fall through floor)
 
 
 DONE:

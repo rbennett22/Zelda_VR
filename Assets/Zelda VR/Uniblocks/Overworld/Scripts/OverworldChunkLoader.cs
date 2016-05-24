@@ -9,7 +9,6 @@ public class OverworldChunkLoader : ChunkLoader
             return;
         }
 
-        Index pos = Engine.PositionToChunkIndex(transform.position);
-        ChunkManager.SpawnChunks(pos.x, pos.y, pos.z);
+        ChunkManager.SpawnChunks(transform.position);
     }
 }

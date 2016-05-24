@@ -2,17 +2,11 @@
 
 High Priority:
 
-- Navigatable Cheat Menu
-- Add Cheat for returning to ground level in case of fall through floor
-- Make GhostMode compatible with Uniblocks
-- FlyMode
-
 - Use flat tiles for ground at same voxel tile height as unit blocks?
-- Integrate Lost Woods with Uniblocks
 - Grotto::DeliverLetter() -> Play Sequence with text or w/e
 - Often getting stuck towards mid-top of Grotto stairs
-- Fog disappears abruptly in grottos close to Lost Woods
 
+- Lost Woods: Fog; Fix long load time for voxels
 - Lost Hills
 - Waterfall cave
 - D6 OW Entrance (2 blocks wide)
@@ -30,13 +24,16 @@ High Priority:
 Mid Priority:
 
 - Refactor Grottos
+- Refactor Spells/Buffs/Effects
 - Refactor Items/Inventory
 
+- Boomerang should return immediately upon colliding with a collectible
 - Bow Crosshair
 - LikeLike - Show an effect to indicate what's happening when player is trapped
 - Use sector Boundaries for OW enemies
+- Fog disappears abruptly in grottos close to Lost Woods
 - Whistle Warp - Wait for blocks to instantiate before opening shutters
-- Texture blocks correctly (use BoxMesh.cs)
+- Texture blocks correctly (use BoxMesh.cs?)
 - Texture OW DungeonEntrances correctly.
 - SubDungeon Warps - Mirror effect
 - Hold up HeartContainer if received in Grotto
@@ -122,6 +119,9 @@ Low Priority / WishList:
 - Consider having dark rooms show walls dimly like the original
 - Being able to aim arrows upward is a nice touch, but it's annoying when I shoot the ground, so maybe downward arrows should instead go parallel to the ground, like beam sword or wand. 
 
+- Navigatable Cheat Menu
+- FlyMode Cheat
+
 - Unlockable bonus Zelda remixes
 - Unlockable Fan Art
 - Unlockable Cheats
@@ -137,6 +137,7 @@ BUGS:
 - BUG: Enemies can end up walking through walls in Lost Woods
 - BUG: Vire can jump through wall
 - BUG: Projectiles can't pass over water in OW
+- BUG: Bait/Flame not always dropping in correct position?
 
 - BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)
 

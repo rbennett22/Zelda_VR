@@ -29,7 +29,7 @@ namespace Uniblocks
         // local flags
         private bool Done;
 
-        private Index LastRequest;
+        protected Index LastRequest;        // ~RJB: made protected instead of private
         private float targetFrameDuration;
         private Stopwatch frameStopwatch;
         private int SpawnQueue;

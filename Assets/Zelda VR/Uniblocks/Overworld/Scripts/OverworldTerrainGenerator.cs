@@ -15,6 +15,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
     float _blockHeightVariance = 0;
     float _shortBlockHeight = 1;
     float _flatBlockHeight = 0;
+    int _tileMapWidth_WithoutFiller;
 
 
     TileMap _overworldTileMap;
@@ -26,6 +27,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
         _blockHeightVariance = s.blockHeightVariance;
         _shortBlockHeight = s.shortBlockHeight;
         _flatBlockHeight = s.flatBlockHeight;
+        _tileMapWidth_WithoutFiller = s.tileMapWidthInTiles_WithoutFiller;
     }
 
 
@@ -39,7 +41,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
         }
     }
 
-
+    int[,] _tiles;
     public override void GenerateVoxelData()
     {
         if (_overworldTileMap == null)
@@ -50,104 +52,59 @@ public class OverworldTerrainGenerator : TerrainGenerator
                 return;
         }
 
-        int tileMapWidth_WithoutFiller = ZeldaVRSettings.Instance.tileMapWidthInTiles_WithoutFiller;
-
         int SideLength = Engine.ChunkSideLength;
 
         int chunkX = SideLength * chunk.ChunkIndex.x;
         int chunkY = SideLength * chunk.ChunkIndex.y;
         int chunkZ = SideLength * chunk.ChunkIndex.z;
 
-        int[,] tiles = _overworldTileMap.TileMapData._tiles;
+        _tiles = _overworldTileMap.TileMapData._tiles;
 
-        for (int x = 0; x < SideLength; x++)
+        Index2 lostWoodsSector = WorldInfo.Instance.LostWoodsSector;
+
+        for (int vX = 0; vX < SideLength; vX++)
         {
-            int worldX = x + chunkX;
-            if (worldX < 0 || worldX > _overworldTileMap.TilesWide - 1)
+            int x = vX + chunkX;
+            if (x < 0 || x > _overworldTileMap.TilesWide - 1)
             {
                 continue;
             }
 
-            for (int z = 0; z < SideLength; z++)
+            for (int vZ = 0; vZ < SideLength; vZ++)
             {
-                int worldZ = z + chunkZ;
-                if (worldZ < 0 || worldZ > _overworldTileMap.TilesHigh - 1)
+                int z = vZ + chunkZ;
+                if (z < 0 || z > _overworldTileMap.TilesHigh - 1)
                 {
                     continue;
                 }
 
-                if (_overworldTileMap.IsTileSpecial(worldX, worldZ))
+                if (LostWoods.IsWarpedToDuplicate)
                 {
-                    continue;
-                }
-
-
-                // Get tileCode at OW tile position
-                int tileCode = _overworldTileMap.Tile(worldX, worldZ);
-
-                // Handle special cases involving entrance tiles (ie. grottos and dungeons)
-                bool isRegularTile = true;
-                float blockHeight = 1;
-                int yOffset = 0;
-
-                // Entrance?
-                if (TileInfo.IsTileAnEntrance(tileCode))
-                {
-                    int tileCodeAbove = tiles[worldZ + 1, worldX];
-                    tileCode = tileCodeAbove;
-
-                    blockHeight = ENTRANCE_TILE_BLOCK_HEIGHT;
-                    yOffset = ENTRANCE_TILE_Y_OFFSET;
-
-                    isRegularTile = false;
-                }
-                else
-                {
-                    if (worldZ > 0)
+                    Index2 sector;
+                    Index2 tileIdx_S = _overworldTileMap.TileIndex_WorldToSector(x, z, out sector);
+                    if (!sector.IsEqual(lostWoodsSector))
                     {
-                        // One Above Entrance?
-                        int tileCodeBelow = tiles[worldZ - 1, worldX];
-                        if (TileInfo.IsTileAnEntrance(tileCodeBelow))
-                        {
-                            blockHeight = GetBlockHeightForTileCode(tileCode);
-                            yOffset = ENTRANCE_TILE_Y_OFFSET - 1;
-
-                            isRegularTile = false;
-                        }
-                        else if (worldZ > 1)
-                        {
-                            // Two Above Entrance?
-                            int tileCode2xBelow = tiles[worldZ - 2, worldX];
-                            if (TileInfo.IsTileAnEntrance(tileCode2xBelow))
-                            {
-                                if (TileInfo.IsTileFlat(tileCode))
-                                {
-                                    tileCode = tileCodeBelow;
-                                }
-
-                                if (TileInfo.IsTileFlat(tileCode) || TileInfo.IsTileShort(tileCode) || TileInfo.IsTileUnitHeight(tileCode))
-                                {
-                                    blockHeight = 1;
-                                }
-                                else
-                                {
-                                    blockHeight = GetRandomHeight();
-                                }
-
-                                yOffset = ENTRANCE_TILE_Y_OFFSET - 2;
-
-                                isRegularTile = false;
-                            }
-                        }
+                        Index2 tileIdx = _overworldTileMap.TileIndex_SectorToWorld(tileIdx_S.x, tileIdx_S.y, lostWoodsSector);
+                        x = tileIdx.x;
+                        z = tileIdx.y;
                     }
                 }
-                if (isRegularTile)
+
+                if (_overworldTileMap.IsTileSpecial(x, z))
+                {
+                    continue;
+                }
+
+
+                int tileCode;
+                float blockHeight;
+                int yOffset;
+                if (IsRegularTile(x, z, out tileCode, out blockHeight, out yOffset))
                 {
                     blockHeight = GetBlockHeightForTileCode(tileCode);
                 }
 
-                Index2 tileMapIndex = _overworldTileMap.TileMapTexture.IndexForTileCode(tileCode);
-                ushort data = (ushort)(tileMapIndex.y * tileMapWidth_WithoutFiller + tileMapIndex.x + 1);
+                ushort data = GetDataForTileCode(tileCode);
 
                 if (tileCode == 2)
                 {
@@ -156,26 +113,103 @@ public class OverworldTerrainGenerator : TerrainGenerator
 
                 // TODO
 
-                for (int y = 0; y < SideLength; y++)
+                for (int vY = 0; vY < SideLength; vY++)
                 {
-                    int worldY = y + chunkY - yOffset;
-                    if (worldY < -1)
+                    int y = vY + chunkY - yOffset;
+                    if (y < -1)
                     {
                         continue;
                     }
-                    if (worldY > blockHeight - 1)
+                    if (y > blockHeight - 1)
                     {
-                        if (TileInfo.IsTileFlatImpassable(tileCode) && worldY == blockHeight)
+                        if (TileInfo.IsTileFlatImpassable(tileCode) && y == blockHeight)
                         {
-                            chunk.SetVoxelSimple(x, y, z, INVISIBLE_COLLIDER_VOXEL);
+                            chunk.SetVoxelSimple(vX, vY, vZ, INVISIBLE_COLLIDER_VOXEL);
                         }
-                        break;
+                        else
+                        {
+                            chunk.SetVoxelSimple(vX, vY, vZ, 0);    //// Currently necessary for removing blocks during LostWoods transition
+                        }
+                        continue;
+                        ////break;
                     }
 
-                    chunk.SetVoxelSimple(x, y, z, data);
+                    chunk.SetVoxelSimple(vX, vY, vZ, data);
                 }
             }
         }
+    }
+
+    ushort GetDataForTileCode(int tileCode)
+    {
+        Index2 tileMapIndex = _overworldTileMap.TileMapTexture.IndexForTileCode(tileCode);
+        return (ushort)(tileMapIndex.y * _tileMapWidth_WithoutFiller + tileMapIndex.x + 1);
+    }
+
+    bool IsRegularTile(int x, int z, out int tileCode, out float blockHeight, out int yOffset)
+    {
+        bool isRegularTile = true;
+
+        // Get tileCode at OW tile position
+        tileCode = _tiles[z, x];
+
+        // Handle special cases involving entrance tiles (ie. grottos and dungeons)
+        blockHeight = 1;
+        yOffset = 0;
+
+        // Entrance?
+        if (TileInfo.IsTileAnEntrance(tileCode))
+        {
+            int tileCodeAbove = _tiles[z + 1, x];
+            tileCode = tileCodeAbove;
+
+            blockHeight = ENTRANCE_TILE_BLOCK_HEIGHT;
+            yOffset = ENTRANCE_TILE_Y_OFFSET;
+
+            isRegularTile = false;
+        }
+        else
+        {
+            if (z > 0)
+            {
+                // One Above Entrance?
+                int tileCodeBelow = _tiles[z - 1, x];
+                if (TileInfo.IsTileAnEntrance(tileCodeBelow))
+                {
+                    blockHeight = GetBlockHeightForTileCode(tileCode);
+                    yOffset = ENTRANCE_TILE_Y_OFFSET - 1;
+
+                    isRegularTile = false;
+                }
+                else if (z > 1)
+                {
+                    // Two Above Entrance?
+                    int tileCode2xBelow = _tiles[z - 2, x];
+                    if (TileInfo.IsTileAnEntrance(tileCode2xBelow))
+                    {
+                        if (TileInfo.IsTileFlat(tileCode))
+                        {
+                            tileCode = tileCodeBelow;
+                        }
+
+                        if (TileInfo.IsTileFlat(tileCode) || TileInfo.IsTileShort(tileCode) || TileInfo.IsTileUnitHeight(tileCode))
+                        {
+                            blockHeight = 1;
+                        }
+                        else
+                        {
+                            blockHeight = GetRandomHeight();
+                        }
+
+                        yOffset = ENTRANCE_TILE_Y_OFFSET - 2;
+
+                        isRegularTile = false;
+                    }
+                }
+            }
+        }
+
+        return isRegularTile;
     }
 
     float GetBlockHeightForTileCode(int tileCode)

@@ -1,7 +1,4 @@
-using System.Collections;
 using UnityEngine;
-
-[RequireComponent(typeof(Animator))]
 
 public class Bait : MonoBehaviour
 {
@@ -11,39 +8,9 @@ public class Bait : MonoBehaviour
     public static Bait ActiveBait { get; private set; }       // Only one Bait is allowed at a time.
 
 
-    public bool skipSpawnAnimation = true;
-
-
-    Animator _animator;
-    Renderer _animRenderer;
-    protected bool RenderingEnabled { get { return _animRenderer.enabled; } set { _animRenderer.enabled = value; } }
-
-
-    void Awake()
-    {
-        _animator = GetComponent<Animator>();
-        _animRenderer = _animator.GetComponent<Renderer>();
-
-        if (skipSpawnAnimation)
-        {
-            RenderingEnabled = false;
-            _animator.SetTrigger("SkipSpawn");
-        }
-        else
-        {
-            RenderingEnabled = true;
-        }
-    }
-    IEnumerator Start()
+    void Start()
     {
         ActiveBait = this;
-
-        if (skipSpawnAnimation)
-        {
-            yield return new WaitForSeconds(0.01f);
-
-            RenderingEnabled = true;
-        }
 
         DungeonRoom dr;
         if (IsHungryGoriyaNpcPresent(out dr))
