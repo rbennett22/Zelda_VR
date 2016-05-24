@@ -11,7 +11,7 @@ public class Item : MonoBehaviour
     public GameObject weaponPrefab, shieldPrefab;
 
     public Item upgradesTo;         // The Item that this Item will upgrade to (if any)
-    public Item UpgradedFrom { get; set; }
+    public Item UpgradedFrom { get; private set; }
 
     public bool useImmediately;
     public bool consumable;      // Whether or not using the item decrements it's count
@@ -20,7 +20,7 @@ public class Item : MonoBehaviour
 
 
     Sprite _guiSprite;
-    Texture _guiSpriteTexture, _hudSpriteTexture;
+    Texture _guiSpriteTexture;
 
 
     void Awake()
@@ -40,11 +40,6 @@ public class Item : MonoBehaviour
     }
 
 
-    /*public Sprite GetGuiSprite()
-    {
-        if (_guiSprite == null) { FindGuiSprite(); }
-        return _guiSprite;
-    }*/
     public Texture GetGuiTexture()
     {
         if (_guiSpriteTexture == null)
@@ -54,22 +49,16 @@ public class Item : MonoBehaviour
         }
         return _guiSpriteTexture;
     }
-    /*public Texture GetHudTexture()
-    {
-        if (_hudSpriteTexture == null)
-        {
-            _hudSpriteTexture = (hudSprite == null) ? GetGuiTexture() : hudSprite.GetTextureSegment();
-        }
-        return _hudSpriteTexture;
-    }*/
 
     void FindGuiSprite()
     {
         foreach (var sr in transform.GetComponentsInChildren<SpriteRenderer>())
         {
-            if (sr.name != GUI_SPRITE_GAME_OBJECT_NAME) { continue; }
-            _guiSprite = sr.sprite;
-            break;
+            if (sr.name == GUI_SPRITE_GAME_OBJECT_NAME)
+            {
+                _guiSprite = sr.sprite;
+                break;
+            }
         }
     }
 

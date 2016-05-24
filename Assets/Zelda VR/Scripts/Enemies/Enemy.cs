@@ -8,7 +8,6 @@ public class Enemy : MonoBehaviour
     const int BoundaryHeight = 9;
     const float RemovalDistanceThreshold = 32;      // How far away Enemy must be from player before it is destroyed (Overworld only)
     const float StunDuration = 3.0f;
-    const float ShieldBlockDotThreshold = 0.6f;   // [0-1].  Closer to 1 means enemy has to be facing an incoming attack more directly in order to block it.
 
 
     public static int EnemiesKilled { get; set; }
@@ -16,8 +15,12 @@ public class Enemy : MonoBehaviour
 
 
     public EnemyAnimation enemyAnim;
+
     public Weapon_Base weapon;
-    public bool hasShield;
+    public bool HasWeapon { get { return weapon != null; } }
+
+    public Shield_Base shield;
+    public bool HasShield { get { return shield != null; } }
 
     public int meleeDamage = 1;
     public float speed = 1;
@@ -33,7 +36,7 @@ public class Enemy : MonoBehaviour
     public DungeonRoom DungeonRoomRef { get; set; }    // (Will be null in overworld)
     public GameObject PlayerController { get { return CommonObjects.PlayerController_G; } }
   
-    public bool IsAttacking { get { return (weapon != null && weapon.IsCooldownActive); } }
+    public bool IsAttacking { get { return HasWeapon && weapon.IsCooldownActive; } }
     public bool IsSpawning { get { return (enemyAnim != null && enemyAnim.IsSpawning); } }
 
     public bool IsJumping { get; private set; }
@@ -95,14 +98,14 @@ public class Enemy : MonoBehaviour
 
     public void Attack()
     {
-        if (weapon != null)
+        if (HasWeapon)
         {
             weapon.Attack();
         }
     }
     public void Attack(Vector3 direction)
     {
-        if (weapon != null)
+        if (HasWeapon)
         {
             weapon.Attack(direction);
         }
@@ -172,19 +175,14 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public bool CanBlockAttack(Vector3 attacksForwardDirection)
+    public bool CanBlockAttack(Vector3 directionOfAttack)
     {
-        if (_healthController.isIndestructible) { return true; }
-
-        if (hasShield)
+        if (_healthController.isIndestructible)
         {
-            if (Vector3.Dot(transform.forward, -attacksForwardDirection) > ShieldBlockDotThreshold)
-            {
-                return true;
-            }
+            return true;
         }
 
-        return false;
+        return HasShield && shield.CanBlockAttack(directionOfAttack);
     }
 
     public bool ShouldFollowBait()

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Clock_Item : MonoBehaviour
+public class Item_Clock : MonoBehaviour
 {
     public float clockDuration = 10.0f;
 

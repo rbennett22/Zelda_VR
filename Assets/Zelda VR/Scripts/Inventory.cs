@@ -352,7 +352,7 @@ public class Inventory : Singleton<Inventory>
         else if (item.name == "BombUpgrade")
         {
             ApplyBombUpgrades();
-            GetItem("Bomb").OnCollected(4);
+            GetItem("Bomb").OnCollected(BOMBS_PER_UPGRADE);
         }
         else if (item.name == "SilverArrow")
         {
@@ -441,6 +441,10 @@ public class Inventory : Singleton<Inventory>
                 }
             }
         }
+        else if (item.name == "Whistle")
+        {
+            CommonObjects.Player_C.UseWhistle();
+        }
     }
 
     public void UseItemB()
@@ -492,7 +496,7 @@ public class Inventory : Singleton<Inventory>
     }
 
 
-    #region Save/Load
+    #region Serialization
 
     public class InventoryInfo
     {
@@ -567,7 +571,7 @@ public class Inventory : Singleton<Inventory>
         SyncPlayerHealthWithHeartContainers();
     }
 
-    #endregion Save/Load
+    #endregion Serialization
 
 
     void Print()

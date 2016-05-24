@@ -43,9 +43,11 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
         }
         base.Attack(direction);
 
+        Vector3 dir = (direction == Vector3.zero) ? transform.forward : direction;
+
         _thrower = transform.parent;
         _origin = _thrower.position;
-        _direction = direction.normalized;
+        _direction = dir.normalized;
 
         transform.SetParent(null);
 

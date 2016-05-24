@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(HealthController))]
+
 public class Player : Singleton<Player>
 {
     const float MOON_MODE_GRAVITY_MODIFIER = 1 / 6.0f;
@@ -21,18 +23,14 @@ public class Player : Singleton<Player>
 
     Weapon_Melee_Sword _equippedSword;
     public bool IsAttackingWithSword { get { return (_equippedSword != null) && _equippedSword.IsAttacking; } }
-    void AttackWithSword()
-    {
-        if (_equippedSword == null) { return; }
-        if (IsAttackingWithSword || IsJinxed) { return; }
-        _equippedSword.Attack();
-    }
 
     Shield_Base _equippedShield;
     public Shield_Base EquippedShield { get { return _equippedShield; } }
 
-    GameObject _equippedItem;
-    public GameObject EquippedItem { get { return _equippedItem; } }
+    Item _equippedItem;
+    public Item EquippedItem { get { return _equippedItem; } }
+    Weapon_Base _equippedWeaponB;
+    public Weapon_Base EquippedWeaponB { get { return _equippedWeaponB; } }
 
     [SerializeField]
     Transform _weaponContainerLeft, _weaponContainerRight, _shieldContainer;
@@ -162,7 +160,6 @@ public class Player : Singleton<Player>
 
         SwordProjectilesEnabled = HealthController.IsAtFullHealth;
     }
-
     public void DeequipSword()
     {
         Destroy(_equippedSword);
@@ -174,39 +171,35 @@ public class Player : Singleton<Player>
         set { if (_equippedSword != null) { _equippedSword.ProjectilesEnabled = value; } }
     }
 
-
     public void EquipSecondaryItem(string itemName)
     {
         if (_equippedItem != null) { DeequipSecondaryItem(); }
 
-        Item item = _inventory.GetItem(itemName);
-        if (item.weaponPrefab != null)
+        _equippedItem = _inventory.GetItem(itemName);
+        if (_equippedItem.weaponPrefab != null)
         {
             EquipSecondaryWeapon(itemName);
         }
-        else
-        {
-            _equippedItem = item.gameObject;
-        }
     }
-
     void EquipSecondaryWeapon(string weaponName)
     {
-        Item weaponItem = _inventory.GetItem(weaponName);
+        Item item = _inventory.GetItem(weaponName);
 
-        _equippedItem = Instantiate(weaponItem.weaponPrefab) as GameObject;
-        _equippedItem.name = weaponName;
-        _equippedItem.transform.parent = _weaponContainerLeft;
-        _equippedItem.transform.localPosition = Vector3.zero;
-        _equippedItem.transform.localRotation = Quaternion.identity;
+        GameObject g = Instantiate(item.weaponPrefab) as GameObject;
+        g.name = weaponName;
+
+        Transform t = g.transform;
+        t.SetParent(_weaponContainerLeft);
+        t.localPosition = Vector3.zero;
+        t.localRotation = Quaternion.identity;
+
+        _equippedWeaponB = g.GetComponent<Weapon_Base>();
     }
-
     public void DeequipSecondaryItem()
     {
-        if (_equippedItem != null && _equippedItem.GetComponent<Item>() == null)
-        {
-            Destroy(_equippedItem);
-        }
+        Destroy(_equippedWeaponB);
+        _equippedWeaponB = null;
+
         _equippedItem = null;
     }
 
@@ -229,99 +222,112 @@ public class Player : Singleton<Player>
 
         if (IsParalyzed) { return; }
 
+        ProcessUserInput();
+    }
 
+    void ProcessUserInput()
+    {
         if (ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack))
         {
             AttackWithSword();
         }
 
-        _weaponContainerLeft.transform.forward = _playerController.LineOfSight;
-
         if (_equippedItem != null)
         {
-            Weapon_Gun_Bow bow = _equippedItem.GetComponent<Weapon_Gun_Bow>();
+            Weapon_Gun_Bow bow = (_equippedWeaponB == null) ? null : _equippedWeaponB.GetComponent<Weapon_Gun_Bow>();
+
+            if (_equippedWeaponB != null)
+            {
+                // Aim Secondary Weapon
+                Transform t = _weaponContainerLeft.transform;
+                t.forward = _playerController.LineOfSight;
+                if (bow == null)
+                {
+                    Vector3 fwd = t.forward;
+                    fwd.y = 0;
+                    t.forward = fwd;
+                }
+            }
+
+            // Use Secondary Item?
+            bool doUseItem = false;
             if (bow != null)
             {
-                if (ZeldaInput.GetButtonUp(ZeldaInput.Button.UseItemB))
-                {
-                    UseSecondaryItem();
-                }
+                doUseItem = ZeldaInput.GetButtonUp(ZeldaInput.Button.UseItemB);
             }
             else
             {
-                Vector3 frwd = _weaponContainerLeft.transform.forward;
-                frwd.y = 0;
-                _weaponContainerLeft.transform.forward = frwd;
+                doUseItem = ZeldaInput.GetButtonDown(ZeldaInput.Button.UseItemB);
+            }
 
-                if (ZeldaInput.GetButtonDown(ZeldaInput.Button.UseItemB))
-                {
-                    UseSecondaryItem();
+            if (doUseItem)
+            {
+                _inventory.UseItemB();
+
+                if (_equippedWeaponB != null)
+                { 
+                    AttackWithSecondaryWeapon();
                 }
             }
         }
     }
 
-    void UseSecondaryItem()
+    void AttackWithSword()
     {
-        //Item itemB = _equippedItem.GetComponent<Item>();
-
-        Weapon_Gun_Dropper w = _equippedItem.GetComponent<Weapon_Gun_Dropper>();
-        if (w != null)
+        if (_equippedSword == null || !_equippedSword.CanAttack)
         {
-            if (w.CanAttack)
-            {
-                w.Attack();
-                _inventory.UseItemB();
-            }
+            return;
+        }
+        if (IsJinxed)
+        {
             return;
         }
 
-        Weapon_Melee_Boomerang b = _equippedItem.GetComponent<Weapon_Melee_Boomerang>();
-        if (b != null)
+        _equippedSword.Attack();
+    }
+
+    void AttackWithSecondaryWeapon()
+    {
+        if (_equippedWeaponB == null || !_equippedWeaponB.CanAttack)
         {
-            if (b.CanAttack)
-            {
-                b.Attack(_playerController.ForwardDirection);
-            }
             return;
         }
 
-        Weapon_Gun_Bow bow = _equippedItem.GetComponent<Weapon_Gun_Bow>();
-        if (bow != null)
-        {
-            if (_inventory.HasItem("WoodenArrow") || _inventory.HasItem("SilverArrow"))
-            {
-                if (bow.CanAttack && _inventory.HasItem("Rupee"))
-                {
-                    bow.Attack();
-                    _inventory.UseItem("Rupee");
-                }
-            }
-            return;
-        }
+        bool canAttack = true;
 
-        Weapon_Gun_MagicWand wand = _equippedItem.GetComponent<Weapon_Gun_MagicWand>();
+        Weapon_Gun_MagicWand wand = _equippedWeaponB.GetComponent<Weapon_Gun_MagicWand>();     // TODO
         if (wand != null)
         {
-            if (wand.CanAttack)
-            {
-                wand.spawnFlame = Inventory.Instance.HasItem("MagicBook");
-                wand.Attack();
-            }
-            return;
+            wand.spawnFlame = Inventory.Instance.HasItem("MagicBook");
         }
 
-        if (_equippedItem.name == "Whistle")
+        Weapon_Gun_Bow bow = _equippedWeaponB.GetComponent<Weapon_Gun_Bow>();     // TODO
+        if (bow != null)
         {
-            StartCoroutine("UseWhistle");
-            return;
+            canAttack = false;
+            if (_inventory.HasItem("WoodenArrow") || _inventory.HasItem("SilverArrow"))
+            {
+                if (_inventory.HasItem("Rupee"))
+                {
+                    _inventory.UseItem("Rupee");
+                    canAttack = true;
+                }
+            }
         }
 
-        _inventory.UseItemB();
+        if (canAttack)
+        {
+            _equippedWeaponB.Attack(_playerController.ForwardDirection);
+        }
     }
 
+
+    public void UseWhistle()
+    {
+        StartCoroutine("UseWhistle_CR");
+    }
     int _nextWarpDungeonNum = 1;
-    IEnumerator UseWhistle()
+    IEnumerator UseWhistle_CR()
     {
         if (IsJinxed)
         {

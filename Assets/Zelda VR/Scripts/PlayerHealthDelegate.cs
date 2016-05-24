@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-
 public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
 {
     const float DEATH_SEQUENCE_DURATION = 2.0f;

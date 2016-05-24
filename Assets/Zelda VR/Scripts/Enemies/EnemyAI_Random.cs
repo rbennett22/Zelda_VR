@@ -148,7 +148,7 @@ public class EnemyAI_Random : EnemyAI
         DiscreteAction action;
 
         int rand = Random.Range(0, 100);
-        if (_enemy.weapon != null && rand < chanceToAttack)
+        if (_enemy.HasWeapon && rand < chanceToAttack)
         {
             action = DiscreteAction.Attack;
         }
