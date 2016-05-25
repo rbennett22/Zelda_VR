@@ -10,77 +10,126 @@ public class LostWoods : MonoBehaviour
 
     public float fogStartDist_Min, fogEndDist_Min;
     public float innerRadius, outerRadius;
+    public LostWoodsPortal entrance, escapeExit, east, west, south, north;
+
     public float verticalTransportDistance;
     public GameObject duplicate;
-    public LostWoodsPortal entrance, east, west, south, north, solutionExit;
     public float enemyWarpProximity = 16;
 
 
-    Transform _playerTransform;
-    float _fogStartDist_Normal, _fogEndDistNormal;
-    float _sunlightIntensityNormal;
     int _tilesWide, _tilesLong;
-    Light _sunlight;
-    List<Transform> _warpedObjects;
-    LostWoodsPortal[] _solution;
-    int _solutionIndex;
+    Transform _playerTransform;
     Transform _enemiesContainer;
+
+    float _fogStartDistNormal, _fogEndDistNormal;
+    float _sunlightIntensityNormal;
+    Light _sunlight;
+
+    List<Transform> _warpedObjects;
+    LostWoodsPortal[] _solutionSequence;
+    int _solutionSeqIndex;
+    bool _hasEnteredLostWoods;
 
 
     public Vector3 PlayerPos { get { return _playerTransform.position; } }
+    public Vector3 Position { get { return entrance.transform.position; } }
+
+
+    Chunk LostWoodsChunk { get { return Engine.PositionToChunk(Position).GetComponent<Chunk>(); } }
 
 
     void Start()
     {
+        TileMap s = CommonObjects.OverworldTileMap;
+        _tilesWide = s.TilesWide;
+        _tilesLong = s.TilesHigh;
+
         _playerTransform = CommonObjects.PlayerController_G.transform;
         _enemiesContainer = GameObject.FindGameObjectWithTag("Enemies").transform;
 
-        _fogStartDist_Normal = RenderSettings.fogStartDistance;
+        InitAtmosphere();
+
+        // Player must move through woods in these directions (in order) to pass through.
+        _solutionSequence = new LostWoodsPortal[] { north, west, south, west };     // (right, up, left, up)
+
+        //duplicate.SetActive(false);
+
+        CommonObjects.Player_C.OccupiedSectorChanged += PlayerOccupiedSectorChanged;
+    }
+
+    void InitAtmosphere()
+    {
+        _fogStartDistNormal = RenderSettings.fogStartDistance;
         _fogEndDistNormal = RenderSettings.fogEndDistance;
+
         _sunlight = GameObject.FindGameObjectWithTag("Sunlight").GetComponent<Light>();
         _sunlightIntensityNormal = _sunlight.intensity;
-
-        _solution = new LostWoodsPortal[] { north, west, south, solutionExit };   // Player must move through woods in these directions (in order) to pass through.
-
-        duplicate.SetActive(false);
-
-        _tilesWide = ZeldaVRSettings.Instance.overworldSectorWidthInTiles;
-        _tilesLong = ZeldaVRSettings.Instance.overworldSectorHeightInTiles;
     }
 
 
     void Update()
     {
-        // TODO: optimize (remove LostWoods when player is far away)
-
-        Vector3 toPlayer = PlayerPos - entrance.transform.position;
+        Vector3 toPlayer = PlayerPos - Position;
         toPlayer.y = 0;
-        float distanceToPlayer = toPlayer.magnitude;
-        if (distanceToPlayer < outerRadius + 1)
+        float distToPlayer = toPlayer.magnitude;
+        if (distToPlayer < outerRadius + 1)
         {
-            float r = Mathf.Clamp(distanceToPlayer, innerRadius, outerRadius);
-            RenderSettings.fogStartDistance = MathHelper.ConvertFromRangeToRange(innerRadius, outerRadius, fogStartDist_Min, _fogStartDist_Normal, r);
+            float r = Mathf.Clamp(distToPlayer, innerRadius, outerRadius);
+            RenderSettings.fogStartDistance = MathHelper.ConvertFromRangeToRange(innerRadius, outerRadius, fogStartDist_Min, _fogStartDistNormal, r);
             RenderSettings.fogEndDistance = MathHelper.ConvertFromRangeToRange(innerRadius, outerRadius, fogEndDist_Min, _fogEndDistNormal, r);
             _sunlight.intensity = MathHelper.ConvertFromRangeToRange(innerRadius, outerRadius, 0.1f, _sunlightIntensityNormal, r);
         }
     }
 
 
-    public void OnPlayerEnteredPortal(LostWoodsPortal portal)
+    void PlayerOccupiedSectorChanged(Index2 prevSector, Index2 newSector)
     {
-        if (CheckSolution(portal))
+        // TODO 
+    }
+
+    void OverrideSectorsWithLostWoodsVoxels(Direction dir, int distance = 1)
+    {
+        List<Chunk> chunks = new List<Chunk>();
+        Index i = LostWoodsChunk.chunkIndex;
+        for (int s = 0; s < distance; s++)
         {
-            WarpBackToActualWoods();
+            i = i.GetAdjacentIndex(dir);
+            Chunk ch = ChunkManager.GetChunkComponent(i);
+            chunks.Add(ch);
+        }
+
+        OverworldTerrainEngine.Instance.ForceRegenerateTerrain(chunks);
+    }
+
+
+    public void PlayerEnteredPortal(LostWoodsPortal portal)
+    {
+        if(!_hasEnteredLostWoods)
+        {
+            if (portal == entrance)
+            {
+                OnEnteredLostWoods();
+            }
+        }
+
+        if (!_hasEnteredLostWoods || SolutionSequenceHasBeCompleted)
+        {
             return;
         }
 
-        if (portal == entrance)
+        AddEntryToSequence(portal);
+        if (SolutionSequenceHasBeCompleted)
         {
-            WarpToDuplicateWoods();
+            return;
+        }
+
+        if (portal == escapeExit)
+        {
+            OnExitedLostWoods();
         }
         else if (portal == east)
         {
-            WarpBackToActualWoods();
+            WarpObjects(_warpedObjects, new Vector3(-_tilesWide, 0, 0));
         }
         else if (portal == west)
         {
@@ -96,29 +145,67 @@ public class LostWoods : MonoBehaviour
         }
     }
 
-    bool CheckSolution(LostWoodsPortal portal)
+
+    #region Sequence Solving
+
+    bool SolutionSequenceHasBeCompleted { get { return _solutionSeqIndex >= _solutionSequence.Length; } }
+    LostWoodsPortal NextRequiredEntryInSequence { get { return _solutionSequence[_solutionSeqIndex]; } }
+
+    void AddEntryToSequence(LostWoodsPortal entry)
     {
-        if (_solution[_solutionIndex] == portal)
+        if (entry == NextRequiredEntryInSequence)
         {
-            _solutionIndex++;
-            if (_solutionIndex >= _solution.Length)
-            {
-                _solutionIndex = 0;
-                return true;
-            }
+            OnCorrectEntryAddedToSequence();
         }
         else
-        {
-            if (portal != solutionExit) // solutionExit is a special case.  _solutionIndex should not be reset when player passes through it
-            {
-                _solutionIndex = 0;
-            }
+        { 
+            OnIncorrectEntryAddedToSequence();
         }
-
-        return false;
     }
 
-    void WarpToDuplicateWoods()
+    void OnCorrectEntryAddedToSequence()
+    {
+        _solutionSeqIndex++;
+        if (_solutionSeqIndex >= _solutionSequence.Length)
+        {
+            OnSequenceCompleted();
+        }
+    }
+    void OnSequenceCompleted()
+    {
+        OnExitedLostWoods();
+    }
+
+    void OnIncorrectEntryAddedToSequence()
+    {
+        ResetSequence();
+    }
+    void ResetSequence()
+    {
+        _solutionSeqIndex = 0;
+    }
+
+    #endregion Sequence Solving
+
+
+    void OnEnteredLostWoods()
+    {
+        _hasEnteredLostWoods = true;
+        _warpedObjects = new List<Transform>() { _playerTransform };
+        ResetSequence();
+
+        //WarpToDuplicateWoods();
+    }
+    void OnExitedLostWoods()
+    {
+        _hasEnteredLostWoods = false;
+        _warpedObjects = null;
+
+        //WarpBackToActualWoods();
+    }
+
+
+    /*void WarpToDuplicateWoods()
     {
         if (IsWarpedToDuplicate)
         {
@@ -126,13 +213,10 @@ public class LostWoods : MonoBehaviour
         }
         IsWarpedToDuplicate = true;
 
-        //RegenerateTerrain();
-
-        duplicate.SetActive(true);
-
-        _warpedObjects = GetNearbyObjects(enemyWarpProximity);
-        _warpedObjects.Add(_playerTransform);
-        WarpObjects(_warpedObjects, new Vector3(0, verticalTransportDistance, 0));
+        _warpedObjects = new List<Transform>() { _playerTransform };
+        //_warpedObjects = GetNearbyObjects(enemyWarpProximity);
+        //WarpObjects(_warpedObjects, new Vector3(0, verticalTransportDistance, 0));
+        //duplicate.SetActive(true);
     }
 
     void WarpBackToActualWoods()
@@ -143,34 +227,11 @@ public class LostWoods : MonoBehaviour
         }
         IsWarpedToDuplicate = false;
 
-        //RegenerateTerrain();
-
-        duplicate.SetActive(false);
-
-        WarpObjects(_warpedObjects, new Vector3(0, -verticalTransportDistance, 0));
+        //WarpObjects(_warpedObjects, new Vector3(0, -verticalTransportDistance, 0));
+        //duplicate.SetActive(false);
         _warpedObjects = null;
-    }
-
-    void RegenerateTerrain()
-    {
-        // TODO
-
-        //OverworldTerrainEngine.Instance.ForceRegenerateTerrain(GetChunks());
-        OverworldTerrainEngine.Instance.ForceRegenerateTerrain();
-    }
-
-    /*List<Chunk> GetChunks()
-    {
-        Chunk playerOccupiedChunk = Uniblocks.Engine.PositionToChunk(PlayerPos).GetComponent<Chunk>();
-        Index p = playerOccupiedChunk.ChunkIndex;
-
-        return new List<Chunk>
-        {
-            ChunkManager.GetChunkComponent(p.x, p.y-1, p.z),
-            ChunkManager.GetChunkComponent(p.x, p.y,   p.z),
-            ChunkManager.GetChunkComponent(p.x, p.y+1, p.z),
-        };
     }*/
+
 
     List<Transform> GetNearbyObjects(float proximity)
     {

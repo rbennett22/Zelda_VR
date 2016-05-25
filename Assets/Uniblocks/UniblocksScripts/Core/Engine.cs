@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Immersio.Utility;
 
 namespace Uniblocks
 {
@@ -42,9 +43,9 @@ namespace Uniblocks
 
         // chunk spawn settings
         public static int HeightRange, ChunkSpawnDistance, ChunkDespawnDistance;
-        public static int chunkSizeX, chunkSizeY, chunkSizeZ;
-
         public int lHeightRange, lChunkSpawnDistance, lChunkDespawnDistance;
+
+        public static Index3 ChunkSize;
         public int lChunkSizeX, lChunkSizeY, lChunkSizeZ;
 
         // texture settings
@@ -114,9 +115,7 @@ namespace Uniblocks
             SendCameraLookEvents = lSendCameraLookEvents;
             SendCursorEvents = lSendCursorEvents;
 
-            chunkSizeX = lChunkSizeX;
-            chunkSizeY = lChunkSizeY;
-            chunkSizeZ = lChunkSizeZ;
+            ChunkSize = new Index3(lChunkSizeX, lChunkSizeY, lChunkSizeZ);
 
             ChunkDataFiles.LoadedRegions = new Dictionary<string, string[]>();
             ChunkDataFiles.TempChunkData = new Dictionary<string, string>();
@@ -167,7 +166,7 @@ namespace Uniblocks
             }
 
             // check settings
-            if (chunkSizeX < 1 || lChunkSizeY < 1 || lChunkSizeZ < 1)
+            if (ChunkSize.x < 1 || ChunkSize.y < 1 || ChunkSize.z < 1)
             {
                 Debug.LogError("Uniblocks: Chunk side length must be greater than 0!");
                 Debug.Break();
@@ -378,17 +377,17 @@ namespace Uniblocks
 
         public static Index PositionToChunkIndex(Vector3 position)
         {
-            Index chunkIndex = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / chunkSizeX,
-                                          Mathf.RoundToInt(position.y / ChunkScale.y) / chunkSizeY,
-                                          Mathf.RoundToInt(position.z / ChunkScale.z) / chunkSizeZ);
+            Index chunkIndex = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / ChunkSize.x,
+                                          Mathf.RoundToInt(position.y / ChunkScale.y) / ChunkSize.y,
+                                          Mathf.RoundToInt(position.z / ChunkScale.z) / ChunkSize.z);
             return chunkIndex;
         }
 
         public static GameObject PositionToChunk(Vector3 position)
         {
-            Index chunkIndex = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / chunkSizeX,
-                                          Mathf.RoundToInt(position.y / ChunkScale.y) / chunkSizeY,
-                                          Mathf.RoundToInt(position.z / ChunkScale.z) / chunkSizeZ);
+            Index chunkIndex = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / ChunkSize.x,
+                                          Mathf.RoundToInt(position.y / ChunkScale.y) / ChunkSize.y,
+                                          Mathf.RoundToInt(position.z / ChunkScale.z) / ChunkSize.z);
             return ChunkManager.GetChunk(chunkIndex);
         }
 

@@ -15,6 +15,7 @@ public class Player : Singleton<Player>
     [SerializeField]
     ZeldaPlayerController _playerController;
     public ZeldaPlayerController PlayerController { get { return _playerController; } }
+    public Vector3 Position { get { return _playerController.transform.position; } }
 
 
     Inventory _inventory;
@@ -178,7 +179,23 @@ public class Player : Singleton<Player>
             _playerController.GravityModifier = gravMod;
         }
     }
-    
+
+
+    #region Events
+
+    public delegate void OccupiedSectorChangedEventHandler(Index2 prevSector, Index2 newSector);
+    public event OccupiedSectorChangedEventHandler OccupiedSectorChanged;
+
+    void OnOccupiedSectorChanged(Index2 prevSector, Index2 newSector)
+    {
+        //print("OnOccupiedSectorChanged() :  prevSector = " + prevSector + "  newSector = " + newSector);
+
+        if (OccupiedSectorChanged != null)
+            OccupiedSectorChanged(prevSector, newSector);
+    }
+
+    #endregion Events
+
 
     override protected void Awake()
     {
@@ -288,6 +305,9 @@ public class Player : Singleton<Player>
 
     void Update()
     {
+        UpdateEvents();
+
+
         if (PauseManager.Instance.IsPaused_Any) { return; }
         if (!IsAlive) { return; }
 
@@ -298,7 +318,18 @@ public class Player : Singleton<Player>
 
         if (IsParalyzed) { return; }
 
+
         ProcessUserInput();
+    }
+
+    void UpdateEvents()
+    {
+        Index2 occupiedSector = GetOccupiedOverworldSector();
+        if (occupiedSector != _prevOccupiedSector)
+        {
+            OnOccupiedSectorChanged(_prevOccupiedSector, occupiedSector);
+            _prevOccupiedSector = occupiedSector;
+        }
     }
 
     void ProcessUserInput()
@@ -398,11 +429,18 @@ public class Player : Singleton<Player>
     }
 
 
-    public DungeonRoom OccupiedDungeonRoom()
+    Index2 _prevOccupiedSector = null;
+    public Index2 GetOccupiedOverworldSector()
+    {
+        if (!WorldInfo.Instance.IsOverworld) { return null; }
+
+        return CommonObjects.OverworldTileMap.GetSectorForPosition(Position);
+    }
+    public DungeonRoom GetOccupiedDungeonRoom()
     {
         if (!WorldInfo.Instance.IsInDungeon) { return null; }
 
-        return DungeonRoom.GetRoomForPosition(_playerController.transform.position);
+        return DungeonRoom.GetRoomForPosition(Position);
     }
 
     public float GetDamageModifier()
@@ -463,7 +501,7 @@ public class Player : Singleton<Player>
         }
         else if (WorldInfo.Instance.IsInDungeon)
         {
-            DungeonRoom roomPlayerIsIn = OccupiedDungeonRoom();
+            DungeonRoom roomPlayerIsIn = GetOccupiedDungeonRoom();
             foreach (Enemy enemy in roomPlayerIsIn.Enemies)
             {
                 enemy.Paralyze(duration);

@@ -52,9 +52,9 @@ public class OverworldTerrainGenerator : TerrainGenerator
                 return;
         }
 
-        int chunkSizeX = Engine.chunkSizeX;
-        int chunkSizeY = Engine.chunkSizeY;
-        int chunkSizeZ = Engine.chunkSizeZ;
+        int chunkSizeX = Engine.ChunkSize.x;
+        int chunkSizeY = Engine.ChunkSize.y;
+        int chunkSizeZ = Engine.ChunkSize.z;
 
         int chunkX = chunkSizeX * chunk.chunkIndex.x;
         int chunkY = chunkSizeY * chunk.chunkIndex.y;

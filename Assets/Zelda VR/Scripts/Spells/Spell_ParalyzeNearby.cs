@@ -22,7 +22,7 @@ public class Spell_ParalyzeNearby : Spell_Base
         }
         else if (WorldInfo.Instance.IsInDungeon)
         {
-            DungeonRoom room = PlayerC.OccupiedDungeonRoom();
+            DungeonRoom room = PlayerC.GetOccupiedDungeonRoom();
             foreach (Enemy enemy in room.Enemies)
             {
                 enemy.Paralyze(duration);

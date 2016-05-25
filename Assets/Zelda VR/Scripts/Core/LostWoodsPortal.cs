@@ -2,14 +2,14 @@
 
 public class LostWoodsPortal : MonoBehaviour
 {
-    public LostWoods lostWoods;
-
+    [SerializeField]
+    LostWoods _lostWoods;
 
     void OnTriggerEnter(Collider otherCollider)
     {
         GameObject other = otherCollider.gameObject;
         if (!CommonObjects.IsPlayer(other)) { return; }
 
-        lostWoods.OnPlayerEnteredPortal(this);
+        _lostWoods.PlayerEnteredPortal(this);
     }
 }

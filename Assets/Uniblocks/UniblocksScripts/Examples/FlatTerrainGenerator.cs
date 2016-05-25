@@ -1,12 +1,13 @@
 namespace Uniblocks
 {
     public class FlatTerrainGenerator : TerrainGenerator
-    { // generates a flat terrain
+    { 
+        // generates a flat terrain
         public override void GenerateVoxelData()
         {
-            int chunkSizeX = Engine.chunkSizeX;
-            int chunkSizeY = Engine.chunkSizeY;
-            int chunkSizeZ = Engine.chunkSizeZ;
+            int chunkSizeX = Engine.ChunkSize.x;
+            int chunkSizeY = Engine.ChunkSize.y;
+            int chunkSizeZ = Engine.ChunkSize.z;
 
             int chunky = chunk.chunkIndex.y;
 

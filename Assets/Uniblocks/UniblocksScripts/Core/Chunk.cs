@@ -2,6 +2,7 @@
 
 using System.Collections;
 using UnityEngine;
+using Immersio.Utility;
 
 namespace Uniblocks
 {
@@ -27,6 +28,14 @@ namespace Uniblocks
         public GameObject meshContainer, chunkCollider;
 
         public int sizeX, sizeY, sizeZ;
+        public Index3 Size {
+            get { return new Index3(sizeX, sizeY, sizeZ); }
+            set {
+                sizeX = value.x;
+                sizeY = value.y;
+                sizeZ = value.z;
+            }
+        }
 
 
         ChunkMeshCreator MeshCreator;
@@ -39,9 +48,7 @@ namespace Uniblocks
         { 
             chunkIndex = new Index(transform.position);
 
-            sizeX = Engine.chunkSizeX;
-            sizeY = Engine.chunkSizeY;
-            sizeZ = Engine.chunkSizeZ;
+            Size = Engine.ChunkSize;
 
             neighborChunks = new Chunk[6]; // 0 = up, 1 = down, 2 = right, 3 = left, 4 = forward, 5 = back
             MeshCreator = GetComponent<ChunkMeshCreator>();

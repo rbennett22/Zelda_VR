@@ -57,33 +57,6 @@ namespace Immersio.Utility
             return ("[" + x.ToString() + "," + y.ToString() + "," + z.ToString() + "]");
         }
 
-        public bool IsEqual(Index3 n)
-        {
-            if (n == null)
-            {
-                return false;
-            }
-
-            return (
-                x == n.x &&
-                y == n.y &&
-                z == n.z);
-        }
-
-
-        public static bool Compare(Index3 a, Index3 b)
-        {
-            if (b == null)
-            {
-                return false;
-            }
-
-            return (
-                a.x == b.x &&
-                a.y == b.y &&
-                a.z == b.z);
-        }
-
         public static Index3 FromString(string indexString)
         {
             string[] splitString = indexString.Split(',');
@@ -97,6 +70,32 @@ namespace Immersio.Utility
                 Debug.LogError("Index3.FromString: Invalid format. String must be in \"x,y,z\" format.");
                 return null;
             }
+        }
+
+
+        public static bool Compare(Index3 a, Index3 b) { return a == b; }
+        public bool IsEqual(Index3 n) { return this == n; }
+
+        public static bool operator ==(Index3 a, Index3 b)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            // If one is null, but not both, return false.
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
+            // Return true if the fields match:
+            return a.x == b.x && a.y == b.y && a.z == b.z;
+        }
+        public static bool operator !=(Index3 a, Index3 b)
+        {
+            return !(a == b);
         }
     }
 }

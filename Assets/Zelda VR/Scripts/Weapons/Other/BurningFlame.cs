@@ -51,7 +51,7 @@ public class BurningFlame : MonoBehaviour
 
     void ActivateLightsInDungeonRoom()
     {
-        DungeonRoom dr = CommonObjects.Player_C.OccupiedDungeonRoom();
+        DungeonRoom dr = CommonObjects.Player_C.GetOccupiedDungeonRoom();
         if (dr != null && !dr.IsNpcRoom)
         {
             dr.ActivateTorchLights();

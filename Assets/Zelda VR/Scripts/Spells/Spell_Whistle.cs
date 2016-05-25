@@ -52,7 +52,7 @@ public class Spell_Whistle : Spell_Base
         {
             return false;
         }
-        DungeonRoom room = PlayerC.OccupiedDungeonRoom();
+        DungeonRoom room = PlayerC.GetOccupiedDungeonRoom();
         if (room == null)
         {
             return false;

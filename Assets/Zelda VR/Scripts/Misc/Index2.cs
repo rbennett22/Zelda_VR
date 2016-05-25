@@ -54,35 +54,9 @@ namespace Immersio.Utility
             return new Vector2(x, y);
         }
 
-
         public override string ToString()
         {
             return ("[" + x.ToString() + "," + y.ToString() + "]");
-        }
-
-        public bool IsEqual(Index2 n)
-        {
-            if (n == null)
-            {
-                return false;
-            }
-
-            return (
-                x == n.x &&
-                y == n.y);
-        }
-
-
-        public static bool Compare(Index2 a, Index2 b)
-        {
-            if (b == null)
-            {
-                return false;
-            }
-
-            return (
-                a.x == b.x &&
-                a.y == b.y);
         }
 
         public static Index2 FromString(string indexString)
@@ -98,6 +72,32 @@ namespace Immersio.Utility
                 Debug.LogError("Index2.FromString: Invalid format. String must be in \"x,y\" format.");
                 return null;
             }
+        }
+
+
+        public static bool Compare(Index2 a, Index2 b) { return a == b; }
+        public bool IsEqual(Index2 n) { return this == n; }
+
+        public static bool operator ==(Index2 a, Index2 b)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            // If one is null, but not both, return false.
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
+            // Return true if the fields match:
+            return a.x == b.x && a.y == b.y;
+        }
+        public static bool operator !=(Index2 a, Index2 b)
+        {
+            return !(a == b);
         }
     }
 }
