@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-
+using Immersio.Utility;
 
 public class Enemy : MonoBehaviour
 {
@@ -23,7 +23,6 @@ public class Enemy : MonoBehaviour
     public bool HasShield { get { return shield != null; } }
 
     public int meleeDamage = 1;
-    public float speed = 1;
     public float jumpPower = 1;
     public float jumpUpFactor = 1.75f;
     public bool respondsToBait = true;
@@ -34,8 +33,8 @@ public class Enemy : MonoBehaviour
 
     public EnemySpawnPoint SpawnPoint { get; set; }
     public DungeonRoom DungeonRoomRef { get; set; }    // (Will be null in overworld)
-    public GameObject PlayerController { get { return CommonObjects.PlayerController_G; } }
-  
+    public Player Player { get { return CommonObjects.Player_C; } }
+
     public bool IsAttacking { get { return HasWeapon && weapon.IsCooldownActive; } }
     public bool IsSpawning { get { return (enemyAnim != null && enemyAnim.IsSpawning); } }
 
@@ -45,9 +44,9 @@ public class Enemy : MonoBehaviour
 
     public bool IsPreoccupied { get { return IsAttacking || IsJumping || IsSpawning || IsParalyzed || IsStunned; } }
 
+    public Index2 Tile { get { return new Index2(TileX, TileZ); } }
     public int TileX { get { return (int)transform.position.x; } }
     public int TileZ { get { return (int)transform.position.z; } }
-
 
     public Rect Boundary { get; private set; }
 
@@ -220,21 +219,17 @@ public class Enemy : MonoBehaviour
     }
 
 
-    void OnTriggerEnter(Collider otherCollider)
+    void OnTriggerEnter(Collider other)
     {
-        GameObject other = otherCollider.gameObject;
-        //print("Enemy::OnTriggerEnter: " + other.name);
-
-        if (other == PlayerController)
+        if(CommonObjects.IsPlayer(other.gameObject))
         {
-            OnHitPlayer(other.transform.parent.gameObject);
+            OnHitPlayer(Player);
         }
     }
 
-    void OnHitPlayer(GameObject player)
+    void OnHitPlayer(Player player)
     {
-        //print("Enemy::OnHitPlayer");
-        player.GetComponent<HealthController>().TakeDamage((uint)meleeDamage, gameObject);
+        player.HealthController.TakeDamage((uint)meleeDamage, gameObject);
     }
 
     void OnEnemyDeath()

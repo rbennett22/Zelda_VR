@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class EnemyAI_Aquamentus : EnemyAI
 {
-    public TileDirection.Direction forwardDirection = TileDirection.Direction.Left;
+    public IndexDirection2.DirectionEnum forwardDirection = IndexDirection2.DirectionEnum.Left;
 
 
-    TileDirection _forwardTileDirection;
+    IndexDirection2 _forwardTileDirection;
 
 
     void Start()
@@ -15,7 +15,7 @@ public class EnemyAI_Aquamentus : EnemyAI
         _enemyMove.AlwaysFaceTowardsMoveDirection = false;
         _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
 
-        _forwardTileDirection = TileDirection.TileDirectionForDirection(forwardDirection);
+        _forwardTileDirection = IndexDirection2.FromDirectionEnum(forwardDirection);
         transform.forward = _forwardTileDirection.ToVector3();
         MoveDirection = _forwardTileDirection;
     }
@@ -39,7 +39,7 @@ public class EnemyAI_Aquamentus : EnemyAI
         float degreesDelta = Random.Range(1, 30);
         float radiansDelta = degreesDelta * Mathf.PI / 180;
 
-        Vector3 dir = ToPlayer;
+        Vector3 dir = DirectionToPlayer;
         Vector3 dirL = Vector3.RotateTowards(dir, -dir, -radiansDelta, 999);
         Vector3 dirR = Vector3.RotateTowards(dir, -dir, radiansDelta, 999);
 

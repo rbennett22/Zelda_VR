@@ -10,7 +10,6 @@ public class EnemyAI_Zol : EnemyAI
     {
         StartCoroutine("WaitForSpawnToFinish");
     }
-
     IEnumerator WaitForSpawnToFinish()
     {
         while (_enemy.enemyAnim.IsSpawning)
@@ -22,7 +21,7 @@ public class EnemyAI_Zol : EnemyAI
 
     void AssignSkinForDungeonNum(int num)
     {
-        if (num < 1 || num > 9) { num = 1; }
+        num = Mathf.Clamp(num, 1, WorldInfo.NUM_DUNGEONS);
         AnimatorInstance.SetInteger("DungeonNum", num);
     }
 
@@ -40,9 +39,10 @@ public class EnemyAI_Zol : EnemyAI
 
         gel.GetComponent<HealthController>().ActivateTempInvinc();
 
-        if (_enemy.DungeonRoomRef != null)
+        DungeonRoom dr = _enemy.DungeonRoomRef;
+        if (dr != null)
         {
-            _enemy.DungeonRoomRef.AddEnemy(gel.GetComponent<Enemy>());
+            dr.AddEnemy(gel.GetComponent<Enemy>());
         }
     }
 }

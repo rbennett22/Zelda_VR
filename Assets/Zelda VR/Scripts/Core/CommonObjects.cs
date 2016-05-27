@@ -46,8 +46,6 @@ public class CommonObjects : Singleton<CommonObjects>
     {
         get
         {
-            if (!WorldInfo.Instance.IsOverworld) { return null; }
-
             OverworldTerrainEngine engine = OverworldTerrainEngine.Instance;
             return (engine == null) ? null : engine.TileMap;
         }

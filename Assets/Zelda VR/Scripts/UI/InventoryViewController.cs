@@ -180,8 +180,9 @@ public class InventoryViewController : MonoBehaviour
     {
         float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
         float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
+        IndexDirection2 dir = new IndexDirection2(moveHorz, moveVert);
 
-        _view.MoveCursor(new Vector2(moveHorz, moveVert));
+        _view.MoveCursor(dir);
     }
     void OnCursorIndexChanged(InventoryView sender)
     {

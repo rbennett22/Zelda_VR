@@ -4,9 +4,7 @@ public class FairyWander : MonoBehaviour
 {
     const float DIRECTION_CHANGE_INTERVAL = 1.5f;
 
-
     public float speed;
-
 
     Vector3 _moveDirection;
 
@@ -16,20 +14,10 @@ public class FairyWander : MonoBehaviour
         InvokeRepeating("ChangeDirection", 0, DIRECTION_CHANGE_INTERVAL);
     }
 
-
     void ChangeDirection()
     {
-        _moveDirection = GetRandomDirection();
+        _moveDirection = EnemyAI_Random.GetRandomDirectionXZ();
     }
-    Vector3 GetRandomDirection()
-    {
-        Vector3 dir = Vector3.zero;
-        dir.x = Random.Range(-1.0f, 1.0f);
-        dir.z = Random.Range(-1.0f, 1.0f);
-
-        return dir.normalized;
-    }
-
 
     void Update()
     {

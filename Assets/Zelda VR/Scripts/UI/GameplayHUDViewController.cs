@@ -131,10 +131,13 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
         _view.InitOverworldMap(sectorsWide, sectorsHigh);
 
         Player player = CommonObjects.Player_C;
-        Index2 playerOccupiedSector = player.GetOccupiedOverworldSector();
-        if (playerOccupiedSector != null)
+        if (WorldInfo.Instance.IsOverworld)
         {
-            _view.UpdateOverworldMap(playerOccupiedSector);
+            Index2 playerOccupiedSector = player.GetOccupiedOverworldSector();
+            if (playerOccupiedSector != null)
+            {
+                _view.UpdateOverworldMap(playerOccupiedSector);
+            }
         }
 
         player.OccupiedSectorChanged += PlayerOccupiedSectorChanged;

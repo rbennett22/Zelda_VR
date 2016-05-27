@@ -7,6 +7,7 @@ public class EnemyAI_Peahat : EnemyAI
     const float ROTATION_SPEED = 0.5f;
 
 
+    public float baseSpeed = 1;
     public float maxAltitude = 5.0f;            // Relative to ground
 
 
@@ -34,7 +35,7 @@ public class EnemyAI_Peahat : EnemyAI
     {
         _state = State.Flying;
         _flyStartTime = Time.time;
-        _flyDirection = EnforceBoundary(EnemyAI_Random.GetRandomTileDirection());
+        _flyDirection = EnforceBoundary(EnemyAI_Random.GetRandomDirectionXZ());
 
         yield return new WaitForSeconds(_flyDuration);
 
@@ -44,7 +45,7 @@ public class EnemyAI_Peahat : EnemyAI
     IEnumerator Idle()
     {
         _state = State.Idle;
-        SetPropellarSpeed(0.0f);
+        SetPropellarSpeed(0);
         _flyDirection = Vector3.zero;
 
         yield return new WaitForSeconds(_idleDuration);
@@ -67,25 +68,25 @@ public class EnemyAI_Peahat : EnemyAI
             SetPropellarSpeed(animSpeed);
 
             // Direction
-            _flyDirection = Quaternion.Euler(0, ROTATION_SPEED, 0) * _flyDirection;
+            Quaternion deltaRot = Quaternion.Euler(0, ROTATION_SPEED, 0);
+            _flyDirection = deltaRot * _flyDirection;
 
-            Vector3 pos = transform.position;
-
-            float speed = animSpeed * _enemy.speed;
-            pos.x += _flyDirection.x * speed;
-            pos.z += _flyDirection.z * speed;
-
-            transform.position = pos;
+            // Position
+            float moveSpeed = animSpeed * baseSpeed;
+            transform.position += _flyDirection * moveSpeed;
         }
     }
 
-
-    void SetPropellarSpeed(float speedPcnt)
+    void SetPropellarSpeed(float speed)
     {
-        AnimatorInstance.speed = speedPcnt;
+        speed = Mathf.Clamp(speed, -1f, 1f);
+        AnimatorInstance.speed = speed;
 
-        // The faster Peahat goes, the higher he flies
-        float altitude = WorldOffsetY + MIN_ALTITUDE + (maxAltitude - MIN_ALTITUDE) * (speedPcnt * speedPcnt);
+        SetAltitudePercent(speed * speed);   // The faster Peahat goes, the higher he flies
+    }
+    void SetAltitudePercent(float pcnt)
+    {     
+        float altitude = WorldOffsetY + Mathf.Lerp(MIN_ALTITUDE, maxAltitude, pcnt);
         transform.SetY(altitude);
     }
 }

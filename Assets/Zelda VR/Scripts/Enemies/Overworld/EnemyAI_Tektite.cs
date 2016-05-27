@@ -29,26 +29,13 @@ public class EnemyAI_Tektite : EnemyAI
         }
 
         float timeSinceLastJump = Time.time - _lastJumpTime;
-        if (timeSinceLastJump >= _jumpCooldownDuration || CommonObjects.Player_C.IsAttackingWithSword)
+        if (timeSinceLastJump >= _jumpCooldownDuration || Player.IsAttackingWithSword)
         {
-            if (IsBlockingAnExit())  // Prevent trapping Link into a Grotto or Dungeon stairs entrance/exit
-            {
-                JumpAwayFromPlayer();
-            }
-            else
-            {
-                if (_enemy.ShouldFollowBait())
-                {
-                    JumpToBait();
-                }
-                else
-                {
-                    JumpToPlayer();
-                }
-            }
+            JumpToNextDestination();
         }
     }
 
+    
     void LateUpdate()
     {
         _wasJumping = _enemy.IsJumping;
@@ -75,14 +62,32 @@ public class EnemyAI_Tektite : EnemyAI
     }
 
 
+    void JumpToNextDestination()
+    {
+        if (IsBlockingAnExit())  // Prevent trapping Link into a Grotto or Dungeon stairs entrance/exit
+        {
+            JumpAwayFromPlayer();
+        }
+        else
+        {
+            if (_enemy.ShouldFollowBait())
+            {
+                JumpToBait();
+            }
+            else
+            {
+                JumpToPlayer();
+            }
+        }
+    }
 
     void JumpToPlayer()
     {
-        _enemy.Jump(EnforceBoundary(ToPlayer));
+        _enemy.Jump(EnforceBoundary(DirectionToPlayer));
     }
     void JumpAwayFromPlayer()
     {
-        _enemy.Jump(EnforceBoundary(-ToPlayer));
+        _enemy.Jump(EnforceBoundary(-DirectionToPlayer));
     }
 
     void JumpToBait()

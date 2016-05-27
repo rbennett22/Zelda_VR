@@ -55,8 +55,8 @@ public class EnemyAI_GleeokHead : EnemyAI
     void Oscillate()
     {
         float time = Time.time - _startTime;
-        float thetaX = time * _enemyMove.Speed + phaseOffset;
-        float thetaY = time * _enemyMove.Speed * 1.3f + phaseOffset;
+        float thetaX = time * _enemyMove.speed + phaseOffset;
+        float thetaY = time * _enemyMove.speed * 1.3f + phaseOffset;
 
         float x = HorizontalAmplitude * Mathf.Sin(thetaX);
         float y = _baseLocalY + VerticalAmplitude * Mathf.Sin(thetaY);
@@ -82,6 +82,6 @@ public class EnemyAI_GleeokHead : EnemyAI
 
     void Attack()
     {
-        _enemy.Attack(ToPlayer);
+        _enemy.Attack(DirectionToPlayer);
     }
 }

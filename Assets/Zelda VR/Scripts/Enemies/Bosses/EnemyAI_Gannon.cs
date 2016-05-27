@@ -56,7 +56,7 @@ public class EnemyAI_Gannon : EnemyAI
 
     void Attack()
     {
-        _enemy.Attack(ToPlayer);
+        _enemy.Attack(DirectionToPlayer);
     }
 
     void MoveToRandomLocation()

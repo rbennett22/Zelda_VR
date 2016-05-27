@@ -74,7 +74,7 @@ public class EnemyAI_WallMaster : EnemyAI
 
         if (_hasControlOfLink)
         {
-            _enemy.PlayerController.transform.position = transform.position;
+            Player.Position = transform.position;
         }
     }
 
@@ -175,13 +175,13 @@ public class EnemyAI_WallMaster : EnemyAI
 
     void TakeControlOfLink()
     {
-        CommonObjects.Player_C.IsParalyzed = true;
+        Player.IsParalyzed = true;
         _hasControlOfLink = true;
     }
     void ReleaseControlOfLink()
     {
         _hasControlOfLink = false;
-        CommonObjects.Player_C.IsParalyzed = false;
+        Player.IsParalyzed = false;
 
         if (WorldInfo.Instance.IsInDungeon)
         {

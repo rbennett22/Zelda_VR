@@ -12,7 +12,7 @@ public class EnemyAI_Keese : EnemyAI
 
     void Start()
     {
-        _baseSpeed = _enemyMove.Speed;
+        _baseSpeed = _enemyMove.speed;
         _startTime = Time.time;
     }
 
@@ -24,6 +24,6 @@ public class EnemyAI_Keese : EnemyAI
 
         float time = Time.time - _startTime;
         float theta = time * speedShiftFrequency + phaseOffset;
-        _enemyMove.Speed = _baseSpeed * (1 + Mathf.Cos(theta));
+        _enemyMove.speed = _baseSpeed * (1 + Mathf.Cos(theta));
     }
 }

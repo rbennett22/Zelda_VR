@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
+    public float speed = 1;
+
+
     public enum MovementMode
     {
         Destination,
@@ -42,7 +45,6 @@ public class EnemyMove : MonoBehaviour
 
 
     public bool AlwaysFaceTowardsMoveDirection { get; set; }
-    public float Speed { get { return _enemy.speed; } set { _enemy.speed = value; } }       // TODO: Don't store speed in Enemy
 
 
     public Vector3 MoveDirection
@@ -135,7 +137,7 @@ public class EnemyMove : MonoBehaviour
 
     void MoveInDirection(Vector3 direction, bool doFaceTowardsDirection = true)
     {
-        Vector3 displacement = direction * Speed * Time.deltaTime;
+        Vector3 displacement = direction * speed * Time.deltaTime;
         transform.position += displacement;
         if (doFaceTowardsDirection)
         {

@@ -137,27 +137,25 @@ public class EnemyAI_Wizzrobe : EnemyAI
         GetComponent<Collider>().enabled = true;
         transform.AddToY(-OffscreenOffset);
 
-        Vector3 playerPos = _enemy.PlayerController.transform.position;
-
         transform.position = GetRandomTeleportPosition();
 
-        Vector3 facingDirection = playerPos - transform.position;
-        if (Mathf.Abs(facingDirection.x / facingDirection.z) < 1)
+        Vector3 dir = DirectionToPlayer;
+        if (Mathf.Abs(dir.x / dir.z) < 1)
         {
-            facingDirection.x = 0;
+            dir.x = 0;
         }
         else
         {
-            facingDirection.z = 0;
+            dir.z = 0;
         }
-        transform.forward = facingDirection;
+        transform.forward = dir;
     }
 
     Vector3 GetRandomTeleportPosition()
     {
         Vector3 newPosition;
 
-        Vector3 pp = _enemy.PlayerController.transform.position;
+        Vector3 pp = Player.Position;
         List<Vector3> possiblePositions = new List<Vector3>();
 
         possiblePositions.Add(new Vector3(pp.x + tpDistanceToPlayer, pp.y, pp.z));

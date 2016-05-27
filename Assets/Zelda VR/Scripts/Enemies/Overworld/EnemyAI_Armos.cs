@@ -118,7 +118,7 @@ public class EnemyAI_Armos : MonoBehaviour
             ActivateHiddenCollectible();
         }
 
-        GetComponent<EnemyMove>().Speed = Extensions.FlipCoin() ? SpeedFast : SpeedSlow;
+        GetComponent<EnemyMove>().speed = Extensions.FlipCoin() ? SpeedFast : SpeedSlow;
         GetComponent<Enemy>().meleeDamage = _meleeDamage;
         _enemyMove.enabled = true;
     }

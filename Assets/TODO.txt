@@ -57,6 +57,7 @@ Mid Priority:
 - Blue wizzrobes should not teleport
 - After Ganon is hit he should be temporarily invincible so that I can't take advantage
 - Dungeon tunnels have passages with zero-thickness walls
+- Beams from many dungeon enemies should be unblockable
 
 - There should be an event sound when you present meat to "Grumble, grumble"
 - Need event sound in "Pick any one you want" caves
@@ -90,7 +91,6 @@ Low Priority:
 - I'm not sure darknuts are supposed to be hurt by fire, or gleeoks by the wand
 - Leevers: Should not be harmful when burrowing 
 - River Zora projectile should briefly hold position (~0.3 secs) before firing towards Link
-- Beams from many dungeon enemies should be unblockable (Yes, but this may be too difficult in VR)
 
 
 WishList:
@@ -125,6 +125,7 @@ WishList:
 
 BUGS:
 
+- BUG: Dungeon enemies appearing outside of rooms (related to IndexDirection2 changes?)
 - BUG: NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
 
@@ -147,6 +148,9 @@ NEEDS TESTING:
 - Darknut shields against MagicWand (no flame)
 - Vires don't spawn Keese if killed by MagicSword
 - Wand Flame should light up dark room
+
+- Fairy: Changes move direction regularly (is this how fairy is supposed to move?)
+
 
 Thought these were done already:
 

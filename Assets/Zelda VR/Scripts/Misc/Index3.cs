@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 
-// a Vector3 using ints instead of floats, for storing indexes and stuff
-
 namespace Immersio.Utility
 {
-    public class Index3
+    public struct Index3
     {
-        public enum Direction
+        public enum Index3Direction
         {
             Up, Down, Right, Left, Forward, Back
         }
@@ -15,12 +13,6 @@ namespace Immersio.Utility
         public int x, y, z;
 
 
-        public Index3()
-        {
-            x = 0;
-            y = 0;
-            z = 0;
-        }
         public Index3(int x, int y, int z)
         {
             this.x = x;
@@ -35,15 +27,15 @@ namespace Immersio.Utility
         }
 
 
-        public Index3 GetAdjacentIndex(Direction direction)
+        public Index3 GetAdjacentIndex(Index3Direction direction)
         {
-            if (direction == Direction.Down) return new Index3(x, y - 1, z);
-            else if (direction == Direction.Up) return new Index3(x, y + 1, z);
-            else if (direction == Direction.Left) return new Index3(x - 1, y, z);
-            else if (direction == Direction.Right) return new Index3(x + 1, y, z);
-            else if (direction == Direction.Back) return new Index3(x, y, z - 1);
-            else if (direction == Direction.Forward) return new Index3(x, y, z + 1);
-            else return null;
+            if (direction == Index3Direction.Down) return new Index3(x, y - 1, z);
+            else if (direction == Index3Direction.Up) return new Index3(x, y + 1, z);
+            else if (direction == Index3Direction.Left) return new Index3(x - 1, y, z);
+            else if (direction == Index3Direction.Right) return new Index3(x + 1, y, z);
+            else if (direction == Index3Direction.Back) return new Index3(x, y, z - 1);
+            else if (direction == Index3Direction.Forward) return new Index3(x, y, z + 1);
+            else return new Index3();
         }
 
 
@@ -56,7 +48,6 @@ namespace Immersio.Utility
         {
             return ("[" + x.ToString() + "," + y.ToString() + "," + z.ToString() + "]");
         }
-
         public static Index3 FromString(string indexString)
         {
             string[] splitString = indexString.Split(',');
@@ -68,34 +59,40 @@ namespace Immersio.Utility
             catch (System.Exception)
             {
                 Debug.LogError("Index3.FromString: Invalid format. String must be in \"x,y,z\" format.");
-                return null;
+                return new Index3();
             }
         }
 
 
-        public static bool Compare(Index3 a, Index3 b) { return a == b; }
-        public bool IsEqual(Index3 n) { return this == n; }
+        #region Operator Overloads
+
+        public override bool Equals(object ob)
+        {
+            if (ob is Index3)
+            {
+                Index3 n = (Index3)ob;
+                return (x == n.x) && (y == n.y) && (z == n.z);
+            }
+            return false;
+        }
+        public bool Equals(Index3 n)
+        {
+            return (x == n.x) && (y == n.y) && (z == n.z);
+        }
+        public override int GetHashCode()
+        {
+            return x.GetHashCode() * y.GetHashCode() ^ z.GetHashCode();
+        }
 
         public static bool operator ==(Index3 a, Index3 b)
         {
-            // If both are null, or both are same instance, return true.
-            if (ReferenceEquals(a, b))
-            {
-                return true;
-            }
-
-            // If one is null, but not both, return false.
-            if (((object)a == null) || ((object)b == null))
-            {
-                return false;
-            }
-
-            // Return true if the fields match:
-            return a.x == b.x && a.y == b.y && a.z == b.z;
+            return (a.x == b.x) && (a.y == b.y) && (a.z == b.z);
         }
         public static bool operator !=(Index3 a, Index3 b)
         {
             return !(a == b);
         }
+
+        #endregion Operator Overloads
     }
 }

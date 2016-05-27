@@ -38,33 +38,33 @@ public class EnemyAI_Bladetrap : EnemyAI
         DungeonRoom playerDungeonRoom = null;
         if (WorldInfo.Instance.IsInDungeon)
         {
-            playerDungeonRoom = DungeonRoom.GetRoomForPosition(_enemy.PlayerController.transform.position);
+            playerDungeonRoom = DungeonRoom.GetRoomForPosition(Player.Position);
         }
 
         if (playerDungeonRoom == null || _enemy.DungeonRoomRef == playerDungeonRoom)
         {
-            Vector3 toPlayer = ToPlayer;
+            Vector3 toPlayer = DirectionToPlayer;
             if (Mathf.Abs(toPlayer.y) < 0.5f)
             {
                 if (Mathf.Abs(toPlayer.x) < TileMap.BLOCK_OFFSET_XZ)
                 {
                     toPlayer.x = 0;
-                    Trigger(new TileDirection(toPlayer));
+                    Trigger(new IndexDirection2(toPlayer));
                 }
                 else if (Mathf.Abs(toPlayer.z) < TileMap.BLOCK_OFFSET_XZ)
                 {
                     toPlayer.z = 0;
-                    Trigger(new TileDirection(toPlayer));
+                    Trigger(new IndexDirection2(toPlayer));
                 }
             }
         }
     }
 
-    void Trigger(TileDirection direction)
+    void Trigger(IndexDirection2 direction)
     {
         if (!PoisedToTrigger) { return; }
 
-        _enemyMove.Speed = triggerSpeed;
+        _enemyMove.speed = triggerSpeed;
         MoveDirection = direction;
         _movingToPlayer = true;
     }
@@ -73,29 +73,24 @@ public class EnemyAI_Bladetrap : EnemyAI
     {
         if (_movingToPlayer)
         {
-            Ray ray = new Ray(transform.position, moveDirection);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, 1.05f))
+            if (DetectObstructions(moveDirection, DEFAULT_OBSTRUCTION_FEELER_LENGTH))
             {
-                if (hitInfo.collider.gameObject != _enemy.PlayerController)
-                {
-                    ReturnToOrigin(new TileDirection(-moveDirection));
-                }
+                ReturnToOrigin(new IndexDirection2(-moveDirection));
             }
         }
-        else
+        else if (_returningToOrigin)
         {
-            MoveDirection = TileDirection.Zero;
+            MoveDirection = IndexDirection2.zero;
             _returningToOrigin = false;
         }
     }
 
-    void ReturnToOrigin(TileDirection moveDirection)
+    void ReturnToOrigin(IndexDirection2 moveDirection)
     {
         if (_returningToOrigin) { return; }
         _returningToOrigin = true;
 
-        _enemyMove.Speed = returnSpeed;
+        _enemyMove.speed = returnSpeed;
         MoveDirection = moveDirection;
         _movingToPlayer = false;
     }

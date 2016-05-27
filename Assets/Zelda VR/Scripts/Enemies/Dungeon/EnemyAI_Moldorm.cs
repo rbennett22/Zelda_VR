@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyAI_Moldorm : EnemyAI
 {
-    const int MaxPositionHistoryLengthInFrames = 350;
+    const int MAX_POS_HISTORY_LENGTH = 350;     // (in frames)
 
 
     public float turnSpeed = 60.0f;
@@ -17,7 +17,7 @@ public class EnemyAI_Moldorm : EnemyAI
 
     float _radialAcceleration;
 
-    Queue<Vector3> _positionHistory = new Queue<Vector3>(MaxPositionHistoryLengthInFrames);
+    Queue<Vector3> _positionHistory = new Queue<Vector3>(MAX_POS_HISTORY_LENGTH);
 
 
     public EnemyAI_Moldorm Next { get; set; }
@@ -52,13 +52,15 @@ public class EnemyAI_Moldorm : EnemyAI
         set { _enemyMove.MoveDirection = value.normalized; }
     }
 
+    void ReverseMoveDirection() { MoveDirection *= -1; }
+
 
     void Start()
     {
         _enemyMove.Mode = EnemyMove.MovementMode.DirectionOnly;
         _enemyMove.AlwaysFaceTowardsMoveDirection = false;
 
-        MoveDirection = EnemyAI_Random.GetRandomTileDirection();
+        MoveDirection = EnemyAI_Random.GetRandomDirectionXZ();
 
         if (IsHead)
         {
@@ -121,7 +123,6 @@ public class EnemyAI_Moldorm : EnemyAI
         else
         {
             MoveDirection = Vector3.zero;
-
             FollowNext();
         }
 
@@ -130,9 +131,9 @@ public class EnemyAI_Moldorm : EnemyAI
 
     void UpdateMoveDirection()
     {
-        if (DetectWall(transform.position, MoveDirection))
+        if (DetectObstructions(MoveDirection, DEFAULT_OBSTRUCTION_FEELER_LENGTH))
         {
-            MoveDirection *= -1;
+            ReverseMoveDirection();
         }
 
         float dT = Time.deltaTime;
@@ -152,7 +153,7 @@ public class EnemyAI_Moldorm : EnemyAI
 
     void UpdatePositionHistory()
     {
-        if (_positionHistory.Count >= MaxPositionHistoryLengthInFrames)
+        if (_positionHistory.Count >= MAX_POS_HISTORY_LENGTH)
         {
             _positionHistory.Dequeue();
         }
@@ -161,30 +162,9 @@ public class EnemyAI_Moldorm : EnemyAI
     }
 
 
-    bool DetectWall(Vector3 position, Vector3 direction)
-    {
-        float feelerLength = 0.75f;
-        RaycastHit hitInfo;
-        bool hit = true;
-
-        Ray ray = new Ray(position, direction);
-        LayerMask mask = Extensions.GetLayerMaskExcludingLayers("Enemies");
-        hit = Physics.Raycast(ray, out hitInfo, feelerLength, mask);
-        if (hit)
-        {
-            if (CommonObjects.IsPlayer(hitInfo.collider.gameObject))
-            {
-                hit = false;
-            }
-        }
-
-        return hit;
-    }
-
-
     void OnStun()
     {
-        if (Prev != null) { Prev.gameObject.GetComponent<Enemy>().Stun(); }
-        if (Next != null) { Next.gameObject.GetComponent<Enemy>().Stun(); }
+        if (Prev != null) { Prev._enemy.Stun(); }
+        if (Next != null) { Next._enemy.Stun(); }
     }
 }

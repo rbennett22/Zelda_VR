@@ -64,16 +64,7 @@ public class EnemyAI_Statue : EnemyAI
 
     void Attack()
     {
-        Vector3 direction;
-        if (FIRES_AT_PLAYER)
-        {
-            direction = (_enemy.PlayerController.transform.position - transform.position).normalized;
-        }
-        else
-        {
-            direction = EnemyAI_Random.GetRandomTileDirection();
-        }
-
+        Vector3 direction = FIRES_AT_PLAYER ? DirectionToPlayer : EnemyAI_Random.GetRandomDirectionXZ();
         _enemy.Attack(direction);
 
         ResetCooldownTimer();

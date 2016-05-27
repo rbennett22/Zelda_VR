@@ -327,11 +327,14 @@ public class Player : Singleton<Player>
 
     void UpdateEvents()
     {
-        Index2 occupiedSector = GetOccupiedOverworldSector();
-        if (occupiedSector != _prevOccupiedSector)
+        if (WorldInfo.Instance.IsOverworld)
         {
-            OnOccupiedSectorChanged(_prevOccupiedSector, occupiedSector);
-            _prevOccupiedSector = occupiedSector;
+            Index2 s = GetOccupiedOverworldSector();
+            if (s != _prevOccupiedSector)
+            {
+                OnOccupiedSectorChanged(_prevOccupiedSector, s);
+                _prevOccupiedSector = s;
+            }
         }
     }
 
@@ -432,12 +435,15 @@ public class Player : Singleton<Player>
     }
 
 
-    Index2 _prevOccupiedSector = null;
+    Index2 _prevOccupiedSector;
     public Index2 GetOccupiedOverworldSector()
     {
-        if (!WorldInfo.Instance.IsOverworld) { return null; }
-
-        return CommonObjects.OverworldTileMap.GetSectorForPosition(Position);
+        TileMap tileMap = CommonObjects.OverworldTileMap;
+        if(tileMap == null)
+        {
+            return new Index2();
+        }
+        return tileMap.GetSectorForPosition(Position);
     }
     public DungeonRoom GetOccupiedDungeonRoom()
     {

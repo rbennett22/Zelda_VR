@@ -2,52 +2,32 @@
 
 namespace Immersio.Utility
 {
-    public class Index2
+    public struct Index2
     {
-        public enum Direction
-        {
-            Up, Down, Right, Left
-        }
-        public static Direction GetDirectionForVector2(Vector2 vec)
-        {
-            if (vec.x < 0) { return Direction.Left; }
-            if (vec.x > 0) { return Direction.Right; }
-            if (vec.y > 0) { return Direction.Down; }
-            if (vec.y < 0) { return Direction.Up; }
-
-            return Direction.Up;
-        }
-
-
         public int x, y;
 
 
-        public Index2()
-        {
-            x = 0;
-            y = 0;
-        }
         public Index2(int x, int y)
         {
             this.x = x;
             this.y = y;
         }
-        public Index2(Vector2 setIndex)
+        public Index2(Vector2 v)
         {
-            x = (int)setIndex.x;
-            y = (int)setIndex.y;
+            x = (int)v.x;
+            y = (int)v.y;
+        }
+        public Index2(IndexDirection2 t)
+        {
+            x = t.X;
+            y = t.Y;
         }
 
 
-        public Index2 GetAdjacentIndex(Direction direction)
+        public static implicit operator Index2(IndexDirection2 t)
         {
-            if (direction == Direction.Down) return new Index2(x, y - 1);
-            else if (direction == Direction.Up) return new Index2(x, y + 1);
-            else if (direction == Direction.Left) return new Index2(x - 1, y);
-            else if (direction == Direction.Right) return new Index2(x + 1, y);
-            else return null;
+            return new Index2(t);  // implicit conversion
         }
-
 
         public Vector2 ToVector2()
         {
@@ -58,7 +38,6 @@ namespace Immersio.Utility
         {
             return ("[" + x.ToString() + "," + y.ToString() + "]");
         }
-
         public static Index2 FromString(string indexString)
         {
             string[] splitString = indexString.Split(',');
@@ -70,34 +49,55 @@ namespace Immersio.Utility
             catch (System.Exception)
             {
                 Debug.LogError("Index2.FromString: Invalid format. String must be in \"x,y\" format.");
-                return null;
+                return new Index2();
             }
         }
 
 
-        public static bool Compare(Index2 a, Index2 b) { return a == b; }
-        public bool IsEqual(Index2 n) { return this == n; }
+        #region Operator Overloads
+
+        public override bool Equals(object ob)
+        {
+            if (ob is Index2)
+            {
+                Index2 n = (Index2)ob;
+                return (x == n.x) && (y == n.y);
+            }
+            return false;
+        }
+        public bool Equals(Index2 n)
+        {
+            return (x == n.x) && (y == n.y);
+        }
+        public override int GetHashCode()
+        {
+            return x.GetHashCode() ^ y.GetHashCode();
+        }
 
         public static bool operator ==(Index2 a, Index2 b)
         {
-            // If both are null, or both are same instance, return true.
-            if (ReferenceEquals(a, b))
-            {
-                return true;
-            }
-
-            // If one is null, but not both, return false.
-            if (((object)a == null) || ((object)b == null))
-            {
-                return false;
-            }
-
-            // Return true if the fields match:
-            return a.x == b.x && a.y == b.y;
+            return (a.x == b.x) && (a.y == b.y);
         }
         public static bool operator !=(Index2 a, Index2 b)
         {
             return !(a == b);
         }
+
+        public static Index2 operator +(Index2 a, Index2 b)
+        {
+            Index2 n = new Index2();
+            n.x = a.x + b.x;
+            n.y = a.y + b.y;
+            return n;
+        }
+        public static Index2 operator -(Index2 a, Index2 b)
+        {
+            Index2 n = new Index2();
+            n.x = a.x - b.x;
+            n.y = a.y - b.y;
+            return n;
+        }
+
+        #endregion Operator Overloads
     }
 }

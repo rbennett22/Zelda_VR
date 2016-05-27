@@ -16,6 +16,18 @@ public class MenuCursor : MonoBehaviour
     Index2 _cursorIndex = new Index2();
 
 
+    public void SetCursorX(int value)
+    {
+        Index2 n = CursorIndex;
+        n.x = value;
+        CursorIndex = n;
+    }
+    public void SetCursorY(int value)
+    {
+        Index2 n = CursorIndex;
+        n.y = value;
+        CursorIndex = n;
+    }
     public Index2 CursorIndex
     {
         get { return _cursorIndex; }
@@ -52,27 +64,27 @@ public class MenuCursor : MonoBehaviour
             return false;
         }
 
-        return TryMoveCursor(Index2.GetDirectionForVector2(dir));
+        return TryMoveCursor(new IndexDirection2(dir));
     }
-    public bool TryMoveCursor(Index2.Direction dir)
+    public bool TryMoveCursor(IndexDirection2 dir)
     {
         if (_cursorCooldownActive)
         {
             return false;
         }
 
-        Index2 newIndex = _cursorIndex.GetAdjacentIndex(dir);
+        Index2 n = _cursorIndex + dir;
 
         if (wraps)
         {
-            if (newIndex.x < 0) { newIndex.x += numColumns; }
-            else if (newIndex.x >= numColumns) { newIndex.x -= numColumns; }
+            if (n.x < 0) { n.x += numColumns; }
+            else if (n.x >= numColumns) { n.x -= numColumns; }
 
-            if (newIndex.y < 0) { newIndex.y += numRows; }
-            else if (newIndex.y >= numRows) { newIndex.y -= numRows; }
+            if (n.y < 0) { n.y += numRows; }
+            else if (n.y >= numRows) { n.y -= numRows; }
         }
 
-        CursorIndex = newIndex;
+        CursorIndex = n;
 
         StartCursorCooldownTimer();
 

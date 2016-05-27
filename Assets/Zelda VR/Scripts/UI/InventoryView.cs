@@ -204,14 +204,7 @@ public class InventoryView : MonoBehaviour
         }
     }
 
-    public void MoveCursor(Vector2 vec)
-    {
-        if (_menuCursor.TryMoveCursor(vec))
-        {
-            PlayCursorMoveSound();
-        }
-    }
-    public void MoveCursor(Index2.Direction dir)
+    public void MoveCursor(IndexDirection2 dir)
     {
         if (_menuCursor.TryMoveCursor(dir))
         {

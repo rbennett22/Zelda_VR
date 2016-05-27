@@ -18,7 +18,7 @@
         }
         else
         {
-            _enemyMove.Speed = speeds[NumMouths - 1];
+            _enemyMove.speed = speeds[NumMouths - 1];
         }
     }
 }

@@ -47,16 +47,16 @@ public class OptionsView : MonoBehaviour
 
         _cursor.numColumns = 1;
         _cursor.numRows = _allButtons.Length;
-        _cursor.onIndexChanged_Callback = OnCursorIndexChanged;
+        _cursor.onIndexChanged_Callback = CursorIndexChanged;
 
         CursorIndex = DEFAULT_CURSOR_INDEX;
-        OnCursorIndexChanged(_cursor);
+        CursorIndexChanged(_cursor);
     }
 
     void OnEnable()
     {
         CursorIndex = DEFAULT_CURSOR_INDEX;
-        OnCursorIndexChanged(_cursor);
+        CursorIndexChanged(_cursor);
     }
 
 
@@ -92,9 +92,9 @@ public class OptionsView : MonoBehaviour
     public int CursorIndex
     {
         get { return _cursor.CursorIndex.y; }
-        set { _cursor.CursorIndex.y = value; }
+        set { _cursor.SetCursorY(value); }
     }
-    void OnCursorIndexChanged(MenuCursor sender)
+    void CursorIndexChanged(MenuCursor sender)
     {
         if (sender != _cursor)
         {
@@ -139,14 +139,7 @@ public class OptionsView : MonoBehaviour
         }
     }
 
-    public void MoveCursor(Vector2 vec)
-    {
-        if (_cursor.TryMoveCursor(vec))
-        {
-            PlayCursorMoveSound();
-        }
-    }
-    public void MoveCursor(Index2.Direction dir)
+    public void MoveCursor(IndexDirection2 dir)
     {
         if (_cursor.TryMoveCursor(dir))
         {

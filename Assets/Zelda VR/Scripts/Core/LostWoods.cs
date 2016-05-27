@@ -13,12 +13,12 @@ public class LostWoods : MonoBehaviour
 
     [SerializeField]
     LostWoodsPortal _eastPortal, _westPortal, _southPortal, _northPortal;
-    Dictionary<Index2.Direction, LostWoodsPortal> _portalForDirection;
+    Dictionary<IndexDirection2.DirectionEnum, LostWoodsPortal> _portalForDirection;
 
     [SerializeField]
     LostWoodsPortal _entrance, _escapeExit;
     [SerializeField]
-    Index2.Direction _escapeExitDirection, _solutionExitDirection;
+    IndexDirection2.DirectionEnum _escapeExitDirection, _solutionExitDirection;
 
 
     public float verticalTransportDistance;
@@ -44,11 +44,7 @@ public class LostWoods : MonoBehaviour
     public Vector3 Position { get { return _entrance.transform.position; } }
     public Index2 Sector {
         get {
-            if (!WorldInfo.Instance.IsOverworld)
-            {
-                return null;
-            }
-            Index2 sector = null;
+            Index2 sector;
             CommonObjects.OverworldTileMap.TileIndex_WorldToSector((int)Position.x, (int)Position.z, out sector);
             return sector;
         }
@@ -60,12 +56,12 @@ public class LostWoods : MonoBehaviour
 
     void Awake()
     {
-        _portalForDirection = new Dictionary<Index2.Direction, LostWoodsPortal>
+        _portalForDirection = new Dictionary<IndexDirection2.DirectionEnum, LostWoodsPortal>
         {
-            { Index2.Direction.Left, _westPortal },
-            { Index2.Direction.Right, _eastPortal },
-            { Index2.Direction.Up, _northPortal },
-            { Index2.Direction.Down, _southPortal }
+            { IndexDirection2.DirectionEnum.Left, _westPortal },
+            { IndexDirection2.DirectionEnum.Right, _eastPortal },
+            { IndexDirection2.DirectionEnum.Up, _northPortal },
+            { IndexDirection2.DirectionEnum.Down, _southPortal }
         };
     }
 
@@ -115,6 +111,10 @@ public class LostWoods : MonoBehaviour
 
     void PlayerOccupiedSectorChanged(Index2 prevSector, Index2 newSector)
     {
+        if (!WorldInfo.Instance.IsOverworld)
+        {
+            return;
+        }
         if (newSector == Sector)
         {
             return;

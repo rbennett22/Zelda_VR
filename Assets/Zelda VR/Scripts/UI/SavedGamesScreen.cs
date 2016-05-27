@@ -19,9 +19,9 @@ public class SavedGamesScreen : MonoBehaviour
     public int CursorIndex
     {
         get { return _cursor.CursorIndex.y; }
-        set { _cursor.CursorIndex.y = value; }
+        set { _cursor.SetCursorY(value); }
     }
-    void OnCursorIndexChanged(MenuCursor sender)
+    void CursorIndexChanged(MenuCursor sender)
     {
         if (sender != _cursor)
         {
@@ -67,10 +67,10 @@ public class SavedGamesScreen : MonoBehaviour
 
         _cursor.numColumns = 1;
         _cursor.numRows = capacity;
-        _cursor.onIndexChanged_Callback = OnCursorIndexChanged;
+        _cursor.onIndexChanged_Callback = CursorIndexChanged;
 
         CursorIndex = 0;
-        OnCursorIndexChanged(_cursor);
+        CursorIndexChanged(_cursor);
     }
 
 

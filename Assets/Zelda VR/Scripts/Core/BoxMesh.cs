@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 public class BoxMesh : MonoBehaviour
 {
     void Start()

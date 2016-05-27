@@ -2,10 +2,6 @@
 
 RECENTLY DONE:
 
-- Fairy: Changes move direction regularly
-
-- BUG: Text often faces wrong way for many of the old men in dungeons, and "Grumble, grumble". -FIXED
-
 
 
 DONE:
@@ -43,6 +39,9 @@ BUG FIXES:
 - BUG: Leevers change elevation when hit. -FIXED
 - BUG: Boomerang doesn't spin. -FIXED
 - BUG: If you Pause during music opening, the loop won't play automatically when the opening finishes. -FIXED
+- BUG: Text often faces wrong way for many of the old men in dungeons, and "Grumble, grumble". -FIXED
+
+
 
 
 NOTES:

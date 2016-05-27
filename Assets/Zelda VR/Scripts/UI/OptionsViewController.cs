@@ -146,6 +146,7 @@ public class OptionsViewController : Singleton<OptionsViewController>
     void UpdateCursor()
     {
         float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
-        _view.MoveCursor(new Vector2(0, moveVert));
+        IndexDirection2 dir = new IndexDirection2(0, moveVert);
+        _view.MoveCursor(dir);
     }
 }

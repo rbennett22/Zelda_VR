@@ -31,7 +31,7 @@ public class EnemyAI_Gohma : EnemyAI
             pathWidth, pathHeight
             );
 
-        MoveDirection = (Extensions.FlipCoin(0.5f)) ? TileDirection.Left : TileDirection.Right;
+        MoveDirection = (Extensions.FlipCoin(0.5f)) ? IndexDirection2.left : IndexDirection2.right;
     }
 
 
@@ -59,27 +59,27 @@ public class EnemyAI_Gohma : EnemyAI
     {
         Vector3 p = transform.position;
 
-        TileDirection newMoveDir = TileDirection.Zero;
+        IndexDirection2 newMoveDir = IndexDirection2.zero;
 
         if (MoveDirection.IsDown())
         {
             if (p.z <= _moveBounds.yMin)
             {
-                newMoveDir = TileDirection.Up;
+                newMoveDir = IndexDirection2.up;
             }
         }
         else if (MoveDirection.IsUp())
         {
             if (p.z >= _moveBounds.yMax)
             {
-                newMoveDir = (Extensions.FlipCoin(0.5f)) ? TileDirection.Left : TileDirection.Right;
+                newMoveDir = (Extensions.FlipCoin()) ? IndexDirection2.left : IndexDirection2.right;
             }
         }
         else
         {
             if (Extensions.FlipCoin(chanceToMoveDown))
             {
-                newMoveDir = TileDirection.Down;
+                newMoveDir = IndexDirection2.down;
             }
             else
             {
@@ -87,14 +87,14 @@ public class EnemyAI_Gohma : EnemyAI
                 {
                     if (p.x >= _moveBounds.xMax)
                     {
-                        newMoveDir = TileDirection.Left;
+                        newMoveDir = IndexDirection2.left;
                     }
                 }
                 else if (MoveDirection.IsLeft())
                 {
                     if (p.x <= _moveBounds.xMin)
                     {
-                        newMoveDir = TileDirection.Right;
+                        newMoveDir = IndexDirection2.right;
                     }
                 }
             }
@@ -110,7 +110,7 @@ public class EnemyAI_Gohma : EnemyAI
 
     void Attack()
     {
-        _enemy.Attack(ToPlayer);
+        _enemy.Attack(DirectionToPlayer);
     }
 
 

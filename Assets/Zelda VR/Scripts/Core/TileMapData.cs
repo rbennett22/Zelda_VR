@@ -56,6 +56,8 @@ public class TileMapData : MonoBehaviour
 
     public static bool IsTileCodeValid(int tileCode)
     {
+        // TODO: There are infinitely more invalid tiles to consider...
+
         return tileCode != INVALID_TILE;
     }
 

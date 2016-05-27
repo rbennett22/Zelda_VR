@@ -73,7 +73,7 @@ public class EnemyAI_Leever : EnemyAI
 
                 _healthController.isIndestructible = false;
                 _enemyMove.enabled = true;
-                MoveDirection = new TileDirection(EnemyAI_Random.GetRandomTileDirection());
+                MoveDirection = new IndexDirection2(EnemyAI_Random.GetRandomTileDirection());
             }
             else if (IsSurfaced)
             {
