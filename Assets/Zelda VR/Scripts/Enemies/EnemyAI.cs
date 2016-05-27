@@ -33,22 +33,26 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    public IndexDirection2 MoveDirection
+    public IndexDirection2 MoveDirection_Tile
     {
-        get
-        {
-            return new IndexDirection2(_enemyMove.MoveDirection);
-        }
+        get { return new IndexDirection2(_enemyMove.MoveDirection); }
         protected set
         {
-            Vector3 moveDir = value.ToVector3();
+            Index2 targetTile = _enemy.Tile + value;
 
-            Vector3 targetPos;
-            targetPos.x = (int)(_enemy.TileX + moveDir.x + EPSILON) + TileMap.BLOCK_OFFSET_XZ;
+            Vector3 targetPos = targetTile.ToVector3() + WorldInfo.Instance.WorldOffset + TileMap.TileExtents;
             targetPos.y = transform.position.y;
-            targetPos.z = (int)(_enemy.TileZ + moveDir.z + EPSILON) + TileMap.BLOCK_OFFSET_XZ;
 
             _enemyMove.TargetPosition = targetPos;
+        }
+    }
+    public Vector3 MoveDirection
+    {
+        get { return _enemyMove.MoveDirection; }
+        protected set
+        {
+            _enemyMove.MoveDirection = value;
+            _enemyMove.TargetPosition = transform.position + value;
         }
     }
 
@@ -116,9 +120,20 @@ public class EnemyAI : MonoBehaviour
     protected bool CanOccupyTile_Overworld(Index2 tile)
     {
         int tileCode = CommonObjects.OverworldTileMap.Tile(tile);
-        return TileMapData.IsTileCodeValid(tileCode) && TileInfo.IsTilePassable(tileCode);
+        bool canOccupy = TileMapData.IsTileCodeValid(tileCode) && TileInfo.IsTilePassable(tileCode);
+
+        Vector3 from = transform.position;
+        Vector3 to = tile.ToVector3();
+        to.y = from.y;
+        DrawDebugLine(from, to, canOccupy);
+
+        return canOccupy;
     }
 
+    protected bool DetectObstructions(IndexDirection2 dir, float distance)
+    {
+        return DetectObstructions(dir.ToVector3(), distance);
+    }
     protected bool DetectObstructions(Vector3 direction, float distance)
     {
         const float SHORTEST_BLOCK_HEIGHT = 0.2f;
@@ -127,14 +142,18 @@ public class EnemyAI : MonoBehaviour
         from.y = WorldOffsetY + SHORTEST_BLOCK_HEIGHT - EPSILON;   // This ensures that short blocks don't go undetected
         Vector3 to = from + distance * direction;
 
-        return !CanMoveFromTo(from, to);
+        bool canMove = CanMoveFromTo(from, to);
+
+        DrawDebugLine(from, to, canMove);
+
+        return !canMove;
     }
 
     virtual protected bool CanMoveFromTo(Vector3 from, Vector3 to)
     {
         Vector3 dir = to - from;
         LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls", "InvisibleBlocks");
-        return Physics.Raycast(from, dir, dir.magnitude, mask);
+        return !Physics.Raycast(from, dir.normalized, dir.magnitude, mask);
     }
 
     protected IndexDirection2 EnforceBoundary(IndexDirection2 desiredMoveDirection)
@@ -169,13 +188,9 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    protected void SetEnemyPositionXZToTile(Index2 tile)
+    void DrawDebugLine(Vector3 from, Vector3 to, bool b)
     {
-        SetEnemyPositionXZToTile(tile.x, tile.y);
-    }
-    protected void SetEnemyPositionXZToTile(int tileX, int tileY)
-    {
-        transform.SetX(tileX + TileMap.BLOCK_OFFSET_XZ);
-        transform.SetZ(tileY + TileMap.BLOCK_OFFSET_XZ);
+        Color c = b ? Color.green : Color.red;
+        Debug.DrawLine(from, to, c, 0.5f);
     }
 }

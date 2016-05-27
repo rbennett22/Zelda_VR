@@ -33,6 +33,10 @@ namespace Immersio.Utility
         {
             return new Vector2(x, y);
         }
+        public Vector3 ToVector3()
+        {
+            return new Vector3(x, 0, y);    // we assume an XZ plane
+        }
 
         public override string ToString()
         {

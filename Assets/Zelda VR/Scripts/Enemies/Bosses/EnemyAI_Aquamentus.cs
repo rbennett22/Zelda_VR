@@ -17,7 +17,7 @@ public class EnemyAI_Aquamentus : EnemyAI
 
         _forwardTileDirection = IndexDirection2.FromDirectionEnum(forwardDirection);
         transform.forward = _forwardTileDirection.ToVector3();
-        MoveDirection = _forwardTileDirection;
+        MoveDirection_Tile = _forwardTileDirection;
     }
 
 
@@ -26,11 +26,11 @@ public class EnemyAI_Aquamentus : EnemyAI
         if (moveDirection == _forwardTileDirection.ToVector3())
         {
             Attack();
-            MoveDirection = _forwardTileDirection.Reversed;
+            MoveDirection_Tile = _forwardTileDirection.Reversed;
         }
         else
         {
-            MoveDirection = _forwardTileDirection;
+            MoveDirection_Tile = _forwardTileDirection;
         }
     }
 

@@ -55,7 +55,7 @@ public class EnemyAI_Tektite : EnemyAI
         }
 
         bool isBlocking = false;
-        int tileCode = tileMap.Tile(_enemy.TileX, _enemy.TileZ);
+        int tileCode = tileMap.Tile(_enemy.Tile);
         isBlocking = TileInfo.IsTileAnEntrance(tileCode);
 
         return isBlocking;

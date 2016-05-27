@@ -37,16 +37,24 @@ public class Enemy : MonoBehaviour
 
     public bool IsAttacking { get { return HasWeapon && weapon.IsCooldownActive; } }
     public bool IsSpawning { get { return (enemyAnim != null && enemyAnim.IsSpawning); } }
-
     public bool IsJumping { get; private set; }
     public bool IsStunned { get; private set; }
     public bool IsParalyzed { get; private set; }
 
     public bool IsPreoccupied { get { return IsAttacking || IsJumping || IsSpawning || IsParalyzed || IsStunned; } }
 
-    public Index2 Tile { get { return new Index2(TileX, TileZ); } }
-    public int TileX { get { return (int)transform.position.x; } }
-    public int TileZ { get { return (int)transform.position.z; } }
+    public Index2 Tile {
+        get {
+            Vector3 p = transform.position;
+            return new Index2((int)p.x, (int)p.z);
+            //return new Index2(transform.position - WorldInfo.Instance.WorldOffset - TileMap.TileExtents);     // TODO: This should work (?)
+        }
+        set {
+            Vector3 pos = value.ToVector3() + WorldInfo.Instance.WorldOffset + TileMap.TileExtents;
+            pos.y = transform.position.y;
+            transform.position = pos;
+        }
+    }
 
     public Rect Boundary { get; private set; }
 

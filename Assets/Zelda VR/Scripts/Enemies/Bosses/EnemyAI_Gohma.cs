@@ -31,7 +31,7 @@ public class EnemyAI_Gohma : EnemyAI
             pathWidth, pathHeight
             );
 
-        MoveDirection = (Extensions.FlipCoin(0.5f)) ? IndexDirection2.left : IndexDirection2.right;
+        MoveDirection_Tile = (Extensions.FlipCoin(0.5f)) ? IndexDirection2.left : IndexDirection2.right;
     }
 
 
@@ -61,14 +61,14 @@ public class EnemyAI_Gohma : EnemyAI
 
         IndexDirection2 newMoveDir = IndexDirection2.zero;
 
-        if (MoveDirection.IsDown())
+        if (MoveDirection_Tile.IsDown())
         {
             if (p.z <= _moveBounds.yMin)
             {
                 newMoveDir = IndexDirection2.up;
             }
         }
-        else if (MoveDirection.IsUp())
+        else if (MoveDirection_Tile.IsUp())
         {
             if (p.z >= _moveBounds.yMax)
             {
@@ -83,14 +83,14 @@ public class EnemyAI_Gohma : EnemyAI
             }
             else
             {
-                if (MoveDirection.IsRight())
+                if (MoveDirection_Tile.IsRight())
                 {
                     if (p.x >= _moveBounds.xMax)
                     {
                         newMoveDir = IndexDirection2.left;
                     }
                 }
-                else if (MoveDirection.IsLeft())
+                else if (MoveDirection_Tile.IsLeft())
                 {
                     if (p.x <= _moveBounds.xMin)
                     {
@@ -102,10 +102,10 @@ public class EnemyAI_Gohma : EnemyAI
 
         if (newMoveDir.IsZero())
         {
-            newMoveDir = MoveDirection;
+            newMoveDir = MoveDirection_Tile;
         }
 
-        MoveDirection = newMoveDir;
+        MoveDirection_Tile = newMoveDir;
     }
 
     void Attack()

@@ -39,29 +39,29 @@ namespace Immersio.Utility
         }
         public IndexDirection2(float pX, float pY)
         {
-            this.x = (int)Mathf.Round(pX);
-            this.y = (int)Mathf.Round(pY);
+            x = (int)Mathf.Round(pX);
+            y = (int)Mathf.Round(pY);
             X = x;
             Y = y;
         }
         public IndexDirection2(IndexDirection2 t)
         {
-            this.x = t.X;
-            this.y = t.Y;
+            x = t.X;
+            y = t.Y;
             X = x;
             Y = y;
         }
         public IndexDirection2(Vector2 v)
         {
-            this.x = (int)Mathf.Round(v.x);
-            this.y = (int)Mathf.Round(v.y);
+            x = (int)Mathf.Round(v.x);
+            y = (int)Mathf.Round(v.y);
             X = x;
             Y = y;
         }
         public IndexDirection2(Vector3 v)
         {
-            this.x = (int)Mathf.Round(v.x);
-            this.y = (int)Mathf.Round(v.z);  // we assume an x-z plane
+            x = (int)Mathf.Round(v.x);
+            y = (int)Mathf.Round(v.z);  // we assume an x-z plane
             X = x;
             Y = y;
         }     

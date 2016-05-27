@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class EnemyAI_Bladetrap : EnemyAI
 {
+    const float BLADETRAP_RADIUS = 0.5f;        // TODO:
+
+
     public float triggerSpeed = 2;
     public float returnSpeed = 1;
 
@@ -44,14 +47,14 @@ public class EnemyAI_Bladetrap : EnemyAI
         if (playerDungeonRoom == null || _enemy.DungeonRoomRef == playerDungeonRoom)
         {
             Vector3 toPlayer = DirectionToPlayer;
-            if (Mathf.Abs(toPlayer.y) < 0.5f)
+            if (Mathf.Abs(toPlayer.y) < BLADETRAP_RADIUS)
             {
-                if (Mathf.Abs(toPlayer.x) < TileMap.BLOCK_OFFSET_XZ)
+                if (Mathf.Abs(toPlayer.x) < BLADETRAP_RADIUS)
                 {
                     toPlayer.x = 0;
                     Trigger(new IndexDirection2(toPlayer));
                 }
-                else if (Mathf.Abs(toPlayer.z) < TileMap.BLOCK_OFFSET_XZ)
+                else if (Mathf.Abs(toPlayer.z) < BLADETRAP_RADIUS)
                 {
                     toPlayer.z = 0;
                     Trigger(new IndexDirection2(toPlayer));
@@ -65,7 +68,7 @@ public class EnemyAI_Bladetrap : EnemyAI
         if (!PoisedToTrigger) { return; }
 
         _enemyMove.speed = triggerSpeed;
-        MoveDirection = direction;
+        MoveDirection_Tile = direction;
         _movingToPlayer = true;
     }
 
@@ -80,7 +83,7 @@ public class EnemyAI_Bladetrap : EnemyAI
         }
         else if (_returningToOrigin)
         {
-            MoveDirection = IndexDirection2.zero;
+            MoveDirection_Tile = IndexDirection2.zero;
             _returningToOrigin = false;
         }
     }
@@ -91,7 +94,7 @@ public class EnemyAI_Bladetrap : EnemyAI
         _returningToOrigin = true;
 
         _enemyMove.speed = returnSpeed;
-        MoveDirection = moveDirection;
+        MoveDirection_Tile = moveDirection;
         _movingToPlayer = false;
     }
 }

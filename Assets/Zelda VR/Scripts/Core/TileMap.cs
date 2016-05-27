@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class TileMap : MonoBehaviour
 {
-    public const float BLOCK_OFFSET_XZ = 0;        // Dependant upon WorldInfo.Instance.WorldOffset
+    public const float TILE_EXTENT = 0.5f;      // (half of tile size)
+    static public Vector3 TileExtents { get { return TILE_EXTENT * Vector3.one; } }
 
-    static Color SPECIAL_BLOCK_HIGHLIGHT_COLOR = new Color(1, 0.5f, 0.5f);
+    readonly static Color SPECIAL_BLOCK_HIGHLIGHT_COLOR = new Color(1, 0.5f, 0.5f);
 
 
     [SerializeField]
@@ -101,13 +102,6 @@ public class TileMap : MonoBehaviour
         {
             if (!sb.gameObject.activeSelf) { continue; }
 
-            int xLen = (int)(sb.lossyScale.x);
-            int zLen = (int)(sb.lossyScale.z);
-            int startX = (int)(sb.position.x - xLen * BLOCK_OFFSET_XZ);
-            int startZ = (int)(sb.position.z - zLen * BLOCK_OFFSET_XZ);
-
-            //print("startX: " + startX + ", startZ: " + startZ + ", xLen: " + xLen + ", zLen: " + zLen);
-
             float blockHeight = 0;
             Block b = sb.GetComponent<Block>();
             if (b != null)
@@ -118,6 +112,13 @@ public class TileMap : MonoBehaviour
             }
 
             // Set Population Flags
+            Vector3 p = sb.position;
+            Vector3 s = sb.lossyScale;
+            int xLen = (int)s.x;
+            int zLen = (int)s.z;
+            int startX = (int)p.x;
+            int startZ = (int)p.z;
+
             for (int z = startZ; z < startZ + zLen; z++)
             {
                 for (int x = startX; x < startX + xLen; x++)

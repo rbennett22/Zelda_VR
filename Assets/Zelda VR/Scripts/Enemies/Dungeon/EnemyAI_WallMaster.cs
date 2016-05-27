@@ -40,23 +40,6 @@ public class EnemyAI_WallMaster : EnemyAI
     bool _hasControlOfLink;
 
 
-    public new Vector3 MoveDirection
-    {
-        get { return _enemyMove.MoveDirection; }
-        set
-        {
-            Vector3 moveDir = value;
-
-            Vector3 targetPos;
-            targetPos.x = (int)(_enemy.TileX + moveDir.x + EPSILON) + TileMap.BLOCK_OFFSET_XZ;
-            targetPos.z = (int)(_enemy.TileZ + moveDir.z + EPSILON) + TileMap.BLOCK_OFFSET_XZ;
-            targetPos.y = (int)((int)_enemy.transform.position.y + moveDir.y + EPSILON) + TileMap.BLOCK_OFFSET_XZ;
-
-            _enemyMove.TargetPosition = targetPos;
-        }
-    }
-
-
     void Start()
     {
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;

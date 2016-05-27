@@ -54,7 +54,7 @@ public class EnemyAI_Random : EnemyAI
 
         _baseSpeed = _enemyMove.speed;
 
-        MoveDirection = new IndexDirection2(DetermineActualMoveDirection(GetRandomTileDirection()));
+        MoveDirection_Tile = new IndexDirection2(DetermineActualMoveDirection(GetRandomTileDirection()));
     }
 
 
@@ -76,11 +76,28 @@ public class EnemyAI_Random : EnemyAI
                 _justFinishedIdling = true;
             }
         }
-        else if (MoveDirection.IsZero())
+        else if (MoveDirection_Tile.IsZero())
         {
             DetermineNextAction();
         }
     }
+
+    void LateUpdate()
+    {
+        _wasJumping = _enemy.IsJumping;
+    }
+
+
+    void OnLanded()
+    {
+        MoveDirection_Tile = IndexDirection2.zero;
+    }
+
+    void OnTargetPositionReached(EnemyMove sender, Vector3 moveDirection)
+    {
+        DetermineNextAction();
+    }
+
 
     void DetermineNextAction()
     {
@@ -99,50 +116,17 @@ public class EnemyAI_Random : EnemyAI
             IndexDirection2 desiredMoveDir = GetDesiredMoveDirection(desiredAction);
             if (desiredAction == DiscreteAction.Jump)
             {
-                MoveDirection = desiredMoveDir;
-
-                _enemy.Jump(MoveDirection.ToVector3());
+                MoveDirection_Tile = desiredMoveDir;
+                _enemy.Jump(MoveDirection_Tile.ToVector3());
             }
             else
             {
-                MoveDirection = DetermineActualMoveDirection(desiredMoveDir);
+                MoveDirection_Tile = DetermineActualMoveDirection(desiredMoveDir);
             }
         }
 
         _justFinishedIdling = false;
     }
-
-    void LateUpdate()
-    {
-        _wasJumping = _enemy.IsJumping;
-    }
-
-
-    void OnLanded()
-    {
-        MoveDirection = IndexDirection2.zero;
-    }
-
-    void OnTargetPositionReached(EnemyMove sender, Vector3 moveDirection)
-    {
-        DetermineNextAction();
-    }
-
-    void Attack()
-    {
-        Vector3 dir = aimAttacksAtPlayer ? DirectionToPlayer : Vector3.zero;
-        _enemy.Attack(dir);
-    }
-
-    void EnterIdleState()
-    {
-        MoveDirection = IndexDirection2.zero;
-
-        _idleStartTime = Time.time;
-        _idleDuration = Random.Range(minIdleDuration, maxIdleDuration);
-        _isIdling = true;
-    }
-
 
     DiscreteAction GetDesiredAction()
     {
@@ -208,7 +192,7 @@ public class EnemyAI_Random : EnemyAI
         }
         else
         {
-            if (MoveDirection.IsZero())
+            if (MoveDirection_Tile.IsZero())
             {
                 desiredMoveDir = GetRandomTileDirection();
             }
@@ -217,10 +201,10 @@ public class EnemyAI_Random : EnemyAI
                 if (action == DiscreteAction.ChangeDirection)
                 {
                     List<IndexDirection2> excludeDirections = new List<IndexDirection2>();
-                    excludeDirections.Add(MoveDirection);
+                    excludeDirections.Add(MoveDirection_Tile);
                     if (avoidsReversingDirections)
                     {
-                        excludeDirections.Add(MoveDirection.Reversed);
+                        excludeDirections.Add(MoveDirection_Tile.Reversed);
                     }
 
                     desiredMoveDir = GetRandomTileDirectionExcluding(excludeDirections);
@@ -231,7 +215,7 @@ public class EnemyAI_Random : EnemyAI
                 }
                 else
                 {
-                    desiredMoveDir = MoveDirection;
+                    desiredMoveDir = MoveDirection_Tile;
                 }
             }
         }
@@ -244,46 +228,34 @@ public class EnemyAI_Random : EnemyAI
         return desiredMoveDir;
     }
 
-
     IndexDirection2 DetermineActualMoveDirection(IndexDirection2 desiredMoveDirection)
     {
         Vector3 desiredMoveDirection_Vec = desiredMoveDirection.ToVector3();
 
-        Vector3 v = desiredMoveDirection_Vec;
+        IndexDirection2 chosenDirection;
+        bool canMove;
+        float turnAngle = 0;
 
-        if (WorldInfo.Instance.IsOverworld)
+        do
         {
-            int nextTileX = (int)(_enemy.TileX + v.x + EPSILON);
-            int nextTileZ = (int)(_enemy.TileZ + v.z + EPSILON);
+            Vector3 v = Quaternion.Euler(0, turnAngle, 0) * desiredMoveDirection_Vec;
+            chosenDirection = new IndexDirection2(v);
 
-            TileMap tileMap = CommonObjects.OverworldTileMap;
-            int nextTileCode = tileMap.Tile(nextTileX, nextTileZ);
-
-            float turnAngle = 90;
-            while (!TileInfo.IsTilePassable(nextTileCode) && turnAngle < 360)
+            if (WorldInfo.Instance.IsOverworld)
             {
-                v = Quaternion.Euler(0, turnAngle, 0) * desiredMoveDirection_Vec;
-                nextTileX = (int)(_enemy.TileX + v.x + EPSILON);
-                nextTileZ = (int)(_enemy.TileZ + v.z + EPSILON);
-                nextTileCode = tileMap.Tile(nextTileX, nextTileZ);
-
-                turnAngle += 90;
+                // TODO: Use IndexDirection2.AllValidDirections instead of turnAngle += 90
+                canMove = CanMoveInDirection_Overworld(chosenDirection);
             }
-        }
-        else    // Dungeon
-        {
-            bool hit = true;
-            float turnAngle = 0;
-            do
+            else
             {
-                v = Quaternion.Euler(0, turnAngle, 0) * desiredMoveDirection_Vec;
-                hit = DetectObstructions(v, feelerLength);
-                turnAngle += 90;
+                canMove = !DetectObstructions(chosenDirection, feelerLength);
             }
-            while (hit && turnAngle < 360);
-        }
 
-        return new IndexDirection2(v);
+            turnAngle += 90;
+        }
+        while (!canMove && turnAngle < 360);
+
+        return chosenDirection;
     }
 
     override protected bool CanMoveFromTo(Vector3 from, Vector3 to)
@@ -292,12 +264,26 @@ public class EnemyAI_Random : EnemyAI
         {
             Vector3 dir = to - from;
             LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls");
-            return Physics.Raycast(from, dir, dir.magnitude, mask);
+            return !Physics.Raycast(from, dir.normalized, dir.magnitude, mask);
         }
-        else
-        {
-            return base.CanMoveFromTo(from, to);
-        }
+
+        return base.CanMoveFromTo(from, to);
+    }
+
+
+    void Attack()
+    {
+        Vector3 dir = aimAttacksAtPlayer ? DirectionToPlayer : Vector3.zero;
+        _enemy.Attack(dir);
+    }
+
+    void EnterIdleState()
+    {
+        MoveDirection_Tile = IndexDirection2.zero;
+
+        _idleStartTime = Time.time;
+        _idleDuration = Random.Range(minIdleDuration, maxIdleDuration);
+        _isIdling = true;
     }
 
 

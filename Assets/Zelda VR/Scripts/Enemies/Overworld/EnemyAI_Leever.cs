@@ -73,7 +73,7 @@ public class EnemyAI_Leever : EnemyAI
 
                 _healthController.isIndestructible = false;
                 _enemyMove.enabled = true;
-                MoveDirection = new IndexDirection2(EnemyAI_Random.GetRandomTileDirection());
+                MoveDirection_Tile = new IndexDirection2(EnemyAI_Random.GetRandomTileDirection());
             }
             else if (IsSurfaced)
             {
@@ -103,11 +103,12 @@ public class EnemyAI_Leever : EnemyAI
         TileMap tileMap = CommonObjects.OverworldTileMap;
         if (tileMap == null) { return; }
 
+        float r = WARP_RANGE + EPSILON;
         Rect area = new Rect(
-            (int)_origin.x - WARP_RANGE - EPSILON,
-            (int)_origin.z - WARP_RANGE - EPSILON,
-            2 * WARP_RANGE + EPSILON,
-            2 * WARP_RANGE + EPSILON);
+            (int)_origin.x - r,
+            (int)_origin.z - r,
+            2 * r,
+            2 * r);
         _warpableTiles = tileMap.GetTilesInArea(area, TileInfo.SandTiles);
     }
 
@@ -115,7 +116,6 @@ public class EnemyAI_Leever : EnemyAI
     {
         if (WorldInfo.Instance.IsSpecial) { return; }
 
-        Index2 tile = _warpableTiles[Random.Range(0, _warpableTiles.Count)];
-        SetEnemyPositionXZToTile(tile);
+        _enemy.Tile = _warpableTiles[Random.Range(0, _warpableTiles.Count)];
     }
 }
