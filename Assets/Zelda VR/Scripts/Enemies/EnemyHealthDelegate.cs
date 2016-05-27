@@ -15,9 +15,7 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     }
 
 
-    void IHealthControllerDelegate.OnHealthChanged(HealthController healthController, int newHealth)
-    {
-    }
+    void IHealthControllerDelegate.OnHealthChanged(HealthController healthController, int newHealth) { }
     void IHealthControllerDelegate.OnDamageTaken(HealthController healthController, ref uint damageAmount, GameObject damageDealer)
     {
         EnemyAI_Zol zol = GetComponent<EnemyAI_Zol>();
@@ -73,9 +71,7 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
             }
         }
     }
-    void IHealthControllerDelegate.OnHealthRestored(HealthController healthController, uint healAmount)
-    {
-    }
+    void IHealthControllerDelegate.OnHealthRestored(HealthController healthController, uint healAmount) { }
     void IHealthControllerDelegate.OnTempInvincibilityActivation(HealthController healthController, bool didActivate)
     {
         if (flashWhenDamaged && enemyAnim != null)

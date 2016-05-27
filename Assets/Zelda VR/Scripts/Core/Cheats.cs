@@ -94,12 +94,10 @@ public class Cheats : Singleton<Cheats>
         int playerLayer = CommonObjects.Player_G.layer;
         int wallLayer = LayerMask.NameToLayer("Walls");
         int blocksLayer = LayerMask.NameToLayer("Blocks");
-        int uniblocksLayer = LayerMask.NameToLayer("Uniblocks");
         int invisibleBlocksLayer = LayerMask.NameToLayer("InvisibleBlocks");
 
         Physics.IgnoreLayerCollision(playerLayer, wallLayer, GhostModeIsEnabled);
         Physics.IgnoreLayerCollision(playerLayer, blocksLayer, GhostModeIsEnabled);
-        Physics.IgnoreLayerCollision(playerLayer, uniblocksLayer, GhostModeIsEnabled);
         Physics.IgnoreLayerCollision(playerLayer, invisibleBlocksLayer, GhostModeIsEnabled);
 
         OverworldTerrainEngine engine = OverworldTerrainEngine.Instance;

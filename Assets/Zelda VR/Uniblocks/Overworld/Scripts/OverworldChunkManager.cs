@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class OverworldChunkManager : ChunkManager
 {
-    //void OnEnabled() { }
     void OnDisabled()
     {
         StopAllCoroutines();

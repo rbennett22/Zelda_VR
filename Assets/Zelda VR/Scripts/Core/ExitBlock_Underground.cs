@@ -35,6 +35,6 @@ public class ExitBlock_Underground : MonoBehaviour
     {
         GameObject g = CommonObjects.Player_G;
         Physics.IgnoreLayerCollision(g.layer, LayerMask.NameToLayer("Ground"), ignore);
-        Physics.IgnoreLayerCollision(g.layer, LayerMask.NameToLayer("Uniblocks"), ignore);
+        Physics.IgnoreLayerCollision(g.layer, LayerMask.NameToLayer("Blocks"), ignore);
     }
 }

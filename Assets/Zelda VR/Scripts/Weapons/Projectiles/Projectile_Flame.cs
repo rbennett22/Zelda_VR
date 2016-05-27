@@ -22,13 +22,8 @@ public class Projectile_Flame : Projectile_Base
 
         _burningFlame.radius = Radius;
 
-        if (DamageDealerAOE == null)
-        {
-            DamageDealerAOE = GetComponent<DamageDealer_AOE>();
-        }
         if (DamageDealerAOE != null)
         {
-            DamageDealerAOE.Delegate = this;
             DamageDealerAOE.radius = Radius;
         }
     }
@@ -36,9 +31,9 @@ public class Projectile_Flame : Projectile_Base
     {
         base.Start();
 
-        Destroy(gameObject, maxLifeTime);
-
         InvokeRepeating("Tick", 0.01f, ATTACK_RATE);
+
+        Destroy(gameObject, maxLifeTime);
     }
 
 

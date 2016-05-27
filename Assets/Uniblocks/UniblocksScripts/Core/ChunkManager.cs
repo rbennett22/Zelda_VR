@@ -11,6 +11,10 @@ namespace Uniblocks
     {
         public GameObject ChunkObject; // Chunk prefab
 
+        [SerializeField]
+        Transform _chunkContainer;
+
+
         // chunk lists
         public static Dictionary<string, Chunk> Chunks;
 
@@ -180,14 +184,16 @@ namespace Uniblocks
         {
             return SpawnChunkFromServer(new Index(x, y, z));
         }
-
+        
         GameObject DoSpawnChunk(Index index)
         {
-            GameObject chunkObject = Instantiate(ChunkObject, index.ToVector3(), transform.rotation) as GameObject;
+            GameObject chunkObject = InstantiateChunk(index.ToVector3(), transform.rotation);
             Chunk chunk = chunkObject.GetComponent<Chunk>();
             AddChunkToUpdateQueue(chunk);
+
             return chunkObject;
         }
+
 
         public static void SpawnChunks(float x, float y, float z)
         { // take world pos, convert to chunk index
@@ -226,6 +232,15 @@ namespace Uniblocks
                 ChunkUpdateQueue.Clear();
             }
         }
+
+        GameObject InstantiateChunk(Vector3 position, Quaternion rotation)
+        {
+            GameObject ch = Instantiate(ChunkObject, position, rotation) as GameObject;
+            ch.transform.SetParent(_chunkContainer);
+
+            return ch;
+        }
+
 
         public void Update()
         {
@@ -324,7 +339,7 @@ namespace Uniblocks
                                                 GameObject neighborChunk = GetChunk(neighborIndex);
                                                 if (neighborChunk == null)
                                                 {
-                                                    neighborChunk = Instantiate(ChunkObject, neighborIndex.ToVector3(), transform.rotation) as GameObject;
+                                                    neighborChunk = InstantiateChunk(neighborIndex.ToVector3(), transform.rotation);
                                                 }
                                                 currentChunk.neighborChunks[d] = neighborChunk.GetComponent<Chunk>(); // always add the neighbor to NeighborChunks, in case it's not there already
 
@@ -346,7 +361,7 @@ namespace Uniblocks
                                     }
                                     else { // if chunk doesn't exist, create new chunk (it adds itself to the update queue when its data is ready)
                                         // spawn chunk
-                                        GameObject newChunk = Instantiate(ChunkObject, new Vector3(x, y, z), transform.rotation) as GameObject; // Spawn a new chunk.
+                                        GameObject newChunk = InstantiateChunk(new Vector3(x, y, z), transform.rotation);
                                         currentChunk = newChunk.GetComponent<Chunk>();
 
                                         // spawn neighbor chunks if they're not spawned yet
@@ -356,7 +371,7 @@ namespace Uniblocks
                                             GameObject neighborChunk = GetChunk(neighborIndex);
                                             if (neighborChunk == null)
                                             {
-                                                neighborChunk = Instantiate(ChunkObject, neighborIndex.ToVector3(), transform.rotation) as GameObject;
+                                                neighborChunk = InstantiateChunk(neighborIndex.ToVector3(), transform.rotation);
                                             }
                                             currentChunk.neighborChunks[d] = neighborChunk.GetComponent<Chunk>(); // always add the neighbor to NeighborChunks, in case it's not there already
 
@@ -398,9 +413,6 @@ namespace Uniblocks
             yield return new WaitForEndOfFrame();
             EndSequence();
         }
-
-
-
 
 
         private void EndSequence()

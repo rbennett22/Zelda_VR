@@ -123,18 +123,18 @@ public class Projectile_Base : MonoBehaviour, IDamageDealerDelegate
 
     void IDamageDealerDelegate.OnAttackBlocked(DamageDealer_Base attacker, HealthController_Abstract blocker) { OnAttackDeflected(attacker, blocker); }
     void IDamageDealerDelegate.OnHitAnInvulnerable(DamageDealer_Base attacker, HealthController_Abstract invulnerable) { OnAttackDeflected(attacker, invulnerable); }
-    void OnAttackDeflected(DamageDealer_Base attacker, HealthController_Abstract invulnerable)
+    void OnAttackDeflected(DamageDealer_Base attacker, HealthController_Abstract deflector)
     {
         // TODO
 
-        Player player = invulnerable.GetComponent<Player>();
+        Player player = deflector.GetComponent<Player>();
         if (player != null)
         {
             PlayDeflectionSound();
             return;
         }
 
-        Enemy enemy = invulnerable.GetComponent<Enemy>();
+        Enemy enemy = deflector.GetComponent<Enemy>();
         if (enemy != null)
         {
             if (enemy.playSoundWhenBlockingAttack)

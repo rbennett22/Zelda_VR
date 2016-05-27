@@ -8,10 +8,14 @@ public class EnemyAI_Boulder : EnemyAI
     const float SpawnHeightOffset = 2.5f;
 
 
+    Rigidbody _rigidbody;
+
+
     void Start()
     {
-        PositionAtopBlocks();
+        _rigidbody = GetComponent<Rigidbody>();
 
+        PositionAtopBlocks();
         Push(Vector3.back);     // Blocks always fall towards the "south"
 
         Destroy(gameObject, LifeTime);
@@ -30,7 +34,7 @@ public class EnemyAI_Boulder : EnemyAI
         hit = Physics.Raycast(ray, out hitInfo, 999, mask);
         if (hit)
         {
-            Vector3 newPos = hitInfo.collider.transform.position;
+            Vector3 newPos = hitInfo.point;
             newPos.y += SpawnHeightOffset;
             transform.position = newPos;
         }
@@ -38,7 +42,7 @@ public class EnemyAI_Boulder : EnemyAI
 
     void Push(Vector3 direction)
     {
-        GetComponent<Rigidbody>().AddForce(direction * PushForce);
+        _rigidbody.AddForce(direction * PushForce);
     }
 
 
@@ -47,6 +51,6 @@ public class EnemyAI_Boulder : EnemyAI
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
 
-        AnimatorInstance.speed = (GetComponent<Rigidbody>().velocity.magnitude < 0.5f) ? 0 : 0.5f;
+        AnimatorInstance.speed = (_rigidbody.velocity.magnitude < 0.5f) ? 0 : 0.5f;
     }
 }

@@ -90,25 +90,48 @@ public class EnemyMove : MonoBehaviour
 
         if (_mode == MovementMode.Destination)
         {
-            if (!_targetPositionHasBeenReached)
+            UpdateDestinationMode();
+        }
+    }
+
+    void UpdateDestinationMode()
+    {
+        if (_targetPositionHasBeenReached)
+        {
+            return;
+        }
+
+        if (CheckIfTargetPositionHasBeenReached())
+        {
+            _targetPositionHasBeenReached = true;
+
+            OnTargetPositionReached();
+
+            if (_targetPositionHasBeenReached)  // We check again because a new targetPos may have been assigned in the callback above
             {
-                if (HasReachedTargetPosition())
-                {
-                    _targetPositionHasBeenReached = true;
-
-                    if (targetPositionReached_Callback != null)
-                    {
-                        targetPositionReached_Callback(this, _moveDirection);
-                    }
-
-                    if (_targetPositionHasBeenReached)
-                    {
-                        _moveDirection = Vector3.zero;
-                    }
-                }
+                _moveDirection = Vector3.zero;
             }
         }
     }
+    bool CheckIfTargetPositionHasBeenReached()
+    {
+        Vector3 toTarget = _targetPos - transform.position;
+        bool hasReachedTarget = (toTarget == Vector3.zero) || (Vector3.Dot(toTarget, _moveDirection) <= 0);
+        if (hasReachedTarget)
+        {
+            transform.position = _targetPos;
+        }
+
+        return hasReachedTarget;
+    }
+
+    void OnTargetPositionReached()
+    {
+        if (targetPositionReached_Callback == null)
+            return;
+        targetPositionReached_Callback(this, _moveDirection);
+    }
+
 
     void MoveInDirection(Vector3 direction, bool doFaceTowardsDirection = true)
     {
@@ -118,18 +141,5 @@ public class EnemyMove : MonoBehaviour
         {
             transform.forward = direction;
         }
-    }
-
-    bool HasReachedTargetPosition()
-    {
-        Vector3 toTarget = _targetPos - transform.position;
-        bool hasReachedTarget = (toTarget == Vector3.zero) || (Vector3.Dot(toTarget, _moveDirection) <= 0);
-
-        if (hasReachedTarget)
-        {
-            transform.position = _targetPos;
-        }
-
-        return hasReachedTarget;
     }
 }

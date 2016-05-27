@@ -349,14 +349,14 @@ public class Player : Singleton<Player>
             if (_equippedWeaponB != null)
             {
                 // Aim Secondary Weapon
-                Transform t = _playerController.WeaponContainerLeft;
+                /*Transform t = _playerController.WeaponContainerLeft;
                 t.forward = _playerController.LineOfSight;
                 if (bow == null)
                 {
                     Vector3 fwd = t.forward;
                     fwd.y = 0;
                     t.forward = fwd;
-                }
+                }*/
             }
 
             // Use Secondary Item?

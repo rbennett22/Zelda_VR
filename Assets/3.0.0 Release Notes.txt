@@ -2,31 +2,42 @@
 
 RECENTLY DONE:
 
-- River Zora: Fixed emerge/submerge animation
-- Leevers: Emerge animation now only plays through once
-- Leevers: The correct Submerge animation plays now
+- Leevers & River Zora: No longer use the guard sound effect when attacked while emerging/submerging
+- Boulders: No longer appear in the Red Leever desert (NE of Level 1)
+
+- BUG: Projectiles can't pass over water in OW. -FIXED
+- BUG: Bait/Flame not always dropping in correct position -FIXED
 
 
 DONE:
 
 - DK2 Support
-- Uniblocks voxel engine now used to render OverWorld terrain
-- Shrunk PlayerController (scaled from 1 to 0.5)
-- Fixed several major memory leaks that would eventually cause crash if left running for long enough.
-- Allow both Keyboard/Mouse and XBOX GamePad to be used simultaneously
 
 - Black overlay shutters now close vertically onDeath
-- Playing flute, dying, or triforceFanfare properly stops the background music
-- Music gets quiet during pause to options menu
-
 - Enemies now drop bombs in bundles of 4
-- Player respawns with 3 hearts instead of full life 
 - Getting heart container refills one heart instead of refilling it entirely
-- Boomerang returns immediately upon colliding with a collectible
-- Sword can now collect Collectibles
+
+- Controls: Allow both Keyboard/Mouse and XBOX GamePad to be used simultaneously
+
+- Terrain: Uniblocks voxel engine now used to render OverWorld terrain
+
+- Player: Shrunk PlayerController (scaled from 1 to 0.5)
+- Player: respawns with 3 hearts instead of full life 
+
+- Boomerang: returns immediately upon colliding with a collectible
+- Sword: can now collect Collectibles
+
+- RiverZora: Fixed emerge/submerge animation
+- Leevers: Emerge animation now only plays through once
+- Leevers: The correct Submerge animation plays now
+
+- Music: Playing flute, dying, or triforceFanfare properly stops the background music
+- Music: gets quiet during pause to options menu
 
 
 BUG FIXES:
+
+- Fixed several major memory leaks that would eventually cause crash if left running for long enough.
 
 - BUG: Leevers change elevation when hit. -FIXED
 - BUG: Boomerang doesn't spin. -FIXED

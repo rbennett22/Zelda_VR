@@ -26,6 +26,20 @@ public class OverworldTerrainGenerator : TerrainGenerator
     int[,] _tiles;
 
 
+    public Index3 ChunkPosition
+    {
+        get
+        {
+            Index3 size = Engine.ChunkSize;
+            Index3 pos = new Index3();
+            pos.x = size.x * chunk.chunkIndex.x;
+            pos.y = size.y * chunk.chunkIndex.y;
+            pos.z = size.z * chunk.chunkIndex.z;
+            return pos;
+        }
+    }
+
+
     void InitFromSettings(ZeldaVRSettings s)
     {
         _blockHeight = s.blockHeight;
@@ -45,17 +59,6 @@ public class OverworldTerrainGenerator : TerrainGenerator
         }
     }
 
-
-    public Index3 ChunkPosition {
-        get {
-            Index3 size = Engine.ChunkSize;
-            Index3 pos = new Index3();
-            pos.x = size.x * chunk.chunkIndex.x;
-            pos.y = size.y * chunk.chunkIndex.y;
-            pos.z = size.z * chunk.chunkIndex.z;
-            return pos;
-        }
-    }
 
     public override void GenerateVoxelData()
     {
@@ -130,6 +133,8 @@ public class OverworldTerrainGenerator : TerrainGenerator
                     data = FLAT_GROUND_SAND_VOXEL;
                 }
 
+                bool isTileFlatImpassable = TileInfo.IsTileFlatImpassable(tileCode);
+
                 // TODO
 
                 for (int vY = 0; vY < chunkSize.y; vY++)
@@ -143,15 +148,15 @@ public class OverworldTerrainGenerator : TerrainGenerator
                     }
                     if (y > blockStackHeight - 1)
                     {
-                        bool isTopmostBlockInStack = TileInfo.IsTileFlatImpassable(tileCode) && (y == blockStackHeight);
-                        if (isTopmostBlockInStack)
+                        bool isFlatTop = isTileFlatImpassable && (y == blockStackHeight);
+                        if (isFlatTop)
                         {
                             chunk.SetVoxelSimple(vX, vY, vZ, INVISIBLE_COLLIDER_VOXEL);
                         }
 
                         if (clearPrevious)
                         {
-                            if (!isTopmostBlockInStack)
+                            if (!isFlatTop)
                             {
                                 chunk.SetVoxelSimple(vX, vY, vZ, 0);
                             }
@@ -177,8 +182,6 @@ public class OverworldTerrainGenerator : TerrainGenerator
 
     bool IsRegularTile(int x, int z, out int tileCode, out float blockHeight, out int yOffset)
     {
-        bool isRegularTile = true;
-
         // Get tileCode at OW tile position
         tileCode = _tiles[z, x];
 
@@ -195,50 +198,53 @@ public class OverworldTerrainGenerator : TerrainGenerator
             blockHeight = ENTRANCE_TILE_BLOCK_HEIGHT;
             yOffset = ENTRANCE_TILE_Y_OFFSET;
 
-            isRegularTile = false;
+            return false;
         }
-        else
+
+        if (z == 0)
         {
-            if (z > 0)
-            {
-                // One Above Entrance?
-                int tileCodeBelow = _tiles[z - 1, x];
-                if (TileInfo.IsTileAnEntrance(tileCodeBelow))
-                {
-                    blockHeight = GetBlockHeightForTileCode(tileCode);
-                    yOffset = ENTRANCE_TILE_Y_OFFSET - 1;
-
-                    isRegularTile = false;
-                }
-                else if (z > 1)
-                {
-                    // Two Above Entrance?
-                    int tileCode2xBelow = _tiles[z - 2, x];
-                    if (TileInfo.IsTileAnEntrance(tileCode2xBelow))
-                    {
-                        if (TileInfo.IsTileFlat(tileCode))
-                        {
-                            tileCode = tileCodeBelow;
-                        }
-
-                        if (TileInfo.IsTileFlat(tileCode) || TileInfo.IsTileShort(tileCode) || TileInfo.IsTileUnitHeight(tileCode))
-                        {
-                            blockHeight = 1;
-                        }
-                        else
-                        {
-                            blockHeight = GetRandomHeight();
-                        }
-
-                        yOffset = ENTRANCE_TILE_Y_OFFSET - 2;
-
-                        isRegularTile = false;
-                    }
-                }
-            }
+            return true;
         }
 
-        return isRegularTile;
+        // One Above Entrance?
+        int tileCodeBelow = _tiles[z - 1, x];
+        if (TileInfo.IsTileAnEntrance(tileCodeBelow))
+        {
+            blockHeight = GetBlockHeightForTileCode(tileCode);
+            yOffset = ENTRANCE_TILE_Y_OFFSET - 1;
+
+            return false;
+        }
+
+        if (z == 1)
+        {
+            return true;
+        }
+
+        // Two Above Entrance?
+        int tileCode2xBelow = _tiles[z - 2, x];
+        if (TileInfo.IsTileAnEntrance(tileCode2xBelow))
+        {
+            if (TileInfo.IsTileFlat(tileCode))
+            {
+                tileCode = tileCodeBelow;
+            }
+
+            if (TileInfo.IsTileFlat(tileCode) || TileInfo.IsTileShort(tileCode) || TileInfo.IsTileUnitHeight(tileCode))
+            {
+                blockHeight = 1;
+            }
+            else
+            {
+                blockHeight = GetRandomHeight();
+            }
+
+            yOffset = ENTRANCE_TILE_Y_OFFSET - 2;
+
+            return false;
+        }
+
+        return true;
     }
 
     float GetBlockHeightForTileCode(int tileCode)

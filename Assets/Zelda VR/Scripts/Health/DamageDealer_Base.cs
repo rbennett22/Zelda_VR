@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public interface IDamageDealerDelegate
 {
+    //bool CanAttackBeDodged(DamageDealer_Base attacker, HealthController_Abstract victim);
     bool CanAttackBeBlocked(DamageDealer_Base attacker, HealthController_Abstract victim);
     void OnAttackBlocked(DamageDealer_Base attacker, HealthController_Abstract blocker);
     void OnHitAnInvulnerable(DamageDealer_Base attacker, HealthController_Abstract invulnerable);
@@ -88,7 +89,13 @@ public class DamageDealer_Base : MonoBehaviour
 
 
     #region Delegated Methods
-
+    
+    /*protected bool CanAttackBeDodged(HealthController_Abstract victim)
+    {
+        if (Delegate == null)
+            return false;
+        return Delegate.CanAttackBeDodged(this, victim);
+    }*/
     protected bool CanAttackBeBlocked(HealthController_Abstract victim)
     {
         if (Delegate == null)

@@ -27,9 +27,6 @@ Mid Priority:
 - Refactor Grottos
 
 - Fog disappears abruptly in grottos close to Lost Woods
-- Leevers: Should not be harmful when burrowing 
-- Leevers & River Zora: Should not use the guard sound effect when attacked while emerging/submerging
-- River Zora projectile should briefly hold position (~0.3 secs) before firing towards Link
 - Boss Death anim (blink 2-3 times, then "poof")
 - Gleeok Heads Poof onDeath
 
@@ -37,11 +34,11 @@ Mid Priority:
 - OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
 - "Continue or Save & Quit?" GUI
 
+- If CandleFlame hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
+- Sword and Wand Projectiles can't pass over water
 - Sometimes fall through floor when walking down staircases, there should be a fail-safe
-- I sometimes fall through the floor after using the whistle
 - Difficult to use ladder to cross water
 - Difficult to fire wand through narrow passages
-- Too easy to burn self with candle, even when not moving
 - Old men in dungeons don't fight me back
 - Text faces wrong way for many of the old men in dungeons, and "Grumble, grumble"
 - There should be an event sound when you present meat to "Grumble, grumble"
@@ -51,7 +48,6 @@ Mid Priority:
 - Enemies can walk through statues
 - Enemies stunned by boomerang can still hurt me
 - Boulders should bounce around
-- Boulders appear in red leever desert (NE of Level 1) where they should not
 
 - Consider making the shield appear every time you deflect something
 - No rolling rupee sound after "Secret to everybody" or door repair
@@ -91,6 +87,8 @@ Low Priority:
 - What's up with Manhandla projectiles/damage?
 - Have Enemy's pushBack force applied in weapon's moveDirection. (Have all weapons/projectiles transform.forward point in their direction of travel.)
 - I'm not sure darknuts are supposed to be hurt by fire, or gleeoks by the wand
+- Leevers: Should not be harmful when burrowing 
+- River Zora projectile should briefly hold position (~0.3 secs) before firing towards Link
 
 
 WishList:
@@ -132,15 +130,12 @@ BUGS:
 - BUG: Enemies that spawn after clock has activated aren't paralyzed
 - BUG: Enemies can end up walking through walls in Lost Woods
 - BUG: Vire can jump through wall
-- BUG: Projectiles can't pass over water in OW
-- BUG: Bait/Flame not always dropping in correct position?
 
 - BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)
 
 
 OPTIMIZATIONS:
 
-- Spawn LostWoods only when needed
 - Only update HUD text when info changes (i.e. keys, bombs, rupees, level)
 
 

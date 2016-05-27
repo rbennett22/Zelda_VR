@@ -67,12 +67,9 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
         Enemy.EnemiesKilledWithoutTakingDamage = 0;
     }
 
-    void IHealthControllerDelegate.OnHealthRestored(HealthController healthController, uint healAmount)
-    {
-    }
-    void IHealthControllerDelegate.OnTempInvincibilityActivation(HealthController healthController, bool didActivate)
-    {
-    }
+    void IHealthControllerDelegate.OnHealthRestored(HealthController healthController, uint healAmount) { }
+    void IHealthControllerDelegate.OnTempInvincibilityActivation(HealthController healthController, bool didActivate) { }
+
     void IHealthControllerDelegate.OnDeath(HealthController healthController, GameObject killer)
     {
         _player.DeathCount++;

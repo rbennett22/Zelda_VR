@@ -53,6 +53,7 @@ public class EnemyAI_RiverZora : EnemyAI
                 AnimatorInstance.SetTrigger("Emerge");
                 _timerDuration = emergeDuration;
 
+                _healthController.isIndestructible = true;
                 Renderer.enabled = true;
                 WarpToRandomNearbyWaterTile();
             }
@@ -77,6 +78,7 @@ public class EnemyAI_RiverZora : EnemyAI
                 AnimatorInstance.SetTrigger("Underwater");
                 _timerDuration = underwaterDuration;
 
+                _healthController.isIndestructible = true;
                 Renderer.enabled = false;
                 ReplenishHealth();
             }

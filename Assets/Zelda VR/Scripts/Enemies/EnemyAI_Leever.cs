@@ -61,6 +61,7 @@ public class EnemyAI_Leever : EnemyAI
                 AnimatorInstance.SetTrigger("Emerge");
                 _timerDuration = emergeDuration;
 
+                _healthController.isIndestructible = true;
                 Renderer.enabled = true;
                 transform.SetY(_origin.y);
                 WarpToRandomNearbySandTile();
@@ -87,6 +88,7 @@ public class EnemyAI_Leever : EnemyAI
                 AnimatorInstance.SetTrigger("Underground");
                 _timerDuration = undergroundDuration;
 
+                _healthController.isIndestructible = true;
                 Renderer.enabled = false;
                 transform.SetY(_origin.y - OFFSCREEN_OFFSET);  // Move offscreen to prevent collision with player
             }

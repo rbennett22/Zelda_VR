@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+// Abstract Base Class
+
 public class Weapon_Base : MonoBehaviour
 {
     [SerializeField]
