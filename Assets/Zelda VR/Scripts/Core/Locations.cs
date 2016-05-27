@@ -195,7 +195,7 @@ public class Locations : Singleton<Locations>
         }
     }
 
-    public void WarpToDungeonEntranceRoom(Action onCompleteCallback = null, bool useShutters = false)
+    public void WarpToDungeonEntranceRoom(Action onCompleteCallback = null, bool useShutters = true)
     {
         int dungeonNum = WorldInfo.Instance.DungeonNum;
         if (dungeonNum == -1) { return; }
@@ -232,11 +232,12 @@ public class Locations : Singleton<Locations>
     }
     void SetPlayerPosition(Transform t, bool setRotation = true)
     {
-        CommonObjects.PlayerController_G.transform.position = t.position;
+        Player player = CommonObjects.Player_C;
+        player.Position = t.position;
 
         if (setRotation)
         {
-            CommonObjects.Player_C.ForceNewForwardDirection(t.forward);
+            player.ForceNewForwardDirection(t.forward);
         }
     }
 
@@ -262,21 +263,28 @@ public class Locations : Singleton<Locations>
 
     void PlayShutterSequence(Action onCloseCompleteCallback, bool closeInstantly = false)
     {
-        const float INTERMISSION_DURATION = 0.1f;
+        const float INTERMISSION_DURATION = 0.2f;
 
         LimitControls();
 
         OverlayShuttersViewController.Instance.PlayCloseAndOpenSequence(onCloseCompleteCallback, RestoreControls, INTERMISSION_DURATION, closeInstantly);
     }
+
+    bool _storedGravityEnabledState;
     void LimitControls()
     {
         PauseManager.Instance.IsPauseAllowed_Inventory = false;
         PauseManager.Instance.IsPauseAllowed_Options = false;
         CommonObjects.Player_C.IsParalyzed = true;
+
+        ZeldaPlayerController pc = CommonObjects.PlayerController_C;
+        _storedGravityEnabledState = pc.gravityEnabled;
+        pc.gravityEnabled = false;
     }
     void RestoreControls()
     {
         CommonObjects.Player_C.IsParalyzed = false;
+        CommonObjects.PlayerController_C.gravityEnabled = _storedGravityEnabledState;
 
         if (WorldInfo.Instance.IsPausingAllowedInCurrentScene())
         {

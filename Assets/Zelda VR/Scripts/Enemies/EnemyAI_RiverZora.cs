@@ -25,12 +25,15 @@ public class EnemyAI_RiverZora : EnemyAI
     public bool IsSurfaced { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Surface"); } }
 
 
+    Renderer Renderer { get { return AnimatorInstance.GetComponent<Renderer>(); } }
+
+
     void Start()
     {
         transform.SetY(WorldOffsetY);
         _origin = transform.position;
 
-        AnimatorInstance.GetComponent<Renderer>().enabled = false;
+        Renderer.enabled = false;
         _healthController.isIndestructible = true;
 
         AssignWarpableTiles();
@@ -39,8 +42,6 @@ public class EnemyAI_RiverZora : EnemyAI
 
     void Update()
     {
-        transform.SetY(WorldOffsetY);         // hack?
-
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
 
@@ -52,7 +53,7 @@ public class EnemyAI_RiverZora : EnemyAI
                 AnimatorInstance.SetTrigger("Emerge");
                 _timerDuration = emergeDuration;
 
-                AnimatorInstance.GetComponent<Renderer>().enabled = true;
+                Renderer.enabled = true;
                 WarpToRandomNearbyWaterTile();
             }
             else if (IsEmerging)
@@ -76,7 +77,7 @@ public class EnemyAI_RiverZora : EnemyAI
                 AnimatorInstance.SetTrigger("Underwater");
                 _timerDuration = underwaterDuration;
 
-                AnimatorInstance.GetComponent<Renderer>().enabled = false;
+                Renderer.enabled = false;
                 ReplenishHealth();
             }
 

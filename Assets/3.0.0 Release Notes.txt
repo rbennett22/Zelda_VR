@@ -2,8 +2,10 @@
 
 RECENTLY DONE:
 
-- Boomerang should return immediately upon colliding with a collectible
-- Sword can now collect Collectibles
+- River Zora: Fixed emerge/submerge animation
+- Leevers: Emerge animation now only plays through once
+- Leevers: The correct Submerge animation plays now
+
 
 DONE:
 
@@ -20,6 +22,8 @@ DONE:
 - Enemies now drop bombs in bundles of 4
 - Player respawns with 3 hearts instead of full life 
 - Getting heart container refills one heart instead of refilling it entirely
+- Boomerang returns immediately upon colliding with a collectible
+- Sword can now collect Collectibles
 
 
 BUG FIXES:

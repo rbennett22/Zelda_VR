@@ -6,6 +6,7 @@ public class WorldInfo : Singleton<WorldInfo>
 {
     public const int QUEST = 1;
     public const int NUM_DUNGEONS = 9;
+    public const int NUM_WARPABLE_DUNGEONS = 8;
 
     public static Vector3 OVERWORLD_OFFSET = new Vector3(-0.5f, -0.5f, -0.5f);
     public static Vector3 DUNGEON_OFFSET = new Vector3(0, 0, 0);

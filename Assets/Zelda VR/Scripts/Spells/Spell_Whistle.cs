@@ -113,12 +113,11 @@ public class Spell_Whistle : Spell_Base
         int count = 0;
         do
         {
-            if (++_nextWarpDungeonNum > 8)
+            if (++_nextWarpDungeonNum > WorldInfo.NUM_WARPABLE_DUNGEONS)
             {
                 _nextWarpDungeonNum = 1;
             }
-
             canWarpToDungeon = Inventory.Instance.HasTriforcePieceForDungeon(_nextWarpDungeonNum);
-        } while (!canWarpToDungeon && ++count < WorldInfo.NUM_DUNGEONS);
+        } while (!canWarpToDungeon && ++count < WorldInfo.NUM_WARPABLE_DUNGEONS);
     }
 }

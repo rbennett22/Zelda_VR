@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: b34ed9d04e932be46ac6f5be42fc7811
+timeCreated: 1464325194
+licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: riverzora_submerge_2
+    21300000: riverzora_submerge_1
     21300002: riverzora_D
     21300004: riverzora_U
-    21300006: riverzora_submerge_1
+    21300006: riverzora_submerge_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -52,7 +54,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: riverzora_submerge_2
+    - name: riverzora_submerge_1
       rect:
         serializedVersion: 2
         x: 2
@@ -85,7 +87,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: riverzora_submerge_1
+    - name: riverzora_submerge_2
       rect:
         serializedVersion: 2
         x: 1

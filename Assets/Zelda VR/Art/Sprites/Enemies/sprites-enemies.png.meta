@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: c1c18749a0da1b749adedf19f1c94dfa
+timeCreated: 1464324914
+licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
     21300000: octorok_red_D_1
@@ -163,18 +165,18 @@ TextureImporter:
     21300316: rope_R_1
     21300318: boulder_1
     21300320: boulder_2
-    21300322: riverzora_pre_1
-    21300324: leever_red_pre_1
-    21300326: leever_red_pre_4
-    21300328: leever_red
+    21300322: riverzora_pre_2
+    21300324: leever_red_pre_2
+    21300326: leever_red_1
+    21300328: leever_red_2
     21300330: patra_1
     21300332: patra_2
     21300334: rope_L_2
     21300336: rope_R_2
     21300338: bladetrap
     21300340: leever_blue_pre_3
-    21300342: leever_blue_pre_4
-    21300344: leever_blue
+    21300342: leever_blue_1
+    21300344: leever_blue_2
     21300346: patra_small_1
     21300348: patra_small_2
     21300350: gel_green_2
@@ -187,11 +189,11 @@ TextureImporter:
     21300364: boomerang_blue_4
     21300366: boomerang_red_6
     21300368: boomerang_blue_6
-    21300370: riverzora_pre_2
-    21300372: leever_red_pre_2
+    21300370: riverzora_pre_1
+    21300372: leever_red_pre_1
     21300374: leever_red_pre_3
-    21300376: leever_blue_pre_2
-    21300378: leever_blue_pre_1
+    21300376: leever_blue_pre_1
+    21300378: leever_blue_pre_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -2009,7 +2011,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: riverzora_pre_1
+    - name: riverzora_pre_2
       rect:
         serializedVersion: 2
         x: 152
@@ -2020,7 +2022,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: leever_red_pre_1
+    - name: leever_red_pre_2
       rect:
         serializedVersion: 2
         x: 272
@@ -2031,7 +2033,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: leever_red_pre_4
+    - name: leever_red_1
       rect:
         serializedVersion: 2
         x: 331
@@ -2042,7 +2044,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: leever_red
+    - name: leever_red_2
       rect:
         serializedVersion: 2
         x: 360
@@ -2119,7 +2121,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: leever_blue_pre_4
+    - name: leever_blue_1
       rect:
         serializedVersion: 2
         x: 331
@@ -2130,7 +2132,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: leever_blue
+    - name: leever_blue_2
       rect:
         serializedVersion: 2
         x: 360
@@ -2273,7 +2275,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: riverzora_pre_2
+    - name: riverzora_pre_1
       rect:
         serializedVersion: 2
         x: 123
@@ -2284,7 +2286,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: leever_red_pre_2
+    - name: leever_red_pre_1
       rect:
         serializedVersion: 2
         x: 243
@@ -2306,7 +2308,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: leever_blue_pre_2
+    - name: leever_blue_pre_1
       rect:
         serializedVersion: 2
         x: 243
@@ -2317,7 +2319,7 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-    - name: leever_blue_pre_1
+    - name: leever_blue_pre_2
       rect:
         serializedVersion: 2
         x: 272

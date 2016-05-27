@@ -81,7 +81,7 @@ public class DungeonMapView : MonoBehaviour
 
         _mapTexture.Clear(_bgColor);
 
-        Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
+        Vector3 playerPos = CommonObjects.Player_C.Position;
 
         foreach (var room in CommonObjects.CurrentDungeonFactory.Rooms)
         {

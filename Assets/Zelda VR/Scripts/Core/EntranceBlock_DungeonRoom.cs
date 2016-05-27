@@ -46,8 +46,7 @@ public class EntranceBlock_DungeonRoom : MonoBehaviour
         //print("EntranceBlock_DungeonRoom --> OnTriggerExit: " + other.name);
         if (!CommonObjects.IsPlayer(other)) { return; }
 
-        Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
-
+        Vector3 playerPos = CommonObjects.Player_C.Position;
         if (Vector3.Distance(playerPos, _dungeonRoomPosition) < _entranceThresholdDistance)
         {
             OnEnteredRoom();

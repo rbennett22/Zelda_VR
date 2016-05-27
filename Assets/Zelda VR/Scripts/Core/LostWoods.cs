@@ -44,7 +44,11 @@ public class LostWoods : MonoBehaviour
     public Vector3 Position { get { return _entrance.transform.position; } }
     public Index2 Sector {
         get {
-            Index2 sector;
+            if (!WorldInfo.Instance.IsOverworld)
+            {
+                return null;
+            }
+            Index2 sector = null;
             CommonObjects.OverworldTileMap.TileIndex_WorldToSector((int)Position.x, (int)Position.z, out sector);
             return sector;
         }

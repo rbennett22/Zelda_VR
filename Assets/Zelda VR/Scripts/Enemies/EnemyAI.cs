@@ -17,9 +17,9 @@ public class EnemyAI : MonoBehaviour
 
     protected float WorldOffsetY { get { return WorldInfo.Instance.WorldOffset.y; } }
 
-    protected Vector3 ToPlayer { get { return (CommonObjects.PlayerController_G.transform.position - transform.position).normalized; } }
+    protected Vector3 ToPlayer { get { return (CommonObjects.Player_C.Position - transform.position).normalized; } }
 
-    protected Animator AnimatorInstance { get { return _enemy.enemyAnim.AnimatorInstance; } }
+    protected Animator AnimatorInstance { get { return _enemy.enemyAnim.AnimatorComponent; } }
 
     protected bool IsPreoccupied { get { return _enemy.IsPreoccupied; } }
 

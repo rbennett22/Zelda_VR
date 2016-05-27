@@ -43,7 +43,7 @@ public class GrottoSpawnManager : MonoBehaviour
 
     float GetGrottoClosestToPlayer(out GrottoSpawnPoint gSP)
     {
-        Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
+        Vector3 playerPos = CommonObjects.Player_C.Position;
 
         float closestDistSq = float.PositiveInfinity;
         Transform closestGSP = null;

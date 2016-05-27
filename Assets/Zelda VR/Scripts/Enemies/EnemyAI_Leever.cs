@@ -28,6 +28,9 @@ public class EnemyAI_Leever : EnemyAI
     public bool IsSurfaced { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Surface"); } }
 
 
+    Renderer Renderer { get { return AnimatorInstance.GetComponent<Renderer>(); } }
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -38,7 +41,7 @@ public class EnemyAI_Leever : EnemyAI
     void Start()
     {
         _origin = transform.position;
-        AnimatorInstance.GetComponent<Renderer>().enabled = false;
+        Renderer.enabled = false;
         _healthController.isIndestructible = true;
 
         AssignWarpableTiles();
@@ -47,8 +50,6 @@ public class EnemyAI_Leever : EnemyAI
 
     void Update()
     {
-        transform.SetY(WorldOffsetY);     // hack?
-
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
 
@@ -60,7 +61,7 @@ public class EnemyAI_Leever : EnemyAI
                 AnimatorInstance.SetTrigger("Emerge");
                 _timerDuration = emergeDuration;
 
-                AnimatorInstance.GetComponent<Renderer>().enabled = true;
+                Renderer.enabled = true;
                 transform.SetY(_origin.y);
                 WarpToRandomNearbySandTile();
             }
@@ -86,7 +87,7 @@ public class EnemyAI_Leever : EnemyAI
                 AnimatorInstance.SetTrigger("Underground");
                 _timerDuration = undergroundDuration;
 
-                AnimatorInstance.GetComponent<Renderer>().enabled = false;
+                Renderer.enabled = false;
                 transform.SetY(_origin.y - OFFSCREEN_OFFSET);  // Move offscreen to prevent collision with player
             }
 

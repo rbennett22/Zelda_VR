@@ -189,18 +189,8 @@ public class EnemyAI_WallMaster : EnemyAI
             WarpLinkToDungeonEntrance();
         }
     }
-
-    bool _storedGravityEnabledState;
     void WarpLinkToDungeonEntrance()
     {
-        ZeldaPlayerController pc = CommonObjects.PlayerController_C;
-        _storedGravityEnabledState = pc.gravityEnabled;
-        pc.gravityEnabled = false;
-
-        Locations.Instance.WarpToDungeonEntranceRoom(FinishedWarpingLinkToDungeonEntrance, true);
-    }
-    void FinishedWarpingLinkToDungeonEntrance()
-    {
-        CommonObjects.PlayerController_C.gravityEnabled = _storedGravityEnabledState;
+        Locations.Instance.WarpToDungeonEntranceRoom();
     }
 }

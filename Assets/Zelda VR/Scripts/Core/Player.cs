@@ -15,7 +15,10 @@ public class Player : Singleton<Player>
     [SerializeField]
     ZeldaPlayerController _playerController;
     public ZeldaPlayerController PlayerController { get { return _playerController; } }
-    public Vector3 Position { get { return _playerController.transform.position; } }
+    public Vector3 Position {
+        get { return _playerController.transform.position; }
+        set { _playerController.transform.position = value; }
+    }
 
 
     Inventory _inventory;

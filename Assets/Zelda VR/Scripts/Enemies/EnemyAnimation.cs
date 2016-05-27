@@ -1,25 +1,22 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 
 public class EnemyAnimation : MonoBehaviour
 {
     Animator _animator;
+    public Animator AnimatorComponent { get { return _animator ?? (_animator = GetComponent<Animator>()); } }
+
     Enemy _enemy;
-
-
-    public Animator AnimatorInstance { get { return _animator; } }
-
-    public bool IsSpawning { get { return _animator ? _animator.GetCurrentAnimatorStateInfo(0).IsTag("Spawn") : false; } }
-    public bool IsDying { get { return _animator ? _animator.GetCurrentAnimatorStateInfo(0).IsTag("Die") : false; } }
-
-
-    float _storedSpeed;
+    
+    
+    public bool IsSpawning { get { return AnimatorComponent.GetCurrentAnimatorStateInfo(0).IsTag("Spawn"); } }
+    public bool IsDying { get { return AnimatorComponent.GetCurrentAnimatorStateInfo(0).IsTag("Die"); } }
 
 
     void Awake()
     {
-        _animator = GetComponent<Animator>();
-        _animator.logWarnings = false;
+        AnimatorComponent.logWarnings = false;
 
         _enemy = transform.parent.GetComponent<Enemy>();
     }
@@ -31,24 +28,25 @@ public class EnemyAnimation : MonoBehaviour
         Instantiate(deathAnimPrefab, transform.position, Quaternion.identity);
     }
 
+    float _storedSpeed;
     public void Pause()
     {
-        _storedSpeed = _animator.speed;
-        _animator.speed = 0;
+        _storedSpeed = AnimatorComponent.speed;
+        AnimatorComponent.speed = 0;
     }
     public void Resume()
     {
-        _animator.speed = _storedSpeed;
+        AnimatorComponent.speed = _storedSpeed;
     }
 
 
     void Update()
     {
-        if (_animator != null)
+        if (AnimatorComponent != null)
         {
-            //if (_animator.ContainsParam("Jumping"))
+            //if (AnimatorComponent.ContainsParam("Jumping"))
             {
-                _animator.SetBool("Jumping", _enemy.IsJumping);
+                AnimatorComponent.SetBool("Jumping", _enemy.IsJumping);
             }
         }
 
@@ -93,9 +91,9 @@ public class EnemyAnimation : MonoBehaviour
             direction = 3;
         }
 
-        if (_animator != null)
+        if (AnimatorComponent != null)
         {
-            _animator.SetInteger("Direction", direction);
+            AnimatorComponent.SetInteger("Direction", direction);
         }
     }
 

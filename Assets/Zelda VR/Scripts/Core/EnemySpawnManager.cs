@@ -29,7 +29,7 @@ public class EnemySpawnManager : MonoBehaviour
             child.GetComponent<EnemySpawnPoint>().DoUpdate();
         }
 
-        Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
+        Vector3 playerPos = CommonObjects.Player_C.Position;
 
         foreach (Transform child in _enemiesContainer)
         {

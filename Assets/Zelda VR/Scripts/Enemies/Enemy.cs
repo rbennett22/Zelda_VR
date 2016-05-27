@@ -159,17 +159,18 @@ public class Enemy : MonoBehaviour
     }
     IEnumerator PushCoroutine(Vector3 force)
     {
-        RigidbodyConstraints storedConstraints = GetComponent<Rigidbody>().constraints;
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
-        GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        RigidbodyConstraints storedConstraints = rb.constraints;
+        rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+        rb.AddForce(force, ForceMode.VelocityChange);
 
         SendMessage("DisableAI", SendMessageOptions.DontRequireReceiver);
 
         float duration = _healthController.tempInvincibilityDuration;
         yield return new WaitForSeconds(duration);
 
-
-        GetComponent<Rigidbody>().constraints = storedConstraints;
+        rb.constraints = storedConstraints;
 
         SendMessage("EnableAI", SendMessageOptions.DontRequireReceiver);
     }

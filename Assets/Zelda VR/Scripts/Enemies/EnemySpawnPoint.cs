@@ -67,7 +67,7 @@ public class EnemySpawnPoint : MonoBehaviour
             float timeSinceLastSpawn = Time.time - _lastEnemyTimeOfDeath;
             if (timeSinceLastSpawn < cooldown) { return; }
 
-            Vector3 toPlayer = CommonObjects.PlayerController_G.transform.position - transform.position;
+            Vector3 toPlayer = CommonObjects.Player_C.Position - transform.position;
             float distanceToPlayerSqr = Vector3.SqrMagnitude(toPlayer);
             if (distanceToPlayerSqr > _proximityThresholdMaxSqd) { return; }
             if (distanceToPlayerSqr < _proximityThresholdMinSqd) { return; }

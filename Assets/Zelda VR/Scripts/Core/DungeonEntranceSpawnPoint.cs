@@ -28,7 +28,7 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
 
     void Update()
     {
-        Vector3 toPlayer = CommonObjects.PlayerController_G.transform.position - marker.transform.position;
+        Vector3 toPlayer = CommonObjects.Player_C.Position - marker.transform.position;
         float distanceToPlayerSqr = Vector3.SqrMagnitude(toPlayer);
 
         if (_spawnedDungeonEntrance == null)

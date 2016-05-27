@@ -69,8 +69,6 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
         if (WorldInfo.Instance.IsOverworld)
         {
             _view.DisplayMode = GameplayHUDView.DisplayModeEnum.Overworld;
-
-            UpdateView_OverworldMap();
         }
         else if (WorldInfo.Instance.IsInDungeon)
         {
@@ -131,13 +129,19 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     void InitOverworldMap(int sectorsWide, int sectorsHigh)
     {
         _view.InitOverworldMap(sectorsWide, sectorsHigh);
-    }
-    void UpdateView_OverworldMap()
-    {
-        Vector3 playerPos = CommonObjects.PlayerController_G.transform.position;
-        Index2 playerOccupiedSector = CommonObjects.OverworldTileMap.GetSectorForPosition(playerPos);
 
-        _view.UpdateOverworldMap(playerOccupiedSector);
+        Player player = CommonObjects.Player_C;
+        Index2 playerOccupiedSector = player.GetOccupiedOverworldSector();
+        if (playerOccupiedSector != null)
+        {
+            _view.UpdateOverworldMap(playerOccupiedSector);
+        }
+
+        player.OccupiedSectorChanged += PlayerOccupiedSectorChanged;
+    }
+    void PlayerOccupiedSectorChanged(Index2 prevSector, Index2 newSector)
+    {
+        _view.UpdateOverworldMap(newSector);
     }
 
     void InitDungeonMap(int sectorsWide, int sectorsHigh)

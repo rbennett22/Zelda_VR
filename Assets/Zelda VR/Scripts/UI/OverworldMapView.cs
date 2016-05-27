@@ -52,7 +52,7 @@ public class OverworldMapView : MonoBehaviour
         _mapTexture.Clear(_bgColor);
 
         // Render the "you are here" sector
-        if (playerOccupiedSector != WorldInfo.Instance.LostWoodsSector)
+        if (playerOccupiedSector != null && playerOccupiedSector != WorldInfo.Instance.LostWoodsSector)
         {
             if (IsSectorWithinMapBounds(playerOccupiedSector))
             {
