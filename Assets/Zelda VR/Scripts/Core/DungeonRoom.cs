@@ -174,7 +174,7 @@ public class DungeonRoom : MonoBehaviour
         //print(_info.npcText);
         if (doShow)
         {
-            MessageBoard.Instance.Display(Info.npcText, npcContainer.position);
+            MessageBoard.Instance.Show(Info.npcText, npcContainer.position, Vector3.back);
         }
         else
         {

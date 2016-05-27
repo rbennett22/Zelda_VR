@@ -52,7 +52,7 @@ public class FairyPond : MonoBehaviour
 
         ParticleEmissionRate = peakEmission;
 
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.fanfare);
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.item);
 
         _playingRestorationSequence = true;
 

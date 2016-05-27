@@ -512,8 +512,8 @@ public class Grotto : MonoBehaviour
         if (doShow)
         {
             Vector3 pos = _npc.transform.position;
-            Vector3 msgFacingDir = transform.forward;
-            MessageBoard.Instance.Display(msg, pos, msgFacingDir);
+            Vector3 dir = -transform.forward;
+            MessageBoard.Instance.Show(msg, pos, dir);
         }
         else
         {

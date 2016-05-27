@@ -2,11 +2,10 @@
 
 RECENTLY DONE:
 
-- Leevers & River Zora: No longer use the guard sound effect when attacked while emerging/submerging
-- Boulders: No longer appear in the Red Leever desert (NE of Level 1)
+- Fairy: Changes move direction regularly
 
-- BUG: Projectiles can't pass over water in OW. -FIXED
-- BUG: Bait/Flame not always dropping in correct position -FIXED
+- BUG: Text often faces wrong way for many of the old men in dungeons, and "Grumble, grumble". -FIXED
+
 
 
 DONE:
@@ -30,6 +29,8 @@ DONE:
 - RiverZora: Fixed emerge/submerge animation
 - Leevers: Emerge animation now only plays through once
 - Leevers: The correct Submerge animation plays now
+- Leevers & River Zora: No longer use the guard sound effect when attacked while emerging/submerging
+- Boulders: No longer appear in the Red Leever desert (NE of Level 1)
 
 - Music: Playing flute, dying, or triforceFanfare properly stops the background music
 - Music: gets quiet during pause to options menu

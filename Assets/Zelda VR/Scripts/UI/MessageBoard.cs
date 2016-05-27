@@ -18,19 +18,13 @@ public class MessageBoard : Singleton<MessageBoard>
     }
 
 
-    public void Display(string text, Vector3 position)
-    {
-        Display(text, position, Vector3.zero);
-    }
-    public void Display(string text, Vector3 position, Vector3 facingDirection)
+    public void Show(string text, Vector3 position, Vector3 facingDirection)
     {
         SetText(text);
 
         transform.position = position + displayOffset;
-        if (facingDirection != Vector3.zero)
-        {
-            transform.forward = facingDirection;
-        }
+        transform.forward = -facingDirection;
+
         _spriteRenderer.enabled = true;
 
         iTween.FadeTo(gameObject, 1.0f, 0.1f);

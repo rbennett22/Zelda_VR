@@ -6,6 +6,10 @@ High Priority:
 - Grotto::DeliverLetter() -> Play Sequence with text or w/e
 - Often getting stuck towards mid-top of Grotto stairs
 
+- Cannot walk to NE corner of map ("Secret to everybody" house behind money making game)
+- Having the map item doesn't mean every room in the pause map should be filled in
+- Movable blocks in dungeons should be pushable from any side
+
 - Lost Woods: Fog; Fix long load time for voxels
 - Lost Hills
 - Waterfall cave
@@ -34,16 +38,12 @@ Mid Priority:
 - OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
 - "Continue or Save & Quit?" GUI
 
+- Water Tiles: Currently Sword and Wand Projectiles can't pass over water; 
+	Link can walk on water (try lowering his step offset only while on stairs?)
 - If CandleFlame hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
-- Sword and Wand Projectiles can't pass over water
-- Sometimes fall through floor when walking down staircases, there should be a fail-safe
+- Implement a user-friendly fail-safe for world fall-through
 - Difficult to use ladder to cross water
 - Difficult to fire wand through narrow passages
-- Old men in dungeons don't fight me back
-- Text faces wrong way for many of the old men in dungeons, and "Grumble, grumble"
-- There should be an event sound when you present meat to "Grumble, grumble"
-- Need event sound in "Pick any one you want" caves
-- Wrong sound effect for both types of fairies
 - Fairies fly to other rooms in dungeons
 - Enemies can walk through statues
 - Enemies stunned by boomerang can still hurt me
@@ -54,21 +54,22 @@ Mid Priority:
 - Hearts floating around in "Secret to everybody" cave that runs beneath fairy fountain
 - Door wouldn't reopen in Level 1 old man room
 - Door wouldn't reopen in Level 3 red darknut room (near where ladder is kept)
-- Cannot walk to NE corner of map ("Secret to everybody" house behind money making game)
-- Should be a roaring sound when in or next to a boss room
-- Having the map item doesn't mean every room in the pause map should be filled in
-- Movable blocks in dungeons should be pushable from any side
-- Should be event sound for riding raft
-- Beams from many dungeon enemies should be unblockable
-- There should be a sound and gradual heart refill when using potion
-- There should be a wizzrobe sound
 - Blue wizzrobes should not teleport
 - After Ganon is hit he should be temporarily invincible so that I can't take advantage
 - Dungeon tunnels have passages with zero-thickness walls
 
+- There should be an event sound when you present meat to "Grumble, grumble"
+- Need event sound in "Pick any one you want" caves
+- Wrong sound effect for both types of fairies
+- There should be a sound and gradual heart refill when using potion
+- There should be a wizzrobe sound
+- Should be event sound for riding raft
+- Should be a roaring sound when in or next to a boss room
+
 
 Low Priority:
 
+- Old men in dungeons don't fight me back
 - Whistle Warp: Facing north or west, warp to the next dungeon; facing south or east, warp to the previous dungeon
 - Whistle Warp: If he blows the Recorder multiple times while the whirlwind approaches, he can cycle through the sequence indefinitely. 
 - When warping, ensure that world has completely loaded before opening shutters
@@ -89,6 +90,7 @@ Low Priority:
 - I'm not sure darknuts are supposed to be hurt by fire, or gleeoks by the wand
 - Leevers: Should not be harmful when burrowing 
 - River Zora projectile should briefly hold position (~0.3 secs) before firing towards Link
+- Beams from many dungeon enemies should be unblockable (Yes, but this may be too difficult in VR)
 
 
 WishList:
