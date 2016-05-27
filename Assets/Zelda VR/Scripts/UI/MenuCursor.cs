@@ -25,7 +25,7 @@ public class MenuCursor : MonoBehaviour
             clampedIndex.x = Mathf.Clamp(value.x, 0, numColumns - 1);
             clampedIndex.y = Mathf.Clamp(value.y, 0, numRows - 1);
 
-            if (clampedIndex.IsEqual(_cursorIndex))
+            if (clampedIndex == _cursorIndex)
             {
                 return;
             }

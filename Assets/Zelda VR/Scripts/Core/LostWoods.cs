@@ -10,7 +10,16 @@ public class LostWoods : MonoBehaviour
 
     public float fogStartDist_Min, fogEndDist_Min;
     public float innerRadius, outerRadius;
-    public LostWoodsPortal entrance, escapeExit, east, west, south, north;
+
+    [SerializeField]
+    LostWoodsPortal _eastPortal, _westPortal, _southPortal, _northPortal;
+    Dictionary<Index2.Direction, LostWoodsPortal> _portalForDirection;
+
+    [SerializeField]
+    LostWoodsPortal _entrance, _escapeExit;
+    [SerializeField]
+    Index2.Direction _escapeExitDirection, _solutionExitDirection;
+
 
     public float verticalTransportDistance;
     public GameObject duplicate;
@@ -32,11 +41,29 @@ public class LostWoods : MonoBehaviour
 
 
     public Vector3 PlayerPos { get { return _playerTransform.position; } }
-    public Vector3 Position { get { return entrance.transform.position; } }
+    public Vector3 Position { get { return _entrance.transform.position; } }
+    public Index2 Sector {
+        get {
+            Index2 sector;
+            CommonObjects.OverworldTileMap.TileIndex_WorldToSector((int)Position.x, (int)Position.z, out sector);
+            return sector;
+        }
+    }
 
 
     Chunk LostWoodsChunk { get { return Engine.PositionToChunk(Position).GetComponent<Chunk>(); } }
 
+
+    void Awake()
+    {
+        _portalForDirection = new Dictionary<Index2.Direction, LostWoodsPortal>
+        {
+            { Index2.Direction.Left, _westPortal },
+            { Index2.Direction.Right, _eastPortal },
+            { Index2.Direction.Up, _northPortal },
+            { Index2.Direction.Down, _southPortal }
+        };
+    }
 
     void Start()
     {
@@ -50,7 +77,7 @@ public class LostWoods : MonoBehaviour
         InitAtmosphere();
 
         // Player must move through woods in these directions (in order) to pass through.
-        _solutionSequence = new LostWoodsPortal[] { north, west, south, west };     // (right, up, left, up)
+        _solutionSequence = new LostWoodsPortal[] { _northPortal, _westPortal, _southPortal, _westPortal };     // (right, up, left, up)
 
         //duplicate.SetActive(false);
 
@@ -84,7 +111,12 @@ public class LostWoods : MonoBehaviour
 
     void PlayerOccupiedSectorChanged(Index2 prevSector, Index2 newSector)
     {
-        // TODO 
+        if (newSector == Sector)
+        {
+            return;
+        }
+
+        //
     }
 
     void OverrideSectorsWithLostWoodsVoxels(Direction dir, int distance = 1)
@@ -106,7 +138,7 @@ public class LostWoods : MonoBehaviour
     {
         if(!_hasEnteredLostWoods)
         {
-            if (portal == entrance)
+            if (portal == _entrance)
             {
                 OnEnteredLostWoods();
             }
@@ -123,23 +155,23 @@ public class LostWoods : MonoBehaviour
             return;
         }
 
-        if (portal == escapeExit)
+        if (portal == _escapeExit)
         {
             OnExitedLostWoods();
         }
-        else if (portal == east)
+        else if (portal == _eastPortal)
         {
             WarpObjects(_warpedObjects, new Vector3(-_tilesWide, 0, 0));
         }
-        else if (portal == west)
+        else if (portal == _westPortal)
         {
             WarpObjects(_warpedObjects, new Vector3(_tilesWide, 0, 0));
         }
-        else if (portal == north)
+        else if (portal == _northPortal)
         {
             WarpObjects(_warpedObjects, new Vector3(0, 0, -_tilesLong));
         }
-        else if (portal == south)
+        else if (portal == _southPortal)
         {
             WarpObjects(_warpedObjects, new Vector3(0, 0, _tilesLong));
         }
@@ -149,10 +181,23 @@ public class LostWoods : MonoBehaviour
     #region Sequence Solving
 
     bool SolutionSequenceHasBeCompleted { get { return _solutionSeqIndex >= _solutionSequence.Length; } }
-    LostWoodsPortal NextRequiredEntryInSequence { get { return _solutionSequence[_solutionSeqIndex]; } }
+    LostWoodsPortal NextRequiredEntryInSequence {
+        get {
+            if(_solutionSeqIndex >= _solutionSequence.Length)
+            {
+                return null;
+            }
+            return _solutionSequence[_solutionSeqIndex];
+        }
+    }
 
     void AddEntryToSequence(LostWoodsPortal entry)
     {
+        if(entry == null)
+        {
+            return;
+        }
+
         if (entry == NextRequiredEntryInSequence)
         {
             OnCorrectEntryAddedToSequence();

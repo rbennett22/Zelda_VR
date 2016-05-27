@@ -11,6 +11,10 @@ public class OverworldTerrainGenerator : TerrainGenerator
     const int ENTRANCE_TILE_Y_OFFSET = 3;
 
 
+    public bool useOverridingSector;
+    public Index2 overridingSector;
+
+
     int _blockHeight = 1;
     float _blockHeightVariance = 0;
     float _shortBlockHeight = 1;
@@ -19,6 +23,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
 
 
     TileMap _overworldTileMap;
+    int[,] _tiles;
 
 
     void InitFromSettings(ZeldaVRSettings s)
@@ -30,7 +35,6 @@ public class OverworldTerrainGenerator : TerrainGenerator
         _tileMapWidth_WithoutFiller = s.tileMapWidthInTiles_WithoutFiller;
     }
 
-
     void InitOverworldTileMap()
     {
         _overworldTileMap = CommonObjects.OverworldTileMap;
@@ -41,52 +45,65 @@ public class OverworldTerrainGenerator : TerrainGenerator
         }
     }
 
-    int[,] _tiles;
+
+    public Index3 ChunkPosition {
+        get {
+            Index3 size = Engine.ChunkSize;
+            Index3 pos = new Index3();
+            pos.x = size.x * chunk.chunkIndex.x;
+            pos.y = size.y * chunk.chunkIndex.y;
+            pos.z = size.z * chunk.chunkIndex.z;
+            return pos;
+        }
+    }
+
     public override void GenerateVoxelData()
+    {
+        GenerateVoxelData(false);
+    }
+    public void GenerateVoxelData(bool clearPrevious)
     {
         if (_overworldTileMap == null)
         {
             InitFromSettings(ZeldaVRSettings.Instance);
             InitOverworldTileMap();
+
             if (_overworldTileMap == null)
+            {
                 return;
+            }
         }
 
-        int chunkSizeX = Engine.ChunkSize.x;
-        int chunkSizeY = Engine.ChunkSize.y;
-        int chunkSizeZ = Engine.ChunkSize.z;
-
-        int chunkX = chunkSizeX * chunk.chunkIndex.x;
-        int chunkY = chunkSizeY * chunk.chunkIndex.y;
-        int chunkZ = chunkSizeZ * chunk.chunkIndex.z;
+        Index3 chunkSize = Engine.ChunkSize;
+        Index3 chunkPos = ChunkPosition;
 
         _tiles = _overworldTileMap.TileMapData._tiles;
+        int tilesWide = _overworldTileMap.TilesWide;
+        int tilesHigh = _overworldTileMap.TilesHigh;
 
-        Index2 lostWoodsSector = WorldInfo.Instance.LostWoodsSector;
-
-        for (int vX = 0; vX < chunkSizeX; vX++)
+        for (int vX = 0; vX < chunkSize.x; vX++)
         {
-            int x = vX + chunkX;
-            if (x < 0 || x > _overworldTileMap.TilesWide - 1)
+            int x = vX + chunkPos.x;
+            if (x < 0 || x > tilesWide - 1)
             {
                 continue;
             }
 
-            for (int vZ = 0; vZ < chunkSizeZ; vZ++)
+            for (int vZ = 0; vZ < chunkSize.z; vZ++)
             {
-                int z = vZ + chunkZ;
-                if (z < 0 || z > _overworldTileMap.TilesHigh - 1)
+                int z = vZ + chunkPos.z;
+                if (z < 0 || z > tilesHigh - 1)
                 {
                     continue;
                 }
 
-                if (LostWoods.IsWarpedToDuplicate)
+                if (useOverridingSector)
                 {
                     Index2 sector;
                     Index2 tileIdx_S = _overworldTileMap.TileIndex_WorldToSector(x, z, out sector);
-                    if (!sector.IsEqual(lostWoodsSector))
+                    if (sector != overridingSector)
                     {
-                        Index2 tileIdx = _overworldTileMap.TileIndex_SectorToWorld(tileIdx_S.x, tileIdx_S.y, lostWoodsSector);
+                        Index2 tileIdx = _overworldTileMap.TileIndex_SectorToWorld(tileIdx_S.x, tileIdx_S.y, overridingSector);
                         x = tileIdx.x;
                         z = tileIdx.y;
                     }
@@ -99,11 +116,11 @@ public class OverworldTerrainGenerator : TerrainGenerator
 
 
                 int tileCode;
-                float blockHeight;
+                float blockStackHeight;
                 int yOffset;
-                if (IsRegularTile(x, z, out tileCode, out blockHeight, out yOffset))
+                if (IsRegularTile(x, z, out tileCode, out blockStackHeight, out yOffset))
                 {
-                    blockHeight = GetBlockHeightForTileCode(tileCode);
+                    blockStackHeight = GetBlockHeightForTileCode(tileCode);
                 }
 
                 ushort data = GetDataForTileCode(tileCode);
@@ -115,25 +132,35 @@ public class OverworldTerrainGenerator : TerrainGenerator
 
                 // TODO
 
-                for (int vY = 0; vY < chunkSizeY; vY++)
+                for (int vY = 0; vY < chunkSize.y; vY++)
                 {
-                    int y = vY + chunkY - yOffset;
+                    // TODO: Make clearer/more generic
+
+                    int y = vY + chunkPos.y - yOffset;
                     if (y < -1)
                     {
                         continue;
                     }
-                    if (y > blockHeight - 1)
+                    if (y > blockStackHeight - 1)
                     {
-                        if (TileInfo.IsTileFlatImpassable(tileCode) && y == blockHeight)
+                        bool isTopmostBlockInStack = TileInfo.IsTileFlatImpassable(tileCode) && (y == blockStackHeight);
+                        if (isTopmostBlockInStack)
                         {
                             chunk.SetVoxelSimple(vX, vY, vZ, INVISIBLE_COLLIDER_VOXEL);
                         }
+
+                        if (clearPrevious)
+                        {
+                            if (!isTopmostBlockInStack)
+                            {
+                                chunk.SetVoxelSimple(vX, vY, vZ, 0);
+                            }
+                            continue;
+                        }
                         else
                         {
-                            chunk.SetVoxelSimple(vX, vY, vZ, 0);    //// Currently necessary for removing blocks during LostWoods transition
+                            break;
                         }
-                        continue;
-                        ////break;
                     }
 
                     chunk.SetVoxelSimple(vX, vY, vZ, data);
