@@ -1,0 +1,1706 @@
+fileFormatVersion: 2
+guid: c7e966ac71d993d4f9d7174fbec37ad3
+labels:
+- Pixels^3
+timeCreated: 1457552637
+licenseType: Store
+SubstanceImporter:
+  serializedVersion: 5
+  materialInstances:
+  - serializedVersion: 16
+    name: Grenade_Grid
+    prototypeName: Pixels_Cubed
+    shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+    shaderKeywords: _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+    renderQueue: -1
+    lightmapFlags: 5
+    inputs:
+    - name: $outputsize
+      value:
+        scalar[0]: 8
+        scalar[1]: 8
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: $randomseed
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: input_Texture
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {fileID: 2800000, guid: bd7716b622af2314bb506d8923c1c6d7, type: 3}
+    - name: Toggle_Grid
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Selection
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Color_Grid
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 1
+        texture: {instanceID: 0}
+    - name: Grid_Offset
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Rotation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Amount
+      value:
+        scalar[0]: 42
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Scale
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Luminance_Variation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Random_Mask
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Amount
+      value:
+        scalar[0]: 42
+        scalar[1]: 42
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Size
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Bevel
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0.5
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Luminace_Controls
+      value:
+        scalar[0]: 1
+        scalar[1]: 1
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Lighting_Controls
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: input_Grid
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_3_Amount
+      value:
+        scalar[0]: 5.6
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_3_Luminace_Variation
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Amount
+      value:
+        scalar[0]: 10
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Scale
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Scale_Variation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Luminance_Variation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Rotation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Rotation_Random
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Random_Mask
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_5_Edge_Width
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_5_Edge_Roundness
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_5_Edge_Tolerance
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Toggle_Grid_Effects
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Selection_Grid_Effect
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Effect_Detail
+      value:
+        scalar[0]: 16
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Effect_Intensity
+      value:
+        scalar[0]: 0.068
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Tile_Amount
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Contrast
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Luminosity
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Hue
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Saturation
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Lightness
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Toggle_Effect_Toon
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Red_Channel
+      value:
+        scalar[0]: 5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Green_Channel
+      value:
+        scalar[0]: 5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Blue_Channel
+      value:
+        scalar[0]: 5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Alpha_Channel
+      value:
+        scalar[0]: 4
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Toggle_Effect_Pixelate
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Pixelate_Amount
+      value:
+        scalar[0]: 3.85
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Roughness_Amount
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Metallic_Amount
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Normal_Intensity
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Range
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Position
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Range
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Position
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    materialInformation:
+      serializedVersion: 5
+      offset: {x: 0, y: 0}
+      scale: {x: 1, y: 1}
+      generateMipmaps: 1
+      generateAllOutputs: 0
+      animationUpdateRate: 0
+    materialProperties:
+      serializedVersion: 2
+      texEnvs:
+        data:
+          first:
+            name: _MainTex
+          second:
+            texture: {fileID: -439355064, guid: c7e966ac71d993d4f9d7174fbec37ad3,
+              type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _BumpMap
+          second:
+            texture: {fileID: -995161250, guid: c7e966ac71d993d4f9d7174fbec37ad3,
+              type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailNormalMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _ParallaxMap
+          second:
+            texture: {fileID: 996107176, guid: c7e966ac71d993d4f9d7174fbec37ad3, type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _OcclusionMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _EmissionMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailMask
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailAlbedoMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _MetallicGlossMap
+          second:
+            texture: {fileID: 431007663, guid: c7e966ac71d993d4f9d7174fbec37ad3, type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+      floats:
+        data:
+          first:
+            name: _SrcBlend
+          second: 1
+        data:
+          first:
+            name: _DstBlend
+          second: 0
+        data:
+          first:
+            name: _Cutoff
+          second: 0.5
+        data:
+          first:
+            name: _Parallax
+          second: 0.005
+        data:
+          first:
+            name: _ZWrite
+          second: 1
+        data:
+          first:
+            name: _Glossiness
+          second: 0.5
+        data:
+          first:
+            name: _BumpScale
+          second: 1
+        data:
+          first:
+            name: _OcclusionStrength
+          second: 1
+        data:
+          first:
+            name: _DetailNormalMapScale
+          second: 1
+        data:
+          first:
+            name: _UVSec
+          second: 0
+        data:
+          first:
+            name: _Mode
+          second: 0
+        data:
+          first:
+            name: _Metallic
+          second: 0
+      colors:
+        data:
+          first:
+            name: _EmissionColor
+          second: {r: 0, g: 0, b: 0, a: 1}
+        data:
+          first:
+            name: _Color
+          second: {r: 1, g: 1, b: 1, a: 1}
+    textureParameters:
+    - name: Grenade_Grid_diffuse
+      alphaSource: 6
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Grenade_Grid_normal
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Grenade_Grid_height
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Grenade_Grid_metallic
+      alphaSource: 7
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    textureAssignments:
+    - shaderProp:
+        name: _MainTex
+      material: {instanceID: 0}
+      baseUID: 1537925982
+    - shaderProp:
+        name: _BumpMap
+      material: {instanceID: 0}
+      baseUID: 1537971409
+    - shaderProp:
+        name: _ParallaxMap
+      material: {instanceID: 0}
+      baseUID: 1537971465
+    - shaderProp:
+        name: _MetallicGlossMap
+      material: {instanceID: 0}
+      baseUID: 1537983444
+    buildTargetSettings:
+    - serializedVersion: 2
+      buildTarget: 
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadingBehavior: 1
+  - serializedVersion: 16
+    name: Grenade_Grid_Pixelated
+    prototypeName: Pixels_Cubed
+    shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+    shaderKeywords: _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+    renderQueue: -1
+    lightmapFlags: 5
+    inputs:
+    - name: $outputsize
+      value:
+        scalar[0]: 8
+        scalar[1]: 8
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: $randomseed
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: input_Texture
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {fileID: 2800000, guid: bd7716b622af2314bb506d8923c1c6d7, type: 3}
+    - name: Toggle_Grid
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Selection
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Color_Grid
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 1
+        texture: {instanceID: 0}
+    - name: Grid_Offset
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Rotation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Amount
+      value:
+        scalar[0]: 42
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Scale
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Luminance_Variation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Random_Mask
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Amount
+      value:
+        scalar[0]: 42
+        scalar[1]: 42
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Size
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Bevel
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0.5
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Luminace_Controls
+      value:
+        scalar[0]: 1
+        scalar[1]: 1
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Lighting_Controls
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: input_Grid
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_3_Amount
+      value:
+        scalar[0]: 5.6
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_3_Luminace_Variation
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Amount
+      value:
+        scalar[0]: 10
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Scale
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Scale_Variation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Luminance_Variation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Rotation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Rotation_Random
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Random_Mask
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_5_Edge_Width
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_5_Edge_Roundness
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_5_Edge_Tolerance
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Toggle_Grid_Effects
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Selection_Grid_Effect
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Effect_Detail
+      value:
+        scalar[0]: 16
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Effect_Intensity
+      value:
+        scalar[0]: 0.068
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Tile_Amount
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Contrast
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Luminosity
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Hue
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Saturation
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Lightness
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Toggle_Effect_Toon
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Red_Channel
+      value:
+        scalar[0]: 5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Green_Channel
+      value:
+        scalar[0]: 5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Blue_Channel
+      value:
+        scalar[0]: 5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Alpha_Channel
+      value:
+        scalar[0]: 4
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Toggle_Effect_Pixelate
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Pixelate_Amount
+      value:
+        scalar[0]: 3.72
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Roughness_Amount
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Metallic_Amount
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Normal_Intensity
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Range
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Position
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Range
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Position
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    materialInformation:
+      serializedVersion: 5
+      offset: {x: 0, y: 0}
+      scale: {x: 1, y: 1}
+      generateMipmaps: 1
+      generateAllOutputs: 0
+      animationUpdateRate: 0
+    materialProperties:
+      serializedVersion: 2
+      texEnvs:
+        data:
+          first:
+            name: _MainTex
+          second:
+            texture: {fileID: 1675743774, guid: c7e966ac71d993d4f9d7174fbec37ad3,
+              type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _BumpMap
+          second:
+            texture: {fileID: 159474357, guid: c7e966ac71d993d4f9d7174fbec37ad3, type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailNormalMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _ParallaxMap
+          second:
+            texture: {fileID: 260464, guid: c7e966ac71d993d4f9d7174fbec37ad3, type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _OcclusionMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _EmissionMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailMask
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailAlbedoMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _MetallicGlossMap
+          second:
+            texture: {fileID: 1888734518, guid: c7e966ac71d993d4f9d7174fbec37ad3,
+              type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+      floats:
+        data:
+          first:
+            name: _SrcBlend
+          second: 1
+        data:
+          first:
+            name: _DstBlend
+          second: 0
+        data:
+          first:
+            name: _Cutoff
+          second: 0.5
+        data:
+          first:
+            name: _Parallax
+          second: 0.005
+        data:
+          first:
+            name: _ZWrite
+          second: 1
+        data:
+          first:
+            name: _Glossiness
+          second: 0.5
+        data:
+          first:
+            name: _BumpScale
+          second: 1
+        data:
+          first:
+            name: _OcclusionStrength
+          second: 1
+        data:
+          first:
+            name: _DetailNormalMapScale
+          second: 1
+        data:
+          first:
+            name: _UVSec
+          second: 0
+        data:
+          first:
+            name: _Mode
+          second: 0
+        data:
+          first:
+            name: _Metallic
+          second: 0
+      colors:
+        data:
+          first:
+            name: _EmissionColor
+          second: {r: 0, g: 0, b: 0, a: 1}
+        data:
+          first:
+            name: _Color
+          second: {r: 1, g: 1, b: 1, a: 1}
+    textureParameters:
+    - name: Grenade_Grid_Pixelated_diffuse
+      alphaSource: 6
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Grenade_Grid_Pixelated_normal
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Grenade_Grid_Pixelated_height
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Grenade_Grid_Pixelated_metallic
+      alphaSource: 7
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    textureAssignments:
+    - shaderProp:
+        name: _MainTex
+      material: {instanceID: 0}
+      baseUID: 1537925982
+    - shaderProp:
+        name: _BumpMap
+      material: {instanceID: 0}
+      baseUID: 1537971409
+    - shaderProp:
+        name: _ParallaxMap
+      material: {instanceID: 0}
+      baseUID: 1537971465
+    - shaderProp:
+        name: _MetallicGlossMap
+      material: {instanceID: 0}
+      baseUID: 1537983444
+    buildTargetSettings:
+    - serializedVersion: 2
+      buildTarget: 
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadingBehavior: 1
+  - serializedVersion: 16
+    name: Grenade_Variant
+    prototypeName: Pixels_Cubed
+    shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+    shaderKeywords: _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+    renderQueue: -1
+    lightmapFlags: 5
+    inputs:
+    - name: $outputsize
+      value:
+        scalar[0]: 8
+        scalar[1]: 8
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: $randomseed
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: input_Texture
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {fileID: 2800000, guid: bd7716b622af2314bb506d8923c1c6d7, type: 3}
+    - name: Toggle_Grid
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Selection
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Color_Grid
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 1
+        texture: {instanceID: 0}
+    - name: Grid_Offset
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Rotation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Amount
+      value:
+        scalar[0]: 96.2
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Scale
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Luminance_Variation
+      value:
+        scalar[0]: 0
+        scalar[1]: 1
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_1_Random_Mask
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Amount
+      value:
+        scalar[0]: 13
+        scalar[1]: 13.4
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Size
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Bevel
+      value:
+        scalar[0]: 0.3
+        scalar[1]: 0.3
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Luminace_Controls
+      value:
+        scalar[0]: 1
+        scalar[1]: 1
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_2_Lighting_Controls
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: input_Grid
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_3_Amount
+      value:
+        scalar[0]: 10.3
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_3_Luminace_Variation
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Amount
+      value:
+        scalar[0]: 10
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Scale
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Scale_Variation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Luminance_Variation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Rotation
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Rotation_Random
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_4_Random_Mask
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_5_Edge_Width
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_5_Edge_Roundness
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_5_Edge_Tolerance
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Toggle_Grid_Effects
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Selection_Grid_Effect
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Effect_Detail
+      value:
+        scalar[0]: 16
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Effect_Intensity
+      value:
+        scalar[0]: 0.013
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Tile_Amount
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Contrast
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Luminosity
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Hue
+      value:
+        scalar[0]: 0.269
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Saturation
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Lightness
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Toggle_Effect_Toon
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Red_Channel
+      value:
+        scalar[0]: 5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Green_Channel
+      value:
+        scalar[0]: 5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Blue_Channel
+      value:
+        scalar[0]: 5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Toon_Alpha_Channel
+      value:
+        scalar[0]: 4
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Toggle_Effect_Pixelate
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Effect_Pixelate_Amount
+      value:
+        scalar[0]: 3.12
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Roughness_Amount
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Metallic_Amount
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Normal_Intensity
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Range
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Texture_Position
+      value:
+        scalar[0]: 0.5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Range
+      value:
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Grid_Position
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    materialInformation:
+      serializedVersion: 5
+      offset: {x: 0, y: 0}
+      scale: {x: 1, y: 1}
+      generateMipmaps: 1
+      generateAllOutputs: 0
+      animationUpdateRate: 0
+    materialProperties:
+      serializedVersion: 2
+      texEnvs:
+        data:
+          first:
+            name: _MainTex
+          second:
+            texture: {fileID: -1767717944, guid: c7e966ac71d993d4f9d7174fbec37ad3,
+              type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _BumpMap
+          second:
+            texture: {fileID: 943353735, guid: c7e966ac71d993d4f9d7174fbec37ad3, type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailNormalMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _ParallaxMap
+          second:
+            texture: {fileID: 1756654439, guid: c7e966ac71d993d4f9d7174fbec37ad3,
+              type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _OcclusionMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _EmissionMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailMask
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailAlbedoMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _MetallicGlossMap
+          second:
+            texture: {fileID: -1584435034, guid: c7e966ac71d993d4f9d7174fbec37ad3,
+              type: 3}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+      floats:
+        data:
+          first:
+            name: _SrcBlend
+          second: 1
+        data:
+          first:
+            name: _DstBlend
+          second: 0
+        data:
+          first:
+            name: _Cutoff
+          second: 0.5
+        data:
+          first:
+            name: _Parallax
+          second: 0.005
+        data:
+          first:
+            name: _ZWrite
+          second: 1
+        data:
+          first:
+            name: _Glossiness
+          second: 0.5
+        data:
+          first:
+            name: _BumpScale
+          second: 1
+        data:
+          first:
+            name: _OcclusionStrength
+          second: 1
+        data:
+          first:
+            name: _DetailNormalMapScale
+          second: 1
+        data:
+          first:
+            name: _UVSec
+          second: 0
+        data:
+          first:
+            name: _Mode
+          second: 0
+        data:
+          first:
+            name: _Metallic
+          second: 0
+      colors:
+        data:
+          first:
+            name: _EmissionColor
+          second: {r: 0, g: 0, b: 0, a: 1}
+        data:
+          first:
+            name: _Color
+          second: {r: 1, g: 1, b: 1, a: 1}
+    textureParameters:
+    - name: Grenade_Variant_diffuse
+      alphaSource: 6
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Grenade_Variant_normal
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Grenade_Variant_height
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Grenade_Variant_metallic
+      alphaSource: 7
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    textureAssignments:
+    - shaderProp:
+        name: _MainTex
+      material: {instanceID: 0}
+      baseUID: 1537925982
+    - shaderProp:
+        name: _BumpMap
+      material: {instanceID: 0}
+      baseUID: 1537971409
+    - shaderProp:
+        name: _ParallaxMap
+      material: {instanceID: 0}
+      baseUID: 1537971465
+    - shaderProp:
+        name: _MetallicGlossMap
+      material: {instanceID: 0}
+      baseUID: 1537983444
+    buildTargetSettings:
+    - serializedVersion: 2
+      buildTarget: 
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadingBehavior: 1
+  deletedPrototypes: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

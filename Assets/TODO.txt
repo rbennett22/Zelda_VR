@@ -149,6 +149,9 @@ NEEDS TESTING:
 - Vires don't spawn Keese if killed by MagicSword
 - Wand Flame should light up dark room
 
+
+RESEARCH:
+
 - Fairy: Changes move direction regularly (is this how fairy is supposed to move?)
 
 
