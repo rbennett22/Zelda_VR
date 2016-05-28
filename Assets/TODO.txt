@@ -16,13 +16,14 @@ High Priority:
 - D6 OW Entrance (2 blocks wide)
 - Grotto Warps
 
-- Update Controls image
+- ControlsView: Update image
 - OptionsMenu: Controls
 - Ending
 - Credits
 
-- Gannon Intro
-- Gannon Death
+- Gannon: Intro
+- Gannon: When hit he should be temporarily invincible so that player can't take advantage
+- Gannon: Death
 
 
 Mid Priority:
@@ -49,14 +50,13 @@ Mid Priority:
 - Enemies stunned by boomerang can still hurt me
 - Boulders should bounce around
 
-- Consider making the shield appear every time you deflect something
+- Make the shield appear every time it deflects an attack?
+- Don't use the same image for WoodenShield and MagicShield
 - No rolling rupee sound after "Secret to everybody" or door repair
 - Hearts floating around in "Secret to everybody" cave that runs beneath fairy fountain
 - Door wouldn't reopen in Level 1 old man room
 - Door wouldn't reopen in Level 3 red darknut room (near where ladder is kept)
 - Blue wizzrobes should not teleport
-- After Ganon is hit he should be temporarily invincible so that I can't take advantage
-- Dungeon tunnels have passages with zero-thickness walls
 - Beams from many dungeon enemies should be unblockable
 
 - There should be an event sound when you present meat to "Grumble, grumble"
@@ -70,6 +70,7 @@ Mid Priority:
 
 Low Priority:
 
+- Dungeon tunnels have passages with zero-thickness walls
 - Old men in dungeons don't fight me back
 - Whistle Warp: Facing north or west, warp to the next dungeon; facing south or east, warp to the previous dungeon
 - Whistle Warp: If he blows the Recorder multiple times while the whirlwind approaches, he can cycle through the sequence indefinitely. 
@@ -125,13 +126,11 @@ WishList:
 
 BUGS:
 
-- BUG: Dungeon enemies appearing outside of rooms (related to IndexDirection2 changes?)
 - BUG: NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
 
 - BUG: Moldorm looks crazy when resuming after pause
 - BUG: Enemies that spawn after clock has activated aren't paralyzed
-- BUG: Enemies can end up walking through walls in Lost Woods
 - BUG: Vire can jump through wall
 
 - BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)

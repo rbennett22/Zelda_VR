@@ -40,7 +40,7 @@ BUG FIXES:
 - BUG: Boomerang doesn't spin. -FIXED
 - BUG: If you Pause during music opening, the loop won't play automatically when the opening finishes. -FIXED
 - BUG: Text often faces wrong way for many of the old men in dungeons, and "Grumble, grumble". -FIXED
-
+- BUG: Enemies can often walk through walls in Lost Woods. -FIXED
 
 
 
