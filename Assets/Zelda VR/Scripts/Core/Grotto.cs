@@ -2,6 +2,21 @@
 
 public class Grotto : MonoBehaviour
 {
+    public enum GrottoType
+    {
+        UniqueItem,
+        Shop,
+        Gamble,
+        PayRupees,
+        Gift,
+        Message,
+        Medicine,
+        Warp,
+        HeartContainer,
+        PayForInfo
+    }
+
+
     public static Grotto OccupiedGrotto;        // The Grotto the player is currently in
 
 
@@ -33,7 +48,7 @@ public class Grotto : MonoBehaviour
 
 
     public GrottoSpawnPoint GrottoSpawnPoint { get { return _grottoSpawnPoint; } set { _grottoSpawnPoint = value; } }
-    public GrottoSpawnPoint.GrottoType GrottoType { get { return _grottoSpawnPoint.grottoType; } }
+    public GrottoType Type { get; set; }
     public bool PlayerIsInside { get; private set; }
 
     GameObject NpcSpawnPointPrefab { get { return _grottoSpawnPoint.npcSpawnPointPrefab; } }
@@ -98,7 +113,7 @@ public class Grotto : MonoBehaviour
         ShowFlames();
 
 
-        if (GrottoType == GrottoSpawnPoint.GrottoType.UniqueItem)
+        if (Type == GrottoType.UniqueItem)
         {
             if (!_grottoSpawnPoint.HasSpecialResourceBeenTapped)
             {
@@ -106,12 +121,12 @@ public class Grotto : MonoBehaviour
                 ShowTheGoods();
             }
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.Shop)
+        else if (Type == GrottoType.Shop)
         {
             ShowNpc();
             ShowTheGoods();
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.Medicine)
+        else if (Type == GrottoType.Medicine)
         {
             ShowNpc();
 
@@ -120,7 +135,7 @@ public class Grotto : MonoBehaviour
                 ShowTheGoods();
             }
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.Gift)
+        else if (Type == GrottoType.Gift)
         {
             ShowNpc();
 
@@ -129,14 +144,14 @@ public class Grotto : MonoBehaviour
                 ShowTheGoods();
             }
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.PayRupees)
+        else if (Type == GrottoType.PayRupees)
         {
             Inventory.Instance.SpendRupees(-_grottoSpawnPoint.giftAmount);
 
             ShowNpc();
             ShowTheGoods();
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.HeartContainer)
+        else if (Type == GrottoType.HeartContainer)
         {
             ShowNpc();
 
@@ -186,14 +201,12 @@ public class Grotto : MonoBehaviour
 
         PlaySound_Secret();
 
-        // TODO
-
         ShowTheGoods();
     }
 
     void OnRupeeTrigger(RupeeTrigger rupeeTrigger)
     {
-        if (GrottoType == GrottoSpawnPoint.GrottoType.Gamble)
+        if (Type == GrottoType.Gamble)
         {
             if (!_hasMadeChoice_Gamble)
             {
@@ -201,7 +214,7 @@ public class Grotto : MonoBehaviour
                 Gamble(rupeeTrigger.id);
             }
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.PayForInfo)
+        else if (Type == GrottoType.PayForInfo)
         {
             if (!_hasMadeChoice_PayForInfo)
             {
@@ -298,38 +311,38 @@ public class Grotto : MonoBehaviour
     {
         bool displayMessage = doShow;
 
-        if (GrottoType == GrottoSpawnPoint.GrottoType.UniqueItem)
+        if (Type == GrottoType.UniqueItem)
         {
             ShowTheUniqueItem(doShow);
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.Shop)
+        else if (Type == GrottoType.Shop)
         {
             ShowTheShopItems(doShow);
             if (SoldOut) { displayMessage = false; }
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.Medicine)
+        else if (Type == GrottoType.Medicine)
         {
             ShowTheShopItems(doShow);
             if (SoldOut) { displayMessage = false; }
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.Gift)
+        else if (Type == GrottoType.Gift)
         {
             ShowGift(doShow);
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.PayRupees)
+        else if (Type == GrottoType.PayRupees)
         {
             ShowRupeeDeduction(doShow);
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.Gamble)
+        else if (Type == GrottoType.Gamble)
         {
             ShowGambleChoices(doShow);
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.HeartContainer)
+        else if (Type == GrottoType.HeartContainer)
         {
             ShowTheShopItems(doShow, false);
             if (SoldOut) { displayMessage = false; }
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.PayForInfo)
+        else if (Type == GrottoType.PayForInfo)
         {
             ShowPayForInfoChoices(doShow);
         }
@@ -481,19 +494,19 @@ public class Grotto : MonoBehaviour
 
     public void OnGrottoItemCollected(Collectible c)
     {
-        if (GrottoType == GrottoSpawnPoint.GrottoType.UniqueItem)
+        if (Type == GrottoType.UniqueItem)
         {
             FadeAwayNpc();
             ShowTheGoods(false);
             _grottoSpawnPoint.HasSpecialResourceBeenTapped = true;
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.Gift)
+        else if (Type == GrottoType.Gift)
         {
             Inventory.Instance.ReceiveRupees(_grottoSpawnPoint.giftAmount - 1);
             ShowTheGoods(false);
             _grottoSpawnPoint.HasSpecialResourceBeenTapped = true;
         }
-        else if (GrottoType == GrottoSpawnPoint.GrottoType.HeartContainer)
+        else if (Type == GrottoType.HeartContainer)
         {
             ShowTheGoods(false);
             _grottoSpawnPoint.HasSpecialResourceBeenTapped = true;

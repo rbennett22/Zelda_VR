@@ -528,7 +528,6 @@ public class DungeonRoom : MonoBehaviour
 
     public void OnPushableWasPushedIntoPosition()
     {
-        //print("OnPushableWasPushedIntoPosition" );
         if (Info.pushBlockDoorDirection != DungeonRoomInfo.WallDirection.None)
         {
             UnsealDoor(Info.pushBlockDoorDirection);
@@ -540,10 +539,9 @@ public class DungeonRoom : MonoBehaviour
             floor.GetComponent<Renderer>().material = Info.PushBlockChangeFloorMaterial;
         }
 
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
-
         _hasPushBlockBeenPushed = true;
     }
+
 
     public void OnItemCollectedWithinThisRoom(Collectible c)
     {

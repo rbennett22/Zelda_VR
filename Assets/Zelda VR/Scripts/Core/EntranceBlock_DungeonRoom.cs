@@ -43,7 +43,6 @@ public class EntranceBlock_DungeonRoom : MonoBehaviour
     void OnTriggerExit(Collider otherCollider)
     {
         GameObject other = otherCollider.gameObject;
-        //print("EntranceBlock_DungeonRoom --> OnTriggerExit: " + other.name);
         if (!CommonObjects.IsPlayer(other)) { return; }
 
         Vector3 playerPos = CommonObjects.Player_C.Position;

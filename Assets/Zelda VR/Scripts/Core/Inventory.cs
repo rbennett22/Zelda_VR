@@ -426,7 +426,7 @@ public class Inventory : Singleton<Inventory>
             if (!HasDeliveredLetterToOldWoman)
             {
                 Grotto grotto = Grotto.OccupiedGrotto;
-                if (grotto != null && grotto.GrottoType == GrottoSpawnPoint.GrottoType.Medicine)
+                if (grotto != null && grotto.Type == Grotto.GrottoType.Medicine)
                 {
                     grotto.DeliverLetter();
                 }

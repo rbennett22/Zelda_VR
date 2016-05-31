@@ -2,25 +2,10 @@
 
 public class GrottoSpawnPoint : MonoBehaviour
 {
-    public enum GrottoType
-    {
-        UniqueItem,
-        Shop,
-        Gamble,
-        PayRupees,
-        Gift,
-        Message,
-        Medicine,
-        Warp,
-        HeartContainer,
-        PayForInfo
-    }
-
-
     public GameObject grottoPrefab;
     public GameObject marker;           // Marks the Grotto's ground-level entrance location
 
-    public GrottoType grottoType;
+    public Grotto.GrottoType grottoType;
     public string text;
     public int giftAmount;
 
@@ -80,6 +65,7 @@ public class GrottoSpawnPoint : MonoBehaviour
 
         Grotto gr = g.GetComponent<Grotto>();
         gr.GrottoSpawnPoint = this;
+        gr.Type = grottoType;
 
         return gr;
     }

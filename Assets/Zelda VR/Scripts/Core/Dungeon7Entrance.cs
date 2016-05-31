@@ -33,9 +33,14 @@ public class Dungeon7Entrance : MonoBehaviour
             _waterBlocks[i].SetActive(false);
         }
 
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
+        PlaySecretSound();
 
         LakeIsFull = false;
+    }
+
+    void PlaySecretSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
     }
 
     public void FillLake()

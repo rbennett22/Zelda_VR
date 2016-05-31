@@ -2,6 +2,8 @@
 
 RECENTLY DONE:
 
+- The Grotto in the NE corner of the Overworld is now accessible
+- Movable blocks in dungeons may now pushed from any side
 
 
 DONE:

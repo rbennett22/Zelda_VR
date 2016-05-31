@@ -1,25 +1,25 @@
 ﻿using UnityEngine;
+using Immersio.Utility;
+using System.Collections.Generic;
 
 public class Pushable : MonoBehaviour
 {
-    const float PushSpeed = 0.01f;
+    const float SLIDE_DURATION = 1.0f;
 
-
-    public enum Direction
-    {
-        North, East, South, West
-    }
-    public Direction direction;
 
     public Block linkedBlock;
     public GameObject[] linkedTiles;
     public bool requiresPowerBracelet;
 
 
-    Vector3 _slideDirection;
-    Vector3 _origin, _end;
+    [SerializeField]
+    IndexDirection2.DirectionEnum[] _directions;
+    List<IndexDirection2> _directionsList;
+    bool CanSlideInDirection(IndexDirection2 dir) { return _directionsList.Contains(dir); }
 
-    bool _hasReachedEnd;
+
+    bool _isSliding;
+    bool _hasFinishedSliding;
 
 
     public bool PushingEnabled { get; set; }
@@ -27,83 +27,110 @@ public class Pushable : MonoBehaviour
 
     void Awake()
     {
-        PushingEnabled = true;
-    }
+        _directionsList = new List<IndexDirection2>();
+        foreach (IndexDirection2.DirectionEnum dir in _directions)
+        {
+            _directionsList.Add(IndexDirection2.FromDirectionEnum(dir));
+        }
 
-    void Start()
-    {
-        _slideDirection = VectorForDirection(direction);
-        _origin = transform.position;
-        _end = _origin + _slideDirection;
+        PushingEnabled = true;
     }
 
 
     void OnTriggerStay(Collider otherCollider)
     {
         if (!PushingEnabled) { return; }
+        if (_isSliding || _hasFinishedSliding) { return; }
 
         GameObject other = otherCollider.gameObject;
-        //print("Pushable::OnTriggerEnter: " + other.name);
-
-        if (requiresPowerBracelet)
+        if (!CommonObjects.IsPlayer(other))
         {
-            if (!Inventory.Instance.HasItem("PowerBracelet"))
-            {
-                return;
-            }
+            return;
         }
-
-        if (_hasReachedEnd) { return; }
-
-        Vector3 toEnd = _end - transform.position;
-        if ((toEnd == Vector3.zero)
-            || Vector3.Dot(toEnd, _slideDirection) <= 0)
+        if (requiresPowerBracelet && !Inventory.Instance.HasItem("PowerBracelet"))
         {
-            transform.position = _end;
-            OnReachedEnd();
             return;
         }
 
-        if (CommonObjects.IsPlayer(other))
+        IndexDirection2 dir = GetPushDirection();
+        if (!dir.IsZero())
         {
-            TryToPush();
+            Slide(dir);
         }
     }
 
-    void TryToPush()
+    IndexDirection2 GetPushDirection()
     {
-        ZeldaPlayerController pc = CommonObjects.PlayerController_C;
+        Player player = CommonObjects.Player_C;
+        Vector3 toPlayer = (player.Position - transform.position).normalized;
+        float pX = toPlayer.x;
+        float pZ = toPlayer.z;
 
-        Vector3 toPlayer = pc.transform.position - transform.position;
-        toPlayer.Normalize();
-
-        if (Vector3.Dot(-toPlayer, _slideDirection) > 0.5f)
+        IndexDirection2 dir;
+        if (Mathf.Abs(pX) < Mathf.Abs(pZ))
         {
-            Vector3 playerForward = pc.ForwardDirection;
-            if (Vector3.Dot(playerForward, _slideDirection) > 0.5f)
-            {
-                transform.position += _slideDirection * PushSpeed;
-            }
+            dir = (pX < 0) ? IndexDirection2.right : IndexDirection2.left;
         }
+        else
+        {
+            dir = (pZ < 0) ? IndexDirection2.up : IndexDirection2.down;
+        }
+
+        // Is player facing the block?  If not, the block will not be pushed
+        if (Vector3.Dot(player.ForwardDirection, dir.ToVector3()) < 0.9f)
+        {
+            dir = IndexDirection2.zero;
+        }
+
+        return dir;
     }
 
-    void OnReachedEnd()
+    void Slide(IndexDirection2 dir)
     {
-        _hasReachedEnd = true;
+        if(!CanSlideInDirection(dir))
+        {
+            return;
+        }
+
+        Vector3 targetPos = transform.position + dir.ToVector3();
+        SlideToPosition(targetPos);
+    }
+    void SlideToPosition(Vector3 pos)
+    {
+        if (_isSliding)
+        {
+            return;
+        }
+        _isSliding = true;
+
+        iTween.MoveTo(gameObject, iTween.Hash(
+            "position", pos,
+            "time", SLIDE_DURATION,
+            "easetype", iTween.EaseType.linear,
+            "oncomplete", "OnFinishedSliding"
+            ));
+    }
+
+    void OnFinishedSliding()
+    {
+        _isSliding = false;
+        _hasFinishedSliding = true;
 
         if (WorldInfo.Instance.IsInDungeon)
         {
             DungeonRoom dr = DungeonRoom.GetRoomForPosition(transform.position);
             dr.OnPushableWasPushedIntoPosition();
         }
-        else
-        {
-            if (linkedBlock != null)
-            {
-                Destroy(linkedBlock.gameObject);
-            }
 
-            SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
+        DestroyLinkedObjects();
+        PlaySecretSound();
+    }
+
+    void DestroyLinkedObjects()
+    {
+        if (linkedBlock != null)
+        {
+            Destroy(linkedBlock.gameObject);
         }
 
         if (linkedTiles != null)
@@ -115,17 +142,8 @@ public class Pushable : MonoBehaviour
         }
     }
 
-    Vector3 VectorForDirection(Direction dir)
+    void PlaySecretSound()
     {
-        Vector3 vec = Vector3.zero;
-        switch (dir)
-        {
-            case Direction.North: vec = new Vector3(0, 0, 1); break;
-            case Direction.East: vec = new Vector3(1, 0, 0); break;
-            case Direction.South: vec = new Vector3(0, 0, -1); break;
-            case Direction.West: vec = new Vector3(-1, 0, 0); break;
-            default: break;
-        }
-        return vec;
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
     }
 }

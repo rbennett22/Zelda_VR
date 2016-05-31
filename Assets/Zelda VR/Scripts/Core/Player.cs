@@ -22,9 +22,13 @@ public class Player : Actor
         set { _playerController.transform.position = value; }
     }
 
+    public Vector3 ForwardDirection {
+        get { return _playerController.ForwardDirection; }
+        private set { _playerController.transform.forward = value; }
+    }
     public void ForceNewForwardDirection(Vector3 direction)
     {
-        _playerController.transform.forward = direction;
+        ForwardDirection = direction;
     }
     public void ForceNewRotation(Vector3 euler)
     {

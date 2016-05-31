@@ -3,17 +3,16 @@
 High Priority:
 
 - Use flat tiles for ground at same voxel tile height as unit blocks?
-- Grotto::DeliverLetter() -> Play Sequence with text or w/e
 - Often getting stuck towards mid-top of Grotto stairs
 
-- Cannot walk to NE corner of map ("Secret to everybody" house behind money making game)
 - Having the map item doesn't mean every room in the pause map should be filled in
-- Movable blocks in dungeons should be pushable from any side
+- Water Tiles: Currently Sword and Wand Projectiles can't pass over water; 
+	Link can walk on water (try lowering his step offset only while on stairs?)
+- If CandleFlame hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
 
-- Lost Woods: Fog; Fix long load time for voxels
+- Lost Woods: Fog; Overriding directions doesn't work right for -x and -z; Remove Collectibles
 - Lost Hills
 - Waterfall cave
-- D6 OW Entrance (2 blocks wide)
 - Grotto Warps
 
 - ControlsView: Update image
@@ -31,6 +30,7 @@ Mid Priority:
 - Refactor Spells/Buffs/Effects
 - Refactor Grottos
 
+- D6 OW Entrance (2 blocks wide)
 - Fog disappears abruptly in grottos close to Lost Woods
 - Boss Death anim (blink 2-3 times, then "poof")
 - Gleeok Heads Poof onDeath
@@ -39,9 +39,6 @@ Mid Priority:
 - OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
 - "Continue or Save & Quit?" GUI
 
-- Water Tiles: Currently Sword and Wand Projectiles can't pass over water; 
-	Link can walk on water (try lowering his step offset only while on stairs?)
-- If CandleFlame hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
 - Implement a user-friendly fail-safe for world fall-through
 - Difficult to use ladder to cross water
 - Difficult to fire wand through narrow passages
@@ -61,7 +58,7 @@ Mid Priority:
 
 - There should be an event sound when you present meat to "Grumble, grumble"
 - Need event sound in "Pick any one you want" caves
-- Wrong sound effect for both types of fairies
+- Wrong sound effect for both types of fairies (see https://www.youtube.com/watch?v=hhb3LqLtTBM @11:30)
 - There should be a sound and gradual heart refill when using potion
 - There should be a wizzrobe sound
 - Should be event sound for riding raft
@@ -146,6 +143,7 @@ NEEDS TESTING:
 - Darknut shields against MagicWand (no flame)
 - Vires don't spawn Keese if killed by MagicSword
 - Wand Flame should light up dark room
+- Grotto: Deliver Letter
 
 
 RESEARCH:

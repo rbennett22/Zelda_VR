@@ -110,7 +110,7 @@ public class EnemyAI_Armos : MonoBehaviour
 
         if (linkedTilesWereRemoved)
         {
-            SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
+            PlaySecretSound();
         }
 
         if (HidesCollectibleItem)
@@ -141,8 +141,13 @@ public class EnemyAI_Armos : MonoBehaviour
         if (hiddenCollectible != null)
         {
             hiddenCollectible.SetActive(true);
-            SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
+            PlaySecretSound();
         }
+    }
+
+    void PlaySecretSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
     }
 
     void DestroyLinkedTiles()
