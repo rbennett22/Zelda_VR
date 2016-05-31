@@ -149,7 +149,7 @@ public class EnemyAI : MonoBehaviour
     }
     protected bool CanOccupyTile_Overworld(Index2 tile)
     {
-        int tileCode = CommonObjects.OverworldTileMap.Tile(tile);
+        int tileCode = CommonObjects.OverworldTileMap.TryGetTile(tile);
         bool canOccupy = TileMapData.IsTileCodeValid(tileCode) && TileInfo.IsTilePassable(tileCode);
 
         Vector3 from = transform.position;

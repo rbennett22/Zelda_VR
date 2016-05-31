@@ -6,9 +6,6 @@ public class Spell_ParalyzeNearbyEnemies : Spell_Base
     {
         base.Cast(target);
 
-        foreach (Enemy enemy in GetEnemiesInCurrentRoomOrSector())
-        {
-            enemy.Paralyze(duration);
-        }
+        PlayerC.ParalyzeAllNearbyEnemies(duration);
     }
 }

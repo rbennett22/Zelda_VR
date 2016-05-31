@@ -12,8 +12,6 @@ public class TileMapData : MonoBehaviour
     TextAsset _textAsset;
 
 
-    int _sectorHeightInTiles, _sectorWidthInTiles;
-    int _sectorsWide, _sectorsHigh;
     int _tilesWide, _tilesHigh;
 
     public int[,] _tiles;   // TODO: Make _tiles private and get GetCopiedTiles working
@@ -21,18 +19,14 @@ public class TileMapData : MonoBehaviour
 
     public bool HasLoaded { get; private set; }
 
-    public int SectorHeightInTiles { get { return _sectorHeightInTiles; } }     // TODO: TileMapData doesn't need to store anything about sectors.  Sector stuff should all be in TileMap
-    public int SectorWidthInTiles { get { return _sectorWidthInTiles; } }
-    public int SectorsWide { get { return _sectorsWide; } }
-    public int SectorsHigh { get { return _sectorsHigh; } }
     public int TilesWide { get { return _tilesWide; } }
     public int TilesHigh { get { return _tilesHigh; } }
 
-    public int Tile(Index2 n)
+    public int TryGetTile(Index2 n)
     {
-        return Tile(n.x, n.y);
+        return TryGetTile(n.x, n.y);
     }
-    public int Tile(int x, int y)
+    public int TryGetTile(int x, int y)
     {
         if (x < 0 || x > TilesWide - 1) { return INVALID_TILE; }
         if (y < 0 || y > TilesHigh - 1) { return INVALID_TILE; }
@@ -62,45 +56,6 @@ public class TileMapData : MonoBehaviour
     }
 
 
-    public Index2 GetSectorForPosition(Vector3 pos)
-    {
-        return GetSectorForPosition(pos.x, pos.z);
-    }
-    public Index2 GetSectorForPosition(float x, float z)
-    {
-        int sectorX = Mathf.FloorToInt(x / SectorWidthInTiles);
-        int sectorY = Mathf.FloorToInt(z / SectorHeightInTiles);
-        return new Index2(sectorX, sectorY);
-    }
-
-    // Returns the tile index relative to the sector the provided tile (x, y) is within.
-    // The 'sector' param will also be assigned to the index of the containing sector
-    public Index2 TileIndex_WorldToSector(int x, int y, out Index2 sector)
-    {
-        sector = GetSectorForPosition(x, y);
-        Index2 sIdx = new Index2();
-        sIdx.x = x % _sectorWidthInTiles;
-        sIdx.y = y % _sectorHeightInTiles;
-        return sIdx;
-    }
-    // Returns the world-space tile index corresponding to the provided sector-space tile (sX, sY) 
-    public Index2 TileIndex_SectorToWorld(int sX, int sY, Index2 sector)
-    {
-        Index2 idx = new Index2();
-        idx.x = sector.x * _sectorWidthInTiles + sX;
-        idx.y = sector.y * _sectorHeightInTiles + sY;
-        return idx;
-    }
-
-    // Returns the tile at the world-space tile index corresponding to the provided 
-    //  sector-space tile ('tileIdx_S') and sector ('sector')
-    public int GetTileInSector(Index2 sector, Index2 tileIdx_S)
-    {
-        Index2 t = TileIndex_SectorToWorld(tileIdx_S.x, tileIdx_S.y, sector);
-        return Tile(t);
-    }
-
-
     void Awake()
     {
         InitFromSettings(ZeldaVRSettings.Instance);
@@ -109,13 +64,8 @@ public class TileMapData : MonoBehaviour
 
     public void InitFromSettings(ZeldaVRSettings s)
     {
-        _sectorWidthInTiles = s.overworldSectorWidthInTiles;
-        _sectorHeightInTiles = s.overworldSectorHeightInTiles;
-        _sectorsWide = s.overworldWidthInSectors;
-        _sectorsHigh = s.overworldHeightInSectors;
-
-        _tilesWide = SectorsWide * SectorWidthInTiles;
-        _tilesHigh = SectorsHigh * SectorHeightInTiles;
+        _tilesWide = s.overworldWidthInTiles;
+        _tilesHigh = s.overworldHeightInTiles;
     }
 
     public void LoadMap()

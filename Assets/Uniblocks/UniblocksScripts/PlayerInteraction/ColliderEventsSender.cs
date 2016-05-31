@@ -9,12 +9,12 @@ namespace Uniblocks
 
         public void Update()
         {
-            // check if chunk is not null
-            GameObject chunkObject = Engine.PositionToChunk(transform.position);
-            if (chunkObject == null) return;
+            Chunk chunk = Engine.PositionToChunk(transform.position);
+            if (chunk == null)
+            {
+                return;
+            }
 
-            // get the voxelInfo from the transform's position
-            Chunk chunk = chunkObject.GetComponent<Chunk>();
             Index voxelIndex = chunk.PositionToVoxelIndex(transform.position);
             VoxelInfo voxelInfo = new VoxelInfo(voxelIndex, chunk);
 
@@ -27,12 +27,11 @@ namespace Uniblocks
                 // OnEnter
                 if (chunk != LastChunk || voxelIndex.IsEqual(LastIndex) == false)
                 {
-                    events.OnBlockEnter(this.gameObject, voxelInfo);
+                    events.OnBlockEnter(gameObject, voxelInfo);
                 }
-
-                // OnStay
-                else {
-                    events.OnBlockStay(this.gameObject, voxelInfo);
+                else // OnStay
+                {
+                    events.OnBlockStay(gameObject, voxelInfo);
                 }
             }
 

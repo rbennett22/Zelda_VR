@@ -13,7 +13,7 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
 
     Vector3 _origin;
     Vector3 _direction;
-    Transform _thrower;         // Where the boomerang will return to
+    Transform _thrower;         // "Who" the boomerang will return to
 
     bool _isDeparting, _isReturning;
     override public bool IsAttacking { get { return base.IsAttacking || _isDeparting || _isReturning; } }
@@ -60,6 +60,12 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
 
     void Update()
     {
+        if (_thrower == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         if (_isDeparting)
         {
             float distSq = (_origin - transform.position).sqrMagnitude;

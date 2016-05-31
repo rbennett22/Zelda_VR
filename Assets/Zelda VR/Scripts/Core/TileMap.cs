@@ -12,81 +12,147 @@ public class TileMap : MonoBehaviour
 
     [SerializeField]
     TileMapData _tileMapData;
-
     public TileMapData TileMapData { get { return _tileMapData; } }
 
     [SerializeField]
     TileMapTexture _tileMapTexture;
-
     public TileMapTexture TileMapTexture { get { return _tileMapTexture; } }
 
 
     Transform _specialBlocksContainer;
-
     bool[,] _specialBlockPopulationFlags;
 
 
-    public float WorldOffsetY { get { return WorldInfo.Instance.WorldOffset.y; } }
+    public Vector3 WorldOffset { get { return WorldInfo.Instance.WorldOffset; } }
 
-    public int SectorHeightInTiles { get { return _tileMapData.SectorHeightInTiles; } }
-    public int SectorWidthInTiles { get { return _tileMapData.SectorWidthInTiles; } }
-    public int SectorsWide { get { return _tileMapData.SectorsWide; } }
-    public int SectorsHigh { get { return _tileMapData.SectorsHigh; } }
+
     public int TilesWide { get { return _tileMapData.TilesWide; } }
     public int TilesHigh { get { return _tileMapData.TilesHigh; } }
 
-
-    public int Tile(Index2 n)
+    public int TryGetTile(Index2 n)
     {
-        return _tileMapData.Tile(n);
+        return _tileMapData.TryGetTile(n);
     }
-    public int Tile(int x, int y)
+    public int TryGetTile(int x, int y)
     {
-        return _tileMapData.Tile(x, y);
+        return _tileMapData.TryGetTile(x, y);
+    }
+
+    public List<Index2> GetTilesInArea(Rect area, List<int> requisiteTileTypes = null)
+    {
+        return GetTilesInArea((int)area.xMin, (int)area.yMin, (int)area.width, (int)area.height, requisiteTileTypes);
+    }
+    public List<Index2> GetTilesInArea(int xMin, int yMin, int width, int height, List<int> requisiteTileTypes = null)
+    {
+        List<Index2> tileIndices = new List<Index2>();
+
+        int right = xMin + width;
+        int top = yMin + height;
+
+        xMin = Mathf.Clamp(xMin, 0, TilesWide);
+        right = Mathf.Clamp(right, 0, TilesWide);
+        yMin = Mathf.Clamp(yMin, 0, TilesHigh);
+        top = Mathf.Clamp(top, 0, TilesHigh);
+
+        int[,] tiles = _tileMapData._tiles;
+
+        for (int z = yMin; z < top; z++)
+        {
+            for (int x = xMin; x < right; x++)
+            {
+                int tileCode = tiles[z, x];
+                if (requisiteTileTypes.Contains(tileCode))
+                {
+                    tileIndices.Add(new Index2(x, z));
+                }
+            }
+        }
+
+        return tileIndices;
     }
 
     public bool IsTileSpecial(int x, int y)
     {
+        if (x < 0 || x > TilesWide - 1) { return false; }
+        if (y < 0 || y > TilesHigh - 1) { return false; }
+
         return _specialBlockPopulationFlags[y, x];
     }
 
-    public Index2 GetSectorForPosition(Vector3 pos)
-    {
-        return _tileMapData.GetSectorForPosition(pos);
-    }
-    public Index2 GetSectorForPosition(float x, float z)
-    {
-        return _tileMapData.GetSectorForPosition(x, z);
-    }
-    public Vector3 GetCenterPositionOfSector(Index2 sector)
-    {
-        Vector3 p = new Vector3(sector.x * SectorWidthInTiles, 0, sector.y * SectorHeightInTiles);
-        p += WorldInfo.Instance.WorldOffset;
-        p += new Vector3(SectorWidthInTiles * 0.5f, 0, SectorHeightInTiles * 0.5f);
-        return p; 
-    }
 
-    public Index2 TileIndex_WorldToSector(int x, int y, out Index2 sector)
-    {
-        return _tileMapData.TileIndex_WorldToSector(x, y, out sector);
-    }
-    public Index2 TileIndex_SectorToWorld(int sX, int sY, Index2 sector)
-    {
-        return _tileMapData.TileIndex_SectorToWorld(sX, sY, sector);
-    }
-    public int GetTileInSector(Index2 sector, Index2 tileIdx_S)
-    {
-        return _tileMapData.GetTileInSector(sector, tileIdx_S);
-    }
+    int _sectorHeightInTiles, _sectorWidthInTiles;
+    int _sectorsWide, _sectorsHigh;
+    public int SectorHeightInTiles { get { return _sectorHeightInTiles; } }
+    public int SectorWidthInTiles { get { return _sectorWidthInTiles; } }
+    public int SectorsWide { get { return _sectorsWide; } }
+    public int SectorsHigh { get { return _sectorsHigh; } }
 
+    public Index2 GetSectorContainingPosition(Vector3 p)
+    {
+        return GetSectorContainingPosition(p.x, p.z);
+    }
+    public Index2 GetSectorContainingPosition(float x, float z)
+    {
+        Vector3 p = new Vector3(x, 0, z) - WorldOffset;
+        int sectorX = Mathf.FloorToInt(p.x / SectorWidthInTiles);
+        int sectorY = Mathf.FloorToInt(p.z / SectorHeightInTiles);
+        return new Index2(sectorX, sectorY);
+    }
+    public Vector3 GetCenterPositionOfSector(Index2 s)
+    {
+        Vector2 c = GetBoundsForSector(s).center;
+        return new Vector3(c.x, WorldOffset.y, c.y);
+    }
     public Rect GetBoundsForSector(Index2 sIdx)
     {
         float w = SectorWidthInTiles, h = SectorHeightInTiles;
         Vector3 p = sIdx.ToVector3();
         p.x *= w;
         p.z *= h;
-        p += WorldInfo.Instance.WorldOffset;
+        p += WorldOffset;
         return new Rect(p.x, p.z, w, h);
+    }
+    public bool SectorContainsPosition(Index2 sector, Vector3 pos)
+    {
+        Vector2 p = new Vector2(pos.x, pos.z);
+        return GetBoundsForSector(sector).Contains(p);
+    }
+
+
+    public int GetTileInSector(Index2 sector, Index2 tileIdx_S)
+    {
+        Index2 t = TileIndex_SectorToWorld(tileIdx_S, sector);
+        return TryGetTile(t);
+    }
+
+    public Index2 TileIndex_WorldToSector(Index2 tile, out Index2 sector)
+    {
+        return TileIndex_WorldToSector(tile.x, tile.y, out sector);
+    }
+    public Index2 TileIndex_WorldToSector(int x, int y, out Index2 sector)
+    {
+        sector = GetSectorContainingPosition(x, y);
+
+        Index2 sIdx = new Index2();
+        sIdx.x = x % _sectorWidthInTiles;
+        sIdx.y = y % _sectorHeightInTiles;
+
+        if (sIdx.x < 0) { sIdx.x += _sectorWidthInTiles; }
+        if (sIdx.y < 0) { sIdx.y += _sectorHeightInTiles; }
+
+        return sIdx;
+    }
+    public Index2 TileIndex_SectorToWorld(Index2 tile_S, Index2 sector)
+    {
+        return TileIndex_SectorToWorld(tile_S.x, tile_S.y, sector);
+    }
+    public Index2 TileIndex_SectorToWorld(int sX, int sY, Index2 sector)
+    {
+        Index2 idx = new Index2();
+        idx.x = sector.x * _sectorWidthInTiles + sX;
+        idx.y = sector.y * _sectorHeightInTiles + sY;
+
+        return idx;
     }
 
 
@@ -104,8 +170,13 @@ public class TileMap : MonoBehaviour
 
     public void InitFromSettings(ZeldaVRSettings s)
     {
-        _tileMapData.InitFromSettings(ZeldaVRSettings.Instance);
-        _tileMapTexture.InitFromSettings(ZeldaVRSettings.Instance);
+        _sectorWidthInTiles = s.overworldSectorWidthInTiles;
+        _sectorHeightInTiles = s.overworldSectorHeightInTiles;
+        _sectorsWide = s.overworldWidthInSectors;
+        _sectorsHigh = s.overworldHeightInSectors;
+
+        _tileMapData.InitFromSettings(s);
+        _tileMapTexture.InitFromSettings(s);
     }
 
     void InitSpecialBlocks()
@@ -179,48 +250,13 @@ public class TileMap : MonoBehaviour
     void SetBlockHeight(GameObject block, float height, float yOffset = 0.0f)
     {
         Vector3 pos = block.transform.position;
-        pos.y = WorldOffsetY + (height * 0.5f) + yOffset;
+        pos.y = WorldOffset.y + (height * 0.5f) + yOffset;
         block.transform.position = pos;
 
         Vector3 scale = block.transform.localScale;
         scale.y = height;
         block.transform.localScale = scale;
     }
-
-
-    public List<Index2> GetTilesInArea(Rect area, List<int> requisiteTileTypes = null)
-    {
-        return GetTilesInArea((int)area.xMin, (int)area.yMin, (int)area.width, (int)area.height, requisiteTileTypes);
-    }
-    public List<Index2> GetTilesInArea(int xMin, int yMin, int width, int height, List<int> requisiteTileTypes = null)
-    {
-        List<Index2> tileIndices = new List<Index2>();
-
-        int right = xMin + width;
-        int top = yMin + height;
-
-        xMin = Mathf.Clamp(xMin, 0, TilesWide);
-        right = Mathf.Clamp(right, 0, TilesWide);
-        yMin = Mathf.Clamp(yMin, 0, TilesHigh);
-        top = Mathf.Clamp(top, 0, TilesHigh);
-
-        int[,] tiles = _tileMapData._tiles;
-
-        for (int z = yMin; z < top; z++)
-        {
-            for (int x = xMin; x < right; x++)
-            {
-                int tileCode = tiles[z, x];
-                if (requisiteTileTypes.Contains(tileCode))
-                {
-                    tileIndices.Add(new Index2(x, z));
-                }
-            }
-        }
-
-        return tileIndices;
-    }
-
 
     public void HighlightAllSpecialBlocks(bool doHighlight = true)
     {

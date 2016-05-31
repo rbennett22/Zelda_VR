@@ -24,9 +24,9 @@ public class EnemySpawnManager : MonoBehaviour
 
     void Tick()
     {
-        foreach (Transform child in transform)
+        foreach (EnemySpawnPoint sp in GetComponentsInChildren<EnemySpawnPoint>())
         {
-            child.GetComponent<EnemySpawnPoint>().DoUpdate();
+            sp.DoUpdate();
         }
 
         Vector3 playerPos = CommonObjects.Player_C.Position;

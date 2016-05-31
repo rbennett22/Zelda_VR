@@ -124,7 +124,8 @@ namespace Uniblocks
             {
                 EnableChunkTimeout = false;
             }
-            else {
+            else
+            {
                 EnableChunkTimeout = true;
                 ChunkTimeout = lChunkTimeout;
             }
@@ -226,11 +227,12 @@ namespace Uniblocks
 
         // ==== world data ====
 
-        private static void UpdateWorldPath()
+        static void UpdateWorldPath()
         {
             WorldPath = Application.dataPath + "/../Worlds/" + WorldName + "/"; // you can set World Path here
                                                                                        //WorldPath = "/mnt/sdcard/UniblocksWorlds/" + WorldName + "/"; // example mobile path for Android
         }
+
 
         public static void SetWorldName(string worldName)
         {
@@ -266,11 +268,11 @@ namespace Uniblocks
             }
         }
 
+
         public static void SaveWorld()
         { // saves the data over multiple frames
             EngineInstance.StartCoroutine(ChunkDataFiles.SaveAllChunks());
         }
-
         public static void SaveWorldInstant()
         {
             ChunkDataFiles.SaveAllChunksInstant();
@@ -324,7 +326,6 @@ namespace Uniblocks
         }
 
 
-
         // a raycast which returns the index of the hit voxel and the gameobject of the hit chunk
         public static VoxelInfo VoxelRaycast(Vector3 origin, Vector3 direction, float range, bool ignoreTransparent)
         {
@@ -366,51 +367,40 @@ namespace Uniblocks
             // else
             return null;
         }
-
         public static VoxelInfo VoxelRaycast(Ray ray, float range, bool ignoreTransparent)
         {
             return VoxelRaycast(ray.origin, ray.direction, range, ignoreTransparent);
         }
 
 
-
-
-        public static Index PositionToChunkIndex(Vector3 position)
+        public static Chunk PositionToChunk(Vector3 p)
         {
-            Index chunkIndex = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / ChunkSize.x,
-                                          Mathf.RoundToInt(position.y / ChunkScale.y) / ChunkSize.y,
-                                          Mathf.RoundToInt(position.z / ChunkScale.z) / ChunkSize.z);
-            return chunkIndex;
+            Index idx = PositionToChunkIndex(p);
+            GameObject g = ChunkManager.GetChunk(idx);
+            return (g == null) ? null : g.GetComponent<Chunk>();
         }
-
-        public static GameObject PositionToChunk(Vector3 position)
+        public static Index PositionToChunkIndex(Vector3 p)
         {
-            Index chunkIndex = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / ChunkSize.x,
-                                          Mathf.RoundToInt(position.y / ChunkScale.y) / ChunkSize.y,
-                                          Mathf.RoundToInt(position.z / ChunkScale.z) / ChunkSize.z);
-            return ChunkManager.GetChunk(chunkIndex);
+            return new Index(Mathf.RoundToInt(p.x / ChunkScale.x) / ChunkSize.x,
+                                Mathf.RoundToInt(p.y / ChunkScale.y) / ChunkSize.y,
+                                Mathf.RoundToInt(p.z / ChunkScale.z) / ChunkSize.z);
         }
 
         public static VoxelInfo PositionToVoxelInfo(Vector3 position)
         {
-            GameObject chunkObject = PositionToChunk(position);
-            if (chunkObject != null)
+            Chunk chunk = PositionToChunk(position);
+            if (chunk == null)
             {
-                Chunk chunk = chunkObject.GetComponent<Chunk>();
-                Index voxelIndex = chunk.PositionToVoxelIndex(position);
-                return new VoxelInfo(voxelIndex, chunk);
-            }
-            else {
                 return null;
             }
-        }
 
+            Index vIdx = chunk.PositionToVoxelIndex(position);
+            return new VoxelInfo(vIdx, chunk);
+        }
         public static Vector3 VoxelInfoToPosition(VoxelInfo voxelInfo)
         {
-            return voxelInfo.chunk.GetComponent<Chunk>().VoxelIndexToPosition(voxelInfo.index);
+            return voxelInfo.chunk.VoxelIndexToPosition(voxelInfo.index);
         }
-
-
 
 
         // ==== mesh creator ====

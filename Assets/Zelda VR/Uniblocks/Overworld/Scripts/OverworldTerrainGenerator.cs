@@ -31,12 +31,12 @@ public class OverworldTerrainGenerator : TerrainGenerator
             Index3 size = Engine.ChunkSize;
             Index idx = ChunkOW.chunkIndex;
 
-            Index3 pos = new Index3();
-            pos.x = size.x * idx.x;
-            pos.y = size.y * idx.y;
-            pos.z = size.z * idx.z;
+            Index3 P = new Index3();
+            P.x = size.x * idx.x;
+            P.y = size.y * idx.y;
+            P.z = size.z * idx.z;
 
-            return pos;
+            return P;
         }
     }
 
@@ -86,7 +86,8 @@ public class OverworldTerrainGenerator : TerrainGenerator
             int x = vX + chunkPos.x;
             if (x < 0 || x > tilesWide - 1)
             {
-                continue;
+                if(!ChunkOW.useOverridingSector)
+                    continue;
             }
 
             for (int vZ = 0; vZ < chunkSize.z; vZ++)
@@ -94,7 +95,8 @@ public class OverworldTerrainGenerator : TerrainGenerator
                 int z = vZ + chunkPos.z;
                 if (z < 0 || z > tilesHigh - 1)
                 {
-                    continue;
+                    if (!ChunkOW.useOverridingSector)
+                        continue;
                 }
 
                 if (ChunkOW.useOverridingSector)
@@ -103,7 +105,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
                     Index2 tileIdx_S = _overworldTileMap.TileIndex_WorldToSector(x, z, out sector);
                     if (sector != ChunkOW.overridingSector)
                     {
-                        Index2 tileIdx = _overworldTileMap.TileIndex_SectorToWorld(tileIdx_S.x, tileIdx_S.y, ChunkOW.overridingSector);
+                        Index2 tileIdx = _overworldTileMap.TileIndex_SectorToWorld(tileIdx_S, ChunkOW.overridingSector);
                         x = tileIdx.x;
                         z = tileIdx.y;
                     }

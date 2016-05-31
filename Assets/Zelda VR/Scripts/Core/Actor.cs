@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Immersio.Utility;
+using System.Collections.Generic;
 
 public class Actor : MonoBehaviour 
 {
@@ -32,7 +33,7 @@ public class Actor : MonoBehaviour
         {
             return new Index2();
         }
-        return tileMap.GetSectorForPosition(Position);
+        return tileMap.GetSectorContainingPosition(Position);
     }
     public DungeonRoom GetOccupiedDungeonRoom()
     {
@@ -72,4 +73,45 @@ public class Actor : MonoBehaviour
 	{
         _healthController = GetComponent<HealthController>();
     }
+
+
+    static public List<T> FindObjectsInSector<T>(Index2 sector) where T : Component
+    {
+        if (!WorldInfo.Instance.IsOverworld)
+        {
+            return new List<T>();
+        }
+
+        TileMap tm = CommonObjects.OverworldTileMap;
+        Rect sBounds = tm.GetBoundsForSector(sector);
+
+        return FindObjectsInArea<T>(sBounds);
+    }
+    static public List<T> FindObjectsInArea<T>(Rect area) where T : Component
+    {
+        List<T> actors = new List<T>();
+        foreach (T obj in FindObjectsOfType<T>())
+        {
+            Vector3 p = obj.transform.position;
+            Vector2 p2 = new Vector2(p.x, p.z);
+            if (area.Contains(p2))
+            {
+                actors.Add(obj);
+            }
+        }
+        return actors;
+    }
+
+
+    /*public static GameObject GetContainerForActorType<T>() where T : Actor
+    {
+        GameObject container = GameObject.FindGameObjectWithTag("Enemies");
+
+        if (typeof(T) == typeof(Enemy))     // TODO: This line needs Testing
+        {
+            container = GameObject.FindGameObjectWithTag("Enemies");
+        }
+
+        return container;
+    }*/
 }

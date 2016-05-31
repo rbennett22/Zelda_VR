@@ -2,11 +2,10 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using Uniblocks;
 
 public class LostWoods : MonoBehaviour
 {
-    const int OVERRIDE_SECTOR_DISTANCE = 1;
+    const int OVERRIDE_SECTOR_DISTANCE = 3;
 
 
     public float fogStartDist_Min, fogEndDist_Min;
@@ -14,15 +13,16 @@ public class LostWoods : MonoBehaviour
 
     [SerializeField]
     LostWoodsPortal _leftPortal, _rightPortal, _downPortal, _upPortal;
-    Dictionary<IndexDirection2.DirectionEnum, LostWoodsPortal> _portalForDirection;
-    LostWoodsPortal PortalForDirection(IndexDirection2.DirectionEnum dir) { return _portalForDirection[dir]; }
+    Dictionary<IndexDirection2, LostWoodsPortal> _directionToPortal;
+    LostWoodsPortal DirectionToPortal(IndexDirection2 dir) { return _directionToPortal[dir]; }
+    IndexDirection2 PortalToDirection(LostWoodsPortal portal) { return _directionToPortal.FirstOrDefault(p => p.Value == portal).Key; }
 
     [SerializeField]
     LostWoodsPortal _entrance, _escapeExit;
     [SerializeField]
-    IndexDirection2.DirectionEnum _escapeExitDirection, _solutionExitDirection;
-
-    bool IsDirectionOfEscapeExit(IndexDirection2 dir) { return dir == IndexDirection2.FromDirectionEnum(_escapeExitDirection); }
+    IndexDirection2.DirectionEnum _escapeExitDirection;
+    public IndexDirection2 EscapeExitDirection { get { return IndexDirection2.FromDirectionEnum(_escapeExitDirection); } }
+    public IndexDirection2 SolutionExitDirection { get { return PortalToDirection(_solutionSequence[_solutionSequence.Length - 1]);  } }
 
 
     int _sectorWidth, _sectorHeight;
@@ -63,16 +63,17 @@ public class LostWoods : MonoBehaviour
             return _neighborSectors;
         }
     }
+    bool IsNeighborSector(Index2 sector) { return NeighborSectors.ContainsValue(sector); }
 
 
     void Awake()
     {
-        _portalForDirection = new Dictionary<IndexDirection2.DirectionEnum, LostWoodsPortal>
+        _directionToPortal = new Dictionary<IndexDirection2, LostWoodsPortal>
         {
-            { IndexDirection2.DirectionEnum.Left, _leftPortal },
-            { IndexDirection2.DirectionEnum.Right, _rightPortal },
-            { IndexDirection2.DirectionEnum.Down, _downPortal },
-            { IndexDirection2.DirectionEnum.Up, _upPortal }
+            { IndexDirection2.left, _leftPortal },
+            { IndexDirection2.right, _rightPortal },
+            { IndexDirection2.down, _downPortal },
+            { IndexDirection2.up, _upPortal }
         };
     }
 
@@ -117,6 +118,10 @@ public class LostWoods : MonoBehaviour
         }
     }
 
+    IndexDirection2 DirectionForNeighborSector(Index2 sector)
+    {
+        return NeighborSectors.FirstOrDefault(s => s.Value == sector).Key;
+    }
 
     void PlayerEnteredNewSector(Index2 prevSector, Index2 newSector)
     {
@@ -124,27 +129,26 @@ public class LostWoods : MonoBehaviour
         {
             return;
         }
-        
-        if (NeighborSectors.ContainsValue(newSector))
+        if (_hasEnteredLostWoods)
+        {
+            return;
+        }
+
+        if (IsNeighborSector(newSector))
         {
             PlayerEnteredNeighborSector(newSector);
         }
-        else if (NeighborSectors.ContainsValue(prevSector))
+        else if (IsNeighborSector(prevSector))
         {
             PlayerExitedNeighborSector(newSector);
         }
     }
     void PlayerEnteredNeighborSector(Index2 sector)
     {
-        IndexDirection2 neighborDir = NeighborSectors.FirstOrDefault(s => s.Value == sector).Key;
+        IndexDirection2 sectorDir = DirectionForNeighborSector(sector);
+        IndexDirection2[] dirs = IndexDirection2.AllValidNonZeroDirections.Where(d => d != sectorDir).ToArray();
 
-        foreach (IndexDirection2 dir in IndexDirection2.AllValidNonZeroDirections)
-        {
-            if (dir == neighborDir) { continue; }
-            if (IsDirectionOfEscapeExit(dir)) { continue; }
-
-            OverrideSectorsWithLostWoodsVoxels(dir, true, OVERRIDE_SECTOR_DISTANCE);
-        }
+        OverrideSectorsWithLostWoods(dirs, true, OVERRIDE_SECTOR_DISTANCE);
     }
     void PlayerExitedNeighborSector(Index2 newSector)
     {
@@ -153,36 +157,76 @@ public class LostWoods : MonoBehaviour
             return;
         }
 
-        foreach (IndexDirection2 dir in IndexDirection2.AllValidNonZeroDirections)
-        {
-            if (IsDirectionOfEscapeExit(dir)) { continue; }
-
-            OverrideSectorsWithLostWoodsVoxels(dir, false);
-        }
+        OverrideSectorsWithLostWoods(IndexDirection2.AllValidNonZeroDirections, false);
     }
 
-    void OverrideSectorsWithLostWoodsVoxels(IndexDirection2 d, bool doOverride, int distance = 1)
+    void OverrideSectorsWithLostWoods(IndexDirection2 dir, bool doOverride, int distance = 1)
     {
-        Index2 n = Sector;
-        for (int i = 0; i < distance; i++)
+        OverrideSectorsWithLostWoods(new IndexDirection2[] { dir }, doOverride, distance);
+    }
+    void OverrideSectorsWithLostWoods(IndexDirection2[] dirs, bool doOverride, int distance = 1)
+    {
+        foreach (IndexDirection2 d in dirs)
         {
-            n = n + d;
-            OverrideSectorWithLostWoodsVoxels(n, doOverride);
+            if (d == EscapeExitDirection) { continue; }
+
+            Index2 s = Sector;
+            for (int i = 0; i < distance; i++)
+            {
+                s = s + d;
+
+                OverrideSectorWithLostWoodsVoxels(s, doOverride);
+
+                if(doOverride)
+                {
+                    DisableEnemySpawningInSector(s);
+                }
+                else
+                {
+                    EnableEnemySpawningInSector(s);
+                }
+            }
         }
     }
     void OverrideSectorWithLostWoodsVoxels(Index2 sector, bool doOverride)
     {
         OverworldTerrainEngine owEngine = OverworldTerrainEngine.Instance;
         OverworldChunk ch = owEngine.GetChunkForSector(sector) as OverworldChunk;
+        if(ch == null)
+        {
+            return;
+        }
         if(ch.useOverridingSector == doOverride 
-            && ch.overridingSector == Sector)
+            && ch.overridingSector == this.Sector)
         {
             return;
         }
         ch.useOverridingSector = doOverride;
-        ch.overridingSector = Sector;
+        ch.overridingSector = this.Sector;
 
         owEngine.ForceRegenerateTerrain(ch);
+    }
+
+    void DisableEnemySpawningInSector(Index2 sector, bool destroyEnemies = true)
+    {
+        if (destroyEnemies)
+        {
+            foreach (Enemy e in Actor.FindObjectsInSector<Enemy>(Sector))
+            {
+                Destroy(e.gameObject);
+            }
+        }
+        foreach (EnemySpawnPoint sp in Actor.FindObjectsInSector<EnemySpawnPoint>(sector))
+        {
+            sp.autoSpawn = false;
+        }
+    }
+    void EnableEnemySpawningInSector(Index2 sector)
+    {
+        foreach (EnemySpawnPoint sp in Actor.FindObjectsInSector<EnemySpawnPoint>(sector))
+        {
+            sp.autoSpawn = true;
+        }
     }
 
 
@@ -230,6 +274,20 @@ public class LostWoods : MonoBehaviour
         }
     }
 
+    void OnEnteredLostWoods()
+    {
+        _hasEnteredLostWoods = true;
+        _warpedObjects = new List<Transform>() { _playerTransform };
+
+        ResetSequence();
+        OverrideSectorsWithLostWoods(IndexDirection2.AllValidNonZeroDirections, true, OVERRIDE_SECTOR_DISTANCE);
+    }
+    void OnExitedLostWoods()
+    {
+        _hasEnteredLostWoods = false;
+        _warpedObjects = null;
+    }
+
 
     #region Sequence Solving
 
@@ -260,7 +318,7 @@ public class LostWoods : MonoBehaviour
             OnIncorrectEntryAddedToSequence();
         }
 
-        print("!!!!   _solutionSeqIndex: " + _solutionSeqIndex);
+        //print("!!!!   _solutionSeqIndex: " + _solutionSeqIndex);
     }
 
     void OnCorrectEntryAddedToSequence()
@@ -278,8 +336,7 @@ public class LostWoods : MonoBehaviour
     }
     void OnSequenceIsOneAwayFromCompleted()
     {
-        IndexDirection2 solutionDir = IndexDirection2.FromDirectionEnum(_solutionExitDirection);
-        OverrideSectorsWithLostWoodsVoxels(solutionDir, false);
+        OverrideSectorsWithLostWoods(SolutionExitDirection, false);
     }
     void OnSequenceCompleted()
     {
@@ -296,26 +353,6 @@ public class LostWoods : MonoBehaviour
     }
 
     #endregion Sequence Solving
-
-    
-    void OnEnteredLostWoods()
-    {
-        _hasEnteredLostWoods = true;
-        _warpedObjects = new List<Transform>() { _playerTransform };
-        ResetSequence();
-
-        foreach (IndexDirection2 dir in IndexDirection2.AllValidNonZeroDirections)
-        {
-            if (IsDirectionOfEscapeExit(dir)) { continue; }
-
-            OverrideSectorsWithLostWoodsVoxels(dir, true, OVERRIDE_SECTOR_DISTANCE);
-        }
-    }
-    void OnExitedLostWoods()
-    {
-        _hasEnteredLostWoods = false;
-        _warpedObjects = null;
-    }
 
 
     List<Transform> GetNearbyObjects(float proximity)
@@ -350,12 +387,6 @@ public class LostWoods : MonoBehaviour
         {
             if (ob == null) { continue; }
             ob.position += offset;
-
-            EnemyAI_Random enemyAI_Random = ob.GetComponent<EnemyAI_Random>();
-            if (enemyAI_Random != null)
-            {
-                enemyAI_Random.TargetPosition += offset;
-            }
         }
     }
 }

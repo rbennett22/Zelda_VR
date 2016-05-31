@@ -120,7 +120,7 @@ public class EnemySpawnPoint : MonoBehaviour
         else
         {
             TileMap tileMap = CommonObjects.OverworldTileMap;
-            Index2 sector = tileMap.GetSectorForPosition(transform.position);
+            Index2 sector = tileMap.GetSectorContainingPosition(transform.position);
             enemyAI.Boundary = tileMap.GetBoundsForSector(sector);
         }
     }

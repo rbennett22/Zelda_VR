@@ -77,7 +77,8 @@ namespace Uniblocks
             {
                 // data is loaded through TryLoadVoxelData()
             }
-            else {
+            else
+            {
                 GenerateVoxelData();
             }
         }

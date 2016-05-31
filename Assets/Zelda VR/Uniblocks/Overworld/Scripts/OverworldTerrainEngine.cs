@@ -14,8 +14,9 @@ public class OverworldTerrainEngine : Engine
     public Chunk GetChunkForSector(Index2 sector)
     {
         Vector3 pos = TileMap.GetCenterPositionOfSector(sector);
-        return PositionToChunk(pos).GetComponent<Chunk>();
+        return PositionToChunk(pos);
     }
+
 
     public GameObject GroundPlane { get { return GameObject.FindGameObjectWithTag("GroundPlane"); } }
     public bool GroundPlaneCollisionEnabled
