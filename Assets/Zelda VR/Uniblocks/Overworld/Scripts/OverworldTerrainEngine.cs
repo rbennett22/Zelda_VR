@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Uniblocks;
 using System.Collections.Generic;
+using Immersio.Utility;
 
 public class OverworldTerrainEngine : Engine
 {
@@ -9,6 +10,12 @@ public class OverworldTerrainEngine : Engine
 
     public TileMap TileMap { get { return FindObjectOfType<TileMap>(); } }
     public OverworldChunkLoader ChunkLoader { get { return FindObjectOfType<OverworldChunkLoader>(); } }
+
+    public Chunk GetChunkForSector(Index2 sector)
+    {
+        Vector3 pos = TileMap.GetCenterPositionOfSector(sector);
+        return PositionToChunk(pos).GetComponent<Chunk>();
+    }
 
     public GameObject GroundPlane { get { return GameObject.FindGameObjectWithTag("GroundPlane"); } }
     public bool GroundPlaneCollisionEnabled
@@ -57,6 +64,10 @@ public class OverworldTerrainEngine : Engine
     }
 
 
+    public void ForceRegenerateTerrain(Chunk chunk)
+    {
+        ForceRegenerateTerrain(new List<Chunk>() { chunk });
+    }
     public void ForceRegenerateTerrain(List<Chunk> chunks = null)
     {
         if(!WorldInfo.Instance.IsOverworld)

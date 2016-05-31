@@ -5,7 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(HealthController))]
 
-public class Player : Singleton<Player>
+public class Player : Actor
 {
     const float MOON_MODE_GRAVITY_MODIFIER = 1 / 6.0f;
     const float DEFAULT_JINX_DURATION = 2.0f;
@@ -16,7 +16,8 @@ public class Player : Singleton<Player>
     [SerializeField]
     ZeldaPlayerController _playerController;
     public ZeldaPlayerController PlayerController { get { return _playerController; } }
-    public Vector3 Position {
+
+    override public Vector3 Position {
         get { return _playerController.transform.position; }
         set { _playerController.transform.position = value; }
     }
@@ -30,31 +31,15 @@ public class Player : Singleton<Player>
         _playerController.transform.eulerAngles = euler;
     }
 
-    Index2 _prevOccupiedSector;
-    public Index2 GetOccupiedOverworldSector()
-    {
-        TileMap tileMap = CommonObjects.OverworldTileMap;
-        if (tileMap == null)
-        {
-            return new Index2();
-        }
-        return tileMap.GetSectorForPosition(Position);
-    }
-    public DungeonRoom GetOccupiedDungeonRoom()
-    {
-        if (!WorldInfo.Instance.IsInDungeon) { return null; }
-
-        return DungeonRoom.GetRoomForPosition(Position);
-    }
-
 
     Inventory _inventory;
     public Inventory Inventory { get { return _inventory; } }
 
-    Weapon_Melee_Sword _equippedSword;
+    Weapon_Melee_Sword _sword;
+    public bool HasSword { get { return _sword != null; } }
     public void EquipSword(string swordName)
     {
-        if (_equippedSword != null) { DeequipSword(); }
+        if (HasSword) { DeequipSword(); }
 
         Item item = _inventory.GetItem(swordName);
         GameObject prefab = item.weaponPrefab;
@@ -67,29 +52,28 @@ public class Player : Singleton<Player>
         t.localPosition = Vector3.zero;
         t.localRotation = Quaternion.identity;
 
-        _equippedSword = g.GetComponent<Weapon_Melee_Sword>();
+        _sword = g.GetComponent<Weapon_Melee_Sword>();
 
         SwordProjectilesEnabled = HealthController.IsAtFullHealth;
     }
     public void DeequipSword()
     {
-        if (_equippedSword != null)
+        if (HasSword)
         {
-            Destroy(_equippedSword.gameObject);
-            _equippedSword = null;
+            Destroy(_sword.gameObject);
+            _sword = null;
         }
     }
-    public bool IsAttackingWithSword { get { return (_equippedSword != null) && _equippedSword.IsAttacking; } }
+    public bool IsAttackingWithSword { get { return HasSword && _sword.IsAttacking; } }
     public bool SwordProjectilesEnabled
     {
-        get { return (_equippedSword != null) && _equippedSword.ProjectilesEnabled; }
-        set { if (_equippedSword != null) { _equippedSword.ProjectilesEnabled = value; } }
+        get { return HasSword && _sword.ProjectilesEnabled; }
+        set { if (HasSword) { _sword.ProjectilesEnabled = value; } }
     }
 
-    Shield_Base _equippedShield;
     public void EquipShield(string shieldName)
     {
-        if (_equippedShield != null) { DeequipShield(); }
+        if (shield != null) { DeequipShield(); }
 
         Item item = _inventory.GetItem(shieldName);
         GameObject prefab = item.shieldPrefab;
@@ -102,14 +86,14 @@ public class Player : Singleton<Player>
         t.localPosition = Vector3.zero;
         t.localRotation = Quaternion.identity;
 
-        _equippedShield = g.GetComponent<Shield_Base>();
+        shield = g.GetComponent<Shield_Base>();
     }
     public void DeequipShield()
     {
-        if (_equippedShield != null)
+        if (shield != null)
         {
-            Destroy(_equippedShield.gameObject);
-            _equippedShield = null;
+            Destroy(shield.gameObject);
+            shield = null;
         }
     }
 
@@ -132,7 +116,6 @@ public class Player : Singleton<Player>
         _equippedItem = null;
     }
 
-    Weapon_Base _equippedWeaponB;
     void EquipWeaponB(string weaponName)
     {
         Item item = _inventory.GetItem(weaponName);
@@ -146,22 +129,18 @@ public class Player : Singleton<Player>
         t.localPosition = Vector3.zero;
         t.localRotation = Quaternion.identity;
 
-        _equippedWeaponB = g.GetComponent<Weapon_Base>();
+        weapon = g.GetComponent<Weapon_Base>();
     }
     void DeequipWeaponB()
     {
-        if (_equippedWeaponB != null)
+        if (weapon != null)
         {
-            Destroy(_equippedWeaponB.gameObject);
-            _equippedWeaponB = null;
+            Destroy(weapon.gameObject);
+            weapon = null;
         }
     }
 
 
-    HealthController _healthController;
-    public HealthController HealthController { get { return _healthController ?? (_healthController = GetComponent<HealthController>()); } }
-    public bool IsAlive { get { return HealthController.IsAlive; } }
-    public bool IsAtFullHealth { get { return HealthController.IsAtFullHealth; } }
     public int HealthInHalfHearts { get { return PlayerHealthDelegate.HealthToHalfHearts(HealthController.Health); } }
     public void RestoreHearts(int hearts)
     {
@@ -203,7 +182,7 @@ public class Player : Singleton<Player>
     // LikeLikeTrap:  Player is Paralyzed, and will lose MagicShield if he doesn't repeatedly press Attack button fast enough
     bool _isInLikeLikeTrap;
     int _likeLikeTrapCounter;
-    public bool IsInLikeLikeTrap            
+    public bool IsInLikeLikeTrap
     {
         get { return _isInLikeLikeTrap; }
         private set
@@ -362,6 +341,7 @@ public class Player : Singleton<Player>
         ProcessUserInput();
     }
 
+    Index2 _prevOccupiedSector;
     void UpdateEvents()
     {
         if (WorldInfo.Instance.IsOverworld)
@@ -384,9 +364,9 @@ public class Player : Singleton<Player>
 
         if (_equippedItem != null)
         {
-            Weapon_Gun_Bow bow = (_equippedWeaponB == null) ? null : _equippedWeaponB.GetComponent<Weapon_Gun_Bow>();
+            Weapon_Gun_Bow bow = (weapon == null) ? null : weapon.GetComponent<Weapon_Gun_Bow>();
 
-            if (_equippedWeaponB != null)
+            if (weapon != null)
             {
                 // Aim WeaponB
                 /*Transform t = _playerController.WeaponContainerLeft;
@@ -412,7 +392,7 @@ public class Player : Singleton<Player>
 
             if (doUseItem)
             {
-                if (_equippedWeaponB != null)
+                if (weapon != null)
                 { 
                     AttackWithWeaponB();
                 }
@@ -424,7 +404,7 @@ public class Player : Singleton<Player>
 
     void AttackWithSword()
     {
-        if (_equippedSword == null || !_equippedSword.CanAttack)
+        if (!HasSword || !_sword.CanAttack)
         {
             return;
         }
@@ -433,25 +413,25 @@ public class Player : Singleton<Player>
             return;
         }
 
-        _equippedSword.Attack();
+        _sword.Attack();
     }
 
     void AttackWithWeaponB()
     {
-        if (_equippedWeaponB == null || !_equippedWeaponB.CanAttack)
+        if (weapon == null || !weapon.CanAttack)
         {
             return;
         }
 
         bool canAttack = true;
 
-        Weapon_Gun_MagicWand wand = _equippedWeaponB.GetComponent<Weapon_Gun_MagicWand>();     // TODO
+        Weapon_Gun_MagicWand wand = weapon.GetComponent<Weapon_Gun_MagicWand>();     // TODO
         if (wand != null)
         {
             wand.spawnFlame = Inventory.Instance.HasItem("MagicBook");
         }
 
-        Weapon_Gun_Bow bow = _equippedWeaponB.GetComponent<Weapon_Gun_Bow>();     // TODO
+        Weapon_Gun_Bow bow = weapon.GetComponent<Weapon_Gun_Bow>();     // TODO
         if (bow != null)
         {
             canAttack = false;
@@ -467,7 +447,7 @@ public class Player : Singleton<Player>
 
         if (canAttack)
         {
-            _equippedWeaponB.Attack(_playerController.ForwardDirection);
+            weapon.Attack(_playerController.ForwardDirection);
         }
     }
 
@@ -486,7 +466,7 @@ public class Player : Singleton<Player>
         return mod;
     }
 
-    public bool CanBlockAttack(bool isBlockableByWoodenShield, bool isBlockableByMagicShield, Vector3 directionOfAttack)
+    override public bool CanBlockAttack(bool isBlockableByWoodenShield, bool isBlockableByMagicShield, Vector3 directionOfAttack)
     {
         // TODO: Determine isBlockableByWoodenShield and isBlockableByMagicShield using a lookup table internally
 
@@ -495,22 +475,22 @@ public class Player : Singleton<Player>
             return false;
         }
 
-        bool canBlock = false;
-
-        bool shieldCanBlockAttack = (_equippedShield != null) && _equippedShield.CanBlockAttack(directionOfAttack);
-        if (shieldCanBlockAttack)
+        bool shieldCanBlockAttack = (shield != null) && shield.CanBlockAttack(directionOfAttack);
+        if (!shieldCanBlockAttack)
         {
-            if (isBlockableByWoodenShield && _inventory.HasItem("WoodenShield"))
-            {
-                canBlock = true;
-            }
-            else if (isBlockableByMagicShield && _inventory.HasItem("MagicShield"))
-            {
-                canBlock = true;
-            }
+            return false;
         }
 
-        return canBlock;
+        if (isBlockableByWoodenShield && _inventory.HasItem("WoodenShield"))
+        {
+            return true;
+        }
+        if (isBlockableByMagicShield && _inventory.HasItem("MagicShield"))
+        {
+            return true;
+        }
+
+        return false;
     }
 
 

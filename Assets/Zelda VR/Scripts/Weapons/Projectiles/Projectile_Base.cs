@@ -104,44 +104,28 @@ public class Projectile_Base : MonoBehaviour, IDamageDealerDelegate
 
     bool IDamageDealerDelegate.CanAttackBeBlocked(DamageDealer_Base attacker, HealthController_Abstract victim)
     {
-        // TODO
-
-        Player player = victim.GetComponent<Player>();
-        if (player != null)
+        Actor ch = victim.GetComponent<Actor>();
+        if (ch == null)
         {
-            return player.CanBlockAttack(woodenShieldBlocks, magicShieldBlocks, transform.up);     // TODO: remove the 2 "shieldCanBlock" params
+            return false;
         }
-
-        Enemy enemy = victim.GetComponent<Enemy>();
-        if (enemy != null)
-        {
-            return enemy.CanBlockAttack(transform.up);
-        }
-
-        return false;
+        
+        return ch.CanBlockAttack(woodenShieldBlocks, magicShieldBlocks, transform.up);     // TODO: remove the 2 "shieldCanBlock" params
     }
 
     void IDamageDealerDelegate.OnAttackBlocked(DamageDealer_Base attacker, HealthController_Abstract blocker) { OnAttackDeflected(attacker, blocker); }
     void IDamageDealerDelegate.OnHitAnInvulnerable(DamageDealer_Base attacker, HealthController_Abstract invulnerable) { OnAttackDeflected(attacker, invulnerable); }
     void OnAttackDeflected(DamageDealer_Base attacker, HealthController_Abstract deflector)
     {
-        // TODO
-
-        Player player = deflector.GetComponent<Player>();
-        if (player != null)
+        Actor ch = deflector.GetComponent<Actor>();
+        if (ch == null)
         {
-            PlayDeflectionSound();
             return;
         }
 
-        Enemy enemy = deflector.GetComponent<Enemy>();
-        if (enemy != null)
+        if (ch.playSoundWhenBlockingAttack)
         {
-            if (enemy.playSoundWhenBlockingAttack)
-            {
-                PlayDeflectionSound();
-            }
-            return;
+            PlayDeflectionSound();
         }
     }
 

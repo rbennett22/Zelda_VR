@@ -11,10 +11,6 @@ public class OverworldTerrainGenerator : TerrainGenerator
     const int ENTRANCE_TILE_Y_OFFSET = 3;
 
 
-    public bool useOverridingSector;
-    public Index2 overridingSector;
-
-
     int _blockHeight = 1;
     float _blockHeightVariance = 0;
     float _shortBlockHeight = 1;
@@ -26,15 +22,20 @@ public class OverworldTerrainGenerator : TerrainGenerator
     int[,] _tiles;
 
 
+    public OverworldChunk ChunkOW { get { return chunk as OverworldChunk; } }
+
     public Index3 ChunkPosition
     {
         get
         {
             Index3 size = Engine.ChunkSize;
+            Index idx = ChunkOW.chunkIndex;
+
             Index3 pos = new Index3();
-            pos.x = size.x * chunk.chunkIndex.x;
-            pos.y = size.y * chunk.chunkIndex.y;
-            pos.z = size.z * chunk.chunkIndex.z;
+            pos.x = size.x * idx.x;
+            pos.y = size.y * idx.y;
+            pos.z = size.z * idx.z;
+
             return pos;
         }
     }
@@ -61,10 +62,6 @@ public class OverworldTerrainGenerator : TerrainGenerator
 
 
     public override void GenerateVoxelData()
-    {
-        GenerateVoxelData(false);
-    }
-    public void GenerateVoxelData(bool clearPrevious)
     {
         if (_overworldTileMap == null)
         {
@@ -100,13 +97,13 @@ public class OverworldTerrainGenerator : TerrainGenerator
                     continue;
                 }
 
-                if (useOverridingSector)
+                if (ChunkOW.useOverridingSector)
                 {
                     Index2 sector;
                     Index2 tileIdx_S = _overworldTileMap.TileIndex_WorldToSector(x, z, out sector);
-                    if (sector != overridingSector)
+                    if (sector != ChunkOW.overridingSector)
                     {
-                        Index2 tileIdx = _overworldTileMap.TileIndex_SectorToWorld(tileIdx_S.x, tileIdx_S.y, overridingSector);
+                        Index2 tileIdx = _overworldTileMap.TileIndex_SectorToWorld(tileIdx_S.x, tileIdx_S.y, ChunkOW.overridingSector);
                         x = tileIdx.x;
                         z = tileIdx.y;
                     }
@@ -151,24 +148,24 @@ public class OverworldTerrainGenerator : TerrainGenerator
                         bool isFlatTop = isTileFlatImpassable && (y == blockStackHeight);
                         if (isFlatTop)
                         {
-                            chunk.SetVoxelSimple(vX, vY, vZ, INVISIBLE_COLLIDER_VOXEL);
+                            ChunkOW.SetVoxelSimple(vX, vY, vZ, INVISIBLE_COLLIDER_VOXEL);
                         }
 
-                        if (clearPrevious)
+                        //if (clearPrevious)
                         {
                             if (!isFlatTop)
                             {
-                                chunk.SetVoxelSimple(vX, vY, vZ, 0);
+                                ChunkOW.SetVoxelSimple(vX, vY, vZ, 0);
                             }
                             continue;
                         }
-                        else
+                        /*else
                         {
                             break;
-                        }
+                        }*/
                     }
 
-                    chunk.SetVoxelSimple(vX, vY, vZ, data);
+                    ChunkOW.SetVoxelSimple(vX, vY, vZ, data);
                 }
             }
         }

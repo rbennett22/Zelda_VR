@@ -299,14 +299,14 @@ public class EnemyAI_Random : EnemyAI
 
     public static IndexDirection2 GetRandomTileDirection()
     {
-        IndexDirection2[] allDirections = IndexDirection2.AllValidDirections;
+        IndexDirection2[] allDirections = IndexDirection2.AllValidNonZeroDirections;
         IndexDirection2 dir = allDirections[Random.Range(0, allDirections.Length)];
         return dir;
     }
 
     public static IndexDirection2 GetRandomTileDirectionExcluding(List<IndexDirection2> excludeDirections, bool alsoExcludeReverse = false)
     {
-        List<IndexDirection2> availableDirections = IndexDirection2.AllValidDirections.Where(d => !excludeDirections.Contains(d)).ToList();
+        List<IndexDirection2> availableDirections = IndexDirection2.AllValidNonZeroDirections.Where(d => !excludeDirections.Contains(d)).ToList();
         IndexDirection2 dir = availableDirections[Random.Range(0, availableDirections.Count)];
         return dir;
     }

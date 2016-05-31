@@ -58,6 +58,13 @@ public class TileMap : MonoBehaviour
     {
         return _tileMapData.GetSectorForPosition(x, z);
     }
+    public Vector3 GetCenterPositionOfSector(Index2 sector)
+    {
+        Vector3 p = new Vector3(sector.x * SectorWidthInTiles, 0, sector.y * SectorHeightInTiles);
+        p += WorldInfo.Instance.WorldOffset;
+        p += new Vector3(SectorWidthInTiles * 0.5f, 0, SectorHeightInTiles * 0.5f);
+        return p; 
+    }
 
     public Index2 TileIndex_WorldToSector(int x, int y, out Index2 sector)
     {

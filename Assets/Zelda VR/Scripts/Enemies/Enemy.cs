@@ -1,69 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Immersio.Utility;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Actor
 {
     const float RemovalDistanceThreshold = 32;      // How far away Enemy must be from player before it is destroyed (Overworld only)
     const float StunDuration = 3.0f;
 
 
-    public static int EnemiesKilled { get; set; }
+    public static int EnemiesKilled { get; set; }       // TODO: Put this elsewhere
     public static int EnemiesKilledWithoutTakingDamage { get; set; }
 
 
     public EnemyAnimation enemyAnim;
-
-    public Weapon_Base weapon;
-    public bool HasWeapon { get { return weapon != null; } }
-
-    public Shield_Base shield;
-    public bool HasShield { get { return shield != null; } }
-
-    public int meleeDamage = 1;
-    public float jumpPower = 1;
-    public float jumpUpFactor = 1.75f;
-    public bool respondsToBait = true;
-    public bool isBoss;
-    public bool pushBackOnhit = true;
-    public bool playSoundWhenBlockingAttack = true;
-
-
-    public EnemySpawnPoint SpawnPoint { get; set; }
-    public DungeonRoom DungeonRoomRef { get; set; }    // (Will be null in overworld)
-    public Player Player { get { return CommonObjects.Player_C; } }
-
-    public bool IsAttacking { get { return HasWeapon && weapon.IsCooldownActive; } }
-    public bool IsSpawning { get { return (enemyAnim != null && enemyAnim.IsSpawning); } }
-    public bool IsJumping { get; private set; }
-    public bool IsStunned { get; private set; }
-    public bool IsParalyzed { get; private set; }
-
-    public bool IsPreoccupied { get { return IsAttacking || IsJumping || IsSpawning || IsParalyzed || IsStunned; } }
-
-    public Index2 Tile {
-        get {
-            Vector3 p = transform.position;
-            return new Index2((int)p.x, (int)p.z);
-            //return new Index2(transform.position - WorldInfo.Instance.WorldOffset - TileMap.TileExtents);     // TODO: This should work (?)
-        }
-        set {
-            Vector3 pos = value.ToVector3() + WorldInfo.Instance.WorldOffset + TileMap.TileExtents;
-            pos.y = transform.position.y;
-            transform.position = pos;
-        }
-    }
-
-
-    HealthController _healthController;
-
-
-    void Awake()
-    {
-        _healthController = GetComponent<HealthController>();
-    }
-
-
     public void PauseAnimation()
     {
         enemyAnim.Pause();
@@ -72,6 +20,30 @@ public class Enemy : MonoBehaviour
     {
         enemyAnim.Resume();
     }
+
+
+    public int meleeDamage = 1;
+    public float jumpPower = 1;
+    public float jumpUpFactor = 1.75f;
+    public bool respondsToBait = true;
+    public bool isBoss;
+    public bool pushBackOnhit = true;
+    
+
+
+    public EnemySpawnPoint SpawnPoint { get; set; }
+    public DungeonRoom DungeonRoomRef { get; set; }    // (Will be null in overworld)
+
+    public Player Player { get { return CommonObjects.Player_C; } }
+
+
+    public bool IsAttacking { get { return HasWeapon && weapon.IsCooldownActive; } }
+    public bool IsSpawning { get { return (enemyAnim != null && enemyAnim.IsSpawning); } }
+    public bool IsJumping { get; private set; }
+    public bool IsStunned { get; private set; }
+    public bool IsParalyzed { get; private set; }
+
+    public bool IsPreoccupied { get { return IsAttacking || IsJumping || IsSpawning || IsParalyzed || IsStunned; } }
 
 
     public void Jump(Vector3 direction)
@@ -90,14 +62,14 @@ public class Enemy : MonoBehaviour
 
     public void Attack()
     {
-        if (HasWeapon)
+        if (HasWeapon && weapon.CanAttack)
         {
             weapon.Attack();
         }
     }
     public void Attack(Vector3 direction)
     {
-        if (HasWeapon)
+        if (HasWeapon && weapon.CanAttack)
         {
             weapon.Attack(direction);
         }
@@ -167,16 +139,6 @@ public class Enemy : MonoBehaviour
         SendMessage("EnableAI", SendMessageOptions.DontRequireReceiver);
     }
 
-
-    public bool CanBlockAttack(Vector3 directionOfAttack)
-    {
-        if (_healthController.isIndestructible)
-        {
-            return true;
-        }
-
-        return HasShield && shield.CanBlockAttack(directionOfAttack);
-    }
 
     public bool ShouldFollowBait()
     {

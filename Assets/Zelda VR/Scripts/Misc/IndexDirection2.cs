@@ -8,10 +8,15 @@ namespace Immersio.Utility
         {
             Zero, Up, Down, Right, Left
         }
-        public static IndexDirection2[] AllValidDirections {
+        public static IndexDirection2[] AllValidNonZeroDirections
+        {
             get { return new IndexDirection2[] { up, down, right, left }; }
         }
-        
+        public static DirectionEnum[] AllValidNonZeroDirectionsEnum
+        {
+            get { return new DirectionEnum[] { DirectionEnum.Up, DirectionEnum.Down, DirectionEnum.Right, DirectionEnum.Left }; }
+        }
+
 
         int x, y;
         public int X {
@@ -68,8 +73,8 @@ namespace Immersio.Utility
         public IndexDirection2(DirectionEnum d)
         {
             IndexDirection2 n = FromDirectionEnum(d);
-            this.x = n.X;
-            this.y = n.Y;
+            x = n.X;
+            y = n.Y;
             X = x;
             Y = y;
         }
@@ -117,6 +122,16 @@ namespace Immersio.Utility
                 default: n = zero; break;
             }
             return n;
+        }
+
+        public Uniblocks.Direction ToUniblocksDirectionEnum()
+        {
+            if (IsLeft()) { return Uniblocks.Direction.left; }
+            if (IsRight()) { return Uniblocks.Direction.right; }
+            if (IsDown()) { return Uniblocks.Direction.down; }
+            if (IsUp()) { return Uniblocks.Direction.up; }
+
+            return Uniblocks.Direction.up;
         }
 
         public Index2 ToIndex2()

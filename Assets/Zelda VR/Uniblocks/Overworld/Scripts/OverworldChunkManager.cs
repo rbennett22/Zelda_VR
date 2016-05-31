@@ -16,6 +16,7 @@ public class OverworldChunkManager : ChunkManager
         {
             chunks = Chunks.Select(item => item.Value).ToList();
         }
+
         foreach (Chunk c in chunks)
         {
             if (c == null)
