@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyAI_Gannon : EnemyAI
 {
-    const float VisibleDuration = 1.3f;
-    const float BoundsWidth = 8;
-    const float BoundsHeight = 5;
+    const float VISIBILE_DURATION = 1.3f;
+    const float BOUNDS_WIDTH = 8;           // TODO: Define custom bounds through EnemySpawnPoint
+    const float BOUNDS_HEIGHT = 5;
 
 
     public int swordHitsNeededToKill = 4;
@@ -13,44 +12,51 @@ public class EnemyAI_Gannon : EnemyAI
 
 
     int _swordHitsTaken;
-    Rect _bounds;
 
 
     public bool Visible
     {
         get { return AnimatorInstance.GetComponent<Renderer>().enabled; }
-        set { AnimatorInstance.GetComponent<Renderer>().enabled = value; }
+        private set { AnimatorInstance.GetComponent<Renderer>().enabled = value; }
     }
+
+    public bool VulnerableToArrow { get { return _swordHitsTaken >= swordHitsNeededToKill; } }
 
 
     void Start()
     {
-        Vector3 center = _enemy.DungeonRoomRef.transform.position;
-        _bounds = new Rect(
-            center.x - BoundsWidth * 0.5f,
-            center.z - BoundsHeight * 0.5f,
-            BoundsWidth, BoundsHeight
-            );
-
+        InitBounds();
         Disappear();
 
-        StartCoroutine("Tick");
+        InvokeRepeating("Tick", 0, attackCooldown);
+    }
+
+    void InitBounds()
+    {
+        Vector3 center = _enemy.DungeonRoomRef.transform.position;
+        Boundary = new Rect(
+            center.x - BOUNDS_WIDTH * 0.5f,
+            center.z - BOUNDS_HEIGHT * 0.5f,
+            BOUNDS_WIDTH, BOUNDS_HEIGHT
+            );
     }
 
 
-    IEnumerator Tick()
+    void Tick()
     {
-        while (true)
+        if (!_doUpdate)
         {
-            if (_doUpdate && !IsPreoccupied)
-            {
-                if (!Visible)
-                {
-                    Attack();
-                    MoveToRandomLocation();
-                }
-            }
-            yield return new WaitForSeconds(attackCooldown);
+            return;
+        }
+        if (IsPreoccupied)
+        {
+            return;
+        }
+
+        if (!Visible)
+        {
+            Attack();
+            MoveToRandomLocation();
         }
     }
 
@@ -61,13 +67,10 @@ public class EnemyAI_Gannon : EnemyAI
 
     void MoveToRandomLocation()
     {
-        float x = Random.Range(_bounds.xMin, _bounds.xMax);
-        float z = Random.Range(_bounds.yMin, _bounds.yMax);
+        Vector3 p = GetRandomAllowedPositionInsideBoundary();
 
-        // TODO: Use SetEnemyPosition2DToTile()?
-
-        transform.SetX(x);
-        transform.SetZ(z);
+        transform.SetX(p.x);
+        transform.SetZ(p.z);
     }
 
 
@@ -78,41 +81,31 @@ public class EnemyAI_Gannon : EnemyAI
         _swordHitsTaken++;
 
         UpdatePose();
-        StartCoroutine("Appear");
+        Appear();
     }
 
     void OnHitWithSilverArrow()
     {
         if (!Visible) { return; }
 
-        if (_swordHitsTaken >= swordHitsNeededToKill)
+        if (VulnerableToArrow)
         {
             _healthController.Kill(gameObject, true);
         }
     }
 
 
-    IEnumerator Appear()
-    {
-        Visible = true;
-
-        yield return new WaitForSeconds(VisibleDuration);
-
-        Disappear();
-    }
-
     void UpdatePose()
     {
-        if (_swordHitsTaken < swordHitsNeededToKill)
-        {
-            AnimatorInstance.SetTrigger("NextPose");
-        }
-        else
-        {
-            AnimatorInstance.SetTrigger("NextHurtPose");
-        }
+        string animName = VulnerableToArrow ? "NextHurtPose" : "NextPose";
+        AnimatorInstance.SetTrigger(animName);
     }
 
+    void Appear()
+    {
+        Visible = true;
+        Invoke("Disappear", VISIBILE_DURATION);
+    }
     void Disappear()
     {
         Visible = false;

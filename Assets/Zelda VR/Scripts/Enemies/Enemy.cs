@@ -4,8 +4,6 @@ using Immersio.Utility;
 
 public class Enemy : MonoBehaviour
 {
-    const int BoundaryWidth = 14;
-    const int BoundaryHeight = 9;
     const float RemovalDistanceThreshold = 32;      // How far away Enemy must be from player before it is destroyed (Overworld only)
     const float StunDuration = 3.0f;
 
@@ -56,8 +54,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public Rect Boundary { get; private set; }
-
 
     HealthController _healthController;
 
@@ -65,17 +61,6 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         _healthController = GetComponent<HealthController>();
-    }
-
-    void Start()
-    {
-        Vector3 pos = transform.position;
-        Boundary = new Rect(
-            pos.x - BoundaryWidth * 0.5f,
-            pos.z - BoundaryHeight * 0.5f,
-            BoundaryWidth,
-            BoundaryHeight
-            );
     }
 
 

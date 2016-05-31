@@ -83,7 +83,7 @@ public class EnemyAI_Tektite : EnemyAI
 
     void JumpToPlayer()
     {
-        _enemy.Jump(EnforceBoundary(DirectionToPlayer));
+        _enemy.Jump(EnforceBoundary(DirectionToPlayer));    // TODO: properly enforce boundary for jumping enemies
     }
     void JumpAwayFromPlayer()
     {

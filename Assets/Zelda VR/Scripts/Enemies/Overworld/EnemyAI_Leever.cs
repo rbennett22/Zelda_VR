@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class EnemyAI_Leever : EnemyAI
 {
-    const int WARP_RANGE = 5;
     const float OFFSCREEN_OFFSET = -30;      // How far to offset the Leever's y position when it is underground
 
 
@@ -103,13 +102,7 @@ public class EnemyAI_Leever : EnemyAI
         TileMap tileMap = CommonObjects.OverworldTileMap;
         if (tileMap == null) { return; }
 
-        float r = WARP_RANGE + EPSILON;
-        Rect area = new Rect(
-            (int)_origin.x - r,
-            (int)_origin.z - r,
-            2 * r,
-            2 * r);
-        _warpableTiles = tileMap.GetTilesInArea(area, TileInfo.SandTiles);
+        _warpableTiles = tileMap.GetTilesInArea(Boundary, TileInfo.SandTiles);
     }
 
     void WarpToRandomNearbySandTile()

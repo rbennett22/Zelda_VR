@@ -77,11 +77,11 @@ public class LostWoods : MonoBehaviour
         InitAtmosphere();
 
         // Player must move through woods in these directions (in order) to pass through.
-        _solutionSequence = new LostWoodsPortal[] { _northPortal, _westPortal, _southPortal, _westPortal };     // (right, up, left, up)
+        _solutionSequence = new LostWoodsPortal[] { _northPortal, _westPortal, _southPortal, _westPortal };     // (+z, -x, -z, -x)
 
         //duplicate.SetActive(false);
 
-        CommonObjects.Player_C.OccupiedSectorChanged += PlayerOccupiedSectorChanged;
+        CommonObjects.Player_C.OccupiedSectorChanged += PlayerEnteredNewSector;
     }
 
     void InitAtmosphere()
@@ -109,7 +109,7 @@ public class LostWoods : MonoBehaviour
     }
 
 
-    void PlayerOccupiedSectorChanged(Index2 prevSector, Index2 newSector)
+    void PlayerEnteredNewSector(Index2 prevSector, Index2 newSector)
     {
         if (!WorldInfo.Instance.IsOverworld)
         {

@@ -10,6 +10,36 @@ public class EnemyAI : MonoBehaviour
     protected const float EPSILON = 0.001f;
 
 
+    public float Radius { get { return 0.5f; } }       // TODO
+    public Rect Boundary { get; set; }
+    protected Rect GetBoundaryDeflatedByRadius()
+    {
+        Rect b = Boundary;
+        b.xMin += Radius;
+        b.xMax -= Radius;
+        b.yMin += Radius;
+        b.yMax -= Radius;
+        return b;
+    }
+
+    protected bool DoesBoundaryAllowPosition(Vector3 pt)
+    {
+        return DoesBoundaryAllowPosition(new Vector2(pt.x, pt.z));
+    }
+    protected bool DoesBoundaryAllowPosition(Vector2 p)
+    {
+        return !GetBoundaryDeflatedByRadius().Contains(p);
+    }
+
+    protected Vector3 GetRandomAllowedPositionInsideBoundary()
+    {
+        Rect b = GetBoundaryDeflatedByRadius();
+        float x = Random.Range(b.xMin, b.xMax);
+        float z = Random.Range(b.yMin, b.yMax);
+        return new Vector3(x, 0, z);
+    }
+
+
     protected bool _doUpdate = true;
 
     protected Enemy _enemy;
@@ -165,7 +195,7 @@ public class EnemyAI : MonoBehaviour
     protected Vector3 EnforceBoundary(Vector3 desiredMoveDirection)
     {
         Vector3 pos = transform.position;
-        Rect b = _enemy.Boundary;
+        Rect b = Boundary;
 
         if (pos.x < b.xMin)
         {

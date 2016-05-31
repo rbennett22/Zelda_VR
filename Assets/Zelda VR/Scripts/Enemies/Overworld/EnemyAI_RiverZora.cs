@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class EnemyAI_RiverZora : EnemyAI
 {
-    const int WARP_RANGE = 5;
-
-
     public float underwaterDuration = 2.0f;
     public float emergeDuration = 1.0f;
     public float surfaceDuration = 3.0f;
@@ -102,13 +99,7 @@ public class EnemyAI_RiverZora : EnemyAI
         TileMap tileMap = CommonObjects.OverworldTileMap;
         if (tileMap == null) { return; }
 
-        float r = WARP_RANGE + EPSILON;
-        Rect area = new Rect(
-            (int)_origin.x - r,
-            (int)_origin.z - r,
-            2 * r,
-            2 * r);
-        _warpableTiles = tileMap.GetTilesInArea(area, TileInfo.WaterTiles);
+        _warpableTiles = tileMap.GetTilesInArea(Boundary, TileInfo.WaterTiles);
     }
 
     void WarpToRandomNearbyWaterTile()

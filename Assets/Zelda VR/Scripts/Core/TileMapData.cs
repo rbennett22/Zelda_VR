@@ -21,7 +21,7 @@ public class TileMapData : MonoBehaviour
 
     public bool HasLoaded { get; private set; }
 
-    public int SectorHeightInTiles { get { return _sectorHeightInTiles; } }
+    public int SectorHeightInTiles { get { return _sectorHeightInTiles; } }     // TODO: TileMapData doesn't need to store anything about sectors.  Sector stuff should all be in TileMap
     public int SectorWidthInTiles { get { return _sectorWidthInTiles; } }
     public int SectorsWide { get { return _sectorsWide; } }
     public int SectorsHigh { get { return _sectorsHigh; } }

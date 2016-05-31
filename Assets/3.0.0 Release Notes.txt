@@ -10,6 +10,7 @@ DONE:
 
 - Black overlay shutters now close vertically onDeath
 - Enemies now drop bombs in bundles of 4
+- Overworld enemies are now correctly confined to their respective sectors
 - Getting heart container refills one heart instead of refilling it entirely
 
 - Controls: Allow both Keyboard/Mouse and XBOX GamePad to be used simultaneously

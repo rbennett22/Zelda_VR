@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Immersio.Utility;
 
 public class EnemySpawnPoint : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class EnemySpawnPoint : MonoBehaviour
     GameObject _spawnedEnemy = null;
     Transform _enemiesContainer;
     float _proximityThresholdMin, _proximityThresholdMax;
-    float _proximityThresholdMinSqd, _proximityThresholdMaxSqd;
+    float _proximityThresholdMinSq, _proximityThresholdMaxSq;
 
 
     void Awake()
@@ -44,8 +45,8 @@ public class EnemySpawnPoint : MonoBehaviour
             _proximityThresholdMin = spawnDistanceMin;
         }
 
-        _proximityThresholdMinSqd = _proximityThresholdMin * _proximityThresholdMin;
-        _proximityThresholdMaxSqd = _proximityThresholdMax * _proximityThresholdMax;
+        _proximityThresholdMinSq = _proximityThresholdMin * _proximityThresholdMin;
+        _proximityThresholdMaxSq = _proximityThresholdMax * _proximityThresholdMax;
 
 
         _enemiesContainer = GameObject.Find("Enemies").transform;
@@ -60,35 +61,35 @@ public class EnemySpawnPoint : MonoBehaviour
 
     public void DoUpdate()
     {
-        if (autoSpawn)
-        {
-            if (_spawnedEnemy != null) { return; }
+        if (!autoSpawn) { return; }
+        if (_spawnedEnemy != null) { return; }
 
-            float timeSinceLastSpawn = Time.time - _lastEnemyTimeOfDeath;
-            if (timeSinceLastSpawn < cooldown) { return; }
+        float timeSinceLastSpawn = Time.time - _lastEnemyTimeOfDeath;
+        if (timeSinceLastSpawn < cooldown) { return; }
 
-            Vector3 toPlayer = CommonObjects.Player_C.Position - transform.position;
-            float distanceToPlayerSqr = Vector3.SqrMagnitude(toPlayer);
-            if (distanceToPlayerSqr > _proximityThresholdMaxSqd) { return; }
-            if (distanceToPlayerSqr < _proximityThresholdMinSqd) { return; }
+        Vector3 toPlayer = CommonObjects.Player_C.Position - transform.position;
+        float distToPlayerSq = Vector3.SqrMagnitude(toPlayer);
+        if (distToPlayerSq > _proximityThresholdMaxSq) { return; }
+        if (distToPlayerSq < _proximityThresholdMinSq) { return; }
 
-            SpawnEnemy();
-        }
+        SpawnEnemy();
     }
 
     public GameObject SpawnEnemy()
     {
         GameObject g = Instantiate(enemyPrefab, transform.position, Quaternion.identity) as GameObject;
         g.name = enemyPrefab.name;
-        g.transform.parent = WorldInfo.Instance.IsOverworld ? _enemiesContainer : transform.parent;
-        g.transform.forward = transform.up;
 
-        //print("_spawnedEnemy: " + g.name);
+        Transform t = g.transform;
+        t.parent = WorldInfo.Instance.IsOverworld ? _enemiesContainer : transform.parent;
+        t.forward = transform.up;
 
         Enemy enemy = g.GetComponent<Enemy>();
         if (enemy != null)
         {
             enemy.SpawnPoint = this;
+
+            AssignBoundaryToSpawnedEnemy(enemy);
             AssignSpecialDropItemToSpawnedEnemy(enemy);
         }
 
@@ -103,6 +104,26 @@ public class EnemySpawnPoint : MonoBehaviour
         return g;
     }
 
+    void AssignBoundaryToSpawnedEnemy(Enemy enemy)
+    {
+        EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
+        if(enemyAI == null)
+        {
+            return;
+        }
+
+        if (WorldInfo.Instance.IsInDungeon)
+        {
+            DungeonRoom dr = DungeonRoom.GetRoomForPosition(transform.position);
+            enemyAI.Boundary = dr.Bounds;
+        }
+        else
+        {
+            TileMap tileMap = CommonObjects.OverworldTileMap;
+            Index2 sector = tileMap.GetSectorForPosition(transform.position);
+            enemyAI.Boundary = tileMap.GetBoundsForSector(sector);
+        }
+    }
     void AssignSpecialDropItemToSpawnedEnemy(Enemy enemy)
     {
         if (specialDrop == null) { return; }

@@ -49,7 +49,7 @@ public class SubDungeon : MonoBehaviour
         Transform camera = camRig.transform;
         camera.eulerAngles += eulerDiff;
 
-        CommonObjects.Player_C.ForceNewEulerAngles(camera.eulerAngles);
+        CommonObjects.Player_C.ForceNewRotation(camera.eulerAngles);
 
 
         pc.Stop();

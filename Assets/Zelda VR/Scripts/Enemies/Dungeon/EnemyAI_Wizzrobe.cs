@@ -153,8 +153,6 @@ public class EnemyAI_Wizzrobe : EnemyAI
 
     Vector3 GetRandomTeleportPosition()
     {
-        Vector3 newPosition;
-
         Vector3 pp = Player.Position;
         List<Vector3> possiblePositions = new List<Vector3>();
 
@@ -163,26 +161,20 @@ public class EnemyAI_Wizzrobe : EnemyAI
         possiblePositions.Add(new Vector3(pp.x, pp.y, pp.z + tpDistanceToPlayer));
         possiblePositions.Add(new Vector3(pp.x, pp.y, pp.z - tpDistanceToPlayer));
 
-        DungeonRoom dr = _enemy.DungeonRoomRef;
         for (int i = possiblePositions.Count - 1; i >= 0; i--)
         {
-            Vector3 p = possiblePositions[i];
-            if (p.x < dr.Bounds.xMin + 0.5f) { possiblePositions.RemoveAt(i); continue; }
-            if (p.x > dr.Bounds.xMax - 0.5f) { possiblePositions.RemoveAt(i); continue; }
-            if (p.z < dr.Bounds.yMin + 0.5f) { possiblePositions.RemoveAt(i); continue; }
-            if (p.z > dr.Bounds.yMax - 0.5f) { possiblePositions.RemoveAt(i); continue; }
+            if(!DoesBoundaryAllowPosition(possiblePositions[i]))
+            {
+                possiblePositions.RemoveAt(i);
+            }
         }
 
         if (possiblePositions.Count == 0)
         {
-            newPosition = transform.position;
-        }
-        else
-        {
-            int randIdx = Random.Range(0, possiblePositions.Count);
-            newPosition = possiblePositions[randIdx];
+            return transform.position;
         }
 
-        return newPosition;
+        int randIdx = Random.Range(0, possiblePositions.Count);
+        return possiblePositions[randIdx];
     }
 }

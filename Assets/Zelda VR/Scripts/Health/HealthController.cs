@@ -1,20 +1,26 @@
-using System;
 using UnityEngine;
-
-
-public interface IHealthControllerDelegate
-{
-    void OnHealthChanged(HealthController healthController, int newHealth);
-    void OnDamageTaken(HealthController healthController, ref uint damageAmount, GameObject damageDealer);
-    void OnHealthRestored(HealthController healthController, uint healAmount);
-    void OnTempInvincibilityActivation(HealthController healthController, bool didActivate);
-    void OnDeath(HealthController healthController, GameObject killer);
-}
-
 
 public class HealthController : HealthController_Abstract
 {
-    public IHealthControllerDelegate hcDelegate;
+    #region Delegates
+
+    public delegate void HealthChanged_Del(HealthController healthController, int prevHealth, int newHealth);
+    public HealthChanged_Del HealthChanged;
+
+    public delegate void DamageTaken_Del(HealthController healthController, ref uint damageAmount, GameObject damageDealer);
+    public DamageTaken_Del DamageTaken;
+
+    public delegate void OnHealthRestored_Del(HealthController healthController, uint healAmount);
+    public OnHealthRestored_Del HealthRestored;
+
+    public delegate void OnTempInvincibilityActivation_Del(HealthController healthController, bool didActivate);
+    public OnTempInvincibilityActivation_Del TempInvincibilityActivation;
+
+    public delegate void OnDeath_Del(HealthController healthController, GameObject killer);
+    public OnDeath_Del Death;
+
+    #endregion Delegates
+
 
     public int maxHealth = 3;
     public bool isIndestructible;
@@ -94,29 +100,6 @@ public class HealthController : HealthController_Abstract
     }
 
 
-    void OnDeath()
-    {
-        _isAlive = false;
-        if (hcDelegate != null)
-        {
-            hcDelegate.OnDeath(this, _killer);
-        }
-
-        if (deathSound != null)
-        {
-            SoundFx.Instance.PlayOneShot3D(transform.position, deathSound);
-        }
-
-        if (destroyOnDeath)
-        {
-            gameObject.SetActive(false);
-            Destroy(gameObject, 0.5f);
-        }
-    }
-
-
-    #region Public Actions
-
     public override void SetHealth(int newHealth)
     {
         if (!_isAlive || _health == newHealth)
@@ -124,13 +107,23 @@ public class HealthController : HealthController_Abstract
 
         if (isIndestructible && newHealth < _health) { return; }
 
-        _health = Mathf.Clamp(newHealth, 0, maxHealth);
+        int prevHealth = _health;
 
-        if (hcDelegate != null)
-            hcDelegate.OnHealthChanged(this, _health);
+        _health = Mathf.Clamp(newHealth, 0, maxHealth);
+        if (_health != prevHealth)
+        {
+            OnHealthChanged(prevHealth, _health);
+        }
 
         if (_health <= 0)
-            OnDeath();
+        {
+            Die();
+        }
+    }
+    void OnHealthChanged(int prevHealth, int newHealth)
+    {
+        if (HealthChanged != null)
+            HealthChanged(this, prevHealth, newHealth);
     }
 
     public bool RestoreHealth()
@@ -143,31 +136,43 @@ public class HealthController : HealthController_Abstract
             return false;
         SetHealth(_health + (int)healAmount);
 
-        if (hcDelegate != null)
-            hcDelegate.OnHealthRestored(this, healAmount);
+        OnHealthRestored(healAmount);
 
         return true;
+    }
+    void OnHealthRestored(uint healAmount)
+    {
+        if (HealthRestored != null)
+            HealthRestored(this, healAmount);
     }
 
     public override bool TakeDamage(uint damageAmount, GameObject damageDealer)
     {
         if (!_isAlive || isIndestructible || IsTempInvincActive)
+        {
             return false;
+        }
 
-        if (hcDelegate != null)
-            hcDelegate.OnDamageTaken(this, ref damageAmount, damageDealer);
+        OnDamageTaken(ref damageAmount, damageDealer);
 
         if (damageAmount == 0)
+        {
             return false;
+        }
 
         int newHealth = _health - (int)damageAmount;
         if (newHealth <= 0)
+        {
             _killer = damageDealer;
+        }
+
         SetHealth(newHealth);
 
         // Still alive after taking damage?
         if (_isAlive)
+        {
             ActivateTempInvinc();
+        }
 
         if (hurtSound != null)
         {
@@ -175,6 +180,11 @@ public class HealthController : HealthController_Abstract
         }
 
         return true;
+    }
+    void OnDamageTaken(ref uint damageAmount, GameObject damageDealer)
+    {
+        if (DamageTaken != null)
+            DamageTaken(this, ref damageAmount, damageDealer);
     }
 
     // TODO
@@ -198,6 +208,35 @@ public class HealthController : HealthController_Abstract
         return true;
     }
 
+    void Die()
+    {
+        if (!_isAlive)
+        {
+            return;
+        }
+
+        _isAlive = false;
+
+        OnDeath(this, _killer);
+
+        if (deathSound != null)
+        {
+            SoundFx.Instance.PlayOneShot3D(transform.position, deathSound);
+        }
+
+        if (destroyOnDeath)
+        {
+            gameObject.SetActive(false);
+            Destroy(gameObject, 0.5f);
+        }
+    }
+    void OnDeath(HealthController healthController, GameObject killer)
+    {
+        if (Death != null)
+            Death(this, killer);
+    }
+
+
     public void Reset()
     {
         _isAlive = true;
@@ -211,7 +250,9 @@ public class HealthController : HealthController_Abstract
     public void ActivateTempInvinc(bool doActivate = true)
     {
         if (!_isAlive || IsTempInvincActive == doActivate || tempInvincibilityDuration <= 0)
+        {
             return;
+        }
 
         _tempInvincibilityTimer = tempInvincibilityDuration;
         IsTempInvincActive = doActivate;
@@ -221,10 +262,11 @@ public class HealthController : HealthController_Abstract
             GetComponent<Renderer>().material = doActivate ? tempInvincMat : _origMat;
         }
 
-        if (hcDelegate != null)
-            hcDelegate.OnTempInvincibilityActivation(this, doActivate);
+        OnTempInvincibilityActivation(doActivate);
     }
-  
-
-    #endregion Public Actions
+    void OnTempInvincibilityActivation(bool doActivate)
+    {
+        if (TempInvincibilityActivation != null)
+            TempInvincibilityActivation(this, doActivate);
+    }
 }

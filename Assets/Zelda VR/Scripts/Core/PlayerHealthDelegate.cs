@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
+public class PlayerHealthDelegate : MonoBehaviour
 {
     const float DEATH_SEQUENCE_DURATION = 2.0f;
     const int NUM_HALF_HEARTS_AFTER_RESPAWN = 6;
@@ -33,18 +33,22 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
         _player = GetComponent<Player>();
         _playerController = _player.PlayerController.gameObject.transform;
         _healthController = GetComponent<HealthController>();
-        _healthController.hcDelegate = this;
+
+        _healthController.HealthChanged += HealthChanged;
+        _healthController.DamageTaken += DamageTaken;
+        _healthController.Death += Death;
     }
 
 
-    void IHealthControllerDelegate.OnHealthChanged(HealthController healthController, int newHealth)
+    void HealthChanged(HealthController healthController, int prevHealth, int newHealth)
     {
         _player.SwordProjectilesEnabled = healthController.IsAtFullHealth;
         SoundFx.Instance.PlayLowHealth(_player.HealthInHalfHearts <= 2);
     }
-    void IHealthControllerDelegate.OnDamageTaken(HealthController healthController, ref uint damageAmount, GameObject damageDealer)
+
+    void DamageTaken(HealthController healthController, ref uint damageAmount, GameObject damageDealer)
     {
-        damageAmount = (uint)(_player.GetDamageModifier() * damageAmount);
+        damageAmount = (uint)(_player.GetDamageNullifier() * damageAmount);
 
         Vector3 direction = _playerController.position - damageDealer.transform.position;
         direction.y = 0;
@@ -67,10 +71,7 @@ public class PlayerHealthDelegate : MonoBehaviour, IHealthControllerDelegate
         Enemy.EnemiesKilledWithoutTakingDamage = 0;
     }
 
-    void IHealthControllerDelegate.OnHealthRestored(HealthController healthController, uint healAmount) { }
-    void IHealthControllerDelegate.OnTempInvincibilityActivation(HealthController healthController, bool didActivate) { }
-
-    void IHealthControllerDelegate.OnDeath(HealthController healthController, GameObject killer)
+    void Death(HealthController healthController, GameObject killer)
     {
         _player.DeathCount++;
 

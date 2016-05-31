@@ -79,7 +79,6 @@ Low Priority:
 - Texture OW DungeonEntrances correctly?
 - Hold up HeartContainer if received in Grotto
 - LikeLike: Show an effect to indicate what's happening when player is trapped ("swallowed")
-- Use sector Boundaries for OW enemies
 - ImageEffects on camera (bloom etc)?
 - SoundFX DSP (ie. reverb in dungeons)
 - Music Fade In/Out

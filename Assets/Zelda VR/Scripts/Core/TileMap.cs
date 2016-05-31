@@ -72,6 +72,16 @@ public class TileMap : MonoBehaviour
         return _tileMapData.GetTileInSector(sector, tileIdx_S);
     }
 
+    public Rect GetBoundsForSector(Index2 sIdx)
+    {
+        float w = SectorWidthInTiles, h = SectorHeightInTiles;
+        Vector3 p = sIdx.ToVector3();
+        p.x *= w;
+        p.z *= h;
+        p += WorldInfo.Instance.WorldOffset;
+        return new Rect(p.x, p.z, w, h);
+    }
+
 
     void Awake()
     {

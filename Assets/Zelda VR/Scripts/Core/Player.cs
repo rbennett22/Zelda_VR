@@ -1,5 +1,6 @@
 ﻿using Immersio.Utility;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(HealthController))]
@@ -20,27 +21,159 @@ public class Player : Singleton<Player>
         set { _playerController.transform.position = value; }
     }
 
+    public void ForceNewForwardDirection(Vector3 direction)
+    {
+        _playerController.transform.forward = direction;
+    }
+    public void ForceNewRotation(Vector3 euler)
+    {
+        _playerController.transform.eulerAngles = euler;
+    }
+
+    Index2 _prevOccupiedSector;
+    public Index2 GetOccupiedOverworldSector()
+    {
+        TileMap tileMap = CommonObjects.OverworldTileMap;
+        if (tileMap == null)
+        {
+            return new Index2();
+        }
+        return tileMap.GetSectorForPosition(Position);
+    }
+    public DungeonRoom GetOccupiedDungeonRoom()
+    {
+        if (!WorldInfo.Instance.IsInDungeon) { return null; }
+
+        return DungeonRoom.GetRoomForPosition(Position);
+    }
+
 
     Inventory _inventory;
     public Inventory Inventory { get { return _inventory; } }
 
     Weapon_Melee_Sword _equippedSword;
+    public void EquipSword(string swordName)
+    {
+        if (_equippedSword != null) { DeequipSword(); }
+
+        Item item = _inventory.GetItem(swordName);
+        GameObject prefab = item.weaponPrefab;
+
+        GameObject g = Instantiate(prefab) as GameObject;
+        g.name = prefab.name;
+
+        Transform t = g.transform;
+        t.SetParent(_playerController.WeaponContainerRight);
+        t.localPosition = Vector3.zero;
+        t.localRotation = Quaternion.identity;
+
+        _equippedSword = g.GetComponent<Weapon_Melee_Sword>();
+
+        SwordProjectilesEnabled = HealthController.IsAtFullHealth;
+    }
+    public void DeequipSword()
+    {
+        if (_equippedSword != null)
+        {
+            Destroy(_equippedSword.gameObject);
+            _equippedSword = null;
+        }
+    }
     public bool IsAttackingWithSword { get { return (_equippedSword != null) && _equippedSword.IsAttacking; } }
+    public bool SwordProjectilesEnabled
+    {
+        get { return (_equippedSword != null) && _equippedSword.ProjectilesEnabled; }
+        set { if (_equippedSword != null) { _equippedSword.ProjectilesEnabled = value; } }
+    }
 
     Shield_Base _equippedShield;
-    public Shield_Base EquippedShield { get { return _equippedShield; } }
+    public void EquipShield(string shieldName)
+    {
+        if (_equippedShield != null) { DeequipShield(); }
+
+        Item item = _inventory.GetItem(shieldName);
+        GameObject prefab = item.shieldPrefab;
+
+        GameObject g = Instantiate(prefab) as GameObject;
+        g.name = prefab.name;
+
+        Transform t = g.transform;
+        t.SetParent(_playerController.ShieldContainer);
+        t.localPosition = Vector3.zero;
+        t.localRotation = Quaternion.identity;
+
+        _equippedShield = g.GetComponent<Shield_Base>();
+    }
+    public void DeequipShield()
+    {
+        if (_equippedShield != null)
+        {
+            Destroy(_equippedShield.gameObject);
+            _equippedShield = null;
+        }
+    }
 
     Item _equippedItem;
-    public Item EquippedItem { get { return _equippedItem; } }
+    public void EquipItem(string itemName)
+    {
+        if (_equippedItem != null) { DeequipItem(); }
+
+        _equippedItem = _inventory.GetItem(itemName);
+
+        if (_equippedItem.weaponPrefab != null)
+        {
+            EquipWeaponB(itemName);
+        }
+    }
+    public void DeequipItem()
+    {
+        DeequipWeaponB();
+
+        _equippedItem = null;
+    }
+
     Weapon_Base _equippedWeaponB;
-    public Weapon_Base EquippedWeaponB { get { return _equippedWeaponB; } }
+    void EquipWeaponB(string weaponName)
+    {
+        Item item = _inventory.GetItem(weaponName);
+        GameObject prefab = item.weaponPrefab;
+
+        GameObject g = Instantiate(prefab) as GameObject;
+        g.name = prefab.name;
+
+        Transform t = g.transform;
+        t.SetParent(_playerController.WeaponContainerLeft);
+        t.localPosition = Vector3.zero;
+        t.localRotation = Quaternion.identity;
+
+        _equippedWeaponB = g.GetComponent<Weapon_Base>();
+    }
+    void DeequipWeaponB()
+    {
+        if (_equippedWeaponB != null)
+        {
+            Destroy(_equippedWeaponB.gameObject);
+            _equippedWeaponB = null;
+        }
+    }
 
 
     HealthController _healthController;
     public HealthController HealthController { get { return _healthController ?? (_healthController = GetComponent<HealthController>()); } }
+    public bool IsAlive { get { return HealthController.IsAlive; } }
     public bool IsAtFullHealth { get { return HealthController.IsAtFullHealth; } }
     public int HealthInHalfHearts { get { return PlayerHealthDelegate.HealthToHalfHearts(HealthController.Health); } }
-    public bool IsAlive { get { return HealthController.IsAlive; } }
+    public void RestoreHearts(int hearts)
+    {
+        RestoreHalfHearts(hearts * 2);
+    }
+    public void RestoreHalfHearts(int halfHearts)
+    {
+        if (halfHearts <= 0) { return; }
+
+        int healAmount = PlayerHealthDelegate.HalfHeartsToHealth(halfHearts);
+        HealthController.RestoreHealth((uint)healAmount);
+    }
 
 
     public string RegisteredName { get; set; }
@@ -67,7 +200,7 @@ public class Player : Singleton<Player>
         IsJinxed = false;
     }
 
-    // LikeLikeTrap:  Player is Paralyzed, and will lose MagicShield if player doesn't repeatedly press Attack button fast enough
+    // LikeLikeTrap:  Player is Paralyzed, and will lose MagicShield if he doesn't repeatedly press Attack button fast enough
     bool _isInLikeLikeTrap;
     int _likeLikeTrapCounter;
     public bool IsInLikeLikeTrap            
@@ -210,102 +343,6 @@ public class Player : Singleton<Player>
     }
 
 
-    public void EquipShield(string shieldName)
-    {
-        if (_equippedShield != null) { DeequipShield(); }
-
-        Item item = _inventory.GetItem(shieldName);
-        GameObject prefab = item.shieldPrefab;
-
-        GameObject g = Instantiate(prefab) as GameObject;
-        g.name = prefab.name;
-
-        Transform t = g.transform;
-        t.SetParent(_playerController.ShieldContainer);
-        t.localPosition = Vector3.zero;
-        t.localRotation = Quaternion.identity;
-
-        _equippedShield = g.GetComponent<Shield_Base>();
-    }
-    public void DeequipShield()
-    {
-        if (_equippedShield != null)
-        {
-            Destroy(_equippedShield.gameObject);
-            _equippedShield = null;
-        }
-    }
-
-    public void EquipSword(string swordName)
-    {
-        if (_equippedSword != null) { DeequipSword(); }
-
-        Item item = _inventory.GetItem(swordName);
-        GameObject prefab = item.weaponPrefab;
-
-        GameObject g = Instantiate(prefab) as GameObject;
-        g.name = prefab.name;
-
-        Transform t = g.transform;
-        t.SetParent(_playerController.WeaponContainerRight);
-        t.localPosition = Vector3.zero;
-        t.localRotation = Quaternion.identity;
-
-        _equippedSword = g.GetComponent<Weapon_Melee_Sword>();
-
-        SwordProjectilesEnabled = HealthController.IsAtFullHealth;
-    }
-    public void DeequipSword()
-    {
-        if (_equippedSword != null)
-        {
-            Destroy(_equippedSword.gameObject);
-            _equippedSword = null;
-        }
-    }
-
-    public bool SwordProjectilesEnabled {
-        get { return (_equippedSword != null) && _equippedSword.ProjectilesEnabled; }
-        set { if (_equippedSword != null) { _equippedSword.ProjectilesEnabled = value; } }
-    }
-
-    public void EquipSecondaryItem(string itemName)
-    {
-        if (_equippedItem != null) { DeequipSecondaryItem(); }
-
-        _equippedItem = _inventory.GetItem(itemName);
-        if (_equippedItem.weaponPrefab != null)
-        {
-            EquipSecondaryWeapon(itemName);
-        }
-    }
-    void EquipSecondaryWeapon(string weaponName)
-    {
-        Item item = _inventory.GetItem(weaponName);
-        GameObject prefab = item.weaponPrefab;
-
-        GameObject g = Instantiate(prefab) as GameObject;
-        g.name = prefab.name;
-
-        Transform t = g.transform;
-        t.SetParent(_playerController.WeaponContainerLeft);
-        t.localPosition = Vector3.zero;
-        t.localRotation = Quaternion.identity;
-
-        _equippedWeaponB = g.GetComponent<Weapon_Base>();
-    }
-    public void DeequipSecondaryItem()
-    {
-        if (_equippedWeaponB != null)
-        {
-            Destroy(_equippedWeaponB.gameObject);
-            _equippedWeaponB = null;
-        }
-
-        _equippedItem = null;
-    }
-
-
     void Update()
     {
         UpdateEvents();
@@ -351,7 +388,7 @@ public class Player : Singleton<Player>
 
             if (_equippedWeaponB != null)
             {
-                // Aim Secondary Weapon
+                // Aim WeaponB
                 /*Transform t = _playerController.WeaponContainerLeft;
                 t.forward = _playerController.LineOfSight;
                 if (bow == null)
@@ -362,7 +399,7 @@ public class Player : Singleton<Player>
                 }*/
             }
 
-            // Use Secondary Item?
+            // Use Item?
             bool doUseItem = false;
             if (bow != null)
             {
@@ -377,7 +414,7 @@ public class Player : Singleton<Player>
             {
                 if (_equippedWeaponB != null)
                 { 
-                    AttackWithSecondaryWeapon();
+                    AttackWithWeaponB();
                 }
 
                 _inventory.UseItemB();
@@ -399,7 +436,7 @@ public class Player : Singleton<Player>
         _equippedSword.Attack();
     }
 
-    void AttackWithSecondaryWeapon()
+    void AttackWithWeaponB()
     {
         if (_equippedWeaponB == null || !_equippedWeaponB.CanAttack)
         {
@@ -435,24 +472,7 @@ public class Player : Singleton<Player>
     }
 
 
-    Index2 _prevOccupiedSector;
-    public Index2 GetOccupiedOverworldSector()
-    {
-        TileMap tileMap = CommonObjects.OverworldTileMap;
-        if(tileMap == null)
-        {
-            return new Index2();
-        }
-        return tileMap.GetSectorForPosition(Position);
-    }
-    public DungeonRoom GetOccupiedDungeonRoom()
-    {
-        if (!WorldInfo.Instance.IsInDungeon) { return null; }
-
-        return DungeonRoom.GetRoomForPosition(Position);
-    }
-
-    public float GetDamageModifier()
+    public float GetDamageNullifier()
     {
         float mod = 1;
         if (_inventory.HasItem("RedRing"))
@@ -496,50 +516,36 @@ public class Player : Singleton<Player>
 
     public void ParalyzeAllNearbyEnemies(float duration)
     {
+        foreach (Enemy enemy in GetEnemiesInCurrentRoomOrSector())
+        {
+            enemy.Paralyze(duration);
+        }
+    }
+
+    public List<Enemy> GetEnemiesInCurrentRoomOrSector()
+    {
+        List<Enemy> enemies = new List<Enemy>();
+
         if (WorldInfo.Instance.IsOverworld)
         {
+            TileMap tm = CommonObjects.OverworldTileMap;
+            Rect sBounds = tm.GetBoundsForSector(GetOccupiedOverworldSector());
             GameObject enemiesContainer = GameObject.FindGameObjectWithTag("Enemies");
-            foreach (Transform child in enemiesContainer.transform)
+            foreach (Enemy e in enemiesContainer.GetComponentsInChildren<Enemy>())
             {
-                Enemy enemy = child.GetComponent<Enemy>();
-                if (enemy != null)
+                Vector3 p = e.transform.position;
+                Vector2 p2 = new Vector2(p.x, p.z);
+                if (sBounds.Contains(p2))
                 {
-                    enemy.Paralyze(duration);
+                    enemies.Add(e);
                 }
             }
         }
         else if (WorldInfo.Instance.IsInDungeon)
         {
-            DungeonRoom roomPlayerIsIn = GetOccupiedDungeonRoom();
-            foreach (Enemy enemy in roomPlayerIsIn.Enemies)
-            {
-                enemy.Paralyze(duration);
-            }
+            enemies = GetOccupiedDungeonRoom().Enemies;
         }
-    }
 
-
-    public void ForceNewForwardDirection(Vector3 direction)
-    {
-        //playerController.transform.rotation = Quaternion.Euler(lerpedEuler);
-        _playerController.transform.forward = direction;
-    }
-
-    public void ForceNewEulerAngles(Vector3 euler)
-    {
-        _playerController.transform.eulerAngles = euler;
-    }
-
-
-    public void RestoreHearts(int hearts)
-    {
-        RestoreHalfHearts(hearts * 2);
-    }
-    public void RestoreHalfHearts(int halfHearts)
-    {
-        if (halfHearts <= 0) { return; }
-
-        int healAmount = PlayerHealthDelegate.HalfHeartsToHealth(halfHearts);
-        HealthController.RestoreHealth((uint)healAmount);
+        return enemies;
     }
 }

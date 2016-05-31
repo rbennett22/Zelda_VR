@@ -11,9 +11,6 @@ public class EnemyAI_Gohma : EnemyAI
     public float openEyeDuration = 2.0f;
 
 
-    Rect _moveBounds;
-
-
     public bool IsEyeOpen { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("EyeOpen"); } }
     public bool IsEyeClosed { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("EyeClosed"); } }
 
@@ -25,7 +22,7 @@ public class EnemyAI_Gohma : EnemyAI
         _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
 
         Vector3 p = transform.position;
-        _moveBounds = new Rect(
+        Boundary = new Rect(
             p.x - pathWidth * 0.5f,
             p.z - pathHeight,
             pathWidth, pathHeight
@@ -63,14 +60,14 @@ public class EnemyAI_Gohma : EnemyAI
 
         if (MoveDirection_Tile.IsDown())
         {
-            if (p.z <= _moveBounds.yMin)
+            if (p.z <= Boundary.yMin)
             {
                 newMoveDir = IndexDirection2.up;
             }
         }
         else if (MoveDirection_Tile.IsUp())
         {
-            if (p.z >= _moveBounds.yMax)
+            if (p.z >= Boundary.yMax)
             {
                 newMoveDir = (Extensions.FlipCoin()) ? IndexDirection2.left : IndexDirection2.right;
             }
@@ -85,14 +82,14 @@ public class EnemyAI_Gohma : EnemyAI
             {
                 if (MoveDirection_Tile.IsRight())
                 {
-                    if (p.x >= _moveBounds.xMax)
+                    if (p.x >= Boundary.xMax)
                     {
                         newMoveDir = IndexDirection2.left;
                     }
                 }
                 else if (MoveDirection_Tile.IsLeft())
                 {
-                    if (p.x <= _moveBounds.xMin)
+                    if (p.x <= Boundary.xMin)
                     {
                         newMoveDir = IndexDirection2.right;
                     }

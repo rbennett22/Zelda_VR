@@ -113,11 +113,11 @@ public class Inventory : Singleton<Inventory>
             _equippedItemB = value;
             if (_equippedItemB != null)
             {
-                CommonObjects.Player_C.EquipSecondaryItem(_equippedItemB.name);
+                CommonObjects.Player_C.EquipItem(_equippedItemB.name);
             }
             else
             {
-                CommonObjects.Player_C.DeequipSecondaryItem();
+                CommonObjects.Player_C.DeequipItem();
             }
         }
     }

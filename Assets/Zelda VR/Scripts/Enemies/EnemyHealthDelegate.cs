@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
+public class EnemyHealthDelegate : MonoBehaviour
 {
     const float PushBackPower = 7;
 
@@ -9,14 +9,20 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
     public bool flashWhenDamaged = true;
 
 
+    HealthController _healthController;
+
+
     void Awake()
     {
-        GetComponent<HealthController>().hcDelegate = this;
+        _healthController = GetComponent<HealthController>();
+
+        _healthController.DamageTaken += DamageTaken;
+        _healthController.TempInvincibilityActivation += TempInvincibilityActivation;
+        _healthController.Death += Death;
     }
 
 
-    void IHealthControllerDelegate.OnHealthChanged(HealthController healthController, int newHealth) { }
-    void IHealthControllerDelegate.OnDamageTaken(HealthController healthController, ref uint damageAmount, GameObject damageDealer)
+    void DamageTaken(HealthController healthController, ref uint damageAmount, GameObject damageDealer)
     {
         EnemyAI_Zol zol = GetComponent<EnemyAI_Zol>();
         if (zol != null)
@@ -71,15 +77,16 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
             }
         }
     }
-    void IHealthControllerDelegate.OnHealthRestored(HealthController healthController, uint healAmount) { }
-    void IHealthControllerDelegate.OnTempInvincibilityActivation(HealthController healthController, bool didActivate)
+
+    void TempInvincibilityActivation(HealthController healthController, bool didActivate)
     {
         if (flashWhenDamaged && enemyAnim != null)
         {
             enemyAnim.ActivateFlash(didActivate);
         }
     }
-    void IHealthControllerDelegate.OnDeath(HealthController healthController, GameObject killer)
+
+    void Death(HealthController healthController, GameObject killer)
     {
         EnemyAI_Moldorm moldorm = GetComponent<EnemyAI_Moldorm>();
         if (moldorm != null)
@@ -128,7 +135,6 @@ public class EnemyHealthDelegate : MonoBehaviour, IHealthControllerDelegate
 
         SendMessage("OnEnemyDeath", SendMessageOptions.DontRequireReceiver);
     }
-
     void OnMoldormDeath(EnemyAI_Moldorm moldorm)
     {
         Enemy e = GetComponent<Enemy>();
