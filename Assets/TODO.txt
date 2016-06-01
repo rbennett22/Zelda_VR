@@ -4,8 +4,15 @@ High Priority:
 
 - Use flat tiles for ground at same voxel tile height as unit blocks?
 - Often getting stuck towards mid-top of Grotto stairs
+- Can't enter Grottos whose entrances are covered by special blocks
 
-- Having the map item doesn't mean every room in the pause map should be filled in
+- Fix Maps:
+- W/O  Map:			HUD - Nothing				Inventory - Visited (except secret)
+- With Map:			HUD - All (except secret)	Inventory - Visited (except secret)
+- W/O  Compass:		HUD - Nothing				Inventory - Nothing
+- With Compass:		HUD - Triforce				Inventory - Nothing
+
+- When warping, ensure that world has completely loaded before opening shutters
 - Water Tiles: Currently Sword and Wand Projectiles can't pass over water; 
 	Link can walk on water (try lowering his step offset only while on stairs?)
 - If CandleFlame hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
@@ -15,20 +22,17 @@ High Priority:
 - Waterfall cave
 - Grotto Warps
 
+- Gannon: Intro
+- Gannon: When hit he should be temporarily invincible so that player can't take advantage
+- Gannon: Death
+
 - ControlsView: Update image
 - OptionsMenu: Controls
 - Ending
 - Credits
 
-- Gannon: Intro
-- Gannon: When hit he should be temporarily invincible so that player can't take advantage
-- Gannon: Death
-
 
 Mid Priority:
-
-- Refactor Spells/Buffs/Effects
-- Refactor Grottos
 
 - D6 OW Entrance (2 blocks wide)
 - Fog disappears abruptly in grottos close to Lost Woods
@@ -49,13 +53,11 @@ Mid Priority:
 
 - Make the shield appear every time it deflects an attack?
 - Don't use the same image for WoodenShield and MagicShield
-- No rolling rupee sound after "Secret to everybody" or door repair
 - Hearts floating around in "Secret to everybody" cave that runs beneath fairy fountain
-- Door wouldn't reopen in Level 1 old man room
-- Door wouldn't reopen in Level 3 red darknut room (near where ladder is kept)
 - Blue wizzrobes should not teleport
 - Beams from many dungeon enemies should be unblockable
 
+- No rolling rupee sound after "Secret to everybody" or door repair
 - There should be an event sound when you present meat to "Grumble, grumble"
 - Need event sound in "Pick any one you want" caves
 - Wrong sound effect for both types of fairies (see https://www.youtube.com/watch?v=hhb3LqLtTBM @11:30)
@@ -71,7 +73,6 @@ Low Priority:
 - Old men in dungeons don't fight me back
 - Whistle Warp: Facing north or west, warp to the next dungeon; facing south or east, warp to the previous dungeon
 - Whistle Warp: If he blows the Recorder multiple times while the whirlwind approaches, he can cycle through the sequence indefinitely. 
-- When warping, ensure that world has completely loaded before opening shutters
 - Texture blocks correctly (use BoxMesh.cs?)
 - Texture OW DungeonEntrances correctly?
 - Hold up HeartContainer if received in Grotto
@@ -88,6 +89,11 @@ Low Priority:
 - I'm not sure darknuts are supposed to be hurt by fire, or gleeoks by the wand
 - Leevers: Should not be harmful when burrowing 
 - River Zora projectile should briefly hold position (~0.3 secs) before firing towards Link
+- Pushable Blocks should reset when leaving DungeonRoom (and linked doors reseal)
+- HUD Dungeon Map Triforce icon should flash Red/Blue, cycling every ~0.7 secs
+
+- Refactor Spells/Buffs/Effects
+- Refactor Grottos
 
 
 WishList:
@@ -125,10 +131,12 @@ BUGS:
 - BUG: NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
 
-- BUG: Moldorm looks crazy when resuming after pause
-- BUG: Enemies that spawn after clock has activated aren't paralyzed
+- BUG: Dungeon Map not displaying in Inventory
 - BUG: Vire can jump through wall
+- BUG: Moldorm looks crazy when resuming after pause
+- BUG: Moldorm inactive
 
+- BUG: Enemies that spawn after clock has activated aren't paralyzed
 - BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)
 
 
@@ -144,6 +152,8 @@ NEEDS TESTING:
 - Vires don't spawn Keese if killed by MagicSword
 - Wand Flame should light up dark room
 - Grotto: Deliver Letter
+
+- BUG: Sometimes dungeon doors don't reopen (Level 1 old man room, Level 3 Ladder room, etc) - FIXED
 
 
 RESEARCH:

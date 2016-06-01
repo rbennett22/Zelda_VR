@@ -15,7 +15,6 @@ public class GameplayHUDView : MonoBehaviour
 
     [SerializeField]
     DungeonMapView _dungeonMapView;
-
     [SerializeField]
     OverworldMapView _overworldMapView;
 
@@ -27,7 +26,6 @@ public class GameplayHUDView : MonoBehaviour
 
     [SerializeField]
     ZeldaText _rupeesText, _keysText, _bombsText;
-
     [SerializeField]
     ZeldaText _levelNumText;
 

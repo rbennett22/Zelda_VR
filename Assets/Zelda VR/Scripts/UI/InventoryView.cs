@@ -36,7 +36,6 @@ public class InventoryView : MonoBehaviour
 
     [SerializeField]
     GameObject _overworldView, _dungeonView;
-
     [SerializeField]
     DungeonMapView _dungeonMapView;
 
@@ -56,7 +55,6 @@ public class InventoryView : MonoBehaviour
 
     [SerializeField]
     MenuCursor _menuCursor;
-
     [SerializeField]
     GameObject _cursorView;
 
