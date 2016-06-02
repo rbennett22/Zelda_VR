@@ -1,5 +1,8 @@
 --- TODO ---
 
+- Try out new plugins: "Scion - Filmic Post Processing"
+
+
 High Priority:
 
 - Use flat tiles for ground at same voxel tile height as unit blocks?
@@ -19,7 +22,7 @@ High Priority:
 
 - Lost Woods: Fog; Overriding directions doesn't work right for -x and -z; Remove Collectibles
 - Lost Hills
-- Waterfall cave
+- Waterfall Cave
 - Grotto Warps
 
 - Gannon: Intro
