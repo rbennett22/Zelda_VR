@@ -1,8 +1,5 @@
 --- TODO ---
 
-- Try out new plugins: "Scion - Filmic Post Processing"
-
-
 High Priority:
 
 - Use flat tiles for ground at same voxel tile height as unit blocks?
