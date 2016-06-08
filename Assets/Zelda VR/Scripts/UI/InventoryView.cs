@@ -204,6 +204,7 @@ public class InventoryView : MonoBehaviour
 
     public void MoveCursor(IndexDirection2 dir)
     {
+        dir.FlipVertically();
         if (_menuCursor.TryMoveCursor(dir))
         {
             PlayCursorMoveSound();

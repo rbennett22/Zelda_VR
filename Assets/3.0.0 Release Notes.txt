@@ -2,10 +2,15 @@
 
 RECENTLY DONE:
 
+- BUG: Rapid coninuous beeping sounds when menus are open -FIXED
+- BUG: Up and Down are reversed in Pause Menu navigation controls -FIXED
+
+
+COMMITTED BUT NOT YET PUSHED:
+
 - BUG: Dungeon block still only pushable from one direction -FIXED
 - BUG: WallMasters don't reappear after first appearance -FIXED
 - BUG: I couldn't move after collecting triforce and warping back to OW -FIXED
-
 
 
 DONE:

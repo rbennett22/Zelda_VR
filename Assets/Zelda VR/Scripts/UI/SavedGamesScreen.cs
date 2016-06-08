@@ -94,7 +94,7 @@ public class SavedGamesScreen : MonoBehaviour
     void UpdateCursor()
     {
         float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
-        Vector2 dir = new Vector2(0, moveVert);
+        Vector2 dir = new Vector2(0, -moveVert);
 
         if (_cursor.TryMoveCursor(dir))
         {

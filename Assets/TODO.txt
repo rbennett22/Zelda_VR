@@ -1,6 +1,6 @@
 --- TODO ---
 
-High Priority:
+High Priority: 
 
 - Use flat tiles for ground at same voxel tile height as unit blocks?
 - Often getting stuck towards mid-top of Grotto stairs

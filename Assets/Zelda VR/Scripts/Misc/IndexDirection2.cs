@@ -98,6 +98,16 @@ namespace Immersio.Utility
             x *= -1;
             y *= -1;
         }
+        public IndexDirection2 FlippedHorizontally { get { return new IndexDirection2(-x, y); } }
+        public void FlipHorizontally()
+        {
+            x *= -1;
+        }
+        public IndexDirection2 FlippedVertically { get { return new IndexDirection2(x, -y); } }
+        public void FlipVertically()
+        {
+            y *= -1;
+        }
 
 
         public DirectionEnum ToDirectionEnum()

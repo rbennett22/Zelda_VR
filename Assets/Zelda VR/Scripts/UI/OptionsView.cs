@@ -16,7 +16,6 @@ public class OptionsView : MonoBehaviour
 
     [SerializeField]
     OverlayView _bgOverlay;
-
     [SerializeField]
     Button _resumeBtn, _musicBtn, _controlsBtn, _quitBtn;
 
@@ -32,7 +31,6 @@ public class OptionsView : MonoBehaviour
 
     [SerializeField]
     MenuCursor _cursor;
-
     [SerializeField]
     GameObject _cursorView;
 
@@ -141,8 +139,10 @@ public class OptionsView : MonoBehaviour
 
     public void MoveCursor(IndexDirection2 dir)
     {
+        dir.FlipVertically();
         if (_cursor.TryMoveCursor(dir))
         {
+            print("MoveCursor: " + dir);
             PlayCursorMoveSound();
         }
     }

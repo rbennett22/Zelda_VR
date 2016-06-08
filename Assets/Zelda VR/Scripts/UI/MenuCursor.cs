@@ -68,7 +68,7 @@ public class MenuCursor : MonoBehaviour
     }
     public bool TryMoveCursor(IndexDirection2 dir)
     {
-        if (_cursorCooldownActive)
+        if (dir.IsZero() || _cursorCooldownActive)
         {
             return false;
         }
