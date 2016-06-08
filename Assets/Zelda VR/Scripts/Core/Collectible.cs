@@ -112,12 +112,16 @@ public class Collectible : MonoBehaviour
     {
         CommonObjects.Player_C.ActivateParalyze(RISE_ABOVE_LINK_DURATION);
 
-        Vector3 riseAmount = new Vector3(0, RISE_ABOVE_LINK_HEIGHT, 0);
-        iTween.MoveAdd(gameObject, riseAmount, RISE_ABOVE_LINK_DURATION);
+        PlayRisingTween();
 
         yield return new WaitForSeconds(RISE_ABOVE_LINK_DURATION);
 
         FinishCollectionProcess();
+    }
+    public void PlayRisingTween()
+    {
+        Vector3 vec = RISE_ABOVE_LINK_HEIGHT * Vector3.up;
+        iTween.MoveAdd(gameObject, vec, RISE_ABOVE_LINK_DURATION);
     }
 
     void FinishCollectionProcess()

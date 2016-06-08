@@ -11,6 +11,17 @@ public class DungeonRoomInfo : MonoBehaviour
         return (dir == WallDirection.North || dir == WallDirection.South);
     }
 
+    public static WallDirection[] AllValidWallDirections
+    {
+        get { return new WallDirection[] { WallDirection.North, WallDirection.East, WallDirection.South, WallDirection.West }; }
+    }
+    public static WallDirection GetRandomWallDirection()
+    {
+        WallDirection[] allDirs = AllValidWallDirections;
+        WallDirection dir = allDirs[Random.Range(0, allDirs.Length)];
+        return dir;
+    }
+
     public static WallDirection GetOppositeDirection(WallDirection dir)
     {
         WallDirection opp;

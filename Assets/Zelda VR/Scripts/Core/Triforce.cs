@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Triforce : MonoBehaviour
 {
+    const float MAX_LIGHT_INTENSITY = 10.0f;
+
+
     public float fanfareDuration = 7.0f;
 
     [SerializeField]
@@ -20,18 +23,18 @@ public class Triforce : MonoBehaviour
     {
         Music.Instance.Stop();
         SoundFx.Instance.PlayOneShot(SoundFx.Instance.triforceFanfare);
-        CommonObjects.Player_C.IsParalyzed = true;
-        PauseManager.Instance.IsPauseAllowed_Inventory = false;
-        PauseManager.Instance.IsPauseAllowed_Options = false;
 
-        iTween.MoveAdd(gameObject, new Vector3(0, 1, 0), fanfareDuration * 0.7f);
+        Locations.Instance.LimitControls();
+
+        GetComponent<Collectible>().PlayRisingTween();
 
         iTween.ValueTo(gameObject, iTween.Hash(
             "from", _light.intensity,
-            "to", 10.0f,
+            "to", MAX_LIGHT_INTENSITY,
             "time", fanfareDuration + _fadeDuration,
             "easetype", iTween.EaseType.easeInQuint,
-            "onupdate", "LightIntensityTweenCallback"));
+
+            "onupdate", "LightIntensityTween_OnUpdate"));
 
         yield return new WaitForSeconds(fanfareDuration);
 
@@ -42,7 +45,7 @@ public class Triforce : MonoBehaviour
         WarpToOverworld();
     }
 
-    void LightIntensityTweenCallback(float intensity)
+    void LightIntensityTween_OnUpdate(float intensity)
     {
         _light.intensity = intensity;
     }
@@ -51,6 +54,8 @@ public class Triforce : MonoBehaviour
     {
         OverlayViewController.Instance.HideTriforceOverlay(_fadeDuration);
         Destroy(gameObject, _fadeDuration + 0.1f);
+
+        Locations.Instance.RestoreControls();
 
         Locations.Instance.WarpToOverworldDungeonEntrance(false);
     }

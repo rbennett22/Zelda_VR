@@ -42,6 +42,8 @@ public class EnemyAI_WallMaster : EnemyAI
 
     void Start()
     {
+        AssignToWall(wallDir);
+
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;
         _enemyMove.AlwaysFaceTowardsMoveDirection = true;
         _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
@@ -78,26 +80,13 @@ public class EnemyAI_WallMaster : EnemyAI
 
     void OnTargetPositionReached_OutsideRoom()
     {
-        int rand;
+        AssignToRandomWall();
 
-        if (!WorldInfo.Instance.IsSpecial)
-        {
-            DungeonRoom dr = _enemy.DungeonRoomRef;
-            rand = Random.Range(0, 4);
-            wallDir = (DungeonRoomInfo.WallDirection)rand;
-            wall = dr.GetWallForDirection(wallDir);
-        }
-
-        _wallNormal = DungeonRoomInfo.NormalForWallDirection(wallDir);
-        _wallTangent = DungeonRoomInfo.TangentForWallDirection(wallDir);
-        if (Random.Range(0, 2) == 1) { _wallTangent *= -1; }
-
-        rand = Random.Range(1, 4);
+        int rand = Random.Range(1, 4);
         Vector3 startPos = wall.transform.position + (rand * _wallTangent);
         startPos.y = CeilingHeight;
 
         transform.position = startPos - (2 * _wallNormal);
-        MoveDirection = _wallNormal;
         TargetPosition = startPos + (ProtrudeDistance * _wallNormal);
 
         _state = State.ComingThroughWall;
@@ -105,15 +94,15 @@ public class EnemyAI_WallMaster : EnemyAI
 
     void OnTargetPositionReached_ComingThroughWall()
     {
-        MoveDirection = new Vector3(0, -1, 0);
-        TargetPosition = new Vector3(transform.position.x, GroundHeight, transform.position.z);
+        Vector3 p = transform.position;
+        p.y = GroundHeight;
+        TargetPosition = p;
 
         _state = State.CrawlingDownWall;
     }
 
     void OnTargetPositionReached_CrawlingDownWall()
     {
-        MoveDirection = -_wallTangent;
         TargetPosition = transform.position - (HorzTravelDistance * _wallTangent);
 
         _state = State.OnFloor;
@@ -121,16 +110,16 @@ public class EnemyAI_WallMaster : EnemyAI
 
     void OnTargetPositionReached_Floor()
     {
-        MoveDirection = new Vector3(0, 1, 0);
-        TargetPosition = new Vector3(transform.position.x, CeilingHeight, transform.position.z);
+        Vector3 p = transform.position;
+        p.y = CeilingHeight;
+        TargetPosition = p;
 
         _state = State.CrawlingUpWall;
     }
 
     void OnTargetPositionReached_CrawlingUpWall()
     {
-        MoveDirection = -1 * _wallNormal;
-        TargetPosition = transform.position + (2 * MoveDirection);
+        TargetPosition = transform.position - (2 * _wallNormal);
 
         if (_hasControlOfLink)
         {
@@ -143,6 +132,29 @@ public class EnemyAI_WallMaster : EnemyAI
     void OnTargetPositionReached_ExitingThroughWall()
     {
         _state = State.OutsideRoom;
+
+        OnTargetPositionReached_OutsideRoom();
+    }
+
+
+    void AssignToRandomWall()
+    {
+        DungeonRoomInfo.WallDirection d = WorldInfo.Instance.IsInDungeon ? DungeonRoomInfo.GetRandomWallDirection() : wallDir;
+        AssignToWall(d);
+    }
+    void AssignToWall(DungeonRoomInfo.WallDirection newWallDir)
+    {
+        wallDir = newWallDir;
+
+        if (WorldInfo.Instance.IsInDungeon)
+        {
+            DungeonRoom dr = _enemy.DungeonRoomRef;
+            wall = dr.GetWallForDirection(wallDir);
+        }
+
+        _wallNormal = DungeonRoomInfo.NormalForWallDirection(wallDir);
+        _wallTangent = DungeonRoomInfo.TangentForWallDirection(wallDir);
+        if (Extensions.FlipCoin()) { _wallTangent *= -1; }
     }
 
 

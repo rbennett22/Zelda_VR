@@ -172,7 +172,7 @@ public class EnemyAI_Random : EnemyAI
     IndexDirection2 GetDesiredMoveDirection(DiscreteAction action)
     {
         IndexDirection2 desiredMoveDir = IndexDirection2.zero;
-        Vector3 toPlayer = Vector3.zero;
+        IndexDirection2 toPlayer = IndexDirection2.zero;
 
         _enemyMove.speed = _baseSpeed;
 
@@ -188,7 +188,7 @@ public class EnemyAI_Random : EnemyAI
         {
             _enemyMove.speed = _baseSpeed * chaseSpeedMultiplier;
 
-            desiredMoveDir = new IndexDirection2(toPlayer);
+            desiredMoveDir = toPlayer;
         }
         else
         {

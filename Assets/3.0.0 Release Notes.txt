@@ -2,6 +2,10 @@
 
 RECENTLY DONE:
 
+- BUG: Dungeon block still only pushable from one direction -FIXED
+- BUG: WallMasters don't reappear after first appearance -FIXED
+- BUG: I couldn't move after collecting triforce and warping back to OW -FIXED
+
 
 
 DONE:

@@ -13,7 +13,7 @@ High Priority:
 - With Compass:		HUD - Triforce				Inventory - Nothing
 
 - When warping, ensure that world has completely loaded before opening shutters
-- Water Tiles: Currently Sword and Wand Projectiles can't pass over water; 
+- Water Tiles: Currently Sword and Wand Projectiles can't pass over water;
 	Link can walk on water (try lowering his step offset only while on stairs?)
 - If CandleFlame hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
 

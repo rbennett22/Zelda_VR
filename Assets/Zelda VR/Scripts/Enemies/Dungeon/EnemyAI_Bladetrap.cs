@@ -3,15 +3,16 @@ using UnityEngine;
 
 public class EnemyAI_Bladetrap : EnemyAI
 {
-    const float BLADETRAP_RADIUS = 0.5f;        // TODO:
+    const float VISION_RANGE = 12;        // TODO      
 
 
-    public float triggerSpeed = 2;
-    public float returnSpeed = 1;
+    public float triggerSpeed = 4;
+    public float returnSpeed = 2;
 
 
     bool _movingToPlayer;
     bool _returningToOrigin;
+    Vector3 _origin;
 
 
     public bool PoisedToTrigger { get { return !(_movingToPlayer || _returningToOrigin); } }
@@ -19,6 +20,8 @@ public class EnemyAI_Bladetrap : EnemyAI
 
     void Start()
     {
+        _origin = transform.position;
+
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;
         _enemyMove.AlwaysFaceTowardsMoveDirection = false;
         _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
@@ -32,69 +35,57 @@ public class EnemyAI_Bladetrap : EnemyAI
 
         if (PoisedToTrigger)
         {
-            DoTriggerIfPlayerDetected();
-        }
-    }
-
-    void DoTriggerIfPlayerDetected()
-    {
-        DungeonRoom playerDungeonRoom = null;
-        if (WorldInfo.Instance.IsInDungeon)
-        {
-            playerDungeonRoom = DungeonRoom.GetRoomForPosition(Player.Position);
-        }
-
-        if (playerDungeonRoom == null || _enemy.DungeonRoomRef == playerDungeonRoom)
-        {
-            Vector3 toPlayer = DirectionToPlayer;
-            if (Mathf.Abs(toPlayer.y) < BLADETRAP_RADIUS)
+            IndexDirection2 toPlayer;
+            if (IsPlayerInSight(VISION_RANGE, out toPlayer))
             {
-                if (Mathf.Abs(toPlayer.x) < BLADETRAP_RADIUS)
-                {
-                    toPlayer.x = 0;
-                    Trigger(new IndexDirection2(toPlayer));
-                }
-                else if (Mathf.Abs(toPlayer.z) < BLADETRAP_RADIUS)
-                {
-                    toPlayer.z = 0;
-                    Trigger(new IndexDirection2(toPlayer));
-                }
+                Trigger(Player.Position);
+            }
+        }
+        else if (_movingToPlayer)
+        {
+            if (DetectObstructions(MoveDirection, DEFAULT_OBSTRUCTION_FEELER_LENGTH))
+            {
+                ReturnToOrigin();
             }
         }
     }
 
-    void Trigger(IndexDirection2 direction)
+    void Trigger(Vector3 targetPos)
     {
-        if (!PoisedToTrigger) { return; }
+        if (!PoisedToTrigger)
+        {
+            return;
+        }
+        _movingToPlayer = true;
 
         _enemyMove.speed = triggerSpeed;
-        MoveDirection_Tile = direction;
-        _movingToPlayer = true;
+
+        TargetPosition = targetPos;
+    }
+
+    void ReturnToOrigin()
+    {
+        if (_returningToOrigin)
+        {
+            return;
+        }
+        _returningToOrigin = true;
+        _movingToPlayer = false;
+
+        _enemyMove.speed = returnSpeed;
+
+        TargetPosition = _origin;
     }
 
     void OnTargetPositionReached(EnemyMove sender, Vector3 moveDirection)
     {
-        if (_movingToPlayer)
+        if(_movingToPlayer)
         {
-            if (DetectObstructions(moveDirection, DEFAULT_OBSTRUCTION_FEELER_LENGTH))
-            {
-                ReturnToOrigin(new IndexDirection2(-moveDirection));
-            }
+            ReturnToOrigin();
         }
         else if (_returningToOrigin)
         {
-            MoveDirection_Tile = IndexDirection2.zero;
             _returningToOrigin = false;
         }
-    }
-
-    void ReturnToOrigin(IndexDirection2 moveDirection)
-    {
-        if (_returningToOrigin) { return; }
-        _returningToOrigin = true;
-
-        _enemyMove.speed = returnSpeed;
-        MoveDirection_Tile = moveDirection;
-        _movingToPlayer = false;
     }
 }

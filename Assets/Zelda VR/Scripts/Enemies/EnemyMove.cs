@@ -78,6 +78,9 @@ public class EnemyMove : MonoBehaviour
     void Awake()
     {
         _enemy = GetComponent<Enemy>();
+
+        _targetPos = transform.position;
+        _moveDirection = Vector3.zero;
     }
 
 
@@ -129,9 +132,10 @@ public class EnemyMove : MonoBehaviour
 
     void OnTargetPositionReached()
     {
-        if (targetPositionReached_Callback == null)
-            return;
-        targetPositionReached_Callback(this, _moveDirection);
+        if (targetPositionReached_Callback != null)
+        {
+            targetPositionReached_Callback(this, _moveDirection);
+        }
     }
 
 

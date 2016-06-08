@@ -271,7 +271,8 @@ public class Locations : Singleton<Locations>
     }
 
     bool _storedGravityEnabledState;
-    void LimitControls()
+    // TODO: shouldn't be public
+    public void LimitControls()
     {
         PauseManager.Instance.IsPauseAllowed_Inventory = false;
         PauseManager.Instance.IsPauseAllowed_Options = false;
@@ -281,7 +282,7 @@ public class Locations : Singleton<Locations>
         _storedGravityEnabledState = pc.gravityEnabled;
         pc.gravityEnabled = false;
     }
-    void RestoreControls()
+    public void RestoreControls()
     {
         CommonObjects.Player_C.IsParalyzed = false;
         CommonObjects.PlayerController_C.gravityEnabled = _storedGravityEnabledState;

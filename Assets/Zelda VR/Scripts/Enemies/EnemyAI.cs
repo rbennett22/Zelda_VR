@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    public const string PLAYER_LAYER_NAME = "Link";     // TODO
+
+
     protected const float MAX_DISTANCE_PLAYER_CAN_BE_SEEN = 16.0f;
     protected const float DEFAULT_OBSTRUCTION_FEELER_LENGTH = 1.45f;
     protected const float EPSILON = 0.001f;
@@ -119,27 +122,37 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    protected bool IsPlayerInSight(float maxDistance, out Vector3 direction)
+    virtual protected bool IsPlayerInSight(float maxDistance, out IndexDirection2 direction)
     {
-        Vector3[] directionsToCheck = {
-            Vector3.left, Vector3.right, Vector3.forward, Vector3.back
-        };
-        foreach (Vector3 dir in directionsToCheck)
+        foreach (IndexDirection2 dir in IndexDirection2.AllValidNonZeroDirections)
         {
-            direction = dir;
-            if (IsPlayerInLineOfSight(direction, maxDistance))
+            if (IsPlayerInLineOfSight(maxDistance, dir.ToVector3()))
             {
+                direction = dir;
                 return true;
             }
         }
 
-        direction = Vector3.zero;
+        direction = IndexDirection2.zero;
         return false;
     }
-    protected bool IsPlayerInLineOfSight(Vector3 direction, float maxDistance)
+    virtual protected bool IsPlayerInLineOfSight(float maxDistance, Vector3 direction)
     {
-        LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Link");
-        return Physics.Raycast(transform.position, direction, maxDistance, mask);
+        if (WorldInfo.Instance.IsInDungeon)
+        {
+            // We ensure Enemy is in the same DungeonRoom as Player
+            DungeonRoom playerDR = DungeonRoom.GetRoomForPosition(Player.Position);
+            if (_enemy.DungeonRoomRef != playerDR && playerDR != null)
+            {
+                return false;
+            }
+        }
+
+        LayerMask mask = Extensions.GetLayerMaskIncludingLayers(PLAYER_LAYER_NAME, "Walls", "Blocks");
+        RaycastHit hitInfo;
+        bool didHit = Physics.Raycast(transform.position, direction, out hitInfo, maxDistance, mask);
+        
+        return didHit ? CommonObjects.IsPlayer(hitInfo.collider.gameObject) : false;
     }
 
     protected bool CanMoveInDirection_Overworld(IndexDirection2 dir)

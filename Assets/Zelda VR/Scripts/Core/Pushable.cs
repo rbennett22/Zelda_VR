@@ -52,16 +52,16 @@ public class Pushable : MonoBehaviour
             return;
         }
 
-        IndexDirection2 dir = GetPushDirection();
+        Player player = CommonObjects.Player_C;
+        IndexDirection2 dir = GetPushDirection(player);
         if (!dir.IsZero())
         {
             Slide(dir);
         }
     }
 
-    IndexDirection2 GetPushDirection()
+    IndexDirection2 GetPushDirection(Player player)
     {
-        Player player = CommonObjects.Player_C;
         Vector3 toPlayer = (player.Position - transform.position).normalized;
         float pX = toPlayer.x;
         float pZ = toPlayer.z;
@@ -69,11 +69,11 @@ public class Pushable : MonoBehaviour
         IndexDirection2 dir;
         if (Mathf.Abs(pX) < Mathf.Abs(pZ))
         {
-            dir = (pX < 0) ? IndexDirection2.right : IndexDirection2.left;
+            dir = (pZ < 0) ? IndexDirection2.up : IndexDirection2.down; 
         }
         else
         {
-            dir = (pZ < 0) ? IndexDirection2.up : IndexDirection2.down;
+            dir = (pX < 0) ? IndexDirection2.right : IndexDirection2.left;
         }
 
         // Is player facing the block?  If not, the block will not be pushed
@@ -103,6 +103,8 @@ public class Pushable : MonoBehaviour
         }
         _isSliding = true;
 
+        PlaySecretSound();
+
         iTween.MoveTo(gameObject, iTween.Hash(
             "position", pos,
             "time", SLIDE_DURATION,
@@ -123,7 +125,6 @@ public class Pushable : MonoBehaviour
         }
 
         DestroyLinkedObjects();
-        PlaySecretSound();
     }
 
     void DestroyLinkedObjects()
