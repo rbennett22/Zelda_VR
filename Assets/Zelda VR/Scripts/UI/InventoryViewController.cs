@@ -24,6 +24,17 @@ public class InventoryViewController : MonoBehaviour
         _view.onCursorIndexChanged_Callback = OnCursorIndexChanged;
     }
 
+    void Start()
+    {
+        ZeldaVRSettings s = ZeldaVRSettings.Instance;
+        InitDungeonMap(s.dungeonWidthInSectors, s.dungeonHeightInSectors);
+    }
+
+    void InitDungeonMap(int sectorsWide, int sectorsHigh)
+    {
+        _view.InitDungeonMap(sectorsWide, sectorsHigh);
+    }
+
 
     void Update()
     {
@@ -170,8 +181,9 @@ public class InventoryViewController : MonoBehaviour
         }
 
         // Dungeon Map
-        _view.ShouldDungeonMapRevealUnvisitedRooms = hasMap;
-        _view.ShouldDungeonMapRevealTriforceRoom = hasCompass;
+        _view.ShouldDungeonMapRevealVisitedRooms = true;
+        _view.ShouldDungeonMapRevealUnvisitedRooms = false;
+        _view.ShouldDungeonMapRevealTriforceRoom = false;
         _view.UpdateDungeonMap();
     }
 

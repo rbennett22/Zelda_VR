@@ -61,6 +61,7 @@ public class InventoryView : MonoBehaviour
     public Action<InventoryView> onCursorIndexChanged_Callback;
 
 
+    public bool ShouldDungeonMapRevealVisitedRooms { set { _dungeonMapView.DoRenderVisitedRooms = value; } }
     public bool ShouldDungeonMapRevealUnvisitedRooms { set { _dungeonMapView.DoRenderUnvisitedRooms = value; } }
     public bool ShouldDungeonMapRevealTriforceRoom { set { _dungeonMapView.DoRenderTriforceSymbol = value; } }
 
@@ -212,6 +213,10 @@ public class InventoryView : MonoBehaviour
     }
 
 
+    public void InitDungeonMap(int sectorsWide, int sectorsHigh)
+    {
+        _dungeonMapView.Init(sectorsWide, sectorsHigh);
+    }
     public void UpdateDungeonMap()
     {
         _dungeonMapView.UpdateMap();

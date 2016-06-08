@@ -32,8 +32,9 @@ public class DungeonMapView : MonoBehaviour
     int _sectorsWide, _sectorsHigh;
 
 
-    public bool DoRenderUnvisitedRooms { private get; set; }
-    public bool DoRenderTriforceSymbol { private get; set; }
+    public bool DoRenderVisitedRooms { get; set; }
+    public bool DoRenderUnvisitedRooms { get; set; }
+    public bool DoRenderTriforceSymbol { get; set; }
 
 
     public void Init(int sectorsWide, int sectorsHigh)
@@ -90,18 +91,22 @@ public class DungeonMapView : MonoBehaviour
             int sY = (int)(_sectorHeight * sector.y);
 
             // Sector
-            if (!room.HideOnMap && (DoRenderUnvisitedRooms || room.PlayerHasVisited))
+            if (!room.HideOnMap)
             {
-                if (_doRenderHalls)
+                if ((DoRenderUnvisitedRooms && !room.PlayerHasVisited)
+                    || (DoRenderVisitedRooms && room.PlayerHasVisited))
                 {
-                    int hh = _hallHeight;
-                    _mapTexture.SetColorForArea(sX + hh, sY + hh, _sectorWidth - 2 * hh, _sectorHeight - 2 * hh, _roomColor);
+                    if (_doRenderHalls)
+                    {
+                        int hh = _hallHeight;
+                        _mapTexture.SetColorForArea(sX + hh, sY + hh, _sectorWidth - 2 * hh, _sectorHeight - 2 * hh, _roomColor);
 
-                    RenderHallsForRoom(room);
-                }
-                else
-                {
-                    _mapTexture.SetColorForArea(sX, sY, _sectorWidth - 1, _sectorHeight - 1, _roomColor);
+                        RenderHallsForRoom(room);
+                    }
+                    else
+                    {
+                        _mapTexture.SetColorForArea(sX, sY, _sectorWidth - 1, _sectorHeight - 1, _roomColor);
+                    }
                 }
             }
 

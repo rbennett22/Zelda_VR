@@ -157,6 +157,7 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
         bool hasMap = _inventory.HasMapForDungeon(dungeonNum);
         bool hasCompass = _inventory.HasCompassForDungeon(dungeonNum);
 
+        _view.ShouldDungeonMapRevealVisitedRooms = hasMap;
         _view.ShouldDungeonMapRevealUnvisitedRooms = hasMap;
         _view.ShouldDungeonMapRevealTriforceRoom = hasCompass;
         _view.UpdateDungeonMap();

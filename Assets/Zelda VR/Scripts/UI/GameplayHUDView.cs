@@ -105,6 +105,7 @@ public class GameplayHUDView : MonoBehaviour
         _overworldMapView.UpdateMap(playerOccupiedSector);
     }
 
+    public bool ShouldDungeonMapRevealVisitedRooms { set { _dungeonMapView.DoRenderVisitedRooms = value; } }
     public bool ShouldDungeonMapRevealUnvisitedRooms { set { _dungeonMapView.DoRenderUnvisitedRooms = value; } }
     public bool ShouldDungeonMapRevealTriforceRoom { set { _dungeonMapView.DoRenderTriforceSymbol = value; } }
 

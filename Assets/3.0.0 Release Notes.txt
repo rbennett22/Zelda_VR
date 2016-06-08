@@ -2,8 +2,7 @@
 
 RECENTLY DONE:
 
-- BUG: Rapid coninuous beeping sounds when menus are open -FIXED
-- BUG: Up and Down are reversed in Pause Menu navigation controls -FIXED
+- Fixed Maps to display rooms under the correct conditions
 
 
 COMMITTED BUT NOT YET PUSHED:
@@ -11,6 +10,8 @@ COMMITTED BUT NOT YET PUSHED:
 - BUG: Dungeon block still only pushable from one direction -FIXED
 - BUG: WallMasters don't reappear after first appearance -FIXED
 - BUG: I couldn't move after collecting triforce and warping back to OW -FIXED
+- BUG: Rapid coninuous beeping sounds when menus are open -FIXED
+- BUG: Up and Down are reversed in Pause Menu navigation controls -FIXED
 
 
 DONE:
@@ -63,6 +64,12 @@ NOTES:
    Overworld - 4 small, 5 big.  
    Dungeon   - 5 small, 6 big.  
    Bosses    - 8
+
+- Maps:
+- W/O  Map:			HUD - Nothing				Inventory - Visited (except secret)
+- With Map:			HUD - All (except secret)	Inventory - Visited (except secret)
+- W/O  Compass:		HUD - Nothing				Inventory - Nothing
+- With Compass:		HUD - Triforce				Inventory - Nothing
 
 
 CREDITS:
