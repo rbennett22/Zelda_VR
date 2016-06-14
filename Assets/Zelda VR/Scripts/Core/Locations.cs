@@ -91,6 +91,10 @@ public class Locations : Singleton<Locations>
             WarpPlayerToLocation(spawnLocation);
             spawnLocation = null;
         }
+
+        // TODO: do this elsewhere
+        UnityStandardAssets.ImageEffects.GlobalFog fog = FindObjectOfType<UnityStandardAssets.ImageEffects.GlobalFog>();
+        fog.enabled = WorldInfo.Instance.IsOverworld;
     }
 
     public void LoadTitleScreen()

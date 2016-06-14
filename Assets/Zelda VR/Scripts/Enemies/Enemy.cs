@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Immersio.Utility;
 
 public class Enemy : Actor
 {
@@ -32,7 +33,8 @@ public class Enemy : Actor
 
 
     public EnemySpawnPoint SpawnPoint { get; set; }
-    public DungeonRoom DungeonRoomRef { get; set; }    // (Will be null in overworld)
+    public Index2 Sector { get; set; }                  // (Will be meaningless in dungeons)
+    public DungeonRoom DungeonRoomRef { get; set; }     // (Will be null in overworld)
 
     public Player Player { get { return CommonObjects.Player_C; } }
 
@@ -79,9 +81,8 @@ public class Enemy : Actor
     {
         if (IsStunned) { return; }
         if (!gameObject.activeSelf) { return; }
-        StartCoroutine("StunCoroutine");
 
-        SendMessage("OnStun", SendMessageOptions.DontRequireReceiver);
+        StartCoroutine("StunCoroutine");
     }
     IEnumerator StunCoroutine()
     {
@@ -90,6 +91,8 @@ public class Enemy : Actor
 
         PauseAnimation();
         IsStunned = true;
+
+        SendMessage("OnStun", SendMessageOptions.DontRequireReceiver);
 
         yield return new WaitForSeconds(StunDuration);
 

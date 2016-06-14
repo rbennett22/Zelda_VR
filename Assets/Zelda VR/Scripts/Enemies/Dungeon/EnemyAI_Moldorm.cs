@@ -15,7 +15,7 @@ public class EnemyAI_Moldorm : EnemyAI
     public Sprite segmentSprite;
 
 
-    float _radialAcceleration;
+    float _radialAccel;
 
     Queue<Vector3> _positionHistory = new Queue<Vector3>(MAX_POS_HISTORY_LENGTH);
 
@@ -26,13 +26,13 @@ public class EnemyAI_Moldorm : EnemyAI
     public bool IsTail { get { return Prev == null; } }
     public bool IsVulnerable { get { return !_healthController.isIndestructible; } set { _healthController.isIndestructible = !value; } }
     public bool IsLastWormPiece { get { return (Next == null && Prev == null); } }
-    public int WormSeparationTimeInFrames
+
+    int WormSeparationTimeInFrames
     {
         get
         {
-            //print("dT: " + Time.deltaTime + ", smooth dT: " + Time.smoothDeltaTime);
-            if (Time.smoothDeltaTime == 0) { return 0; }
-            return (int)(wormSeparationTime / Time.smoothDeltaTime);
+            float t = Time.unscaledDeltaTime;
+            return (t == 0) ? 0 : (int)(wormSeparationTime / t);
         }
     }
 
@@ -75,19 +75,22 @@ public class EnemyAI_Moldorm : EnemyAI
         EnemyAI_Moldorm mX = this;
         for (int i = 1; i < startWormLength; i++)
         {
-            EnemyAI_Moldorm mNew = (Instantiate(gameObject, transform.position, transform.rotation) as GameObject).GetComponent<EnemyAI_Moldorm>();
+            GameObject g = Instantiate(gameObject, transform.position, transform.rotation) as GameObject;
+
+            EnemyAI_Moldorm mNew = g.GetComponent<EnemyAI_Moldorm>();
             mNew.transform.parent = transform.parent;
             mX.Prev = mNew;
             mNew.Next = mX;
 
+            Enemy e = g.GetComponent<Enemy>();
             if (_enemy.DungeonRoomRef != null)
             {
-                _enemy.DungeonRoomRef.AddEnemy(mNew.GetComponent<Enemy>());
+                _enemy.DungeonRoomRef.AddEnemy(e);
             }
 
             if (segmentSprite != null)
             {
-                mNew.GetComponent<Enemy>().enemyAnim.GetComponent<SpriteRenderer>().sprite = segmentSprite;
+                e.enemyAnim.GetComponent<SpriteRenderer>().sprite = segmentSprite;
             }
 
             mX = mNew;
@@ -105,6 +108,7 @@ public class EnemyAI_Moldorm : EnemyAI
         {
             Prev.Next = Next;
             Prev.IsVulnerable = (Prev.IsHead || Prev.IsTail);
+            Prev.MoveDirection = MoveDirection;
         }
     }
 
@@ -139,8 +143,8 @@ public class EnemyAI_Moldorm : EnemyAI
         float dT = Time.deltaTime;
 
         float jitterAmount = Random.Range(-jitter, jitter);
-        _radialAcceleration += dT * (waveSpeed + jitterAmount);
-        float sin = dT * turnSpeed * Mathf.Sin(_radialAcceleration);
+        _radialAccel += dT * (waveSpeed + jitterAmount);
+        float sin = dT * turnSpeed * Mathf.Sin(_radialAccel);
         Quaternion deltaRad = Quaternion.Euler(0, sin, 0);
 
         MoveDirection = deltaRad * MoveDirection;

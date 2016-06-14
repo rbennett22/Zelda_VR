@@ -2,16 +2,23 @@
 
 High Priority: 
 
-- Use flat tiles for ground at same voxel tile height as unit blocks?
-- Often getting stuck towards mid-top of Grotto stairs
-- Can't enter Grottos whose entrances are covered by special blocks
-
-- When warping, ensure that world has completely loaded before opening shutters
+* When warping, ensure that world has completely loaded before opening shutters
+* Implement a user-friendly fail-safe for world fall-through
 - Water Tiles: Currently Sword and Wand Projectiles can't pass over water;
 	Link can walk on water (try lowering his step offset only while on stairs?)
-- If CandleFlame hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
 
-- Lost Woods: Fog; Overriding directions doesn't work right for -x and -z; Remove Collectibles
+- CandleFlame: If hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
+- Arrow: Graphic doesn't appear next to bow in inventory, even when you have both bow and arrow items
+
+- Enemies stunned by boomerang can still hurt me
+- Blue Wizzrobe: Should not teleport
+- Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block
+- Enemies can walk through statues
+- Boulders: Should bounce around
+
+- ControlsView: Update image
+- OptionsMenu: Controls
+
 - Lost Hills
 - Waterfall Cave
 - Grotto Warps
@@ -20,14 +27,22 @@ High Priority:
 - Gannon: When hit he should be temporarily invincible so that player can't take advantage
 - Gannon: Death
 
-- ControlsView: Update image
-- OptionsMenu: Controls
 - Ending
 - Credits
+
+- Projectiles: Remove swift?
+- Ladder: Doesn't work for certain water tiles (?)
+- Dungeon: Player shouldn't be able to damage enemies if he's not all the way inside the room
 
 
 Mid Priority:
 
+- Lost Woods: Fog Ceiling color should match fog, and fade in as player approaches LostWoods
+- Lost Woods: Warp Collectibles/Enemies/Projectiles
+- Flat OW Blocks may be visible in Grotto/DungeonEntrance ceilings
+- Fairy: Allow it to move around Dungeon Room moving outside of the room
+- Fairy: Can move through walls in OW
+- Clock Item: Should also paralyze enemies in nearby OW sectors (but not other DungeonRooms)
 - D6 OW Entrance (2 blocks wide)
 - Fog disappears abruptly in grottos close to Lost Woods
 - Boss Death anim (blink 2-3 times, then "poof")
@@ -37,24 +52,16 @@ Mid Priority:
 - OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
 - "Continue or Save & Quit?" GUI
 
-- Implement a user-friendly fail-safe for world fall-through
-- Difficult to use ladder to cross water
 - Difficult to fire wand through narrow passages
-- Fairies fly to other rooms in dungeons
-- Enemies can walk through statues
-- Enemies stunned by boomerang can still hurt me
-- Boulders should bounce around
 
 - Make the shield appear every time it deflects an attack?
 - Don't use the same image for WoodenShield and MagicShield
 - Hearts floating around in "Secret to everybody" cave that runs beneath fairy fountain
-- Blue wizzrobes should not teleport
-- Beams from many dungeon enemies should be unblockable
 
 - No rolling rupee sound after "Secret to everybody" or door repair
 - There should be an event sound when you present meat to "Grumble, grumble"
 - Need event sound in "Pick any one you want" caves
-- Wrong sound effect for both types of fairies (see https://www.youtube.com/watch?v=hhb3LqLtTBM @11:30)
+- Wrong sound effect for both types of fairy (see https://www.youtube.com/watch?v=hhb3LqLtTBM @11:30)
 - There should be a sound and gradual heart refill when using potion
 - There should be a wizzrobe sound
 - Should be event sound for riding raft
@@ -63,6 +70,9 @@ Mid Priority:
 
 Low Priority:
 
+- Lost Woods: Overriding directions doesn't work right for -x and -z;
+- Beams from many dungeon enemies should be unblockable (Is this too difficult though?)
+- Is it possible to "double collect" a Collectible by throwing the Boomerang and then walking into item as Bomerang returns?
 - Dungeon tunnels have passages with zero-thickness walls
 - Old men in dungeons don't fight me back
 - Whistle Warp: Facing north or west, warp to the next dungeon; facing south or east, warp to the previous dungeon
@@ -122,16 +132,23 @@ WishList:
 
 BUGS:
 
-- BUG: NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
+* BUG: NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
 
-- BUG: Dungeon Map not displaying in Inventory
+- BUG: Keese in sub dungeon don't move
 - BUG: Vire can jump through wall
-- BUG: Moldorm looks crazy when resuming after pause
-- BUG: Moldorm inactive
+- BUG: A Ghini somehow survived the death of its master (possibly spawned right as master died?)
 
+- BUG: Dungeon 8 is visible from inside grotto to the south of it.
+- BUG: Dungeon sealed door pushes player forward when it closes
 - BUG: Enemies that spawn after clock has activated aren't paralyzed
 - BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)
+- BUG: If you have no ItemB equipped, and you collect an Active item, it correctly equips; however when subsequently viewing Inventory, the cursor has not been updated
+- BUG: I died in Dungeon 1, and after respawning, all the keys and the Boomerang were collectible again.  
+- BUG: No deflect sound when enemy boomerang hits Link's shield
+- BUG: If you buy Red potion (instead of HeartContainer in special grotto) you can obtain the letter simply by using the red and blue potions.
+
+- BUG: Unity crashed unexpectedly shortly after returning to OW after completing Dungeon 1
 
 
 OPTIMIZATIONS:
@@ -143,23 +160,12 @@ NEEDS TESTING:
 
 - LikeLike MagicShield stealing
 - Darknut shields against MagicWand (no flame)
-- Vires don't spawn Keese if killed by MagicSword
-- Wand Flame should light up dark room
-- Grotto: Deliver Letter
 
-- BUG: Sometimes dungeon doors don't reopen (Level 1 old man room, Level 3 Ladder room, etc) - FIXED
+* BUG: Sometimes dungeon doors don't reopen (Level 1 old man room, Level 3 Ladder room, etc) - FIXED
 
 
 RESEARCH:
 
 - Fairy: Changes move direction regularly (is this how fairy is supposed to move?)
-
-
-Thought these were done already:
-
-- Incomplete shops
-- Can't buy blue potion
-- Can't buy arrows anywhere, so I can't beat Gohma
-- Can't find power bracelet where it should be
-- When I revisit a dungeon I can collects keys and other reward items that I have already collected
-- Invincible ghinis should die when the vulnerable ghini is killed
+- Boomerang: Should it hurt stunned enemies?
+- Should letter still appear in inventory after its been used (assuming no potions in inventory)?

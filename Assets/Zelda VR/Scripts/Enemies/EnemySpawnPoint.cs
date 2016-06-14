@@ -120,8 +120,8 @@ public class EnemySpawnPoint : MonoBehaviour
         else
         {
             TileMap tileMap = CommonObjects.OverworldTileMap;
-            Index2 sector = tileMap.GetSectorContainingPosition(transform.position);
-            enemyAI.Boundary = tileMap.GetBoundsForSector(sector);
+            enemy.Sector = tileMap.GetSectorContainingPosition(transform.position);
+            enemyAI.Boundary = tileMap.GetBoundsForSector(enemy.Sector);
         }
     }
     void AssignSpecialDropItemToSpawnedEnemy(Enemy enemy)
@@ -149,5 +149,11 @@ public class EnemySpawnPoint : MonoBehaviour
     void OnSpawnedEnemyDestroyed()
     {
         _spawnedEnemy = null;
+    }
+
+
+    public void ForceCooldown()
+    {
+        _lastEnemyTimeOfDeath = Time.time;
     }
 }

@@ -14,8 +14,8 @@ namespace Immersio.Utility
         }
         public Index2(Vector2 v)
         {
-            x = (int)v.x;
-            y = (int)v.y;
+            x = (int)Mathf.Round(v.x);
+            y = (int)Mathf.Round(v.y);
         }
         public Index2(IndexDirection2 t)
         {

@@ -30,7 +30,10 @@ public class CollectibleSpawnPoint : MonoBehaviour
         SpawnedCollectible = g.GetComponent<Collectible>();
         SpawnedCollectible.SpawnPoint = this;
 
-        if (hideUnderArmos) { g.SetActive(false); }
+        if (hideUnderArmos)
+        {
+            SpawnedCollectible.IsCollectible = false;
+        }
 
         return g;
     }

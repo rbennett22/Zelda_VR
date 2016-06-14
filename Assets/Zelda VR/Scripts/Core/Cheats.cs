@@ -8,6 +8,7 @@ public class Cheats : Singleton<Cheats>
     public bool cheatingAllowed = false;
 
     public bool GhostModeIsEnabled { get; private set; }
+    public bool FlyingIsEnabled { get; private set; }
     public bool SecretDetectionModeIsEnabled { get; private set; }
     public bool InvincibilityIsEnabled { get; private set; }
 
@@ -34,10 +35,8 @@ public class Cheats : Singleton<Cheats>
         if (Input.GetKeyDown(KeyCode.Alpha4)) { EquipSword(null); }
 
         if (ZeldaInput.GetButtonUp(ZeldaInput.Button.L1)) { ToggleGodMode(); }
-        //if (ZeldaInput.GetButtonUp(ZeldaInput.Button.L2)) { ToggleGhostMode(); }
         if (ZeldaInput.GetButtonUp(ZeldaInput.Button.R1)) { ToggleGhostMode(); }
-        //if (ZeldaInput.GetButtonUp(ZeldaInput.Button.R2)) { IncreaseRunMultiplier(); }
-        if (ZeldaInput.GetButtonUp(ZeldaInput.Button.Extra)) { ToggleMoonMode(); }
+        if (ZeldaInput.GetButtonUp(ZeldaInput.Button.Extra)) { ToggleFlying(); }
     }
 
 
@@ -100,11 +99,7 @@ public class Cheats : Singleton<Cheats>
         Physics.IgnoreLayerCollision(playerLayer, blocksLayer, GhostModeIsEnabled);
         Physics.IgnoreLayerCollision(playerLayer, invisibleBlocksLayer, GhostModeIsEnabled);
 
-        OverworldTerrainEngine engine = OverworldTerrainEngine.Instance;
-        if(engine != null)
-        {
-            engine.GroundPlaneCollisionEnabled = GhostModeIsEnabled;
-        }
+        UpdateGroundPlaneCollision();
     }
 
     public void ToggleAirJumping()
@@ -114,6 +109,19 @@ public class Cheats : Singleton<Cheats>
     public void ToggleAirJumping(bool enable)
     {
         CommonObjects.Player_C.IsAirJumpingEnabled = enable;
+    }
+
+    public void ToggleFlying()
+    {
+        ToggleFlying(!CommonObjects.Player_C.IsFlyingEnabled);
+    }
+    public void ToggleFlying(bool enable)
+    {
+        FlyingIsEnabled = enable;
+
+        CommonObjects.Player_C.IsFlyingEnabled = enable;
+
+        UpdateGroundPlaneCollision();
     }
 
     public void ToggleMoonMode()
@@ -231,6 +239,16 @@ public class Cheats : Singleton<Cheats>
                 Inventory.Instance.SetHasTriforcePieceForDungeon(_dungeonNum, true);
             }
             _dungeonNum++;
+        }
+    }
+
+
+    void UpdateGroundPlaneCollision()
+    {
+        OverworldTerrainEngine engine = OverworldTerrainEngine.Instance;
+        if (engine != null)
+        {
+            engine.GroundPlaneCollisionEnabled = GhostModeIsEnabled && !FlyingIsEnabled;
         }
     }
 }

@@ -25,7 +25,17 @@ public class Collectible : MonoBehaviour
     public bool MustBePurchased { get { return price > 0; } }
 
 
-    public void Start()
+    Light _light;
+    Renderer _renderer;
+
+
+    void Awake()
+    {
+        _light = GetComponentInChildren<Light>();
+        _renderer = GetComponentInChildren<Renderer>();
+    }
+
+    void Start()
     {
         if (WorldInfo.Instance.IsInDungeon)
         {
@@ -48,6 +58,20 @@ public class Collectible : MonoBehaviour
     }
 
 
+    bool _isCollectible;
+    public bool IsCollectible
+    {
+        get { return _isCollectible; }
+        set
+        {
+            _isCollectible = value;
+
+            _light.enabled = _isCollectible;
+            _renderer.enabled = _isCollectible;
+        }
+    }
+
+
     void OnTriggerEnter(Collider otherCollider)
     {
         GameObject other = otherCollider.gameObject;
@@ -63,6 +87,10 @@ public class Collectible : MonoBehaviour
                 {
                     inv.SpendRupees(price);
                     canCollect = true;
+                }
+                else
+                {
+                    canCollect = false;
                 }
             }
             if (canCollect)

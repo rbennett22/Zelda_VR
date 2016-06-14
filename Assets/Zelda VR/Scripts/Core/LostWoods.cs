@@ -2,13 +2,15 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.ImageEffects;
 
 public class LostWoods : MonoBehaviour
 {
     const int OVERRIDE_SECTOR_DISTANCE = 3;
+    const float SUNLIGHT_INTENSITY_MIN = 0.1f;
 
 
-    public float fogStartDist_Min, fogEndDist_Min;
+    public float fogDensity_Max;
     public float innerRadius, outerRadius;
 
     [SerializeField]
@@ -29,7 +31,8 @@ public class LostWoods : MonoBehaviour
     Transform _playerTransform;
     Transform _enemiesContainer;
 
-    float _fogStartDistNormal, _fogEndDistNormal;
+    GlobalFog _fog;
+    float _fogDensity_Normal;
     float _sunlightIntensityNormal;
     Light _sunlight;
 
@@ -96,8 +99,8 @@ public class LostWoods : MonoBehaviour
 
     void InitAtmosphere()
     {
-        _fogStartDistNormal = RenderSettings.fogStartDistance;
-        _fogEndDistNormal = RenderSettings.fogEndDistance;
+        _fog = FindObjectOfType<GlobalFog>();
+        _fogDensity_Normal = _fog.heightDensity;
 
         _sunlight = GameObject.FindGameObjectWithTag("Sunlight").GetComponent<Light>();
         _sunlightIntensityNormal = _sunlight.intensity;
@@ -111,12 +114,21 @@ public class LostWoods : MonoBehaviour
         float distToPlayer = toPlayer.magnitude;
         if (distToPlayer < outerRadius + 1)
         {
-            float r = Mathf.Clamp(distToPlayer, innerRadius, outerRadius);
-            RenderSettings.fogStartDistance = MathHelper.ConvertFromRangeToRange(innerRadius, outerRadius, fogStartDist_Min, _fogStartDistNormal, r);
-            RenderSettings.fogEndDistance = MathHelper.ConvertFromRangeToRange(innerRadius, outerRadius, fogEndDist_Min, _fogEndDistNormal, r);
-            _sunlight.intensity = MathHelper.ConvertFromRangeToRange(innerRadius, outerRadius, 0.1f, _sunlightIntensityNormal, r);
+            float d = Mathf.Clamp(distToPlayer, innerRadius, outerRadius);
+            float t = Mathf.InverseLerp(innerRadius, outerRadius, d);
+            UpdateFog(t);
+            UpdateSunlight(t);
         }
     }
+    void UpdateFog(float t)
+    {
+        _fog.heightDensity = Mathf.Lerp(_fogDensity_Normal, fogDensity_Max, 1 - t);
+    }
+    void UpdateSunlight(float t)
+    {
+        _sunlight.intensity = Mathf.Lerp(SUNLIGHT_INTENSITY_MIN, _sunlightIntensityNormal, t);
+    }
+
 
     IndexDirection2 DirectionForNeighborSector(Index2 sector)
     {
@@ -160,43 +172,51 @@ public class LostWoods : MonoBehaviour
         OverrideSectorsWithLostWoods(IndexDirection2.AllValidNonZeroDirections, false);
     }
 
-    void OverrideSectorsWithLostWoods(IndexDirection2 dir, bool doOverride, int distance = 1)
-    {
-        OverrideSectorsWithLostWoods(new IndexDirection2[] { dir }, doOverride, distance);
-    }
     void OverrideSectorsWithLostWoods(IndexDirection2[] dirs, bool doOverride, int distance = 1)
     {
         foreach (IndexDirection2 d in dirs)
         {
-            if (d == EscapeExitDirection) { continue; }
-
-            Index2 s = Sector;
-            for (int i = 0; i < distance; i++)
-            {
-                s = s + d;
-
-                OverrideSectorWithLostWoodsVoxels(s, doOverride);
-
-                if(doOverride)
-                {
-                    DisableEnemySpawningInSector(s);
-                }
-                else
-                {
-                    EnableEnemySpawningInSector(s);
-                }
-            }
+            OverrideSectorsWithLostWoods(d, doOverride, distance);
         }
     }
+    void OverrideSectorsWithLostWoods(IndexDirection2 dir, bool doOverride, int distance = 1)
+    {
+        if (dir == EscapeExitDirection) { return; }
+
+        Index2 s = Sector;
+        for (int i = 0; i < distance; i++)
+        {
+            s = s + dir;
+
+            OverrideSectorWithLostWoodsVoxels(s, doOverride);
+
+            if (doOverride)
+            {
+                DisableEnemySpawningInSector(s);
+            }
+            else
+            {
+                EnableEnemySpawningInSector(s);
+            }
+        }
+    }  
     void OverrideSectorWithLostWoodsVoxels(Index2 sector, bool doOverride)
     {
-        OverworldTerrainEngine owEngine = OverworldTerrainEngine.Instance;
-        OverworldChunk ch = owEngine.GetChunkForSector(sector) as OverworldChunk;
-        if(ch == null)
+        OverworldTerrainEngine eng = OverworldTerrainEngine.Instance;
+
+        OverworldChunk ch = eng.GetChunkForSector(sector) as OverworldChunk;
+        OverrideChunkWithLostWoodsVoxels(ch, doOverride);
+
+        OverworldChunk ch_down = ch.neighborChunks[1] as OverworldChunk;        // TODO: Better methods for getting neighbors
+        OverrideChunkWithLostWoodsVoxels(ch_down, doOverride);
+    }
+    void OverrideChunkWithLostWoodsVoxels(OverworldChunk ch, bool doOverride)
+    {
+        if (ch == null)
         {
             return;
         }
-        if(ch.useOverridingSector == doOverride 
+        if (ch.useOverridingSector == doOverride
             && ch.overridingSector == this.Sector)
         {
             return;
@@ -204,7 +224,7 @@ public class LostWoods : MonoBehaviour
         ch.useOverridingSector = doOverride;
         ch.overridingSector = this.Sector;
 
-        owEngine.ForceRegenerateTerrain(ch);
+        OverworldTerrainEngine.Instance.ForceRegenerateTerrain(ch);
     }
 
     void DisableEnemySpawningInSector(Index2 sector, bool destroyEnemies = true)
@@ -284,6 +304,8 @@ public class LostWoods : MonoBehaviour
     }
     void OnExitedLostWoods()
     {
+        OverrideSectorsWithLostWoods(IndexDirection2.AllValidNonZeroDirections, false);
+
         _hasEnteredLostWoods = false;
         _warpedObjects = null;
     }

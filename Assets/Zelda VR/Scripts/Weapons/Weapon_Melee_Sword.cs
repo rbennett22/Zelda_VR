@@ -110,6 +110,11 @@ public class Weapon_Melee_Sword : Weapon_Melee
 
         CollisionEnabled = false;
 
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
+
+        transform.localRotation = _origRotLocal;
+
         CollectAttachedCollectibles();
     }
 
@@ -122,6 +127,7 @@ public class Weapon_Melee_Sword : Weapon_Melee
 
         Retract();
     }
+
 
     void OnCollisionEnter(Collision collision)
     {

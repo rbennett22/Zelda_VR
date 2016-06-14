@@ -125,24 +125,35 @@ public class EnemyAI_Armos : MonoBehaviour
 
     void ActivateHiddenCollectible()
     {
-        GameObject hiddenCollectible = null;
+        Collectible hiddenCollectible = null;   // TODO: What if multiple Collectibles?
 
         Transform collectiblesContainer = GameObject.Find("Special Collectibles").transform;
         foreach (Transform child in collectiblesContainer)
         {
             Vector3 toCollectible = child.position - transform.position;
-            float distanceToCollectibleSqr = Vector3.SqrMagnitude(toCollectible);
-            if (distanceToCollectibleSqr < 1)
+            toCollectible.y = 0;
+            float distanceToCollectibleSq = Vector3.SqrMagnitude(toCollectible);
+            if (distanceToCollectibleSq < 1)
             {
-                hiddenCollectible = child.gameObject;
+                hiddenCollectible = child.GetComponent<Collectible>();
+                if (hiddenCollectible != null)
+                {
+                    RevealCollectible(hiddenCollectible);
+                    break;
+                }
             }
         }
+    }
 
-        if (hiddenCollectible != null)
+    void RevealCollectible(Collectible c)
+    {
+        if (c == null || c.IsCollectible)    // Already been revealed?
         {
-            hiddenCollectible.SetActive(true);
-            PlaySecretSound();
+            return;
         }
+
+        c.IsCollectible = true;
+        PlaySecretSound();
     }
 
     void PlaySecretSound()

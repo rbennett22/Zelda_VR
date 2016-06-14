@@ -2,7 +2,25 @@
 
 RECENTLY DONE:
 
-- Fixed Maps to display rooms under the correct conditions
+- Fog: Disable in dungeons
+- Lost Woods: Fixed fog
+- Cheats: Flying added
+- Flame lights: Changed Range/Intensity from 10/2 to 5.5/5 (to avoid shining on blocks above and outside of Grotto)
+- Dungeon Maps: Rooms are now displayed/hidden correctly (depending on player's possession of the respective map and/or compass)
+- Power Bracelet: Is now collectible
+- Ghini: Invincible Ghinis now die when the vulnerable Ghini is killed
+
+- BUG: Aquamentus doesn't fire projectiles -FIXED
+- BUG: Moldorm inactive after killing head -FIXED
+- BUG: Moldorm looks crazy when resuming after pause -FIXED
+- BUG: Grotto: Can't buy Blue Potion under certain conditions -FIXED
+- BUG: In Lost Woods certain blocks don't reappear after leaving. -FIXED
+- BUG: Can't enter Dungeon 8 -FIXED
+- BUG: Can't enter Grottos whose entrances are covered by special blocks -FIXED
+- BUG: Sword often starts slowly floating upwards -FIXED
+- BUG: Boomerang often gets "stuck" and won't fire -FIXED
+- BUG: Dungeon Map not displaying in Inventory -FIXED
+- BUG: Fairies fly to other rooms in dungeons -FIXED
 
 
 COMMITTED BUT NOT YET PUSHED:
@@ -21,6 +39,7 @@ DONE:
 - Overworld enemies are now correctly confined to their respective sectors
 - Getting heart container refills one heart instead of refilling it entirely
 - Movable blocks in dungeons may now pushed from any side
+- Rupees now max out correctly at 255 instead of 999
 
 - Hardware: Oculus DK2 is now supported
 

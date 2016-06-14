@@ -17,6 +17,7 @@ public class Weapon_Melee : Weapon_Base, IDamageDealerDelegate
     protected bool CollisionEnabled { get { return _collider.enabled; } set { _collider.enabled = value; } }
 
     protected Vector3 _originLocal;
+    protected Quaternion _origRotLocal;
 
 
     virtual protected void Awake()
@@ -34,6 +35,7 @@ public class Weapon_Melee : Weapon_Base, IDamageDealerDelegate
     virtual protected void Start()
     {
         _originLocal = transform.localPosition;
+        _origRotLocal = transform.localRotation;
     }
 
 

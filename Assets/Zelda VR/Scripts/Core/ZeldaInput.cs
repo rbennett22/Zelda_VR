@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ZeldaInput : Singleton<ZeldaInput>
 {
-    public enum Axis { MoveHorizontal, MoveVertical, LookHorizontal };
+    public enum Axis { MoveHorizontal, MoveVertical, LookHorizontal, Triggers };
 
     public enum Button { SwordAttack, UseItemB, Run, Jump, Extra, Start, Back, L1, R1 };
 
@@ -16,7 +16,8 @@ public class ZeldaInput : Singleton<ZeldaInput>
     {
         { Axis.MoveHorizontal, "XBox LS Horizontal" },
         { Axis.MoveVertical, "XBox LS Vertical" },
-        { Axis.LookHorizontal, "XBox RS Horizontal" }
+        { Axis.LookHorizontal, "XBox RS Horizontal" },
+        { Axis.Triggers, "XBox Triggers" }
     };
 
     Dictionary<Button, string> _zeldaButtonToXBox = new Dictionary<Button, string>()

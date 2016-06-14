@@ -6,6 +6,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
 {
     const ushort INVISIBLE_COLLIDER_VOXEL = 145;
     const ushort FLAT_GROUND_SAND_VOXEL = 146;
+    const ushort FLAT_GROUND_GRAY_VOXEL = 147;
 
     const int ENTRANCE_TILE_BLOCK_HEIGHT = 2;
     const int ENTRANCE_TILE_Y_OFFSET = 3;
@@ -122,7 +123,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
                 int yOffset;
                 if (IsRegularTile(x, z, out tileCode, out blockStackHeight, out yOffset))
                 {
-                    blockStackHeight = GetBlockHeightForTileCode(tileCode);
+                    blockStackHeight = GetBlockHeightForTileCode(tileCode, x, z);
                 }
 
                 ushort data = GetDataForTileCode(tileCode);
@@ -131,7 +132,12 @@ public class OverworldTerrainGenerator : TerrainGenerator
                 {
                     data = FLAT_GROUND_SAND_VOXEL;
                 }
+                else if (tileCode == 14)
+                {
+                    data = FLAT_GROUND_GRAY_VOXEL;
+                }
 
+                bool isTileFlat = TileInfo.IsTileFlat(tileCode);
                 bool isTileFlatImpassable = TileInfo.IsTileFlatImpassable(tileCode);
 
                 // TODO
@@ -144,6 +150,13 @@ public class OverworldTerrainGenerator : TerrainGenerator
                     if (y < -1)
                     {
                         continue;
+                    }
+                    if (y < 0)
+                    {
+                        if (!isTileFlat)
+                        {
+                            continue;
+                        }
                     }
                     if (y > blockStackHeight - 1)
                     {
@@ -209,7 +222,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
         int tileCodeBelow = _tiles[z - 1, x];
         if (TileInfo.IsTileAnEntrance(tileCodeBelow))
         {
-            blockHeight = GetBlockHeightForTileCode(tileCode);
+            blockHeight = GetBlockHeightForTileCode(tileCode, x, z - 1);
             yOffset = ENTRANCE_TILE_Y_OFFSET - 1;
 
             return false;
@@ -235,7 +248,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
             }
             else
             {
-                blockHeight = GetRandomHeight();
+                blockHeight = GetRandomBlockHeightForTile(x, z - 2);
             }
 
             yOffset = ENTRANCE_TILE_Y_OFFSET - 2;
@@ -246,7 +259,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
         return true;
     }
 
-    float GetBlockHeightForTileCode(int tileCode)
+    float GetBlockHeightForTileCode(int tileCode, int x, int z)
     {
         if (TileInfo.IsTileFlat(tileCode))
         {
@@ -262,11 +275,26 @@ public class OverworldTerrainGenerator : TerrainGenerator
         }
         else
         {
-            return GetRandomHeight();
+            return GetRandomBlockHeightForTile(x, z);
         }
     }
 
-    int GetRandomHeight()
+
+    // TODO
+    int GetRandomBlockHeightForTile(Index2 tile)
+    {
+        return GetRandomBlockHeightForTile(tile.x, tile.y);
+    }
+    int GetRandomBlockHeightForTile(int x, int z)
+    {
+        int min = (int)(_blockHeight - _blockHeightVariance);
+        int max = (int)(_blockHeight + _blockHeightVariance);
+
+        int pRand = (x + 3) ^ (z + 5);  // pseudo-random number
+        return min + (pRand % (max + 1 - min));
+    }
+
+    int GetRandomBlockHeight()
     {
         int min = (int)(_blockHeight - _blockHeightVariance);
         int max = (int)(_blockHeight + _blockHeightVariance);

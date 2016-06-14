@@ -7,12 +7,6 @@ using UnityEngine;
 
 public class Player : Actor
 {
-    const float MOON_MODE_GRAVITY_MODIFIER = 1 / 6.0f;
-    const float DEFAULT_JINX_DURATION = 2.0f;
-    const float DEFAULT_LIKE_LIKE_TRAP_DURATION = 3.5f;
-    const int LIKE_LIKE_ESCAPE_COUNT = 8;
-
-
     [SerializeField]
     ZeldaPlayerController _playerController;
     public ZeldaPlayerController PlayerController { get { return _playerController; } }
@@ -35,6 +29,26 @@ public class Player : Actor
         _playerController.transform.eulerAngles = euler;
     }
 
+
+    public int HealthInHalfHearts { get { return PlayerHealthDelegate.HealthToHalfHearts(HealthController.Health); } }
+    public void RestoreHearts(int hearts)
+    {
+        RestoreHalfHearts(hearts * 2);
+    }
+    public void RestoreHalfHearts(int halfHearts)
+    {
+        if (halfHearts <= 0) { return; }
+
+        int healAmount = PlayerHealthDelegate.HalfHeartsToHealth(halfHearts);
+        HealthController.RestoreHealth((uint)healAmount);
+    }
+
+
+    public string RegisteredName { get; set; }
+    public int DeathCount { get; set; }
+
+
+    #region Inventory & Weapons
 
     Inventory _inventory;
     public Inventory Inventory { get { return _inventory; } }
@@ -108,9 +122,10 @@ public class Player : Actor
 
         _equippedItem = _inventory.GetItem(itemName);
 
-        if (_equippedItem.weaponPrefab != null)
+        GameObject weaponPrefab = _equippedItem.weaponPrefab;
+        if (weaponPrefab != null)
         {
-            EquipWeaponB(itemName);
+            EquipWeaponB(weaponPrefab);
         }
     }
     public void DeequipItem()
@@ -120,12 +135,9 @@ public class Player : Actor
         _equippedItem = null;
     }
 
-    void EquipWeaponB(string weaponName)
+    void EquipWeaponB(GameObject prefab)
     {
-        Item item = _inventory.GetItem(weaponName);
-        GameObject prefab = item.weaponPrefab;
-
-        GameObject g = Instantiate(prefab) as GameObject;
+        GameObject g = Instantiate(prefab);
         g.name = prefab.name;
 
         Transform t = g.transform;
@@ -144,23 +156,15 @@ public class Player : Actor
         }
     }
 
-
-    public int HealthInHalfHearts { get { return PlayerHealthDelegate.HealthToHalfHearts(HealthController.Health); } }
-    public void RestoreHearts(int hearts)
-    {
-        RestoreHalfHearts(hearts * 2);
-    }
-    public void RestoreHalfHearts(int halfHearts)
-    {
-        if (halfHearts <= 0) { return; }
-
-        int healAmount = PlayerHealthDelegate.HalfHeartsToHealth(halfHearts);
-        HealthController.RestoreHealth((uint)healAmount);
-    }
+    #endregion Inventory & Weapons
 
 
-    public string RegisteredName { get; set; }
-    public int DeathCount { get; set; }
+    #region Status Effects
+
+    const float MOON_MODE_GRAVITY_MODIFIER = 1 / 6.0f;
+    const float DEFAULT_JINX_DURATION = 2.0f;
+    const float DEFAULT_LIKE_LIKE_TRAP_DURATION = 3.5f;
+    const int LIKE_LIKE_ESCAPE_COUNT = 8;
 
 
     // Jinx:  Player can't use sword
@@ -271,6 +275,7 @@ public class Player : Actor
 
 
     public bool IsAirJumpingEnabled { get { return _playerController.airJumpingEnabled; } set { _playerController.airJumpingEnabled = value; } }
+    public bool IsFlyingEnabled { get { return _playerController.flyingEnabled; } set { _playerController.flyingEnabled = value; } }
 
     int _jumpHeight = 0;
     public int JumpHeight
@@ -298,6 +303,8 @@ public class Player : Actor
             _playerController.GravityModifier = gravMod;
         }
     }
+
+    #endregion Status Effects
 
 
     #region Events
@@ -451,7 +458,7 @@ public class Player : Actor
 
         if (canAttack)
         {
-            weapon.Attack(_playerController.ForwardDirection);
+            weapon.Attack(ForwardDirection);
         }
     }
 

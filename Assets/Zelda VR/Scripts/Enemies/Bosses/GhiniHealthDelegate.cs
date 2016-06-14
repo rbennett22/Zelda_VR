@@ -1,17 +1,28 @@
 ﻿using UnityEngine;
+using Immersio.Utility;
 
 public class GhiniHealthDelegate : MonoBehaviour
 {
     void OnEnemyDeath()
     {
-        GameObject enemies = GameObject.FindGameObjectWithTag("Enemies");
-        foreach (Transform enemy in enemies.transform)
+        Enemy enemy = GetComponent<Enemy>();
+        Index2 mySector = enemy.Sector;
+
+        foreach (Enemy e in Actor.FindObjectsInSector<Enemy>(mySector))
         {
-            if (enemy.name.Contains("Ghini grave"))
+            if (e.name.Contains("grave"))
             {
-                HealthController health = enemy.GetComponent<HealthController>();
-                health.isIndestructible = false;
-                health.Kill(null, true);
+                HealthController hc = e.GetComponent<HealthController>();
+                hc.isIndestructible = false;
+                hc.Kill(null, true);
+            }
+        }
+
+        foreach (EnemySpawnPoint sp in Actor.FindObjectsInSector<EnemySpawnPoint>(mySector))
+        {
+            if (sp.name.Contains("grave"))
+            {
+                sp.ForceCooldown();
             }
         }
     }

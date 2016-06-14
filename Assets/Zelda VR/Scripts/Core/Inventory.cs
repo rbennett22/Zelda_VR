@@ -45,31 +45,45 @@ public class Inventory : Singleton<Inventory>
     bool[] _hasCompassForDungeon = new bool[WorldInfo.NUM_DUNGEONS];
     public bool HasCompassForDungeon(int dungeon)
     {
+        if (!IsDungeonNumValid(dungeon))
+            return false;
         return _hasCompassForDungeon[dungeon - 1];
     }
     public void SetHasCompassForDungeon(int dungeon, bool hasCompass)
     {
+        if (!IsDungeonNumValid(dungeon))
+            return;
         _hasCompassForDungeon[dungeon - 1] = hasCompass;
     }
 
     bool[] _hasMapForDungeon = new bool[WorldInfo.NUM_DUNGEONS];
     public bool HasMapForDungeon(int dungeon)
     {
+        if (!IsDungeonNumValid(dungeon))
+            return false;
         return _hasMapForDungeon[dungeon - 1];
     }
     public void SetHasMapForDungeon(int dungeon, bool hasMap)
     {
+        if (!IsDungeonNumValid(dungeon))
+            return;
         _hasMapForDungeon[dungeon - 1] = hasMap;
+    }
+    bool IsDungeonNumValid(int n)
+    {
+        return n > 0 && n <= WorldInfo.NUM_DUNGEONS;
     }
 
     bool[] _hasTriforcePieceForDungeon = new bool[WorldInfo.NUM_DUNGEONS - 1];
     public bool HasTriforcePieceForDungeon(int dungeon)
     {
+        if (!IsDungeonNumValid(dungeon)) { return false; }
         if (dungeon == 9) { return false; }     // (9th Dungeon doesn't have a Triforce piece)
         return _hasTriforcePieceForDungeon[dungeon - 1];
     }
     public void SetHasTriforcePieceForDungeon(int dungeon, bool hasTri)
     {
+        if (!IsDungeonNumValid(dungeon)) { return; }
         if (dungeon == 9) { return; }           // (9th Dungeon doesn't have a Triforce piece)
         _hasTriforcePieceForDungeon[dungeon - 1] = hasTri;
     }
@@ -470,7 +484,7 @@ public class Inventory : Singleton<Inventory>
         HasDeliveredLetterToOldWoman = true;
 
         EquippedItemA = GetItem("MagicSword");
-        EquippedItemB = GetItem("SilverBow");
+        EquippedItemB = GetItem("MagicBoomerang");
         EquippedShield = GetItem("MagicShield");
 
         SyncPlayerHealthWithHeartContainers(true);

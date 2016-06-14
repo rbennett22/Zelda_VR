@@ -10,6 +10,9 @@ public class TileMap : MonoBehaviour
     readonly static Color SPECIAL_BLOCK_HIGHLIGHT_COLOR = new Color(1, 0.5f, 0.5f);
 
 
+    public Vector3 WorldOffset { get { return WorldInfo.Instance.WorldOffset; } }
+
+
     [SerializeField]
     TileMapData _tileMapData;
     public TileMapData TileMapData { get { return _tileMapData; } }
@@ -19,11 +22,31 @@ public class TileMap : MonoBehaviour
     public TileMapTexture TileMapTexture { get { return _tileMapTexture; } }
 
 
+    /*float[,] _tileHeights;
+    public float TryGetTileHeight(Index2 n)
+    {
+        return TryGetTileHeight(n.x, n.y);
+    }
+    public float TryGetTileHeight(int x, int y)
+    {
+        if (!IsTileIndexValid(x, y)) { return -1f; }
+
+        return _tileHeights[y, x];
+    }*/
+
+
     Transform _specialBlocksContainer;
     bool[,] _specialBlockPopulationFlags;
+    public bool IsTileSpecial(Index2 n)
+    {
+        return IsTileSpecial(n.x, n.y);
+    }
+    public bool IsTileSpecial(int x, int y)
+    {
+        if (!IsTileIndexValid(x, y)) { return false; }
 
-
-    public Vector3 WorldOffset { get { return WorldInfo.Instance.WorldOffset; } }
+        return _specialBlockPopulationFlags[y, x];
+    }
 
 
     public int TilesWide { get { return _tileMapData.TilesWide; } }
@@ -71,17 +94,21 @@ public class TileMap : MonoBehaviour
         return tileIndices;
     }
 
-    public bool IsTileSpecial(int x, int y)
+    public bool IsTileIndexValid(Index2 index)
     {
-        if (x < 0 || x > TilesWide - 1) { return false; }
-        if (y < 0 || y > TilesHigh - 1) { return false; }
-
-        return _specialBlockPopulationFlags[y, x];
+        return _tileMapData.IsTileIndexValid(index);
+    }
+    public bool IsTileIndexValid(int x, int y)
+    {
+        return _tileMapData.IsTileIndexValid(x, y);
     }
 
 
+    #region Sector
+
     int _sectorHeightInTiles, _sectorWidthInTiles;
     int _sectorsWide, _sectorsHigh;
+
     public int SectorHeightInTiles { get { return _sectorHeightInTiles; } }
     public int SectorWidthInTiles { get { return _sectorWidthInTiles; } }
     public int SectorsWide { get { return _sectorsWide; } }
@@ -155,11 +182,15 @@ public class TileMap : MonoBehaviour
         return idx;
     }
 
+    #endregion Sector
+
 
     void Awake()
     {
         InitFromSettings(ZeldaVRSettings.Instance);
         LoadMap();
+
+        InitTileHeights();
         InitSpecialBlocks();
 
         if (Cheats.Instance.SecretDetectionModeIsEnabled)
@@ -177,6 +208,11 @@ public class TileMap : MonoBehaviour
 
         _tileMapData.InitFromSettings(s);
         _tileMapTexture.InitFromSettings(s);
+    }
+
+    void InitTileHeights()
+    {
+
     }
 
     void InitSpecialBlocks()
@@ -211,8 +247,7 @@ public class TileMap : MonoBehaviour
             {
                 for (int x = startX; x < startX + xLen; x++)
                 {
-                    if (x < 0 || x > TilesWide - 1) { continue; }
-                    if (z < 0 || z > TilesHigh - 1) { continue; }
+                    if (!IsTileIndexValid(x, z)) { continue; }
 
                     _specialBlockPopulationFlags[z, x] = true;
                 }

@@ -28,11 +28,11 @@ public class TileMapData : MonoBehaviour
     }
     public int TryGetTile(int x, int y)
     {
-        if (x < 0 || x > TilesWide - 1) { return INVALID_TILE; }
-        if (y < 0 || y > TilesHigh - 1) { return INVALID_TILE; }
+        if (!IsTileIndexValid(x, y)) { return INVALID_TILE; }
 
         return _tiles[y, x];
     }
+
 
     // TODO: This method doesn't work correctly for some reason
     /*public int[,] GetCopiedTiles()
@@ -47,6 +47,20 @@ public class TileMapData : MonoBehaviour
         }
         return copy;
     }*/
+
+
+    public bool IsTileIndexValid(Index2 index)
+    {
+        return IsTileIndexValid(index.x, index.y);
+    }
+    public bool IsTileIndexValid(int x, int y)
+    {
+        if (x < 0 || x > TilesWide - 1) { return false; }
+        if (y < 0 || y > TilesHigh - 1) { return false; }
+
+        return true;
+    }
+
 
     public static bool IsTileCodeValid(int tileCode)
     {

@@ -39,7 +39,9 @@ public class EnemyAI_Aquamentus : EnemyAI
         float degreesDelta = Random.Range(1, 30);
         float radiansDelta = degreesDelta * Mathf.PI / 180;
 
-        Vector3 dir = DirectionToPlayer;
+        Weapon_Gun gun = _enemy.weapon as Weapon_Gun;
+
+        Vector3 dir = (Player.Position - gun.Muzzle.position).normalized;
         Vector3 dirL = Vector3.RotateTowards(dir, -dir, -radiansDelta, 999);
         Vector3 dirR = Vector3.RotateTowards(dir, -dir, radiansDelta, 999);
 

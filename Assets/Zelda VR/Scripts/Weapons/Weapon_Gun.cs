@@ -5,14 +5,17 @@ public class Weapon_Gun : Weapon_Base
 {
     [SerializeField]
     GameObject _projectilePrefab;
+
     [SerializeField]
     Transform _muzzleAnchor;
+    public Transform Muzzle { get { return _muzzleAnchor; } }
 
     [SerializeField]
     int _maxLiveProjectiles = 1;
 
 
     List<Projectile_Base> _firedProjectiles = new List<Projectile_Base>();
+
 
 
     override public bool CanAttack { get { return (base.CanAttack && (_firedProjectiles.Count < _maxLiveProjectiles)); } }

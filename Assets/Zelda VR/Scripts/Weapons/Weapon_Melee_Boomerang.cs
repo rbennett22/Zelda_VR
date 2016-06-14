@@ -3,6 +3,7 @@
 public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
 {
     const float RETURN_DISTANCE_THRESHOLD = 0.5f;
+    const float RETURN_DISTANCE_THRESHOLD_SQ = RETURN_DISTANCE_THRESHOLD * RETURN_DISTANCE_THRESHOLD;
 
 
     public float speed;
@@ -60,6 +61,11 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
 
     void Update()
     {
+        if(!IsAttacking)
+        {
+            return;
+        }
+
         if (_thrower == null)
         {
             Destroy(gameObject);
@@ -69,7 +75,8 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
         if (_isDeparting)
         {
             float distSq = (_origin - transform.position).sqrMagnitude;
-            if (distSq >= maxDistance * maxDistance)
+            float maxDistSq = maxDistance * maxDistance;
+            if (distSq >= maxDistSq)
             {
                 ReturnToThrower();
             }
@@ -77,7 +84,7 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
         else if (_isReturning)
         {
             Vector3 toThrower = _thrower.position - transform.position;
-            if (toThrower.sqrMagnitude <= RETURN_DISTANCE_THRESHOLD * RETURN_DISTANCE_THRESHOLD)
+            if (toThrower.sqrMagnitude <= RETURN_DISTANCE_THRESHOLD_SQ)
             {
                 OnReturnedToThrower();
             }
@@ -119,6 +126,11 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
 
     void ReturnToThrower()
     {
+        if(!_isDeparting)
+        {
+            return;
+        }
+
         _isDeparting = false;
         _isReturning = true;
     }

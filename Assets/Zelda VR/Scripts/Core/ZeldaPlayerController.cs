@@ -2,8 +2,12 @@
 
 public class ZeldaPlayerController : OVRPlayerController
 {
+    const float FLY_SPEED = 0.2f;
+
+
     public bool gravityEnabled = true;
     public bool airJumpingEnabled = false;
+    public bool flyingEnabled = false;
     public float RunMultiplier = 1.0f;
 
 
@@ -71,26 +75,41 @@ public class ZeldaPlayerController : OVRPlayerController
 
         moveDirection += MoveThrottle * SimulationRate * Time.deltaTime;
 
-        // Gravity
-        if (gravityEnabled)
+        // Flying
+        if (flyingEnabled)
         {
-            if (Controller.isGrounded && FallSpeed <= 0)
-                FallSpeed = ((Physics.gravity.y * (GravityModifier * 0.002f)));
-            else
-                FallSpeed += ((Physics.gravity.y * (GravityModifier * 0.002f)) * SimulationRate * Time.deltaTime);
+            float triggersAxis = ZeldaInput.GetAxis(ZeldaInput.Axis.Triggers);
+            if (Mathf.Abs(triggersAxis) > 0.1f)
+            {
+                moveDirection.y += triggersAxis * FLY_SPEED;
+            }
+
+            FallSpeed = 0;
+        }
+        else
+        {
+            // Gravity
+            if (gravityEnabled)
+            {
+                if (Controller.isGrounded && FallSpeed <= 0)
+                    FallSpeed = ((Physics.gravity.y * (GravityModifier * 0.002f)));
+                else
+                    FallSpeed += ((Physics.gravity.y * (GravityModifier * 0.002f)) * SimulationRate * Time.deltaTime);
+            }
+
+            moveDirection.y += FallSpeed * SimulationRate * Time.deltaTime;
+
+            // Offset correction for uneven ground
+            float bumpUpOffset = 0.0f;
+
+            if (Controller.isGrounded && MoveThrottle.y <= transform.lossyScale.y * 0.001f)
+            {
+                bumpUpOffset = Mathf.Max(Controller.stepOffset, new Vector3(moveDirection.x, 0, moveDirection.z).magnitude);
+                moveDirection -= bumpUpOffset * Vector3.up;
+            }
         }
 
-        moveDirection.y += FallSpeed * SimulationRate * Time.deltaTime;
-
-        // Offset correction for uneven ground
-        float bumpUpOffset = 0.0f;
-
-        if (Controller.isGrounded && MoveThrottle.y <= transform.lossyScale.y * 0.001f)
-        {
-            bumpUpOffset = Mathf.Max(Controller.stepOffset, new Vector3(moveDirection.x, 0, moveDirection.z).magnitude);
-            moveDirection -= bumpUpOffset * Vector3.up;
-        }
-
+        
         Vector3 predictedXZ = Vector3.Scale((Controller.transform.localPosition + moveDirection), new Vector3(1, 0, 1));
 
         // Move contoller
