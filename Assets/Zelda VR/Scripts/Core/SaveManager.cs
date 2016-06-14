@@ -9,48 +9,49 @@ public class SaveManager : Singleton<SaveManager>
 
     const string NEW_GAME_FILE_NAME = "NewGame";
     const string NEW_GAME_ENTRY_DATA_FILE_NAME = "NewGameEntryData";
-    const string GAME_FILE_NAME_BASE = "SavedGame_";
-    const string ENTRY_DATA_FILE_NAME_BASE = "SavedEntryData_";
+    const string SAVED_GAME_FILE_NAME_BASE = "SavedGame_";
+    const string SAVED_GAME_ENTRY_DATA_FILE_NAME_BASE = "SavedEntryData_";
 
 
-    static string NewGameFilePath { get { return Application.dataPath + "/" + NEW_GAME_DATA_FOLDER_NAME + "/" + NEW_GAME_FILE_NAME + ".txt"; } }
-    static string NewGameEntryDataFilePath { get { return Application.dataPath + "/" + NEW_GAME_DATA_FOLDER_NAME + "/" + NEW_GAME_ENTRY_DATA_FILE_NAME + ".txt"; } }
+    static string NewGameFilePath           { get { return Application.dataPath + "/" + NEW_GAME_DATA_FOLDER_NAME + "/" + NEW_GAME_FILE_NAME + ".txt"; } }
+    static string NewGameEntryDataFilePath  { get { return Application.dataPath + "/" + NEW_GAME_DATA_FOLDER_NAME + "/" + NEW_GAME_ENTRY_DATA_FILE_NAME + ".txt"; } }
 
-    static string EntryDataFilePathForID(int id)
+    static string SavedGameEntryDataFilePathForID(int id)
     {
-        return Application.persistentDataPath + "/" + ENTRY_DATA_FILE_NAME_BASE + id + ".txt";
+        return Application.persistentDataPath + "/" + SAVED_GAME_ENTRY_DATA_FILE_NAME_BASE + id + ".txt";
     }
-    static string GameFilePathForID(int id)
+    static string SavedGameFilePathForID(int id)
     {
-        return Application.persistentDataPath + "/" + GAME_FILE_NAME_BASE + id + ".txt";
+        return Application.persistentDataPath + "/" + SAVED_GAME_FILE_NAME_BASE + id + ".txt";
     }
 
-    static bool DataExistsForID(int id)
+    static bool SavedGameDataExistsForID(int id)
     {
-        return File.Exists(GameFilePathForID(id));
+        return File.Exists(SavedGameFilePathForID(id));
     }
 
 
     int ActiveSaveEntryID { get; set; }
 
 
-    string ActiveGameFilePath { get { return GameFilePathForID(ActiveSaveEntryID); } }
-    string ActiveEntryDataFilePath { get { return EntryDataFilePathForID(ActiveSaveEntryID); } }
+    string ActiveSavedGameFilePath { get { return SavedGameFilePathForID(ActiveSaveEntryID); } }
+    string ActiveSavedGameEntryDataFilePath { get { return SavedGameEntryDataFilePathForID(ActiveSaveEntryID); } }
 
 
     public void SaveGame()
     {
-        print(" SaveGame :: Game:" + ActiveGameFilePath + "\n   EntryData: " + ActiveEntryDataFilePath);
+        print(" SaveGame ::  Game:" + ActiveSavedGameFilePath + "\n   EntryData: " + ActiveSavedGameEntryDataFilePath);
 
-        ZeldaSerializer.Instance.SaveGame(ActiveGameFilePath);
-        ZeldaSerializer.Instance.SaveEntryData(ActiveEntryDataFilePath);
+        ZeldaSerializer s = ZeldaSerializer.Instance;
+        s.SaveGame(ActiveSavedGameFilePath);
+        s.SaveEntryData(ActiveSavedGameEntryDataFilePath);
     }
 
     public void LoadGame(int id)
     {
-        string filePath = DataExistsForID(id) ? GameFilePathForID(id) : NewGameFilePath;
+        string filePath = SavedGameDataExistsForID(id) ? SavedGameFilePathForID(id) : NewGameFilePath;
 
-        print("LoadGame:: id: " + id + ", filePath: " + filePath);
+        print("LoadGame ::  ID: " + id + ", filePath: " + filePath);
 
         ActiveSaveEntryID = id;
         ZeldaSerializer.Instance.LoadGame(filePath);
@@ -60,13 +61,13 @@ public class SaveManager : Singleton<SaveManager>
 
     public ZeldaSerializer.EntryData LoadEntryData(int id)
     {
-        /*if (!DataExistsForID(id))
+        /*if (!SavedGameDataExistsForID(id))
         {
-            //print(" No data exists for id: " + id + ", path: " + EntryDataFilePathForID(id));
+            //print(" No data exists for id: " + id + ", path: " + SavedGameEntryDataFilePathForID(id));
             return null;
         }*/
 
-        string filePath = DataExistsForID(id) ? EntryDataFilePathForID(id) : NewGameEntryDataFilePath;
+        string filePath = SavedGameDataExistsForID(id) ? SavedGameEntryDataFilePathForID(id) : NewGameEntryDataFilePath;
         return ZeldaSerializer.EntryData.LoadFromFile(filePath);
     }
 
@@ -74,10 +75,10 @@ public class SaveManager : Singleton<SaveManager>
     {
         print("DeleteGame: " + id);
 
-        if (!DataExistsForID(id)) { return false; }
+        if (!SavedGameDataExistsForID(id)) { return false; }
 
-        File.Delete(EntryDataFilePathForID(id));
-        File.Delete(GameFilePathForID(id));
+        File.Delete(SavedGameEntryDataFilePathForID(id));
+        File.Delete(SavedGameFilePathForID(id));
 
         return true;
     }

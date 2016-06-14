@@ -55,6 +55,8 @@ public class PlayerHealthDelegate : MonoBehaviour
         direction.Normalize();
         Push(direction);
 
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.hurt);
+
         Enemy enemy = damageDealer.GetComponent<Enemy>();
 
         // TODO

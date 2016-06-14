@@ -32,6 +32,7 @@ public class ZeldaPlayerController : OVRPlayerController
             return CameraRig.centerEyeAnchor.forward;
         }
     }
+    public Vector3 LastAttemptedMotion { get; private set; }
 
     public float Height { get { return GetComponent<CharacterController>().height; } }
 
@@ -65,7 +66,7 @@ public class ZeldaPlayerController : OVRPlayerController
 
         UpdateMovement();
 
-        Vector3 moveDirection = Vector3.zero;
+        Vector3 motion = Vector3.zero;
 
         float motorDamp = (1.0f + (Damping * SimulationRate * Time.deltaTime));
 
@@ -73,7 +74,7 @@ public class ZeldaPlayerController : OVRPlayerController
         MoveThrottle.y = (MoveThrottle.y > 0.0f) ? (MoveThrottle.y / motorDamp) : MoveThrottle.y;
         MoveThrottle.z /= motorDamp;
 
-        moveDirection += MoveThrottle * SimulationRate * Time.deltaTime;
+        motion += MoveThrottle * SimulationRate * Time.deltaTime;
 
         // Flying
         if (flyingEnabled)
@@ -81,7 +82,7 @@ public class ZeldaPlayerController : OVRPlayerController
             float triggersAxis = ZeldaInput.GetAxis(ZeldaInput.Axis.Triggers);
             if (Mathf.Abs(triggersAxis) > 0.1f)
             {
-                moveDirection.y += triggersAxis * FLY_SPEED;
+                motion.y += triggersAxis * FLY_SPEED;
             }
 
             FallSpeed = 0;
@@ -97,23 +98,24 @@ public class ZeldaPlayerController : OVRPlayerController
                     FallSpeed += ((Physics.gravity.y * (GravityModifier * 0.002f)) * SimulationRate * Time.deltaTime);
             }
 
-            moveDirection.y += FallSpeed * SimulationRate * Time.deltaTime;
+            motion.y += FallSpeed * SimulationRate * Time.deltaTime;
 
             // Offset correction for uneven ground
             float bumpUpOffset = 0.0f;
 
             if (Controller.isGrounded && MoveThrottle.y <= transform.lossyScale.y * 0.001f)
             {
-                bumpUpOffset = Mathf.Max(Controller.stepOffset, new Vector3(moveDirection.x, 0, moveDirection.z).magnitude);
-                moveDirection -= bumpUpOffset * Vector3.up;
+                bumpUpOffset = Mathf.Max(Controller.stepOffset, new Vector3(motion.x, 0, motion.z).magnitude);
+                motion -= bumpUpOffset * Vector3.up;
             }
         }
 
-        
-        Vector3 predictedXZ = Vector3.Scale((Controller.transform.localPosition + moveDirection), new Vector3(1, 0, 1));
+        Vector3 predictedXZ = Vector3.Scale((Controller.transform.localPosition + motion), new Vector3(1, 0, 1));
 
         // Move contoller
-        Controller.Move(moveDirection);
+        Controller.Move(motion);
+
+        LastAttemptedMotion = motion;
 
         Vector3 actualXZ = Vector3.Scale(Controller.transform.localPosition, new Vector3(1, 0, 1));
 

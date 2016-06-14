@@ -147,8 +147,8 @@ public class DungeonRoomInfo : MonoBehaviour
 
     public bool CanPassThrough(WallDirection direction)
     {
-        WallType wallType = GetWallTypeForDirection(direction);
-        return (wallType == WallType.DoorOpen || wallType == WallType.Bombed);
+        WallType type = GetWallTypeForDirection(direction);
+        return (type == WallType.DoorOpen || type == WallType.Bombed);
     }
 
     public bool IsBombable(WallDirection direction)

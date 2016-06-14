@@ -182,7 +182,10 @@ public class EnemyAI : MonoBehaviour
         const float SHORTEST_BLOCK_HEIGHT = 0.2f;
 
         Vector3 from = transform.position;
-        from.y = WorldOffsetY + SHORTEST_BLOCK_HEIGHT - EPSILON;   // This ensures that short blocks don't go undetected
+        if (from.y >= 0)    // This check is necessary for Keese in SubDungeons to detect obstructions using their actual y position  (TODO)
+        {
+            from.y = WorldOffsetY + SHORTEST_BLOCK_HEIGHT - EPSILON;   // This ensures that short blocks don't go undetected
+        }
         Vector3 to = from + distance * direction;
 
         bool canMove = CanMoveFromTo(from, to);

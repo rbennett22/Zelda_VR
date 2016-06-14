@@ -13,12 +13,15 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
 
 
     Vector3 _origin;
-    Vector3 _direction;
+    Vector3 _flyingDirection;
     Transform _thrower;         // "Who" the boomerang will return to
 
     bool _isDeparting, _isReturning;
     override public bool IsAttacking { get { return base.IsAttacking || _isDeparting || _isReturning; } }
     override public bool CanAttack { get { return (base.CanAttack && !IsAttacking); } }
+
+    override public Vector3 AttackDirection { get { return _flyingDirection; } }
+
 
     [SerializeField]
     Renderer _renderer;
@@ -36,6 +39,7 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
         RendererEnabled = false;
     }
 
+
     public override void Attack(Vector3 direction)
     {
         if (!CanAttack)
@@ -48,7 +52,7 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
 
         _thrower = transform.parent;
         _origin = _thrower.position;
-        _direction = dir.normalized;
+        _flyingDirection = dir.normalized;
 
         transform.SetParent(null);
 
@@ -74,29 +78,36 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
 
         if (_isDeparting)
         {
-            float distSq = (_origin - transform.position).sqrMagnitude;
-            float maxDistSq = maxDistance * maxDistance;
-            if (distSq >= maxDistSq)
-            {
-                ReturnToThrower();
-            }
+            Update_Departing();
         }
         else if (_isReturning)
         {
-            Vector3 toThrower = _thrower.position - transform.position;
-            if (toThrower.sqrMagnitude <= RETURN_DISTANCE_THRESHOLD_SQ)
-            {
-                OnReturnedToThrower();
-            }
-            else
-            {
-                _direction = toThrower.normalized;
-            }
+            Update_Returning();
         }
 
-        transform.position += _direction * speed * Time.deltaTime;
+        transform.position += _flyingDirection * speed * Time.deltaTime;
     }
-
+    void Update_Departing()
+    {
+        float distSq = (_origin - transform.position).sqrMagnitude;
+        float maxDistSq = maxDistance * maxDistance;
+        if (distSq >= maxDistSq)
+        {
+            ReturnToThrower();
+        }
+    }
+    void Update_Returning()
+    {
+        Vector3 toThrower = _thrower.position - transform.position;
+        if (toThrower.sqrMagnitude <= RETURN_DISTANCE_THRESHOLD_SQ)
+        {
+            OnReturnedToThrower();
+        }
+        else
+        {
+            _flyingDirection = toThrower.normalized;
+        }
+    }
 
     public override void OnHitCollectible(Collectible collectible)
     {
@@ -111,6 +122,7 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
     {
         ReturnToThrower();
     }
+
 
     void IDamageDealerDelegate.OnDamageDealt(DamageDealer_Base attacker, HealthController_Abstract victim, uint amount)
     {
@@ -140,7 +152,7 @@ public class Weapon_Melee_Boomerang : Weapon_Melee, IDamageDealerDelegate
         _isDeparting = _isReturning = false;
 
         transform.SetParent(_thrower);
-        _direction = Vector3.zero;
+        _flyingDirection = Vector3.zero;
         RendererEnabled = false;
         CollisionEnabled = false;
 

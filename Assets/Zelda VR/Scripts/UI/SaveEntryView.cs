@@ -16,7 +16,7 @@ public class SaveEntryView : MonoBehaviour
 
     void Awake()
     {
-        MarkAsSelected(false);
+        MarkAsDeselected();
         //ClearToDefaultValues();
     }
 
@@ -135,8 +135,12 @@ public class SaveEntryView : MonoBehaviour
     }
 
 
-    public void MarkAsSelected(bool doMark = true)
+    public void MarkAsSelected()
     {
-        selectedIndicatorImage.GetComponent<Renderer>().enabled = doMark;
+        selectedIndicatorImage.GetComponent<Renderer>().enabled = true;
+    }
+    public void MarkAsDeselected()
+    {
+        selectedIndicatorImage.GetComponent<Renderer>().enabled = false;
     }
 }

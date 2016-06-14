@@ -39,10 +39,10 @@ public class Collectible : MonoBehaviour
     {
         if (WorldInfo.Instance.IsInDungeon)
         {
+            DungeonRoom dr = DungeonRoom.GetRoomForPosition(transform.position);
+
             if (appearsOnRoomClear)
             {
-                DungeonRoom dr = DungeonRoom.GetRoomForPosition(transform.position);
-                //if (dr == null) { print(" ItemOnClear -> " + name + ": " + transform.position.x + ", " + transform.position.z); }
                 dr.ItemOnClear = this;
 
                 gameObject.SetActive(false);
@@ -50,8 +50,6 @@ public class Collectible : MonoBehaviour
 
             if (isSpecialItem)
             {
-                DungeonRoom dr = DungeonRoom.GetRoomForPosition(transform.position);
-                //if (dr == null) { print(" SpecialItem -> " + name + ": " + transform.position.x + ", " + transform.position.z); }
                 dr.SpecialItem = this;
             }
         }

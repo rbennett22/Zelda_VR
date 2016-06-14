@@ -4,6 +4,6 @@
   <deathCount>0</deathCount>
   <armorLevel>0</armorLevel>
   <swordLevel>0</swordLevel>
-  <numHeartContainers>0</numHeartContainers>
-  <numHalfHearts>0</numHalfHearts>
+  <numHeartContainers>3</numHeartContainers>
+  <numHalfHearts>6</numHalfHearts>
 </EntryData>

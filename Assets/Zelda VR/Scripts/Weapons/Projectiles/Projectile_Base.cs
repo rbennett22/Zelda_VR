@@ -104,36 +104,37 @@ public class Projectile_Base : MonoBehaviour, IDamageDealerDelegate
 
     bool IDamageDealerDelegate.CanAttackBeBlocked(DamageDealer_Base attacker, HealthController_Abstract victim)
     {
-        Actor ch = victim.GetComponent<Actor>();
-        if (ch == null)
+        Actor r = victim.GetComponent<Actor>();
+        if (r == null)
         {
             return false;
         }
         
-        return ch.CanBlockAttack(woodenShieldBlocks, magicShieldBlocks, transform.up);     // TODO: remove the 2 "shieldCanBlock" params
+        return r.CanBlockAttack(woodenShieldBlocks, magicShieldBlocks, MoveDirection);     // TODO: remove the 2 "shieldCanBlock" params
     }
 
     void IDamageDealerDelegate.OnAttackBlocked(DamageDealer_Base attacker, HealthController_Abstract blocker) { OnAttackDeflected(attacker, blocker); }
     void IDamageDealerDelegate.OnHitAnInvulnerable(DamageDealer_Base attacker, HealthController_Abstract invulnerable) { OnAttackDeflected(attacker, invulnerable); }
-    void OnAttackDeflected(DamageDealer_Base attacker, HealthController_Abstract deflector)
-    {
-        Actor ch = deflector.GetComponent<Actor>();
-        if (ch == null)
-        {
-            return;
-        }
-
-        if (ch.playSoundWhenBlockingAttack)
-        {
-            PlayDeflectionSound();
-        }
-    }
 
     void IDamageDealerDelegate.OnDamageDealt(DamageDealer_Base attacker, HealthController_Abstract victim, uint amount) { }
     void IDamageDealerDelegate.OnInstaKilled(DamageDealer_Base attacker, HealthController_Abstract victim) { }
 
     #endregion IDamageDealerDelegate
 
+
+    void OnAttackDeflected(DamageDealer_Base attacker, HealthController_Abstract deflector)
+    {
+        Actor r = deflector.GetComponent<Actor>();
+        if (r == null)
+        {
+            return;
+        }
+
+        if (r.playSoundWhenBlockingAttack)
+        {
+            PlayDeflectionSound();
+        }
+    }
 
     protected void PlayDeflectionSound()
     {

@@ -62,8 +62,26 @@ public class DungeonRoom : MonoBehaviour
         }
     }
 
-    public Collectible ItemOnClear { get { return Info.ItemOnClear; } set { Info.ItemOnClear = value; } }
-    public Collectible SpecialItem { get { return Info.SpecialItem; } set { Info.SpecialItem = value; } }
+    public Collectible ItemOnClear {
+        get { return Info.ItemOnClear; }
+        set {
+            Info.ItemOnClear = value;
+            if (value != null && Info.ItemOnClearHasBeenCollected)
+            {
+                value.gameObject.SetActive(false);
+            }
+        }
+    }
+    public Collectible SpecialItem {
+        get { return Info.SpecialItem; }
+        set {
+            Info.SpecialItem = value;
+            if (value != null && Info.SpecialItemHasBeenCollected)
+            {
+                value.gameObject.SetActive(false);
+            }
+        }
+    }
 
     public List<Enemy> Enemies { get; private set; }
     public List<Enemy> KillableEnemies { get; private set; }
@@ -298,10 +316,9 @@ public class DungeonRoom : MonoBehaviour
     {
         Info.SetWallTypeForDirection(direction, type);
 
-        // Now update the wall's Material
+        // Now we update the wall's Material
         GameObject wall = GetWallForDirection(direction);
         wall.GetComponent<Renderer>().material = CommonObjects.CurrentDungeonFactory.GetWallMaterial(direction, type);
-
         wall.GetComponent<LightsOnOffMaterial>().OnMaterialChanged();
     }
     public DungeonRoomInfo.WallDirection GetWallDirectionForWall(GameObject wall)
@@ -349,49 +366,41 @@ public class DungeonRoom : MonoBehaviour
         DungeonRoom adjoiningRoom = GetAdjoiningRoom(dir);
         if (adjoiningRoom != null) { adjoiningRoom.UnlockDoor(DungeonRoomInfo.GetOppositeDirection(dir)); }
 
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.unlock);
+        PlayUnlockSound();
+    }
+    public void SealDoors()
+    {
+        foreach (DungeonRoomInfo.WallDirection d in DungeonRoomInfo.AllValidWallDirections)
+        {
+            SealDoor(d);
+        }
     }
     public void SealDoor(DungeonRoomInfo.WallDirection dir)
     {
         if (!IsDoorOpen(dir))
         {
-            //Debug.LogError("Trying to Seal door that is not Open.");
             return;
         }
         SetWallTypeForDirection(dir, DungeonRoomInfo.WallType.DoorSealed);
 
-        //DungeonRoom adjoiningRoom = GetAdjoiningRoom(dir);
-        //if (adjoiningRoom != null) { adjoiningRoom.SealDoor(DungeonRoomInfo.GetOppositeDirection(dir)); }
-
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.unlock);
+        PlayUnlockSound();
+    }
+    public void UnsealDoors()
+    {
+        foreach (DungeonRoomInfo.WallDirection d in DungeonRoomInfo.AllValidWallDirections)
+        {
+            UnsealDoor(d);
+        }
     }
     public void UnsealDoor(DungeonRoomInfo.WallDirection dir)
     {
         if (!IsDoorSealed(dir))
         {
-            //Debug.LogError("Trying to Unseal door that is not Sealed.");
             return;
         }
         SetWallTypeForDirection(dir, DungeonRoomInfo.WallType.DoorOpen);
 
-        //DungeonRoom adjoiningRoom = GetAdjoiningRoom(dir);
-        //if (adjoiningRoom != null) { adjoiningRoom.UnsealDoor(DungeonRoomInfo.GetOppositeDirection(dir)); }
-
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.unlock);
-    }
-    public void SealDoors()
-    {
-        SealDoor(DungeonRoomInfo.WallDirection.North);
-        SealDoor(DungeonRoomInfo.WallDirection.East);
-        SealDoor(DungeonRoomInfo.WallDirection.South);
-        SealDoor(DungeonRoomInfo.WallDirection.West);
-    }
-    public void UnsealDoors()
-    {
-        UnsealDoor(DungeonRoomInfo.WallDirection.North);
-        UnsealDoor(DungeonRoomInfo.WallDirection.East);
-        UnsealDoor(DungeonRoomInfo.WallDirection.South);
-        UnsealDoor(DungeonRoomInfo.WallDirection.West);
+        PlayUnlockSound();
     }
     public void BlowHoleInWall(DungeonRoomInfo.WallDirection dir)
     {
@@ -435,7 +444,7 @@ public class DungeonRoom : MonoBehaviour
         {
             if (GetWallTypeForDirection(direction) == DungeonRoomInfo.WallType.DoorSealed)
             {
-                SoundFx.Instance.PlayOneShot(SoundFx.Instance.sealDoor);
+                PlaySealDoorSound();
             }
         }
 
@@ -499,8 +508,7 @@ public class DungeonRoom : MonoBehaviour
             GameObject item = ItemOnClear.gameObject;
             item.SetActive(true);
 
-            SoundFx sfx = SoundFx.Instance;
-            sfx.PlayOneShot3D(item.transform.position, sfx.key);
+            PlayKeySound(item.transform.position);
         }
 
         // UnsealDoors after boss fight
@@ -549,7 +557,8 @@ public class DungeonRoom : MonoBehaviour
         {
             Info.SpecialItemHasBeenCollected = true;
         }
-        else if (c == ItemOnClear)
+
+        if (c == ItemOnClear)
         {
             Info.ItemOnClearHasBeenCollected = true;
         }
@@ -601,9 +610,25 @@ public class DungeonRoom : MonoBehaviour
 
     public static DungeonRoom GetRoomForPosition(Vector3 position)
     {
+        //position += WorldInfo.Instance.WorldOffset;
+
         int x = (int)(position.x / TilesWide_WithHalls);
         int z = (int)(position.z / TilesLong_WithHalls);
 
         return CommonObjects.CurrentDungeonFactory.GetRoomAtGridPosition(x, z);
+    }
+
+
+    void PlayUnlockSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.unlock);
+    }
+    void PlaySealDoorSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.sealDoor);
+    }
+    void PlayKeySound(Vector3 position)
+    {
+        SoundFx.Instance.PlayOneShot3D(position, SoundFx.Instance.key);
     }
 }

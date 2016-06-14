@@ -1,25 +1,43 @@
 --- TODO ---
 
+BUGS:
+
+* BUG: Raft - There are holes that Link falls through at start/end tiles of Dungeon 4 Raft crossing.
+* BUG: Enemies can push Link upwards
+* BUG: Dungeon 8 is visible from inside grotto to the south of it.
+
+- BUG: Keese in sub dungeons can move through stairs
+- BUG: A Ghini somehow survived the death of its master (possibly spawned right as master died?)
+- BUG: Enemies that spawn after clock has activated aren't paralyzed
+- BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)
+- BUG: If you have no ItemB equipped, and you collect an Active item, it correctly equips; however when subsequently viewing Inventory, the cursor has not been updated
+- BUG: If you buy Red potion (instead of HeartContainer in special grotto) you can obtain the letter simply by using the red and blue potions.
+
+- BUG: Unity crashed unexpectedly shortly after returning to OW after completing Dungeon 1
+- BUG: ZeldaVRSettings values dont persist when closing UnityEditor
+
+
 High Priority: 
 
+* Test: Bosses
 * When warping, ensure that world has completely loaded before opening shutters
-* Implement a user-friendly fail-safe for world fall-through
-- Water Tiles: Currently Sword and Wand Projectiles can't pass over water;
+* World fall-through fail-safe 
+* Water Tiles: Currently Sword and Wand Projectiles can't pass over water;
 	Link can walk on water (try lowering his step offset only while on stairs?)
 
 - CandleFlame: If hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
 - Arrow: Graphic doesn't appear next to bow in inventory, even when you have both bow and arrow items
 
-- Enemies stunned by boomerang can still hurt me
 - Blue Wizzrobe: Should not teleport
 - Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block
-- Enemies can walk through statues
 - Boulders: Should bounce around
+- Statues: Enemies can walk through them
 
+- Allow erasing of saved games, but ask for confirmation before erasing saved data
 - ControlsView: Update image
 - OptionsMenu: Controls
 
-- Lost Hills
+* Lost Hills
 - Waterfall Cave
 - Grotto Warps
 
@@ -30,23 +48,24 @@ High Priority:
 - Ending
 - Credits
 
-- Projectiles: Remove swift?
-- Ladder: Doesn't work for certain water tiles (?)
 - Dungeon: Player shouldn't be able to damage enemies if he's not all the way inside the room
+- Projectiles: Remove swift?
 
 
 Mid Priority:
 
+- Try constraining RigidBody position for all enemies (test each one)
+- Ladder: Can feel slightly unresponsive when player is next to multiple crossable tiles
 - Lost Woods: Fog Ceiling color should match fog, and fade in as player approaches LostWoods
 - Lost Woods: Warp Collectibles/Enemies/Projectiles
 - Flat OW Blocks may be visible in Grotto/DungeonEntrance ceilings
 - Fairy: Allow it to move around Dungeon Room moving outside of the room
 - Fairy: Can move through walls in OW
 - Clock Item: Should also paralyze enemies in nearby OW sectors (but not other DungeonRooms)
-- D6 OW Entrance (2 blocks wide)
-- Fog disappears abruptly in grottos close to Lost Woods
-- Boss Death anim (blink 2-3 times, then "poof")
-- Gleeok Heads Poof onDeath
+- Fog: Disappears abruptly in grottos close to Lost Woods
+- Boss Death Anim: Should blink 2-3 times, then "poof"
+- Gleeok: Heads Poof onDeath
+- Dungeon 6 Entrance: Make 2 blocks wide
 
 - SavedGamesScreen - Choose Name, Elimination Mode, Name text align
 - OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
@@ -54,8 +73,8 @@ Mid Priority:
 
 - Difficult to fire wand through narrow passages
 
-- Make the shield appear every time it deflects an attack?
-- Don't use the same image for WoodenShield and MagicShield
+- WoodenShield: Remove opaque black from bottom corners of sprite
+- Shield: Appear every time it deflects an attack?
 - Hearts floating around in "Secret to everybody" cave that runs beneath fairy fountain
 
 - No rolling rupee sound after "Secret to everybody" or door repair
@@ -70,6 +89,7 @@ Mid Priority:
 
 Low Priority:
 
+- Building: Don't Copy meta files or backups (only copy NewGame.txt and NewGameEntryData.txt)
 - Lost Woods: Overriding directions doesn't work right for -x and -z;
 - Beams from many dungeon enemies should be unblockable (Is this too difficult though?)
 - Is it possible to "double collect" a Collectible by throwing the Boomerang and then walking into item as Bomerang returns?
@@ -107,14 +127,13 @@ WishList:
 - Cannon Transportation for Grotto Warps
 - SubDungeon Warps - Mirror effect
 - Allow pushback force to send enemies flying upwards
-- Show Shield, indicate MagicShield?
+- Show Shield?
 - When WandProjectile hits Link's shield you should see it reflect off 
 - Particles for MagicSword, MagicBoomerang, SilverArrow
 - Bow Crosshair
 - Have enemies make some noise to alert you of their presence
 - Have Statues charge up each shot with a sound effect so player knows when to dodge
 - Navigatable Cheat Menu
-- FlyMode Cheat
 
 - Unlockable bonus Zelda remixes
 - Unlockable Fan Art
@@ -130,27 +149,6 @@ WishList:
 - Transition between Camera modes
 
 
-BUGS:
-
-* BUG: NewGameEntryData saving to wrong location (should be saving into ZeldaVR_Data folder)
-- BUG: ZeldaVRSettings values dont persist when closing UnityEditor
-
-- BUG: Keese in sub dungeon don't move
-- BUG: Vire can jump through wall
-- BUG: A Ghini somehow survived the death of its master (possibly spawned right as master died?)
-
-- BUG: Dungeon 8 is visible from inside grotto to the south of it.
-- BUG: Dungeon sealed door pushes player forward when it closes
-- BUG: Enemies that spawn after clock has activated aren't paralyzed
-- BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)
-- BUG: If you have no ItemB equipped, and you collect an Active item, it correctly equips; however when subsequently viewing Inventory, the cursor has not been updated
-- BUG: I died in Dungeon 1, and after respawning, all the keys and the Boomerang were collectible again.  
-- BUG: No deflect sound when enemy boomerang hits Link's shield
-- BUG: If you buy Red potion (instead of HeartContainer in special grotto) you can obtain the letter simply by using the red and blue potions.
-
-- BUG: Unity crashed unexpectedly shortly after returning to OW after completing Dungeon 1
-
-
 OPTIMIZATIONS:
 
 - Only update HUD text when info changes (i.e. keys, bombs, rupees, level)
@@ -159,13 +157,11 @@ OPTIMIZATIONS:
 NEEDS TESTING:
 
 - LikeLike MagicShield stealing
-- Darknut shields against MagicWand (no flame)
-
-* BUG: Sometimes dungeon doors don't reopen (Level 1 old man room, Level 3 Ladder room, etc) - FIXED
 
 
 RESEARCH:
 
 - Fairy: Changes move direction regularly (is this how fairy is supposed to move?)
 - Boomerang: Should it hurt stunned enemies?
-- Should letter still appear in inventory after its been used (assuming no potions in inventory)?
+- Letter: Should it still appear in inventory after its been used (assuming no potions in inventory)?
+- Sealed Doors: If sealed door is opened, then player dies, does he have to kill all enemies again to reopen it or does it stay opened?

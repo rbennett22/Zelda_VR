@@ -7,7 +7,7 @@ public class InventoryViewItemMapping : MonoBehaviour
         Passive = 0,
         Active = 1,
         Auxillary = 2,
-        Triforce = 3,
+        Triforce = 3
     }
 
 

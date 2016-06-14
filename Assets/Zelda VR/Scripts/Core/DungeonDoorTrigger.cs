@@ -8,43 +8,67 @@ public class DungeonDoorTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider otherCollider)
     {
-        GameObject other = otherCollider.gameObject;
-        //print("DungeonDoorTrigger --> OnTriggerEnter: " + other.name);
-        if (!CommonObjects.IsPlayer(other)) { return; }
+        if (!CommonObjects.IsPlayer(otherCollider.gameObject))
+        {
+            return;
+        }
 
         if (dungeonRoom.IsDoorLocked(wallDirection))
         {
-            if (CommonObjects.Player_C.Inventory.HasItem("MagicKey"))
+            Inventory inv = CommonObjects.Player_C.Inventory;
+
+            if (inv.HasItem("MagicKey"))
             {
-                dungeonRoom.UnlockDoor(wallDirection);
+                UnlockDoor();
             }
-            else if (CommonObjects.Player_C.Inventory.HasItem("Key"))
+            else if (inv.HasItem("Key"))
             {
-                CommonObjects.Player_C.Inventory.UseItem("Key");
-                dungeonRoom.UnlockDoor(wallDirection);
+                inv.UseItem("Key");
+                UnlockDoor();
             }
         }
 
-        if (dungeonRoom.CanPassThrough(wallDirection))
+        if (dungeonRoom.CanPassThrough(wallDirection) || PlayerIsOnOuterSideOfDoor())
         {
-            IgnorePlayerWallCollision();
+            SetPlayerWallCollisionEnabled(false);
         }
+    }
+
+    void UnlockDoor()
+    {
+        dungeonRoom.UnlockDoor(wallDirection);
     }
 
     void OnTriggerExit(Collider otherCollider)
     {
-        GameObject other = otherCollider.gameObject;
-        //print("DungeonDoorTrigger --> OnTriggerExit: " + other.name);
-        if (!CommonObjects.IsPlayer(other)) { return; }
+        if (!CommonObjects.IsPlayer(otherCollider.gameObject))
+        {
+            return;
+        }
 
-        IgnorePlayerWallCollision(false);
+        if (!PlayerIsOnOuterSideOfDoor())
+        {
+            SetPlayerWallCollisionEnabled(true);
+        }
     }
 
-    void IgnorePlayerWallCollision(bool ignore = true)
+    bool PlayerIsOnOuterSideOfDoor()
     {
-        if (Cheats.Instance.GhostModeIsEnabled) { return; }
+        Player player = CommonObjects.Player_C;
+        Vector2 p = new Vector2(player.Position.x, player.Position.z);
+        return !dungeonRoom.Bounds.Contains(p);
+    }
 
-        GameObject g = CommonObjects.Player_G;
-        Physics.IgnoreLayerCollision(g.layer, LayerMask.NameToLayer("Walls"), ignore);
+    void SetPlayerWallCollisionEnabled(bool enabled)
+    {
+        if (Cheats.Instance.GhostModeIsEnabled)
+        {
+            return;
+        }
+
+        int playerLayer = CommonObjects.Player_G.layer;
+        int wallLayer = LayerMask.NameToLayer("Walls");
+
+        Physics.IgnoreLayerCollision(playerLayer, wallLayer, !enabled);
     }
 }

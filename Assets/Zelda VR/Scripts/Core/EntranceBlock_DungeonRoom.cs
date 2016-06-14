@@ -11,7 +11,6 @@ public class EntranceBlock_DungeonRoom : MonoBehaviour
     public DungeonRoomInfo.WallDirection wallDirection;
 
 
-    Vector3 _dungeonRoomPosition;
     float _entranceThresholdDistance;
 
 
@@ -27,26 +26,15 @@ public class EntranceBlock_DungeonRoom : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        _dungeonRoomPosition = dungeonRoom.transform.position;
-    }
-
-
-    /*void OnTriggerEnter(Collider otherCollider)
-    {
-        GameObject other = otherCollider.gameObject;
-        print("EntranceBlock_DungeonRoom --> OnTriggerEnter: " + other.name);
-        if (!CommonObjects.IsPlayer(other)) { return; }
-    }*/
 
     void OnTriggerExit(Collider otherCollider)
     {
         GameObject other = otherCollider.gameObject;
         if (!CommonObjects.IsPlayer(other)) { return; }
 
+        Vector3 roomPos = dungeonRoom.transform.position;
         Vector3 playerPos = CommonObjects.Player_C.Position;
-        if (Vector3.Distance(playerPos, _dungeonRoomPosition) < _entranceThresholdDistance)
+        if (Vector3.Distance(playerPos, roomPos) < _entranceThresholdDistance)
         {
             OnEnteredRoom();
         }
@@ -58,13 +46,10 @@ public class EntranceBlock_DungeonRoom : MonoBehaviour
 
     void OnEnteredRoom()
     {
-        //print("OnEnteredRoom");
         dungeonRoom.onPlayerEnteredRoom(wallDirection);
     }
-
     void OnExitedRoom()
     {
-        //print("OnExitedRoom");
         dungeonRoom.onPlayerExitedRoom();
     }
 }

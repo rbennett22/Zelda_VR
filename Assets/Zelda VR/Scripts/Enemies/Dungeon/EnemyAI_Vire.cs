@@ -3,6 +3,7 @@
 public class EnemyAI_Vire : EnemyAI
 {
     const float KEESE_SPAWN_POS_Y = 0.5f;
+    const uint NUM_KEESE_TO_SPAWN_ON_DEATH = 2;
 
 
     public GameObject redKeesePrefab;
@@ -10,22 +11,27 @@ public class EnemyAI_Vire : EnemyAI
 
     public void SpawnKeese()
     {
-        SpawnSingleKeese();
-        SpawnSingleKeese();
+        for (int i = 0; i < NUM_KEESE_TO_SPAWN_ON_DEATH; i++)
+        {
+            SpawnSingleKeese();
+        }
     }
+
     void SpawnSingleKeese()
     {
-        GameObject keese = Instantiate(redKeesePrefab, transform.position, Quaternion.identity) as GameObject;
-        keese.name = redKeesePrefab.name;
+        GameObject g = Instantiate(redKeesePrefab, transform.position, Quaternion.identity) as GameObject;
+        g.name = redKeesePrefab.name;
 
-        keese.transform.parent = transform.parent;
-        keese.transform.SetY(WorldOffsetY + KEESE_SPAWN_POS_Y);
+        Transform t = g.transform;
+        t.SetParent(transform.parent);
+        t.SetY(WorldOffsetY + KEESE_SPAWN_POS_Y);
 
-        keese.GetComponent<HealthController>().ActivateTempInvinc();
+        g.GetComponent<HealthController>().ActivateTempInvinc();
 
-        if (_enemy.DungeonRoomRef != null)
+        DungeonRoom dr = _enemy.DungeonRoomRef;
+        if (dr != null)
         {
-            _enemy.DungeonRoomRef.AddEnemy(keese.GetComponent<Enemy>());
+            dr.AddEnemy(g.GetComponent<Enemy>());
         }
     }
 }

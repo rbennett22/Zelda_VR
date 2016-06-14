@@ -44,7 +44,7 @@ public class InventoryView : MonoBehaviour
                _itemP0, _itemP1, _itemP2, _itemP3, _itemP4, _itemP5,        // Passive items
                _itemA00, _itemA01, _itemA02, _itemA03,                      // Active items
                _itemA10, _itemA11, _itemA12, _itemA13,
-               _aux0, _aux1,                                                // Auxillary items
+               _aux0, _aux1, _aux2,                                         // Auxillary items
                _tri0, _tri1, _tri2, _tri3, _tri4, _tri5, _tri6, _tri7;      // Triforce pieces
 
     GameObject[] _passiveItemSlots;
@@ -72,7 +72,7 @@ public class InventoryView : MonoBehaviour
 
         _passiveItemSlots = new GameObject[] { _itemP0, _itemP1, _itemP2, _itemP3, _itemP4, _itemP5 };
         _activeItemSlots = new GameObject[,] { { _itemA00, _itemA01, _itemA02, _itemA03 }, { _itemA10, _itemA11, _itemA12, _itemA13 } };
-        _auxItemSlots = new GameObject[] { _aux0, _aux1 };
+        _auxItemSlots = new GameObject[] { _aux0, _aux1, _aux2 };
         _triforceItemSlots = new GameObject[] { _tri0, _tri1, _tri2, _tri3, _tri4, _tri5, _tri6, _tri7 };
 
         ClearAllItemSlots();

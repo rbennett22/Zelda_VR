@@ -12,7 +12,6 @@ public class SavedGamesScreen : MonoBehaviour
     SaveEntryView[] _entries;
     SaveEntryView _selectedEntry;
 
-
     MenuCursor _cursor;
 
 
@@ -50,15 +49,16 @@ public class SavedGamesScreen : MonoBehaviour
     void InstantiateSaveEntry(int id)
     {
         GameObject g = Instantiate(saveEntryPrefab) as GameObject;
-        SaveEntryView entryView = g.GetComponent<SaveEntryView>();
+        SaveEntryView view = g.GetComponent<SaveEntryView>();
 
-        entryView.transform.parent = saveEntriesContainer;
-        entryView.transform.localPosition = new Vector3(0, -id * entryHeight, -0.1f);
-        entryView.transform.localRotation = Quaternion.identity;
+        Transform t = view.transform;
+        t.SetParent(saveEntriesContainer);
+        t.localPosition = new Vector3(0, -id * entryHeight, -0.1f);
+        t.localRotation = Quaternion.identity;
 
-        entryView.InitWithEntryData(SaveManager.Instance.LoadEntryData(id));
+        view.InitWithEntryData(SaveManager.Instance.LoadEntryData(id));
 
-        _entries[id] = entryView;
+        _entries[id] = view;
     }
 
     void InstantiateMenuCursor()
@@ -85,7 +85,7 @@ public class SavedGamesScreen : MonoBehaviour
             LoadSelectedEntry();
         }
 
-        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Extra))      // TODO
+        if (Application.isEditor && ZeldaInput.GetButtonDown(ZeldaInput.Button.Extra))      // TODO
         {
             DeleteSelectedEntry();
         }
@@ -109,7 +109,7 @@ public class SavedGamesScreen : MonoBehaviour
         // Deselect previous
         if (_selectedEntry != null)
         {
-            _selectedEntry.MarkAsSelected(false);
+            _selectedEntry.MarkAsDeselected();
         }
 
         // Select new
@@ -151,7 +151,7 @@ public class SavedGamesScreen : MonoBehaviour
         bool success = SaveManager.Instance.DeleteGame(CursorIndex);
         if (success)
         {
-            SoundFx.Instance.PlayOneShot(SoundFx.Instance.flame);
+            PlayDeleteSound();
 
             Destroy(_selectedEntry.gameObject);
             InstantiateSaveEntry(CursorIndex);
@@ -159,7 +159,7 @@ public class SavedGamesScreen : MonoBehaviour
         }
         else
         {
-            SoundFx.Instance.PlayOneShot(SoundFx.Instance.shield);
+            PlayErrorSound();
         }
     }
 
@@ -167,5 +167,13 @@ public class SavedGamesScreen : MonoBehaviour
     void PlaySelectSound()
     {
         SoundFx.Instance.PlayOneShot(SoundFx.Instance.select);
+    }
+    void PlayDeleteSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.flame);
+    }
+    void PlayErrorSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.shield);
     }
 }

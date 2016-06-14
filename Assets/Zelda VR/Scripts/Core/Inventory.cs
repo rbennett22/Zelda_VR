@@ -32,6 +32,14 @@ public class Inventory : Singleton<Inventory>
         return level;
     }
 
+    public int GetShieldLevel()
+    {
+        int level = 0;
+        if (HasItem("MagicShield")) { level = 2; }
+        else if (HasItem("WoodenShield")) { level = 1; }
+        return level;
+    }
+
     public int GetSwordLevel()
     {
         int level = 0;
@@ -39,6 +47,41 @@ public class Inventory : Singleton<Inventory>
         else if (HasItem("WhiteSword")) { level = 2; }
         else if (HasItem("WoodenSword")) { level = 1; }
         return level;
+    }
+
+    void EquipHighestLevelShieldInPossesion()
+    {
+        if (HasItem("MagicShield"))
+        {
+            EquippedShield = GetItem("MagicShield");
+        }
+        else if (HasItem("WoodenShield"))
+        {
+            EquippedShield = GetItem("WoodenShield");
+        }
+        else
+        {
+            EquippedShield = null;
+        }
+    }
+    void EquipHighestLevelSwordInPossesion()
+    {
+        if (HasItem("MagicSword"))
+        {
+            EquippedItemA = GetItem("MagicSword");
+        }
+        else if (HasItem("WhiteSword"))
+        {
+            EquippedItemA = GetItem("WhiteSword");
+        }
+        else if (HasItem("WoodenSword"))
+        {
+            EquippedItemA = GetItem("WoodenSword");
+        }
+        else
+        {
+            EquippedItemA = null;
+        }
     }
 
 
@@ -463,7 +506,6 @@ public class Inventory : Singleton<Inventory>
         EquippedItemA = sword;
     }
 
-
     public void MaxOutEverything()
     {
         foreach (Item item in Items.Values)
@@ -551,22 +593,17 @@ public class Inventory : Singleton<Inventory>
             _items[itemName].count = itemCount;
         }
 
-        string a = info.equippedItemA;
-        if (a == "null") { a = null; }
-        EquippedItemA = GetItem(a);
+        _hasCompassForDungeon = info.hasCompassForDungeon;
+        _hasMapForDungeon = info.hasMapForDungeon;
+        _hasTriforcePieceForDungeon = info.hasTriforcePieceForDungeon;
+        HasDeliveredLetterToOldWoman = info.hasDeliveredLetterToOldWoman;
 
         string b = info.equippedItemB;
         if (b == "null") { b = null; }
         EquippedItemB = GetItem(b);
 
-        string sh = info.equippedShield;
-        if (sh == "null") { sh = null; }
-        EquippedShield = GetItem(sh);
-
-        _hasCompassForDungeon = info.hasCompassForDungeon;
-        _hasMapForDungeon = info.hasMapForDungeon;
-        _hasTriforcePieceForDungeon = info.hasTriforcePieceForDungeon;
-        HasDeliveredLetterToOldWoman = info.hasDeliveredLetterToOldWoman;
+        EquipHighestLevelSwordInPossesion();
+        EquipHighestLevelShieldInPossesion();
 
         ApplyBombUpgrades();
         SyncPlayerHealthWithHeartContainers();

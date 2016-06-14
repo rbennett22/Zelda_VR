@@ -6,8 +6,8 @@ public class Weapon_Melee_Sword : Weapon_Melee
 
 
     [SerializeField]
-    Vector3 _stabDirection_Local = Vector3.up;
-    Vector3 StabDirection_World { get { return transform.TransformDirection(_stabDirection_Local); } }
+    Vector3 _attackDirection_Local = Vector3.up;
+    
 
     [SerializeField]
     float _reach = 1;       // How far sword can extend when attacking
@@ -18,6 +18,9 @@ public class Weapon_Melee_Sword : Weapon_Melee
     bool _isExtending, _isRetracting;
     override public bool IsAttacking { get { return base.IsAttacking || _isExtending || _isRetracting; } }
     override public bool CanAttack { get { return (base.CanAttack && !IsAttacking); } }
+
+    override public Vector3 AttackDirection { get { return transform.TransformDirection(_attackDirection_Local); } }
+
 
     Weapon_Gun _swordGun;
     public bool ProjectilesEnabled { get; set; }
@@ -49,7 +52,7 @@ public class Weapon_Melee_Sword : Weapon_Melee
             return;
         }
 
-        Vector3 targetPosLocal = transform.localPosition + _stabDirection_Local * _reach;
+        Vector3 targetPosLocal = transform.localPosition + _attackDirection_Local * _reach;
 
         iTween.MoveTo(gameObject, iTween.Hash(
             "islocal", true,
@@ -83,7 +86,7 @@ public class Weapon_Melee_Sword : Weapon_Melee
             return;
         }
 
-        _swordGun.Attack(StabDirection_World);
+        _swordGun.Attack(AttackDirection);
     }
 
     void Retract()

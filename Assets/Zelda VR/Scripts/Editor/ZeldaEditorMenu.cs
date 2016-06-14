@@ -276,7 +276,11 @@ class ZeldaEditorMenu
             return;
         }
 
-        CopyFilesToBuildDirectory(Path.GetDirectoryName(buildPath));
+        string appName = Path.GetFileNameWithoutExtension(buildPath);
+        string buildDirectory = Path.GetDirectoryName(buildPath);
+        string appDataDirectory = Path.Combine(buildDirectory, appName + "_Data");
+
+        CopyFilesToDirectory(appDataDirectory);
 
         if (autoRun)
         {
@@ -294,10 +298,10 @@ class ZeldaEditorMenu
 
     static string ObtainBuildPath()
     {
-        string previousBuildDirectory = EditorPrefs.GetString("PreviousBuildDirectory");
-        string previousApplicationName = EditorPrefs.GetString("PreviousApplicationName", DEFAULT_APPLICATION_NAME);
+        string prevBuildDirectory = EditorPrefs.GetString("PreviousBuildDirectory");
+        string prevAppName = EditorPrefs.GetString("PreviousApplicationName", DEFAULT_APPLICATION_NAME);
 
-        string buildPath = EditorUtility.SaveFilePanel("Choose Location of Built Game", previousBuildDirectory, previousApplicationName, "exe");
+        string buildPath = EditorUtility.SaveFilePanel("Choose Location of Built Game", prevBuildDirectory, prevAppName, "exe");
         if (string.IsNullOrEmpty(buildPath))
         {
             return null;
@@ -312,23 +316,28 @@ class ZeldaEditorMenu
     #endregion Build Standalone
 
 
-    static void CopyFilesToBuildDirectory(string buildDirectory)
+    static void CopyFilesToDirectory(string toDirectory)
     {
         // TODO: Avoid copying meta files
 
         string copyFromPath = Path.Combine("Assets", SaveManager.NEW_GAME_DATA_FOLDER_NAME);
-        copyFromPath = copyFromPath.Replace(@"\", @"/");
+        copyFromPath = EnsureCorrectPathFormat(copyFromPath);
 
-        string copyToPath = Path.Combine(buildDirectory, SaveManager.NEW_GAME_DATA_FOLDER_NAME);
-        copyToPath = copyToPath.Replace(@"\", @"/");
+        string copyToPath = Path.Combine(toDirectory, SaveManager.NEW_GAME_DATA_FOLDER_NAME);
+        copyToPath = EnsureCorrectPathFormat(copyToPath);
 
         FileUtil.CopyFileOrDirectory(copyFromPath, copyToPath);
     }
 
     static void ShowExplorer(string itemPath)
     {
-        itemPath = itemPath.Replace(@"/", @"\");   // explorer doesn't like front slashes
+        itemPath = EnsureCorrectPathFormat(itemPath);  
         System.Diagnostics.Process.Start("explorer.exe", "/select," + itemPath);
+    }
+
+    static string EnsureCorrectPathFormat(string str)
+    {
+        return str.Replace(@"\", @"/");     // explorer doesn't like front slashes
     }
 
     static string GetPathForSceneName(string sceneName)

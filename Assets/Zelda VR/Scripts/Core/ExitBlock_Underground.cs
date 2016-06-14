@@ -14,9 +14,12 @@ public class ExitBlock_Underground : MonoBehaviour
     void OnTriggerEnter(Collider otherCollider)
     {
         GameObject other = otherCollider.gameObject;
-        if (!CommonObjects.IsPlayer(other)) { return; }
+        if (!CommonObjects.IsPlayer(other))
+        {
+            return;
+        }
 
-        IgnorePlayerGroundCollision();
+        SetPlayerGroundCollisionEnabled(false);
 
         if (_grotto != null)
         {
@@ -26,15 +29,27 @@ public class ExitBlock_Underground : MonoBehaviour
 
     void OnTriggerExit(Collider otherCollider)
     {
-        if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
+        GameObject other = otherCollider.gameObject;
+        if (!CommonObjects.IsPlayer(other))
+        {
+            return;
+        }
 
-        IgnorePlayerGroundCollision(false);
+        SetPlayerGroundCollisionEnabled(true);
     }
 
-    void IgnorePlayerGroundCollision(bool ignore = true)
+    void SetPlayerGroundCollisionEnabled(bool enabled)
     {
-        GameObject g = CommonObjects.Player_G;
-        Physics.IgnoreLayerCollision(g.layer, LayerMask.NameToLayer("Ground"), ignore);
-        Physics.IgnoreLayerCollision(g.layer, LayerMask.NameToLayer("Blocks"), ignore);
+        if (Cheats.Instance.GhostModeIsEnabled)
+        {
+            return;
+        }
+
+        int playerLayer = CommonObjects.Player_G.layer;
+        int groundLayer = LayerMask.NameToLayer("Ground");
+        int blocksLayer = LayerMask.NameToLayer("Blocks");
+
+        Physics.IgnoreLayerCollision(playerLayer, groundLayer, !enabled);
+        Physics.IgnoreLayerCollision(playerLayer, blocksLayer, !enabled);
     }
 }

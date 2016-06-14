@@ -16,7 +16,7 @@ public class EnemyAI_Random : EnemyAI
     public bool faceTowardsMoveDirection = true;
     public float feelerLength = DEFAULT_OBSTRUCTION_FEELER_LENGTH;
     public bool aimAttacksAtPlayer;
-    public bool flying;                 // If true, the enemy can pass over HazardBlocks (water, lava, etc.)
+    public bool flying;                 // If true, the enemy can pass over HazardBlocks (ie. water, lava, etc.)
     public bool avoidsReversingDirections;
 
 
@@ -304,10 +304,9 @@ public class EnemyAI_Random : EnemyAI
         return dir;
     }
 
-    public static IndexDirection2 GetRandomTileDirectionExcluding(List<IndexDirection2> excludeDirections, bool alsoExcludeReverse = false)
+    public static IndexDirection2 GetRandomTileDirectionExcluding(List<IndexDirection2> excludeDirections)
     {
         List<IndexDirection2> availableDirections = IndexDirection2.AllValidNonZeroDirections.Where(d => !excludeDirections.Contains(d)).ToList();
-        IndexDirection2 dir = availableDirections[Random.Range(0, availableDirections.Count)];
-        return dir;
+        return availableDirections[Random.Range(0, availableDirections.Count)];
     }
 }

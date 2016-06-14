@@ -187,6 +187,11 @@ public class Enemy : Actor
 
     void OnHitPlayer(Player player)
     {
+        if (IsStunned || IsParalyzed)
+        {
+            return;
+        }
+
         player.HealthController.TakeDamage((uint)meleeDamage, gameObject);
     }
 

@@ -2,6 +2,22 @@
 
 RECENTLY DONE:
 
+- Inventory View: Now displays Shield
+- WoodenShield: Created new sprite
+- Stunned/Paralyzed Enemies can no longer hurt Link with melee damage
+
+- BUG: Collectibles in dungeons respawn if you die or exit the dungeon -FIXED
+- BUG: Sealed Door pushes player forward when it closes -FIXED
+- BUG: Goriya Boomerang is not being blocked by Link's shield -FIXED
+- BUG: Vire can jump through walls -FIXED
+- BUG: Keese in sub dungeons can move through walls -FIXED
+- BUG: Keese in sub dungeon don't move -FIXED
+- BUG: Ladder Doesn't work for certain water tiles -FIXED
+- BUG: NewGameEntryData is copying to wrong location when building -FIXED
+
+
+COMMITTED BUT NOT YET PUSHED:
+
 - Fog: Disable in dungeons
 - Lost Woods: Fixed fog
 - Cheats: Flying added
@@ -21,10 +37,6 @@ RECENTLY DONE:
 - BUG: Boomerang often gets "stuck" and won't fire -FIXED
 - BUG: Dungeon Map not displaying in Inventory -FIXED
 - BUG: Fairies fly to other rooms in dungeons -FIXED
-
-
-COMMITTED BUT NOT YET PUSHED:
-
 - BUG: Dungeon block still only pushable from one direction -FIXED
 - BUG: WallMasters don't reappear after first appearance -FIXED
 - BUG: I couldn't move after collecting triforce and warping back to OW -FIXED

@@ -29,6 +29,8 @@ public class Player : Actor
         _playerController.transform.eulerAngles = euler;
     }
 
+    public Vector3 LastAttemptedMoveDirection { get { return _playerController.LastAttemptedMotion; } }
+
 
     public int HealthInHalfHearts { get { return PlayerHealthDelegate.HealthToHalfHearts(HealthController.Health); } }
     public void RestoreHearts(int hearts)
@@ -480,6 +482,11 @@ public class Player : Actor
     override public bool CanBlockAttack(bool isBlockableByWoodenShield, bool isBlockableByMagicShield, Vector3 directionOfAttack)
     {
         // TODO: Determine isBlockableByWoodenShield and isBlockableByMagicShield using a lookup table internally
+
+        if (_healthController.isIndestructible)
+        {
+            return true;
+        }
 
         if (IsAttackingWithSword)
         {

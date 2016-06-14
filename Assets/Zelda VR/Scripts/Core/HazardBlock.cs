@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Immersio.Utility;
 
 public class HazardBlock : MonoBehaviour
 {
@@ -20,87 +21,129 @@ public class HazardBlock : MonoBehaviour
 
     void OnTriggerEnter(Collider otherCollider)
     {
+        OnTriggerEnterOrStay(otherCollider);
+    }
+    void OnTriggerStay(Collider otherCollider)
+    {
+        OnTriggerEnterOrStay(otherCollider);
+    }
+    void OnTriggerEnterOrStay(Collider otherCollider)
+    {
         GameObject other = otherCollider.gameObject;
-        //print("HazardBlock --> OnTriggerEnter: " + other.name);
-
-        if (CommonObjects.IsPlayer(other))
+        if (!CommonObjects.IsPlayer(other) || !PlayerHasLadder())
         {
-            if (Inventory.Instance.HasItem("Ladder"))
+            return;
+        }
+        if (LadderBlock != null)
+        {
+            return;
+        }
+
+        Player player = CommonObjects.Player_C;
+
+        if (IsPlayerMovingTowardsThisBlock(player))
+        {
+            if (CanCross(player))
             {
-                if (LadderBlock == null)
-                {
-                    if (CanCross(other))
-                    {
-                        Vector3 vec = transform.position - other.transform.position;
-                        bool layVertically = Mathf.Abs(vec.x / vec.z) < 1;
-                        LayDownLadder(layVertically);
-                    }
-                }
+                Vector3 toPlayer = player.Position - transform.position;
+                bool layHorizontally = Mathf.Abs(toPlayer.z / toPlayer.x) < 1;
+                LayDownLadder(layHorizontally);
             }
         }
     }
-
     void OnTriggerExit(Collider otherCollider)
     {
         GameObject other = otherCollider.gameObject;
         //print("HazardBlock --> OnTriggerExit: " + other.name);
 
-        if (CommonObjects.IsPlayer(other))
+        if (!CommonObjects.IsPlayer(other) || !PlayerHasLadder())
         {
-            if (Inventory.Instance.HasItem("Ladder"))
-            {
-                RemoveLadder();
-            }
+            return;
+        }
+
+        if (LadderBlock == this)
+        {
+            RemoveLadder();
         }
     }
 
-
-    bool CanCross(GameObject player)
+    bool CanCross(Player player)
     {
+        const float MAX_RAY_DIST = 1.0f;
+
         if (RaftBlock.PlayerIsOnRaft) { return false; }
 
-        bool canCross = true;
+        Vector3 pos = transform.position;
+        Vector3 toPlayer = player.Position - pos;
+        toPlayer.y = 0;
 
-        Vector3 blockPos = transform.position;
-        //blockPos.y = 0.2f;
-        Vector3 playerPos = player.transform.position;
-        Vector3 direction = blockPos - playerPos;
-        direction.y = 0;
-
-        RaycastHit[] hits = Physics.RaycastAll(blockPos, direction, 1.0f);
-        foreach (var hit in hits)
+        // Cast to opposite tile.  If there are no Blocks or InvisibleBlocks
+        //  (ie. other HazardBlocks), then player can cross
+        LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "InvisibleBlocks");
+        RaycastHit[] hits = Physics.RaycastAll(pos, toPlayer, MAX_RAY_DIST, mask);
+        if (hits.Length > 0)
         {
-            string layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-            if (layerName == "Blocks" || layerName == "InvisibleBlocks")
-            {
-                canCross = false;
-                break;
-            }
+            return false;
         }
 
-        return canCross;
+        Vector3 toOppositeTile = -1 * toPlayer;
+        hits = Physics.RaycastAll(pos, toOppositeTile, MAX_RAY_DIST, mask);
+        if (hits.Length > 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
+    bool IsPlayerMovingTowardsThisBlock(Player player)
+    {
+        Vector3 toPlayer = (player.Position - transform.position).normalized;
+        toPlayer.y = 0;
+        toPlayer.Normalize();
+
+        Vector3 playerMoveDir = player.LastAttemptedMoveDirection;
+        playerMoveDir.y = 0;
+        playerMoveDir.Normalize();
+
+        return Vector3.Dot(playerMoveDir, toPlayer) < 0.9f;
     }
 
-    void LayDownLadder(bool vertical)
+    bool PlayerHasLadder()
     {
+        return Inventory.Instance.HasItem("Ladder");
+    }
+
+    void LayDownLadder(bool horizontal)
+    {
+        if(LadderBlock != null)
+        {
+            LadderBlock.RemoveLadder();
+        }
+
         DisablePhysicsCollider();
         LadderBlock = this;
 
         _ladderOverlay = Instantiate(ladderOverlayPrefab) as GameObject;
-        _ladderOverlay.transform.parent = transform;
-        _ladderOverlay.transform.localPosition = Vector3.zero;
-        _ladderOverlay.transform.AddToY(0.05f);
 
-        float rotY = vertical ? 0 : 90;
+        Transform t = _ladderOverlay.transform;
+        t.SetParent(transform);
+        t.localPosition = Vector3.zero;
+        t.AddToY(0.05f);
+
+        float rotY = horizontal ? 90 : 0;
         _ladderOverlay.transform.Rotate(new Vector3(0, rotY, 0));
     }
 
-    void RemoveLadder()
+    public void RemoveLadder()
     {
         EnablePhysicsCollider();
-        if (LadderBlock == this) { LadderBlock = null; }
+        if (LadderBlock == this)
+        {
+            LadderBlock = null;
+        }
 
         Destroy(_ladderOverlay);
+        _ladderOverlay = null;
     }
 
 

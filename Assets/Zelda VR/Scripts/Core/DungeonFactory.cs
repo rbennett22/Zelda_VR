@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DungeonFactory : Singleton<DungeonFactory>
 {
+    public const int MaxDungeonWidthInRooms = 8, MaxDungeonLengthInRooms = 8;
+
     const float LightPixelValue = 229 / 255.0f;
     const float MidPixelValue = 117 / 255.0f;
     const float DarkPixelValue = 60 / 255.0f;
@@ -11,32 +13,20 @@ public class DungeonFactory : Singleton<DungeonFactory>
 
     const float EastWestMaterialTiling = 0.5875f;
     const float EastWestMaterialOffset = 0.205f;
-    public const int MaxDungeonWidthInRooms = 8, MaxDungeonLengthInRooms = 8;
 
 
     public GameObject dungeonRoomPrefab;
 
-    public Material defaultFloor_Gray;
-    public Material wall_Gray;
-    public Material wallOpen_Gray;
-    public Material wallSealed_Gray;
-    public Material wallLocked_Gray;
-    public Material wallBombed_Gray;
-    public Material wallTop_Gray;
+    public Material defaultFloor_Gray, wall_Gray, wallOpen_Gray, wallSealed_Gray, wallLocked_Gray, wallBombed_Gray, wallTop_Gray;
+    public Material defaultFloor, wall, wallOpen, wallSealed, wallLocked, wallBombed, wallTop;
 
-    public Material defaultFloor;
-    public Material wall;
-    public Material wallOpen;
-    public Material wallSealed;
-    public Material wallLocked;
-    public Material wallBombed;
-    public Material wallTop;
+    Material wall_EW, wallOpen_EW, wallSealed_EW, wallLocked_EW, wallBombed_EW, wallTop_EW;
+
 
     public Color torchColor;
     public float torchRange = 10;
     public bool centralLighting;
 
-    public float shortBlockHeight = 1.0f;
     public Transform blocksContainer;
     public Transform holeMarkersContainer;
     public Transform subDungeonContainer;
@@ -44,12 +34,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
     public Color lightPixelColor, midPixelColor, darkPixelColor;
 
 
-    Material wall_EW;
-    Material wallOpen_EW;
-    Material wallSealed_EW;
-    Material wallLocked_EW;
-    Material wallBombed_EW;
-    Material wallTop_EW;
+    float _shortBlockHeight;
 
     bool _coloredWallMaterialsHaveBeenInitialized = false;
     bool _eastWestMaterialsInitialized = false;
@@ -59,6 +44,13 @@ public class DungeonFactory : Singleton<DungeonFactory>
 
     public List<DungeonRoom> Rooms { get { return _dungeonRoomsList; } }
 
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        InitFromSettings(ZeldaVRSettings.Instance);
+    }
 
     void Start()
     {
@@ -81,6 +73,11 @@ public class DungeonFactory : Singleton<DungeonFactory>
 
             InitLighting(dr);
         }
+    }
+
+    void InitFromSettings(ZeldaVRSettings s)
+    {
+        _shortBlockHeight = s.shortBlockHeight;
     }
 
     void CreateDungeonRooms()
@@ -306,6 +303,8 @@ public class DungeonFactory : Singleton<DungeonFactory>
         // NpcContainer
         if (dr.IsNpcRoom)
         {
+            dr.npcContainer.gameObject.SetActive(true);
+
             if (dr.ContainsBombUpgrade && info.BombUpgradeHasBeenPurchased)
             {
                 Destroy(dr.rupeeTrigger);
@@ -332,9 +331,9 @@ public class DungeonFactory : Singleton<DungeonFactory>
             // Scale blocks accordingly, and position so they touch ground
             if (block.gameObject.layer != LayerMask.NameToLayer("InvisibleBlocks"))
             {
-                block.localScale = new Vector3(block.localScale.x, shortBlockHeight, block.localScale.z);
-                block.SetLocalY(shortBlockHeight * 0.5f);
-                block.GetComponent<Renderer>().material.mainTextureScale = new Vector2(1, shortBlockHeight);
+                block.localScale = new Vector3(block.localScale.x, _shortBlockHeight, block.localScale.z);
+                block.SetLocalY(_shortBlockHeight * 0.5f);
+                block.GetComponent<Renderer>().material.mainTextureScale = new Vector2(1, _shortBlockHeight);
             }
         }
     }
@@ -459,6 +458,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
         dr.ActivateTorchLights(dr.Info.isLit);
     }
 
+
     /*void CutHoleInTexture(Texture2D texture, Rect area, bool doApply = true)
     {
         int y = (int)area.yMin;
@@ -545,6 +545,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
     void PrintDungeonRoomsGrid()
     {
         string output = " ---  DungeonRoomsGrid  ---\n\n";
+
         for (int y = 0; y < MaxDungeonLengthInRooms; y++)
         {
             for (int x = 0; x < MaxDungeonWidthInRooms; x++)
