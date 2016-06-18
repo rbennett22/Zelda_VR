@@ -22,7 +22,7 @@ public class GrottoSpawnManager : MonoBehaviour
 
     void Tick()
     {
-        if (_activeGrottoSP != null && _activeGrottoSP.SpawnedGrotto.PlayerIsInside)
+        if (PlayerIsInsideAGrotto())
         {
             return;
         }
@@ -76,5 +76,11 @@ public class GrottoSpawnManager : MonoBehaviour
     {
         gSP.SpawnGrotto();
         _activeGrottoSP = gSP;
+    }
+
+
+    public bool PlayerIsInsideAGrotto()
+    {
+        return (_activeGrottoSP != null) && _activeGrottoSP.SpawnedGrotto.PlayerIsInside;
     }
 }

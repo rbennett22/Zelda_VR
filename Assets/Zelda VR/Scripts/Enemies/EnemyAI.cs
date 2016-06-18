@@ -31,7 +31,7 @@ public class EnemyAI : MonoBehaviour
     }
     protected bool DoesBoundaryAllowPosition(Vector2 p)
     {
-        return !GetBoundaryDeflatedByRadius().Contains(p);
+        return GetBoundaryDeflatedByRadius().Contains(p);
     }
 
     protected Vector3 GetRandomAllowedPositionInsideBoundary()

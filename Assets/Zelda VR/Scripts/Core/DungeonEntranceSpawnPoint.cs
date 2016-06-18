@@ -40,13 +40,22 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
         Vector3 toPlayer = CommonObjects.Player_C.Position - marker.transform.position;
         float distToPlayerSqd = Vector3.SqrMagnitude(toPlayer);
 
+        GrottoSpawnManager gsp = FindObjectOfType<GrottoSpawnManager>();
+        bool playerIsInsideAGrotto = (gsp == null) ? false : gsp.PlayerIsInsideAGrotto();
+
         if (_spawnedDungeonEntrance == null)
         {
-            if (distToPlayerSqd < _spawnDistanceSqd) { SpawnDungeonEntrance(); }
+            if (distToPlayerSqd < _spawnDistanceSqd && !playerIsInsideAGrotto)
+            {
+                SpawnDungeonEntrance();
+            }
         }
         else
         {
-            if (distToPlayerSqd > _destroyDistanceSqd) { DestroyDungeonEntrance(); }
+            if (distToPlayerSqd > _destroyDistanceSqd || playerIsInsideAGrotto)
+            {
+                DestroyDungeonEntrance();
+            }
         }
     }
 

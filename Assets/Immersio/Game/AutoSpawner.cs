@@ -2,23 +2,18 @@ using UnityEngine;
 
 namespace Immersio.Utility
 {
-    public interface IAutoSpawnerDelegate
-    {
-        bool ShouldObjectSpawn(AutoSpawner autoSpawner, ref Vector3 spawnPosition, ref Vector3 spawnVelocity);  // (The return value indicates whether the Spawn will happen)
-    }
-
-
     public class AutoSpawner : MonoBehaviour, IAutoSpawner
     {
-        public IAutoSpawnerDelegate autoSpawnerDelegate;
+        public delegate bool ShouldObjectSpawn_Del(AutoSpawner autoSpawner, ref Vector3 spawnPosition);
+        public ShouldObjectSpawn_Del ShouldObjectSpawn;
+
+
         public GameObject spawnObjectPrefab;
 
         public float cooldown = 0.1f;
         public int maxLiveObjects = 5;
-        public float spawnedObjectSpeed = 0;
-        public Vector3 spawnedObjectMoveDirection = Vector3.zero;
         public Transform spawnedObjectParent;
-        public bool doAutoSpawn = false;
+        public bool doAutoSpawn;
 
 
         float _cooldownTimer = 0.1f;
@@ -26,48 +21,55 @@ namespace Immersio.Utility
 
 
         public Vector3 spawnOrigin_Local = Vector3.zero;
-        public Vector3 spawnOrigin_World { get { return transform.TransformPoint(spawnOrigin_Local); } }
+        public Vector3 SpawnOrigin_World { get { return transform.TransformPoint(spawnOrigin_Local); } }
 
 
         void Start()
         {
             if (!spawnedObjectParent)
+            {
                 spawnedObjectParent = transform.parent;
+            }
         }
 
 
         public GameObject RequestToSpawnObject()
         {
-            return RequestToSpawnObject(spawnOrigin_World, spawnedObjectMoveDirection * spawnedObjectSpeed);
+            return RequestToSpawnObject(SpawnOrigin_World);
         }
-        public GameObject RequestToSpawnObject(Vector3 velocity)
-        {
-            return RequestToSpawnObject(spawnOrigin_World, velocity);
-        }
-        public GameObject RequestToSpawnObject(Vector3 position, Vector3 velocity)
+        public GameObject RequestToSpawnObject(Vector3 position)
         {
             if (_cooldownTimer > 0 || _currNumObjects >= maxLiveObjects)
-                return null;
-
-            if (autoSpawnerDelegate != null)
             {
-                if (!autoSpawnerDelegate.ShouldObjectSpawn(this, ref position, ref velocity))
-                    return null;
+                return null;
             }
 
-            return SpawnObject(position, velocity);
+            if (!GetShouldObjectSpawn(ref position))
+            {
+                return null;
+            }
+
+            return SpawnObject(position);
         }
 
-        GameObject SpawnObject(Vector3 position, Vector3 velocity)
+        bool GetShouldObjectSpawn(ref Vector3 position)
+        {
+            if (ShouldObjectSpawn == null)
+            {
+                return true;
+            }
+
+            return ShouldObjectSpawn(this, ref position);
+        }
+
+        GameObject SpawnObject(Vector3 position)
         {
             GameObject spawnedObj = Instantiate(spawnObjectPrefab, position, Quaternion.identity) as GameObject;
 
-            if (spawnedObjectParent)
+            if (spawnedObjectParent != null)
+            {
                 spawnedObj.transform.SetParent(spawnedObjectParent);
-
-            Rigidbody rb = spawnedObj.GetComponent<Rigidbody>();
-            if (rb)
-                rb.AddForce(velocity, ForceMode.VelocityChange);
+            }
 
             _cooldownTimer = cooldown;
             _currNumObjects++;
@@ -84,7 +86,9 @@ namespace Immersio.Utility
             _cooldownTimer -= Time.deltaTime;
 
             if (doAutoSpawn)
+            {
                 RequestToSpawnObject();
+            }
         }
 
 

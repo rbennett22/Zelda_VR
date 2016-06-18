@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ObjectProliferator : MonoBehaviour
+public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
     float _updateInterval = 1.0f;

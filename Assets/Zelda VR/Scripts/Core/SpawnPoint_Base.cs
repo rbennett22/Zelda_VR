@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ObjectSpawnPoint : MonoBehaviour 
+public class SpawnPoint_Base : MonoBehaviour 
 {
 	void Start () 
 	{

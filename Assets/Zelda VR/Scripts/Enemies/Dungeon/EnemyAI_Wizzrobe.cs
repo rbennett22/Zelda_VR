@@ -20,14 +20,14 @@ public class EnemyAI_Wizzrobe : EnemyAI
     float _teleportDurationRandomOffset = 0.5f;
 
 
-    enum State
+    /*enum State
     {
         FadingIn,
         Attacking,
         Walking,
         FadingAway,
         InvisibleIdle
-    }
+    }*/
     //State _state = State.InvisibleIdle;
 
 
@@ -153,13 +153,17 @@ public class EnemyAI_Wizzrobe : EnemyAI
 
     Vector3 GetRandomTeleportPosition()
     {
-        Vector3 pp = Player.Position;
+        Vector3 p = transform.position;
+
+        Vector3 pp = Player.Tile.ToVector3();
+        pp.x += 0.5f;
+        pp.z += 0.5f;
         List<Vector3> possiblePositions = new List<Vector3>();
 
-        possiblePositions.Add(new Vector3(pp.x + tpDistanceToPlayer, pp.y, pp.z));
-        possiblePositions.Add(new Vector3(pp.x - tpDistanceToPlayer, pp.y, pp.z));
-        possiblePositions.Add(new Vector3(pp.x, pp.y, pp.z + tpDistanceToPlayer));
-        possiblePositions.Add(new Vector3(pp.x, pp.y, pp.z - tpDistanceToPlayer));
+        possiblePositions.Add(new Vector3(pp.x + tpDistanceToPlayer, p.y, pp.z));
+        possiblePositions.Add(new Vector3(pp.x - tpDistanceToPlayer, p.y, pp.z));
+        possiblePositions.Add(new Vector3(pp.x, p.y, pp.z + tpDistanceToPlayer));
+        possiblePositions.Add(new Vector3(pp.x, p.y, pp.z - tpDistanceToPlayer));
 
         for (int i = possiblePositions.Count - 1; i >= 0; i--)
         {

@@ -7,10 +7,9 @@ BUGS:
 
 * BUG: Raft - There are holes that Link falls through at start/end tiles of Dungeon 4 Raft crossing.
 * BUG: Enemies can push Link upwards
-* BUG: Dungeon 8 is visible from inside grotto to the south of it.
-* BUG: Red Wizzrobes often appear outside of their DungeonRoom
 * BUG: Subdungeon Warp pointed me in opposite direction after teleporting
 
+- BUG: Dungeon 8 is initially visible from inside grotto to the south of it.
 - BUG: Keese in SubDungeons can move through stairs
 - BUG: A Ghini somehow survived the death of its master (possibly spawned right as master died?)
 - BUG: Enemies that spawn after clock has activated aren't paralyzed
@@ -123,6 +122,7 @@ Low Priority:
 
 - Refactor Spells/Buffs/Effects
 - Refactor Grottos
+- Refactor SpawnManagers (implement SpawnManager and SpawnPoint_Base)
 
 
 WishList:

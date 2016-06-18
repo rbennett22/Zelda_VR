@@ -2,8 +2,10 @@
 
 RECENTLY DONE:
  
- - Grotto: Gap at bottom of stairs is no less visible
+- Grotto: Gap at bottom of stairs is no less visible
  
+- BUG: Red Wizzrobes often appear outside of their DungeonRoom -FIXED
+- BUG: Dungeon 8 is visible from inside grotto to the south of it. -FIXED
 
 
 DONE:
