@@ -2,22 +2,15 @@
 
 RECENTLY DONE:
 
-- Inventory View: Now displays Shield
-- WoodenShield: Created new sprite
-- Stunned/Paralyzed Enemies can no longer hurt Link with melee damage
-
-- BUG: Collectibles in dungeons respawn if you die or exit the dungeon -FIXED
-- BUG: Sealed Door pushes player forward when it closes -FIXED
-- BUG: Goriya Boomerang is not being blocked by Link's shield -FIXED
-- BUG: Vire can jump through walls -FIXED
-- BUG: Keese in sub dungeons can move through walls -FIXED
-- BUG: Keese in sub dungeon don't move -FIXED
-- BUG: Ladder Doesn't work for certain water tiles -FIXED
-- BUG: NewGameEntryData is copying to wrong location when building -FIXED
+- Leevers: Can no longer hurt Link when burrowing/unburrowing
+ 
 
 
 COMMITTED BUT NOT YET PUSHED:
 
+- Inventory View: Now displays Shield
+- WoodenShield: Created new sprite
+- Stunned/Paralyzed Enemies can no longer hurt Link with melee damage
 - Fog: Disable in dungeons
 - Lost Woods: Fixed fog
 - Cheats: Flying added
@@ -26,6 +19,14 @@ COMMITTED BUT NOT YET PUSHED:
 - Power Bracelet: Is now collectible
 - Ghini: Invincible Ghinis now die when the vulnerable Ghini is killed
 
+- BUG: Collectibles in dungeons respawn if you die or exit the dungeon -FIXED
+- BUG: Sealed Door pushes player forward when it closes -FIXED
+- BUG: Goriya Boomerang is not being blocked by Link's shield -FIXED
+- BUG: Vire can jump through walls -FIXED
+- BUG: Keese in sub dungeons can move through walls -FIXED
+- BUG: Keese in sub dungeons don't move -FIXED
+- BUG: Ladder Doesn't work for certain water tiles -FIXED
+- BUG: NewGameEntryData is copying to wrong location when building -FIXED
 - BUG: Aquamentus doesn't fire projectiles -FIXED
 - BUG: Moldorm inactive after killing head -FIXED
 - BUG: Moldorm looks crazy when resuming after pause -FIXED
@@ -54,8 +55,9 @@ DONE:
 - Rupees now max out correctly at 255 instead of 999
 
 - Hardware: Oculus DK2 is now supported
+- Hardware: Standard Monitor now supported (non-VR)
 
-- Controls: Allow both Keyboard/Mouse and XBOX GamePad to be used simultaneously
+- Controls: Keyboard/Mouse and XBOX GamePad can now be used interchangabley/simultaneously
 
 - Terrain: Uniblocks voxel engine now used to render OverWorld terrain
 

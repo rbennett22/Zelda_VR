@@ -1,12 +1,17 @@
 --- TODO ---
 
+NEEDS TESTING:
+
+
 BUGS:
 
 * BUG: Raft - There are holes that Link falls through at start/end tiles of Dungeon 4 Raft crossing.
 * BUG: Enemies can push Link upwards
 * BUG: Dungeon 8 is visible from inside grotto to the south of it.
+* BUG: Red Wizzrobes often appear outside of their DungeonRoom
+* BUG: Subdungeon Warp pointed me in opposite direction after teleporting
 
-- BUG: Keese in sub dungeons can move through stairs
+- BUG: Keese in SubDungeons can move through stairs
 - BUG: A Ghini somehow survived the death of its master (possibly spawned right as master died?)
 - BUG: Enemies that spawn after clock has activated aren't paralyzed
 - BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)
@@ -19,27 +24,29 @@ BUGS:
 
 High Priority: 
 
-* Test: Bosses
+* Lost Hills
+- Waterfall Cave
+- Grotto Warps
+
 * When warping, ensure that world has completely loaded before opening shutters
 * World fall-through fail-safe 
 * Water Tiles: Currently Sword and Wand Projectiles can't pass over water;
 	Link can walk on water (try lowering his step offset only while on stairs?)
+* Bosses: Test all
 
-- CandleFlame: If hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
+* CandleFlame: If hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
 - Arrow: Graphic doesn't appear next to bow in inventory, even when you have both bow and arrow items
 
-- Blue Wizzrobe: Should not teleport
+* Statues: Should never fire towards walls
+* Blue Wizzrobe: Should not teleport
 - Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block
 - Boulders: Should bounce around
 - Statues: Enemies can walk through them
+- Armos should briefly flicker while coming alive
 
 - Allow erasing of saved games, but ask for confirmation before erasing saved data
 - ControlsView: Update image
 - OptionsMenu: Controls
-
-* Lost Hills
-- Waterfall Cave
-- Grotto Warps
 
 - Gannon: Intro
 - Gannon: When hit he should be temporarily invincible so that player can't take advantage
@@ -54,11 +61,10 @@ High Priority:
 
 Mid Priority:
 
-- Try constraining RigidBody position for all enemies (test each one)
 - Ladder: Can feel slightly unresponsive when player is next to multiple crossable tiles
 - Lost Woods: Fog Ceiling color should match fog, and fade in as player approaches LostWoods
 - Lost Woods: Warp Collectibles/Enemies/Projectiles
-- Flat OW Blocks may be visible in Grotto/DungeonEntrance ceilings
+- Grottos: Lower the ceiling
 - Fairy: Allow it to move around Dungeon Room moving outside of the room
 - Fairy: Can move through walls in OW
 - Clock Item: Should also paralyze enemies in nearby OW sectors (but not other DungeonRooms)
@@ -66,16 +72,16 @@ Mid Priority:
 - Boss Death Anim: Should blink 2-3 times, then "poof"
 - Gleeok: Heads Poof onDeath
 - Dungeon 6 Entrance: Make 2 blocks wide
-
-- SavedGamesScreen - Choose Name, Elimination Mode, Name text align
-- OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
-- "Continue or Save & Quit?" GUI
-
 - Difficult to fire wand through narrow passages
-
 - WoodenShield: Remove opaque black from bottom corners of sprite
 - Shield: Appear every time it deflects an attack?
 - Hearts floating around in "Secret to everybody" cave that runs beneath fairy fountain
+- LikeLike: Show an effect to indicate what's happening when player is trapped ("swallowed")
+- Dark Rooms: Make dimly lit instead of completely black
+- Old Men in dungeons don't fight back
+
+- SavedGamesScreen - Choose Name, Elimination Mode, Name text align
+- OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
 
 - No rolling rupee sound after "Secret to everybody" or door repair
 - There should be an event sound when you present meat to "Grumble, grumble"
@@ -89,32 +95,31 @@ Mid Priority:
 
 Low Priority:
 
-- Building: Don't Copy meta files or backups (only copy NewGame.txt and NewGameEntryData.txt)
-- Lost Woods: Overriding directions doesn't work right for -x and -z;
-- Beams from many dungeon enemies should be unblockable (Is this too difficult though?)
-- Is it possible to "double collect" a Collectible by throwing the Boomerang and then walking into item as Bomerang returns?
-- Dungeon tunnels have passages with zero-thickness walls
-- Old men in dungeons don't fight me back
-- Whistle Warp: Facing north or west, warp to the next dungeon; facing south or east, warp to the previous dungeon
-- Whistle Warp: If he blows the Recorder multiple times while the whirlwind approaches, he can cycle through the sequence indefinitely. 
-- Texture blocks correctly (use BoxMesh.cs?)
-- Texture OW DungeonEntrances correctly?
+- HUD Dungeon Map: Triforce icon should flash Red/Blue, cycling every ~0.7 secs
+- Dungeon: Some tunnels have passages with zero-thickness walls
+- Whistle: Facing north or west, warp to the next dungeon; facing south or east, warp to the previous dungeon
+- Whistle: "If he blows multiple times while the whirlwind approaches, he can cycle through the sequence indefinitely"
+- Correctly texture custom blocks (ie. Grotto, Subdungeon) - use BoxMesh.cs?
 - Hold up HeartContainer if received in Grotto
-- LikeLike: Show an effect to indicate what's happening when player is trapped ("swallowed")
+
+- Enemy Projectiles: Visually distinguish between MagicShield blockable and unblockable
+- Arrow: Should not be allowed to fire at a lower angle than parallel to ground
+- Enemy's PushBack Force: Apply in weapon's moveDirection
+- River Zora: Projectile should briefly hold position (~0.3 secs) before firing towards Link
+- Pushable Blocks: Should reset when leaving DungeonRoom (and linked doors reseal)
+- Lost Woods: Overriding directions doesn't work right for -x and -z;
+
 - ImageEffects on camera (bloom etc)?
-- SoundFX DSP (ie. reverb in dungeons)
-- Music Fade In/Out
-- Trees and rocks are shorter than a full tile
-- Consider having dark rooms show walls dimly like the original
-- Being able to aim arrows upward is a nice touch, but it's annoying when I shoot the ground, so maybe downward arrows should instead go parallel to the ground, like beam sword or wand. 
+- SoundFX: DSP (ie. reverb in dungeons)
+- Music: Fade In/Out
+- Option to change block height for bushes, short blocks, dungeon blocks, etc.
+- UI: "Continue or Save & Quit?"
+- Building: Don't Copy meta files or backups (only copy NewGame.txt and NewGameEntryData.txt)
+
+- Try constraining RigidBody position for all enemies (test each one)?
 - Increase maxLiveProjectiles for certain bosses?
 - What's up with Manhandla projectiles/damage?
-- Have Enemy's pushBack force applied in weapon's moveDirection. (Have all weapons/projectiles transform.forward point in their direction of travel.)
-- I'm not sure darknuts are supposed to be hurt by fire, or gleeoks by the wand
-- Leevers: Should not be harmful when burrowing 
-- River Zora projectile should briefly hold position (~0.3 secs) before firing towards Link
-- Pushable Blocks should reset when leaving DungeonRoom (and linked doors reseal)
-- HUD Dungeon Map Triforce icon should flash Red/Blue, cycling every ~0.7 secs
+- Is it possible to "double collect" a Collectible by throwing the Boomerang and then walking into item as Bomerang returns?
 
 - Refactor Spells/Buffs/Effects
 - Refactor Grottos
@@ -122,22 +127,25 @@ Low Priority:
 
 WishList:
 
-- Make Map display an arrow for Link instead of a square
-- Place "signs" above Grottos indicating type
-- Cannon Transportation for Grotto Warps
-- SubDungeon Warps - Mirror effect
-- Allow pushback force to send enemies flying upwards
-- Show Shield?
-- When WandProjectile hits Link's shield you should see it reflect off 
-- Particles for MagicSword, MagicBoomerang, SilverArrow
-- Bow Crosshair
-- Have enemies make some noise to alert you of their presence
-- Have Statues charge up each shot with a sound effect so player knows when to dodge
-- Navigatable Cheat Menu
+- Whistle: Show whirlwind
+- Whistle: Better system for choosing warp location
+- Map: Display a directional arrow for Link instead of simply a square
+- Grottos: Place "signs" above entrances, indicating type
+- Grotto Warps: Cannon Transportation
+- SubDungeon Warps: Mirror effect
+- Pushback Force: Allow it to send enemies flying upwards
+- WandProjectile: Show it deflecting of Link's Shield if blocked
+- Weapon Particles: MagicSword, MagicBoomerang, SilverArrow...
+- Bow: Crosshair
+- Enemy Noise Alert: Have enemies make some subtle noise to alert you of their presence
+- Statues: Charge up each shot with a sound effect so player knows when to dodge
+- Cheats: Navigatable Cheat Menu
+- DungeonEntrances: Fancier mesh/texture
 
-- Unlockable bonus Zelda remixes
-- Unlockable Fan Art
-- Unlockable Cheats
+- Unlockable: Zelda Music Remixes
+- Unlockable: Fan Art
+- Unlockable: Cheats
+- Unlockable: Tile Texture Styles (Pixels^3)
 
 
 3rd-Person Camera Mode:
@@ -154,14 +162,12 @@ OPTIMIZATIONS:
 - Only update HUD text when info changes (i.e. keys, bombs, rupees, level)
 
 
-NEEDS TESTING:
-
-- LikeLike MagicShield stealing
-
-
 RESEARCH:
 
+- Are Dark DungeonRooms supposed to go dark again when Link exits said rooms?
+- I'm not sure darknuts are supposed to be hurt by fire, or gleeoks by the wand
 - Fairy: Changes move direction regularly (is this how fairy is supposed to move?)
 - Boomerang: Should it hurt stunned enemies?
 - Letter: Should it still appear in inventory after its been used (assuming no potions in inventory)?
 - Sealed Doors: If sealed door is opened, then player dies, does he have to kill all enemies again to reopen it or does it stay opened?
+- "Beams from many dungeon enemies should be unblockable" (Is this too difficult though?)

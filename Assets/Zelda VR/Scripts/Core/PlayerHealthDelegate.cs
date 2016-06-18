@@ -50,16 +50,21 @@ public class PlayerHealthDelegate : MonoBehaviour
     {
         damageAmount = (uint)(_player.GetDamageNullifier() * damageAmount);
 
-        Vector3 direction = _playerController.position - damageDealer.transform.position;
-        direction.y = 0;
-        direction.Normalize();
-        Push(direction);
+        if (damageAmount > 0)
+        {
+            Vector3 direction = _playerController.position - damageDealer.transform.position;
+            direction.y = 0;
+            direction.Normalize();
+            Push(direction);
 
-        SoundFx.Instance.PlayOneShot(SoundFx.Instance.hurt);
+            SoundFx.Instance.PlayOneShot(SoundFx.Instance.hurt);
 
-        Enemy enemy = damageDealer.GetComponent<Enemy>();
+            Enemy.EnemiesKilledWithoutTakingDamage = 0;
+        }
 
         // TODO
+
+        Enemy enemy = damageDealer.GetComponent<Enemy>();
 
         if (damageDealer.name == "Bubble_Clear")
         {
@@ -69,8 +74,6 @@ public class PlayerHealthDelegate : MonoBehaviour
         {
             _player.ActivateLikeLikeTrap(enemy);
         }
-
-        Enemy.EnemiesKilledWithoutTakingDamage = 0;
     }
 
     void Death(HealthController healthController, GameObject killer)

@@ -181,18 +181,18 @@ public class Enemy : Actor
     {
         if(CommonObjects.IsPlayer(other.gameObject))
         {
-            OnHitPlayer(Player);
+            OnHitPlayer();
         }
     }
 
-    void OnHitPlayer(Player player)
+    void OnHitPlayer()
     {
         if (IsStunned || IsParalyzed)
         {
             return;
         }
 
-        player.HealthController.TakeDamage((uint)meleeDamage, gameObject);
+        Player.HealthController.TakeDamage((uint)meleeDamage, gameObject);
     }
 
     void OnEnemyDeath()

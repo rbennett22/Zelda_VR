@@ -10,21 +10,23 @@ public class EnemyAI_Leever : EnemyAI
 
 
     public float undergroundDuration = 2.0f;
-    public float emergeDuration = 1.0f;
+    public float emergeDuration = 0.5f;
     public float surfaceDuration = 3.0f;
-    public float submergeDuration = 1.0f;
+    public float submergeDuration = 0.5f;
 
 
-    float _startTime = float.NegativeInfinity;
-    float _timerDuration;
     Vector3 _origin;
     List<Index2> _warpableTiles = new List<Index2>();
 
+    int _normalMeleeDamage;
 
-    public bool IsUnderground { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Underground"); } }
-    public bool IsEmerging { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Emerge"); } }
-    public bool IsSubmerging { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Submerge"); } }
-    public bool IsSurfaced { get { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag("Surface"); } }
+
+    public bool IsUnderground { get { return IsAnimationState("Underground"); } }
+    public bool IsEmerging { get { return IsAnimationState("Emerge"); } }
+    public bool IsSubmerging { get { return IsAnimationState("Submerge"); } }
+    public bool IsSurfaced { get { return IsAnimationState("Surface"); } }
+
+    bool IsAnimationState(string tag) { return AnimatorInstance.GetCurrentAnimatorStateInfo(0).IsTag(tag); }
 
 
     Renderer Renderer { get { return AnimatorInstance.GetComponent<Renderer>(); } }
@@ -40,59 +42,56 @@ public class EnemyAI_Leever : EnemyAI
     void Start()
     {
         _origin = transform.position;
-        Renderer.enabled = false;
-        _healthController.isIndestructible = true;
+        _normalMeleeDamage = _enemy.meleeDamage;
 
         AssignWarpableTiles();
+
+        ProceedToNextState();
     }
 
 
-    void Update()
+    void WaitThenProceedToNextState(float delay)
     {
-        if (!_doUpdate) { return; }
-        if (IsPreoccupied) { return; }
+        Invoke("ProceedToNextState", delay);
 
-        bool timesUp = (Time.time - _startTime >= _timerDuration);
-        if (timesUp)
+        //_timerDuration = duration;
+        //_startTime = Time.time;
+    }
+
+    void ProceedToNextState()
+    {
+        _enemy.meleeDamage = IsEmerging ? _normalMeleeDamage : 0;
+        _enemyMove.enabled = IsEmerging;
+        _healthController.isIndestructible = !IsEmerging;
+
+        Renderer.enabled = !IsSubmerging;
+
+        if (IsUnderground)
         {
-            if (IsUnderground)
-            {
-                AnimatorInstance.SetTrigger("Emerge");
-                _timerDuration = emergeDuration;
+            transform.SetY(_origin.y);
+            WarpToRandomNearbySandTile();
 
-                _healthController.isIndestructible = true;
-                Renderer.enabled = true;
-                transform.SetY(_origin.y);
-                WarpToRandomNearbySandTile();
-            }
-            else if (IsEmerging)
-            {
-                AnimatorInstance.SetTrigger("Surface");
-                _timerDuration = surfaceDuration;
+            AnimatorInstance.SetTrigger("Emerge");
+            WaitThenProceedToNextState(emergeDuration);
+        }
+        else if (IsEmerging)
+        {
+            MoveDirection_Tile = new IndexDirection2(EnemyAI_Random.GetRandomTileDirection());
 
-                _healthController.isIndestructible = false;
-                _enemyMove.enabled = true;
-                MoveDirection_Tile = new IndexDirection2(EnemyAI_Random.GetRandomTileDirection());
-            }
-            else if (IsSurfaced)
-            {
-                AnimatorInstance.SetTrigger("Submerge");
-                _timerDuration = submergeDuration;
+            AnimatorInstance.SetTrigger("Surface");
+            WaitThenProceedToNextState(surfaceDuration);
+        }
+        else if (IsSurfaced)
+        {
+            AnimatorInstance.SetTrigger("Submerge");
+            WaitThenProceedToNextState(submergeDuration);
+        }
+        else if (IsSubmerging)
+        {
+            transform.SetY(_origin.y - OFFSCREEN_OFFSET);  // Move offscreen to prevent collision with player
 
-                _healthController.isIndestructible = true;
-                _enemyMove.enabled = false;
-            }
-            else if (IsSubmerging)
-            {
-                AnimatorInstance.SetTrigger("Underground");
-                _timerDuration = undergroundDuration;
-
-                _healthController.isIndestructible = true;
-                Renderer.enabled = false;
-                transform.SetY(_origin.y - OFFSCREEN_OFFSET);  // Move offscreen to prevent collision with player
-            }
-
-            _startTime = Time.time;
+            AnimatorInstance.SetTrigger("Underground");
+            WaitThenProceedToNextState(undergroundDuration);
         }
     }
 
