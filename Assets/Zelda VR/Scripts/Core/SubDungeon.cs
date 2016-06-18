@@ -55,7 +55,7 @@ public class SubDungeon : MonoBehaviour
         pc.Stop();
 
         ParentDungeonRoom.onPlayerExitedRoom();
-        destinationSubDungeon.ParentDungeonRoom.onPlayerEnteredRoom();
+        destinationSubDungeon.ParentDungeonRoom.OnPlayerEnteredRoom();
 
         /*print("warpToLocation.eulerAngles: " + warpToLocation.eulerAngles);
         print("portal.transform.eulerAngles: " + portal.transform.eulerAngles);

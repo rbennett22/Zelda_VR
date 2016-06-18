@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public interface IAutoSpawner
+namespace Immersio.Utility
 {
-    void OnSpawnedObjectDestroy(AutoSpawnedObject spawnedObject);
-}
-
-public class AutoSpawnedObject : MonoBehaviour
-{
-    public IAutoSpawner autoSpawner;
-
-    void OnDestroy()
+    public interface IAutoSpawner
     {
-        autoSpawner.OnSpawnedObjectDestroy(this);
+        void OnSpawnedObjectDestroy(AutoSpawnedObject spawnedObject);
+    }
+
+    public class AutoSpawnedObject : MonoBehaviour
+    {
+        public IAutoSpawner autoSpawner;
+
+        void OnDestroy()
+        {
+            autoSpawner.OnSpawnedObjectDestroy(this);
+        }
     }
 }

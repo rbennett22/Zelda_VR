@@ -2,8 +2,12 @@
 
 public class DungeonEntranceSpawnPoint : MonoBehaviour
 {
+    [SerializeField]
+    float _updateInterval = 0.5f;
+
     public GameObject dungeonEntrancePrefab;
     public GameObject marker;
+
     public float spawnDistance = 12;
     public int dungeonNum;
 
@@ -25,31 +29,38 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
         marker.SetActive(false);
     }
 
+    void Start()
+    {
+        InvokeRepeating("Tick", 0, _updateInterval);
+    }
 
-    void Update()
+
+    void Tick()
     {
         Vector3 toPlayer = CommonObjects.Player_C.Position - marker.transform.position;
-        float distanceToPlayerSqr = Vector3.SqrMagnitude(toPlayer);
+        float distToPlayerSqd = Vector3.SqrMagnitude(toPlayer);
 
         if (_spawnedDungeonEntrance == null)
         {
-            if (distanceToPlayerSqr < _spawnDistanceSqd) { SpawnDungeonEntrance(); }
+            if (distToPlayerSqd < _spawnDistanceSqd) { SpawnDungeonEntrance(); }
         }
         else
         {
-            if (distanceToPlayerSqr > _destroyDistanceSqd) { DestroyDungeonEntrance(); }
+            if (distToPlayerSqd > _destroyDistanceSqd) { DestroyDungeonEntrance(); }
         }
     }
 
-    public DungeonEntrance SpawnDungeonEntrance()
+    void SpawnDungeonEntrance()
     {
         GameObject g = Instantiate(dungeonEntrancePrefab, transform.position, transform.rotation) as GameObject;
-        _spawnedDungeonEntrance = g.GetComponent<DungeonEntrance>();
-        _spawnedDungeonEntrance.name = "Dungeon Entrance " + dungeonNum.ToString();
-        _spawnedDungeonEntrance.transform.parent = _dungeonEntranceContainer;
-        _spawnedDungeonEntrance.DungeonNum = dungeonNum;
 
-        return _spawnedDungeonEntrance;
+        DungeonEntrance e = g.GetComponent<DungeonEntrance>();
+        
+        e.name = "Dungeon Entrance " + dungeonNum.ToString();
+        e.transform.SetParent(_dungeonEntranceContainer);
+        e.DungeonNum = dungeonNum;
+
+        _spawnedDungeonEntrance = e;
     }
 
     void DestroyDungeonEntrance()

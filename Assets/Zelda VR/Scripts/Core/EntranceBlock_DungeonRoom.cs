@@ -46,7 +46,7 @@ public class EntranceBlock_DungeonRoom : MonoBehaviour
 
     void OnEnteredRoom()
     {
-        dungeonRoom.onPlayerEnteredRoom(wallDirection);
+        dungeonRoom.OnPlayerEnteredRoom(wallDirection);
     }
     void OnExitedRoom()
     {

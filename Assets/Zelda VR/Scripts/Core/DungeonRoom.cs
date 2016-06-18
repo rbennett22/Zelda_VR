@@ -421,7 +421,7 @@ public class DungeonRoom : MonoBehaviour
     }
 
 
-    public void onPlayerEnteredRoom(DungeonRoomInfo.WallDirection direction = DungeonRoomInfo.WallDirection.None)
+    public void OnPlayerEnteredRoom(DungeonRoomInfo.WallDirection direction = DungeonRoomInfo.WallDirection.None)
     {
         PlayerHasVisited = true;
 

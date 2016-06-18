@@ -12,11 +12,6 @@ public class SubDungeonSpawnPoint : MonoBehaviour
 
     SubDungeon _spawnedSubDungeon = null;
     Transform _subDungeonContainer;
-    //OVRPlayerController _ovrPlayerController;
-
-    //float _spawnDistance = 18;
-    //float _spawnDistanceSqd;
-    //float _destroyDistanceSqd;
 
 
     public DungeonRoom ParentDungeonRoom { get; set; }
@@ -25,10 +20,6 @@ public class SubDungeonSpawnPoint : MonoBehaviour
     void Awake()
     {
         _subDungeonContainer = GameObject.Find("SubDungeons").transform;
-        //_ovrPlayerController = GameObject.FindGameObjectWithTag("PlayerController").GetComponent<OVRPlayerController>();
-
-        //_spawnDistanceSqd = _spawnDistance * _spawnDistance;
-        //_destroyDistanceSqd = _spawnDistanceSqd + 20;
 
         marker.SetActive(false);
     }

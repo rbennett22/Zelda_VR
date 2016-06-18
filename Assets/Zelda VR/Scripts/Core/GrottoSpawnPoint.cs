@@ -50,7 +50,7 @@ public class GrottoSpawnPoint : MonoBehaviour
     {
         if(SpawnedGrotto != null)
         {
-            Debug.LogWarning("SpawnedGrotto already exists.  It will be Destroyed and replaced with a new instance.");
+            //Debug.LogWarning("SpawnedGrotto already exists.  It will be Destroyed and replaced with a new instance.");
             DestroyGrotto();
         }
         SpawnedGrotto = InstantiateGrotto();

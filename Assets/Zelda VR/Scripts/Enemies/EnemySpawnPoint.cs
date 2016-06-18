@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Immersio.Utility;
 
 public class EnemySpawnPoint : MonoBehaviour
 {
@@ -55,7 +54,10 @@ public class EnemySpawnPoint : MonoBehaviour
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         Destroy(sr);
 
-        if (specialDrop != null) { specialDrop.gameObject.SetActive(false); }
+        if (specialDrop != null)
+        {
+            specialDrop.gameObject.SetActive(false);
+        }
     }
 
 
@@ -81,7 +83,7 @@ public class EnemySpawnPoint : MonoBehaviour
         g.name = enemyPrefab.name;
 
         Transform t = g.transform;
-        t.parent = WorldInfo.Instance.IsOverworld ? _enemiesContainer : transform.parent;
+        t.SetParent(WorldInfo.Instance.IsOverworld ? _enemiesContainer : transform.parent);
         t.forward = transform.up;
 
         Enemy enemy = g.GetComponent<Enemy>();
@@ -126,17 +128,26 @@ public class EnemySpawnPoint : MonoBehaviour
     }
     void AssignSpecialDropItemToSpawnedEnemy(Enemy enemy)
     {
-        if (specialDrop == null) { return; }
+        if (specialDrop == null)
+        {
+            return;
+        }
 
         if (WorldInfo.Instance.IsInDungeon)
         {
             DungeonRoom dr = DungeonRoom.GetRoomForPosition(transform.position);
-            if (dr.SpecialDropItemHasBeenCollected) { return; }
+            if (dr.SpecialDropItemHasBeenCollected)
+            {
+                return;
+            }
         }
 
         enemy.GetComponent<EnemyItemDrop>().specialDrop = specialDrop;
-        specialDrop.transform.parent = enemy.transform;
-        specialDrop.transform.localPosition = Vector3.zero;
+
+        Transform t = specialDrop.transform;
+        t.SetParent(enemy.transform);
+        t.localPosition = Vector3.zero;
+
         specialDrop.gameObject.SetActive(true);
     }
 
