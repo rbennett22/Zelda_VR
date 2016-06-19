@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-
 public class SubDungeonPortal : MonoBehaviour
 {
     public SubDungeon subDungeon;
+
 
     void OnTriggerEnter(Collider otherCollider)
     {

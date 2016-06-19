@@ -33,7 +33,7 @@ public class EnemyAI_Gannon : EnemyAI
 
     void InitBounds()
     {
-        Vector3 center = _enemy.DungeonRoomRef.transform.position;
+        Vector3 center = _enemy.DungeonRoomRef.Center;
         Boundary = new Rect(
             center.x - BOUNDS_WIDTH * 0.5f,
             center.z - BOUNDS_HEIGHT * 0.5f,

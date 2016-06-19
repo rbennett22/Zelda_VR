@@ -2,13 +2,16 @@
 
 NEEDS TESTING:
 
+* BUG: SubDungeon Warp pointed me in opposite direction after teleporting -FIXED
+
 
 BUGS:
 
-* BUG: Raft - There are holes that Link falls through at start/end tiles of Dungeon 4 Raft crossing.
 * BUG: Enemies can push Link upwards
-* BUG: Subdungeon Warp pointed me in opposite direction after teleporting
+* BUG: Link can walk on water
+* BUG: Sword and Wand Projectiles can't pass over water
 
+- BUG: When exiting a dungeon, enemies in that sector don't inititally appear (until you move far enough away)
 - BUG: Dungeon 8 is initially visible from inside grotto to the south of it.
 - BUG: Keese in SubDungeons can move through stairs
 - BUG: A Ghini somehow survived the death of its master (possibly spawned right as master died?)
@@ -23,25 +26,25 @@ BUGS:
 
 High Priority: 
 
-* Lost Hills
-- Waterfall Cave
-- Grotto Warps
-
+* Bosses: Test all
 * When warping, ensure that world has completely loaded before opening shutters
 * World fall-through fail-safe 
-* Water Tiles: Currently Sword and Wand Projectiles can't pass over water;
-	Link can walk on water (try lowering his step offset only while on stairs?)
-* Bosses: Test all
+* Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
+- Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
+- Waterfall Cave
+- Grotto Warps: Warp player slightly away from portal so it doesn't rapidly wapr back and forth
+- Grotto Warps: Destination Grotto's NPC isn't being spawned
+- Grotto Warps: Blocks don't always have time to spawn after warping
+- Grotto Warps: Even after blocks spawned, a flat sand tile beneath a pushable block was missing (Link could fall through)
 
-* CandleFlame: If hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy.
-- Arrow: Graphic doesn't appear next to bow in inventory, even when you have both bow and arrow items
-
-* Statues: Should never fire towards walls
-* Blue Wizzrobe: Should not teleport
+- Blue Wizzrobe: Implement ghosting ability
 - Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block
 - Boulders: Should bounce around
 - Statues: Enemies can walk through them
 - Armos should briefly flicker while coming alive
+
+- CandleFlame: If hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy?
+- Arrow: Graphic doesn't appear next to bow in inventory, even when you have both bow and arrow items
 
 - Allow erasing of saved games, but ask for confirmation before erasing saved data
 - ControlsView: Update image

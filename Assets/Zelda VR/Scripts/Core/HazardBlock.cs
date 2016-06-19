@@ -10,6 +10,8 @@ public class HazardBlock : MonoBehaviour
 
 
     Collider _physicsCollider;
+    public bool PhysicsColliderEnabled { get { return _physicsCollider.enabled; } set { _physicsCollider.enabled = value; } }
+
     GameObject _ladderOverlay;
 
 
@@ -120,7 +122,7 @@ public class HazardBlock : MonoBehaviour
             LadderBlock.RemoveLadder();
         }
 
-        DisablePhysicsCollider();
+        PhysicsColliderEnabled = false;
         LadderBlock = this;
 
         _ladderOverlay = Instantiate(ladderOverlayPrefab) as GameObject;
@@ -134,9 +136,10 @@ public class HazardBlock : MonoBehaviour
         _ladderOverlay.transform.Rotate(new Vector3(0, rotY, 0));
     }
 
+
     public void RemoveLadder()
     {
-        EnablePhysicsCollider();
+        PhysicsColliderEnabled = true;
         if (LadderBlock == this)
         {
             LadderBlock = null;
@@ -144,15 +147,5 @@ public class HazardBlock : MonoBehaviour
 
         Destroy(_ladderOverlay);
         _ladderOverlay = null;
-    }
-
-
-    public void EnablePhysicsCollider()
-    {
-        _physicsCollider.enabled = true;
-    }
-    public void DisablePhysicsCollider()
-    {
-        _physicsCollider.enabled = false;
     }
 }

@@ -21,6 +21,8 @@ public class EnemyAI_Statue : EnemyAI
 
         if (WorldInfo.Instance.IsInDungeon)
         {
+            _enemy.DungeonRoomRef = DungeonRoom.GetRoomForPosition(transform.position);
+
             int dungeonNum = WorldInfo.Instance.DungeonNum;
             GetComponent<Renderer>().material = CommonObjects.Instance.GetEnemyStatueMaterialForDungeon(dungeonNum);
         }
@@ -64,8 +66,18 @@ public class EnemyAI_Statue : EnemyAI
 
     void Attack()
     {
-        Vector3 direction = FIRES_AT_PLAYER ? DirectionToPlayer : EnemyAI_Random.GetRandomDirectionXZ();
-        _enemy.Attack(direction);
+        Vector3 dir = DirectionToPlayer;
+
+        if (!FIRES_AT_PLAYER)
+        {
+            Vector3 roomCenter = _enemy.DungeonRoomRef.Center;
+            Vector3 toCenter = roomCenter - transform.position;
+            toCenter.y = 0;
+
+            dir = toCenter.normalized;
+        }
+
+        _enemy.Attack(dir);
 
         ResetCooldownTimer();
     }

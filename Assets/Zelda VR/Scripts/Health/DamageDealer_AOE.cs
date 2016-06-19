@@ -8,7 +8,7 @@ public class DamageDealer_AOE : DamageDealer_Base
 
     public void AttackAllWithinReach()
     {
-        AttackAllWithinReach(this.radius);
+        AttackAllWithinReach(radius);
     }
     public void AttackAllWithinReach(float maxDistance)
     {

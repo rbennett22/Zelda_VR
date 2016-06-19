@@ -27,6 +27,8 @@ public class GrottoSpawnPoint : MonoBehaviour
 
     public string[] payForInfoText;
 
+    public GrottoSpawnPoint warpToA, warpToB, warpToC;
+
 
     OverworldInfo _overworldInfo;
     Transform _grottosContainer;

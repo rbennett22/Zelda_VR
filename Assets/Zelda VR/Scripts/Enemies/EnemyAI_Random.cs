@@ -16,6 +16,7 @@ public class EnemyAI_Random : EnemyAI
     public bool faceTowardsMoveDirection = true;
     public float feelerLength = DEFAULT_OBSTRUCTION_FEELER_LENGTH;
     public bool aimAttacksAtPlayer;
+    public bool onlyAttackIfPlayerIsInLineOfSight;
     public bool flying;                 // If true, the enemy can pass over HazardBlocks (ie. water, lava, etc.)
     public bool avoidsReversingDirections;
 
@@ -130,43 +131,37 @@ public class EnemyAI_Random : EnemyAI
 
     DiscreteAction GetDesiredAction()
     {
-        DiscreteAction action;
-
-        int rand = Random.Range(0, 100);
-        if (_enemy.HasWeapon && rand < chanceToAttack)
+        if (FlipCoin(chanceToAttack) && IsAttackingAnOption())
         {
-            action = DiscreteAction.Attack;
+            return DiscreteAction.Attack;
         }
-        else
+        else if (FlipCoin(chanceToIdle) && !_justFinishedIdling)
         {
-            rand = Random.Range(0, 100);
-            if (rand < chanceToIdle && !_justFinishedIdling)
-            {
-                action = DiscreteAction.Idle;
-            }
-            else
-            {
-                rand = Random.Range(0, 100);
-                if (rand < chanceToJump)
-                {
-                    action = DiscreteAction.Jump;
-                }
-                else
-                {
-                    rand = Random.Range(0, 100);
-                    if (rand < chanceToChangeDirection)
-                    {
-                        action = DiscreteAction.ChangeDirection;
-                    }
-                    else
-                    {
-                        action = DiscreteAction.ContinueInSameDirection;
-                    }
-                }
-            }
+            return DiscreteAction.Idle;
+        }
+        else if (FlipCoin(chanceToJump))
+        {
+            return DiscreteAction.Jump;
+        }
+        else if (FlipCoin(chanceToChangeDirection))
+        {
+            return DiscreteAction.ChangeDirection;
         }
 
-        return action;
+        return DiscreteAction.ContinueInSameDirection;
+    }
+
+    bool IsAttackingAnOption()
+    {
+        if (!_enemy.HasWeapon || !_enemy.weapon.CanAttack)
+        {
+            return false;
+        }
+        if (onlyAttackIfPlayerIsInLineOfSight && !IsPlayerInSight())
+        {
+            return false;
+        }
+        return true;
     }
 
     IndexDirection2 GetDesiredMoveDirection(DiscreteAction action)
@@ -308,5 +303,10 @@ public class EnemyAI_Random : EnemyAI
     {
         List<IndexDirection2> availableDirections = IndexDirection2.AllValidNonZeroDirections.Where(d => !excludeDirections.Contains(d)).ToList();
         return availableDirections[Random.Range(0, availableDirections.Count)];
+    }
+
+    static bool FlipCoin(float chanceOfTrue = 0.5f)
+    {
+        return Extensions.FlipCoin(chanceOfTrue);
     }
 }

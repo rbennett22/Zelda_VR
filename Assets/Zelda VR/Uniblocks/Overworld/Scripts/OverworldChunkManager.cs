@@ -12,7 +12,7 @@ public class OverworldChunkManager : ChunkManager
 
     public void ForceRegenerateTerrain(List<Chunk> chunks = null)
     {
-        if(chunks == null)
+        if (chunks == null)
         {
             chunks = Chunks.Select(item => item.Value).ToList();
         }

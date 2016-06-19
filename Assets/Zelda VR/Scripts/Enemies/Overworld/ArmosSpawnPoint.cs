@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(EnemySpawnPoint))]
 
@@ -11,19 +10,9 @@ public class ArmosSpawnPoint : MonoBehaviour
 
     void OnEnemySpawned(Enemy enemy)
     {
-        EnemyAI_Armos armos = enemy.GetComponent<EnemyAI_Armos>();
-        armos.Type = statueType;
-        armos.HidesCollectibleItem = hidesCollectibleItem;
-
-        // Any children of the spawnPoint are considered linkedTiles
-        if (transform.childCount > 0)
-        {
-            List<GameObject> linkedTiles = new List<GameObject>();
-            foreach (Transform child in transform)
-            {
-                linkedTiles.Add(child.gameObject);
-            }
-            armos.linkedTiles = linkedTiles.ToArray();
-        }
+        EnemyAI_Armos r = enemy.GetComponent<EnemyAI_Armos>();
+        r.Type = statueType;
+        r.HidesCollectibleItem = hidesCollectibleItem;
+        r.linkedTiles = GetComponentsInChildren<GameObject>();  // Any children of this spawnPoint are considered linkedTiles
     }
 }

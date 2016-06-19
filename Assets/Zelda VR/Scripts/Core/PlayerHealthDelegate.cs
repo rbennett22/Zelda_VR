@@ -22,8 +22,7 @@ public class PlayerHealthDelegate : MonoBehaviour
 
 
     Player _player;
-    Transform _playerController;
-    HealthController _healthController;
+    HealthController _hc;
 
     Vector3 _playerDeathLocation;
 
@@ -31,19 +30,18 @@ public class PlayerHealthDelegate : MonoBehaviour
     void Awake()
     {
         _player = GetComponent<Player>();
-        _playerController = _player.PlayerController.gameObject.transform;
-        _healthController = GetComponent<HealthController>();
+        _hc = GetComponent<HealthController>();
 
-        _healthController.HealthChanged += HealthChanged;
-        _healthController.DamageTaken += DamageTaken;
-        _healthController.Death += Death;
+        _hc.HealthChanged += HealthChanged;
+        _hc.DamageTaken += DamageTaken;
+        _hc.Death += Death;
     }
 
 
     void HealthChanged(HealthController healthController, int prevHealth, int newHealth)
     {
         _player.SwordProjectilesEnabled = healthController.IsAtFullHealth;
-        SoundFx.Instance.PlayLowHealth(_player.HealthInHalfHearts <= 2);
+        SetLowHealthSoundIsPlaying(_player.HealthInHalfHearts <= 2);
     }
 
     void DamageTaken(HealthController healthController, ref uint damageAmount, GameObject damageDealer)
@@ -52,12 +50,12 @@ public class PlayerHealthDelegate : MonoBehaviour
 
         if (damageAmount > 0)
         {
-            Vector3 direction = _playerController.position - damageDealer.transform.position;
+            Vector3 direction = _player.Position - damageDealer.transform.position;
             direction.y = 0;
             direction.Normalize();
             Push(direction);
 
-            SoundFx.Instance.PlayOneShot(SoundFx.Instance.hurt);
+            PlayHurtSound();
 
             Enemy.EnemiesKilledWithoutTakingDamage = 0;
         }
@@ -85,9 +83,9 @@ public class PlayerHealthDelegate : MonoBehaviour
     IEnumerator DeathSequence()
     {
         Music.Instance.Stop();
-        SoundFx sfx = SoundFx.Instance;
-        sfx.PlayLowHealth(false);
-        sfx.PlayOneShot(sfx.die);
+
+        SetLowHealthSoundIsPlaying(false);
+        PlayDeathSound();
 
         OverlayViewController.Instance.ShowPlayerDiedOverlay(DEATH_SEQUENCE_DURATION);
 
@@ -112,7 +110,7 @@ public class PlayerHealthDelegate : MonoBehaviour
         int iterations = 4;
         while (++count < iterations)
         {
-            CharacterController cc = _playerController.GetComponent<CharacterController>();
+            CharacterController cc = _player.PlayerController.GetComponent<CharacterController>();
             cc.Move(direction * (pushBackPower / iterations));
 
             yield return new WaitForSeconds(0.016f);
@@ -128,13 +126,13 @@ public class PlayerHealthDelegate : MonoBehaviour
     {
         OverlayViewController.Instance.HidePlayerDiedOverlay();
 
-        _playerDeathLocation = _playerController.transform.position;
+        _playerDeathLocation = _player.Position;
         Locations.Instance.RespawnPlayer();
 
         yield return new WaitForSeconds(0.1f);
 
-        _healthController.Reset();
-        _healthController.SetHealth(HalfHeartsToHealth(NUM_HALF_HEARTS_AFTER_RESPAWN));
+        _hc.Reset();
+        _hc.SetHealth(HalfHeartsToHealth(NUM_HALF_HEARTS_AFTER_RESPAWN));
         GameplayHUDViewController.Instance.ShowView();
     }
     void ShuttersFinishedOpening()
@@ -156,5 +154,19 @@ public class PlayerHealthDelegate : MonoBehaviour
             PauseManager.Instance.IsPauseAllowed_Inventory = true;
             PauseManager.Instance.IsPauseAllowed_Options = true;
         }
+    }
+
+
+    void PlayHurtSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.hurt);
+    }
+    void PlayDeathSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.die);
+    }
+    void SetLowHealthSoundIsPlaying(bool doPlay)
+    {
+        SoundFx.Instance.SetLowHealthSoundIsPlaying();
     }
 }

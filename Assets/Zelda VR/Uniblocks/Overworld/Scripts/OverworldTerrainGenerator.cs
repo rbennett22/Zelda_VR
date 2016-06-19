@@ -87,8 +87,10 @@ public class OverworldTerrainGenerator : TerrainGenerator
             int x = vX + chunkPos.x;
             if (x < 0 || x > tilesWide - 1)
             {
-                if(!ChunkOW.useOverridingSector)
+                if (!ChunkOW.useOverridingSector)
+                {
                     continue;
+                }
             }
 
             for (int vZ = 0; vZ < chunkSize.z; vZ++)
@@ -97,8 +99,17 @@ public class OverworldTerrainGenerator : TerrainGenerator
                 if (z < 0 || z > tilesHigh - 1)
                 {
                     if (!ChunkOW.useOverridingSector)
+                    {
                         continue;
+                    }
                 }
+
+                // Clear All first
+                for (int vY = 0; vY < chunkSize.y; vY++)
+                {
+                    ChunkOW.SetVoxelSimple(vX, vY, vZ, 0);
+                }
+
 
                 if (ChunkOW.useOverridingSector)
                 {
@@ -166,18 +177,12 @@ public class OverworldTerrainGenerator : TerrainGenerator
                             ChunkOW.SetVoxelSimple(vX, vY, vZ, INVISIBLE_COLLIDER_VOXEL);
                         }
 
-                        //if (clearPrevious)
+                        /*// Clear previous
+                        if (!isFlatTop)
                         {
-                            if (!isFlatTop)
-                            {
-                                ChunkOW.SetVoxelSimple(vX, vY, vZ, 0);
-                            }
-                            continue;
-                        }
-                        /*else
-                        {
-                            break;
+                            ChunkOW.SetVoxelSimple(vX, vY, vZ, 0);
                         }*/
+                        continue;
                     }
 
                     ChunkOW.SetVoxelSimple(vX, vY, vZ, data);

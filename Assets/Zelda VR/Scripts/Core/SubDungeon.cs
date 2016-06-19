@@ -31,9 +31,11 @@ public class SubDungeon : MonoBehaviour
         }
     }
 
+
     public void OnPlayerEnteredPortal(SubDungeonPortal portal)
     {
-        ZeldaPlayerController pc = CommonObjects.PlayerController_C;
+        Player player = CommonObjects.Player_C;
+        ZeldaPlayerController pc = player.PlayerController;
         Transform t = pc.transform;
 
         SubDungeon destinationSubDungeon = SpawnPoint.warpTo.SpawnSubDungeon();
@@ -45,14 +47,14 @@ public class SubDungeon : MonoBehaviour
         offset = Quaternion.Euler(eulerDiff) * offset;
         t.position = warpToLocation.position + offset;
 
-        OVRCameraRig camRig = pc.GetComponentInChildren<OVRCameraRig>();
-        Transform camera = camRig.transform;
-        camera.eulerAngles += eulerDiff;
-
-        CommonObjects.Player_C.ForceNewRotation(camera.eulerAngles);
-
+        //OVRCameraRig camRig = pc.GetComponentInChildren<OVRCameraRig>();
+        //Transform camera = camRig.transform;
+        //camera.eulerAngles += eulerDiff;
+        Vector3 newEuler = pc.transform.eulerAngles + eulerDiff;
+        player.ForceNewRotation(newEuler);
 
         pc.Stop();
+
 
         ParentDungeonRoom.onPlayerExitedRoom();
         destinationSubDungeon.ParentDungeonRoom.OnPlayerEnteredRoom();

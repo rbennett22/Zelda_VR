@@ -2,8 +2,10 @@
 
 public class RaftBlock : MonoBehaviour
 {
-    const float RaftSpeed = 2.0f;
-    const float HoverHeight = 0.05f;
+    const iTween.EaseType EASE_TYPE = iTween.EaseType.linear;
+    const float SPEED = 2.0f;
+    const float HOVER_HEIGHT = 0.05f;
+
 
     public static bool PlayerIsOnRaft;
 
@@ -13,23 +15,18 @@ public class RaftBlock : MonoBehaviour
 
 
     GameObject _raftOverlay;
-    Transform _playerTransform;
 
 
     void Awake()
     {
-        _playerTransform = CommonObjects.PlayerController_G.transform;
         GetComponent<Renderer>().enabled = false;
     }
 
 
     void OnTriggerEnter(Collider otherCollider)
     {
+        if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
         if (PlayerIsOnRaft) { return; }
-
-        GameObject other = otherCollider.gameObject;
-        if (!CommonObjects.IsPlayer(other)) { return; }
-        //print("RaftBlock --> OnTriggerEnter: " + other.name);
 
         if (Inventory.Instance.HasItem("Raft"))
         {
@@ -39,41 +36,39 @@ public class RaftBlock : MonoBehaviour
 
     void TravelToDestination()
     {
-        EnableHazardBlocks(false);
+        SetHazardBlocksEnabled(false);
 
         Vector3 startPos = transform.position;
         Vector3 endPos = destination.transform.position;
-        endPos.y = HoverHeight;
+        endPos.y = HOVER_HEIGHT;
 
-        Vector3 vec = startPos - endPos;
-        bool layVertically = Mathf.Abs(vec.x / vec.z) < 1;
-        LayDownRaft(layVertically);
+        Vector3 toDest = endPos - startPos;
+        bool layHorizontally = Mathf.Abs(toDest.z / toDest.x) < 1;
+        LayDownRaft(layHorizontally);
 
         iTween.MoveTo(_raftOverlay, iTween.Hash(
-            "position", endPos, "speed", RaftSpeed, "easetype", iTween.EaseType.linear,
-            "oncomplete", "OnReachedDestination", "oncompletetarget", gameObject)
+            "position", endPos, 
+            "speed", SPEED, 
+            "easetype", EASE_TYPE,
+
+            "oncomplete", "OnReachedDestination", 
+            "oncompletetarget", gameObject)
             );
 
-        _playerTransform.SetX(startPos.x);
-        _playerTransform.SetZ(startPos.z);
+        Player player = CommonObjects.Player_C;
+        player.PositionXZ = new Vector2(startPos.x, startPos.z);
+        endPos.y = player.Position.y;
 
-        endPos.y = _playerTransform.position.y;
-        iTween.MoveTo(_playerTransform.gameObject, iTween.Hash(
-            "position", endPos, "speed", RaftSpeed, "easetype", iTween.EaseType.linear)
+        iTween.MoveTo(player.PlayerController.gameObject, iTween.Hash(
+            "position", endPos, 
+            "speed", SPEED, 
+            "easetype", EASE_TYPE)
             );
 
         PlayerIsOnRaft = true;
     }
 
-    void OnReachedDestination()
-    {
-        Destroy(_raftOverlay);
-        EnableHazardBlocks();
-
-        PlayerIsOnRaft = false;
-    }
-
-    void EnableHazardBlocks(bool enable = true)
+    void SetHazardBlocksEnabled(bool enable)
     {
         Vector3 startPos = transform.position;
         Vector3 endPos = destination.transform.position;
@@ -83,23 +78,33 @@ public class RaftBlock : MonoBehaviour
         foreach (var hit in hits)
         {
             HazardBlock hb = hit.collider.GetComponent<HazardBlock>();
-            if (hb == null) { continue; }
-
-            if (enable)
-            { hb.EnablePhysicsCollider(); }
-            else
-            { hb.DisablePhysicsCollider(); }
+            if (hb != null)
+            {
+                hb.PhysicsColliderEnabled = enable;
+            }
         }
     }
 
-    void LayDownRaft(bool vertical)
+    void OnReachedDestination()
     {
-        _raftOverlay = Instantiate(raftOverlayPrefab) as GameObject;
-        _raftOverlay.transform.parent = transform;
-        _raftOverlay.transform.localPosition = Vector3.zero;
-        _raftOverlay.transform.SetY(HoverHeight);
+        Destroy(_raftOverlay);
+        SetHazardBlocksEnabled(true);
 
-        float rotY = vertical ? 0 : 90;
-        _raftOverlay.transform.Rotate(new Vector3(0, rotY, 0));
+        PlayerIsOnRaft = false;
+    }
+
+    void LayDownRaft(bool horizontal)
+    {
+        GameObject g = Instantiate(raftOverlayPrefab) as GameObject;
+
+        Transform t = g.transform;
+        t.SetParent(transform);
+        t.localPosition = Vector3.zero;
+        t.SetY(HOVER_HEIGHT);
+
+        float rotY = horizontal ? 90 : 0;
+        t.Rotate(new Vector3(0, rotY, 0));
+
+        _raftOverlay = g;
     }
 }

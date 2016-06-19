@@ -11,7 +11,8 @@ public class Player : Actor
     ZeldaPlayerController _playerController;
     public ZeldaPlayerController PlayerController { get { return _playerController; } }
 
-    override public Vector3 Position {
+    override public Vector3 Position
+    {
         get { return _playerController.transform.position; }
         set { _playerController.transform.position = value; }
     }

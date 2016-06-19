@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI_Wizzrobe : EnemyAI
+public class EnemyAI_Wizzrobe_Red : EnemyAI
 {
     const float OffscreenOffset = -30;      // How far to offset the Wizzrobe's y position when it is "invisible"
 
 
     public FlickerEffect flickerEffect;
     public int tpDistanceToPlayer = 3;      // How close to the player the Wizzrobe will teleport
-    public bool walks;                      // Does the Wizzrobe walk around at all or just teleport
-    public EnemyAI_Random enemyAI_Random;
 
 
     float _fadeDuration = 0.7f;
     float _attackDuration = 1.5f;
-    float _walkDuration = 3.0f;
     float _teleportDuration = 3.0f;
     float _teleportDurationRandomOffset = 0.5f;
 
@@ -30,13 +27,6 @@ public class EnemyAI_Wizzrobe : EnemyAI
     }*/
     //State _state = State.InvisibleIdle;
 
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        if (enemyAI_Random != null) { enemyAI_Random.enabled = false; }
-    }
 
     void Start()
     {
@@ -89,26 +79,6 @@ public class EnemyAI_Wizzrobe : EnemyAI
 
         yield return new WaitForSeconds(_attackDuration);
 
-        if (walks)
-        {
-            StartCoroutine("WalkAround");
-        }
-        else
-        {
-            StartCoroutine("FadeAway");
-        }
-    }
-
-    IEnumerator WalkAround()
-    {
-        //_state = State.Walking;
-
-        enemyAI_Random.enabled = true;
-        enemyAI_Random.TargetPosition = transform.position;
-
-        yield return new WaitForSeconds(_walkDuration);
-
-        enemyAI_Random.enabled = false;
         StartCoroutine("FadeAway");
     }
 

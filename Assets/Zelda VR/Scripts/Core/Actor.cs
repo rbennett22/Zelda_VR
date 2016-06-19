@@ -9,6 +9,11 @@ public class Actor : MonoBehaviour
         get { return transform.position; }
         set { transform.position = value; }
     }
+    virtual public Vector2 PositionXZ
+    {
+        get { return new Vector2(Position.x, Position.z); }
+        set { Position = new Vector3(value.x, Position.y, value.y); }
+    }
 
     public Index2 Tile
     {

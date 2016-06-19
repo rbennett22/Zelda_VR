@@ -31,7 +31,7 @@ public class SoundFx : Singleton<SoundFx>
 
 
     AudioSource _lowHealthAudioSource;
-    public void PlayLowHealth(bool doPlay = true)
+    public void SetLowHealthSoundIsPlaying(bool doPlay = true)
     {
         if (doPlay)
         {

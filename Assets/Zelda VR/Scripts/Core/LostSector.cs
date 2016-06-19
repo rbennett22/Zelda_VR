@@ -2,49 +2,44 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.ImageEffects;
 
-public class LostWoods : MonoBehaviour
+using Object = System.Object;
+
+public class LostSector : MonoBehaviour
 {
     const int OVERRIDE_SECTOR_DISTANCE = 3;
-    const float SUNLIGHT_INTENSITY_MIN = 0.1f;
 
-
-    public float fogDensity_Max;
-    public float innerRadius, outerRadius;
 
     [SerializeField]
-    LostWoodsPortal _leftPortal, _rightPortal, _downPortal, _upPortal;
-    Dictionary<IndexDirection2, LostWoodsPortal> _directionToPortal;
-    LostWoodsPortal DirectionToPortal(IndexDirection2 dir) { return _directionToPortal[dir]; }
-    IndexDirection2 PortalToDirection(LostWoodsPortal portal) { return _directionToPortal.FirstOrDefault(p => p.Value == portal).Key; }
+    IndexDirection2.DirectionEnum[] _solution;    // Player must move through this sector in these directions (in order) to pass through. 
 
     [SerializeField]
-    LostWoodsPortal _entrance, _escapeExit;
+    LostSectorPortal _leftPortal, _rightPortal, _downPortal, _upPortal;
+    Dictionary<IndexDirection2, LostSectorPortal> _directionToPortal;
+    LostSectorPortal DirectionToPortal(IndexDirection2 dir) { return _directionToPortal[dir]; }
+    IndexDirection2 PortalToDirection(LostSectorPortal portal) { return _directionToPortal.FirstOrDefault(p => p.Value == portal).Key; }
+
+    [SerializeField]
+    LostSectorPortal _entrance, _escapeExit;
     [SerializeField]
     IndexDirection2.DirectionEnum _escapeExitDirection;
     public IndexDirection2 EscapeExitDirection { get { return IndexDirection2.FromDirectionEnum(_escapeExitDirection); } }
-    public IndexDirection2 SolutionExitDirection { get { return PortalToDirection(_solutionSequence[_solutionSequence.Length - 1]);  } }
+    public IndexDirection2 SolutionExitDirection { get { return PortalToDirection(_passwordLock.GetPasswordEntryAt(_passwordLock.PasswordLength - 1) as LostSectorPortal);  } }
 
 
     int _sectorWidth, _sectorHeight;
     Transform _playerTransform;
     Transform _enemiesContainer;
 
-    GlobalFog _fog;
-    float _fogDensity_Normal;
-    float _sunlightIntensityNormal;
-    Light _sunlight;
-
     List<Transform> _warpedObjects;
-    LostWoodsPortal[] _solutionSequence;
-    int _solutionSeqIndex;
-    bool _hasEnteredLostWoods;
+
+    PasswordLock _passwordLock;     // Helps with logic that determines if player is moving through lost sector in the correct "secret" order
+    bool _hasEnteredLostSector;
 
 
-    Vector3 PlayerPos { get { return _playerTransform.position; } }
-    Vector3 Position { get { return _entrance.transform.position; } }
-    Index2 Sector {
+    public Vector3 PlayerPos { get { return _playerTransform.position; } }
+    public Vector3 Position { get { return _entrance.transform.position; } }
+    public Index2 Sector {
         get {
             Index2 sector;
             CommonObjects.OverworldTileMap.TileIndex_WorldToSector((int)Position.x, (int)Position.z, out sector);
@@ -71,13 +66,15 @@ public class LostWoods : MonoBehaviour
 
     void Awake()
     {
-        _directionToPortal = new Dictionary<IndexDirection2, LostWoodsPortal>
+        _directionToPortal = new Dictionary<IndexDirection2, LostSectorPortal>
         {
             { IndexDirection2.left, _leftPortal },
             { IndexDirection2.right, _rightPortal },
             { IndexDirection2.down, _downPortal },
             { IndexDirection2.up, _upPortal }
         };
+
+        InitPasswordLock();
     }
 
     void Start()
@@ -89,44 +86,23 @@ public class LostWoods : MonoBehaviour
         _playerTransform = CommonObjects.PlayerController_G.transform;
         _enemiesContainer = GameObject.FindGameObjectWithTag("Enemies").transform;
 
-        InitAtmosphere();
-
-        // Player must move through woods in these directions (in order) to pass through.
-        _solutionSequence = new LostWoodsPortal[] { _upPortal, _leftPortal, _downPortal, _leftPortal };     // (+z, -x, -z, -x)
-
         CommonObjects.Player_C.OccupiedSectorChanged += PlayerEnteredNewSector;
     }
 
-    void InitAtmosphere()
+    void InitPasswordLock()
     {
-        _fog = FindObjectOfType<GlobalFog>();
-        _fogDensity_Normal = _fog.heightDensity;
-
-        _sunlight = GameObject.FindGameObjectWithTag("Sunlight").GetComponent<Light>();
-        _sunlightIntensityNormal = _sunlight.intensity;
-    }
-
-
-    void Update()
-    {
-        Vector3 toPlayer = PlayerPos - Position;
-        toPlayer.y = 0;
-        float distToPlayer = toPlayer.magnitude;
-        if (distToPlayer < outerRadius + 1)
+        List<LostSectorPortal> solutionPortals = new List<LostSectorPortal>();
+        foreach (IndexDirection2.DirectionEnum d in _solution)
         {
-            float d = Mathf.Clamp(distToPlayer, innerRadius, outerRadius);
-            float t = Mathf.InverseLerp(innerRadius, outerRadius, d);
-            UpdateFog(t);
-            UpdateSunlight(t);
+            IndexDirection2 dir = IndexDirection2.FromDirectionEnum(d);
+            LostSectorPortal portal = DirectionToPortal(dir);
+            solutionPortals.Add(portal);
         }
-    }
-    void UpdateFog(float t)
-    {
-        _fog.heightDensity = Mathf.Lerp(_fogDensity_Normal, fogDensity_Max, 1 - t);
-    }
-    void UpdateSunlight(float t)
-    {
-        _sunlight.intensity = Mathf.Lerp(SUNLIGHT_INTENSITY_MIN, _sunlightIntensityNormal, t);
+        _passwordLock = new PasswordLock(solutionPortals.ToArray());
+
+        _passwordLock.CorrectEntryCallback += OnCorrectEntryAddedToSequence;
+        _passwordLock.IncorrectEntryCallback += OnIncorrectEntryAddedToSequence;
+        _passwordLock.CorrectPasswordEnteredCallback += OnSequenceCompleted;
     }
 
 
@@ -141,7 +117,7 @@ public class LostWoods : MonoBehaviour
         {
             return;
         }
-        if (_hasEnteredLostWoods)
+        if (_hasEnteredLostSector)
         {
             return;
         }
@@ -160,7 +136,7 @@ public class LostWoods : MonoBehaviour
         IndexDirection2 sectorDir = DirectionForNeighborSector(sector);
         IndexDirection2[] dirs = IndexDirection2.AllValidNonZeroDirections.Where(d => d != sectorDir).ToArray();
 
-        OverrideSectorsWithLostWoods(dirs, true, OVERRIDE_SECTOR_DISTANCE);
+        OverrideSectorsWithThisSector(dirs, true);
     }
     void PlayerExitedNeighborSector(Index2 newSector)
     {
@@ -169,26 +145,26 @@ public class LostWoods : MonoBehaviour
             return;
         }
 
-        OverrideSectorsWithLostWoods(IndexDirection2.AllValidNonZeroDirections, false);
+        OverrideSectorsWithThisSector(IndexDirection2.AllValidNonZeroDirections, false);
     }
 
-    void OverrideSectorsWithLostWoods(IndexDirection2[] dirs, bool doOverride, int distance = 1)
+    void OverrideSectorsWithThisSector(IndexDirection2[] dirs, bool doOverride)
     {
         foreach (IndexDirection2 d in dirs)
         {
-            OverrideSectorsWithLostWoods(d, doOverride, distance);
+            OverrideSectorsWithThisSector(d, doOverride);
         }
     }
-    void OverrideSectorsWithLostWoods(IndexDirection2 dir, bool doOverride, int distance = 1)
+    void OverrideSectorsWithThisSector(IndexDirection2 dir, bool doOverride)
     {
         if (dir == EscapeExitDirection) { return; }
 
         Index2 s = Sector;
-        for (int i = 0; i < distance; i++)
+        for (int i = 0; i < OVERRIDE_SECTOR_DISTANCE; i++)
         {
             s = s + dir;
 
-            OverrideSectorWithLostWoodsVoxels(s, doOverride);
+            OverrideSectorWithThisSectorsVoxels(s, doOverride);
 
             if (doOverride)
             {
@@ -200,17 +176,17 @@ public class LostWoods : MonoBehaviour
             }
         }
     }  
-    void OverrideSectorWithLostWoodsVoxels(Index2 sector, bool doOverride)
+    void OverrideSectorWithThisSectorsVoxels(Index2 sector, bool doOverride)
     {
         OverworldTerrainEngine eng = OverworldTerrainEngine.Instance;
 
         OverworldChunk ch = eng.GetChunkForSector(sector) as OverworldChunk;
-        OverrideChunkWithLostWoodsVoxels(ch, doOverride);
+        OverrideChunkWithThisSectorsVoxels(ch, doOverride);
 
         OverworldChunk ch_down = ch.neighborChunks[1] as OverworldChunk;        // TODO: Better methods for getting neighbors
-        OverrideChunkWithLostWoodsVoxels(ch_down, doOverride);
+        OverrideChunkWithThisSectorsVoxels(ch_down, doOverride);
     }
-    void OverrideChunkWithLostWoodsVoxels(OverworldChunk ch, bool doOverride)
+    void OverrideChunkWithThisSectorsVoxels(OverworldChunk ch, bool doOverride)
     {
         if (ch == null)
         {
@@ -250,31 +226,31 @@ public class LostWoods : MonoBehaviour
     }
 
 
-    public void PlayerEnteredPortal(LostWoodsPortal portal)
+    public void PlayerEnteredPortal(LostSectorPortal portal)
     {
         if (portal == _entrance)
         {
-            if (!_hasEnteredLostWoods)
+            if (!_hasEnteredLostSector)
             {
-                OnEnteredLostWoods();
+                OnEnteredLostSector();
             }
             return;
         }
 
-        if (!_hasEnteredLostWoods || SolutionSequenceHasBeCompleted)
+        if (!_hasEnteredLostSector || HasSolutionSequenceBeenCompleted)
         {
             return;
         }
 
         AddEntryToSequence(portal);
-        if (SolutionSequenceHasBeCompleted)
+        if (HasSolutionSequenceBeenCompleted)
         {
             return;
         }
 
         if (portal == _escapeExit)
         {
-            OnExitedLostWoods();
+            OnExitedLostSector();
         }
         else if (portal == _rightPortal)
         {
@@ -294,84 +270,64 @@ public class LostWoods : MonoBehaviour
         }
     }
 
-    void OnEnteredLostWoods()
+    void OnEnteredLostSector()
     {
-        _hasEnteredLostWoods = true;
+        _hasEnteredLostSector = true;
         _warpedObjects = new List<Transform>() { _playerTransform };
 
         ResetSequence();
-        OverrideSectorsWithLostWoods(IndexDirection2.AllValidNonZeroDirections, true, OVERRIDE_SECTOR_DISTANCE);
+        OverrideSectorsWithThisSector(IndexDirection2.AllValidNonZeroDirections, true);
     }
-    void OnExitedLostWoods()
+    void OnExitedLostSector()
     {
-        OverrideSectorsWithLostWoods(IndexDirection2.AllValidNonZeroDirections, false);
+        OverrideSectorsWithThisSector(IndexDirection2.AllValidNonZeroDirections, false);
 
-        _hasEnteredLostWoods = false;
+        _hasEnteredLostSector = false;
         _warpedObjects = null;
     }
 
 
     #region Sequence Solving
 
-    bool SolutionSequenceHasBeCompleted { get { return _solutionSeqIndex >= _solutionSequence.Length; } }
-    LostWoodsPortal NextRequiredEntryInSequence {
-        get {
-            if(_solutionSeqIndex >= _solutionSequence.Length)
-            {
-                return null;
-            }
-            return _solutionSequence[_solutionSeqIndex];
-        }
-    }
-
-    void AddEntryToSequence(LostWoodsPortal entry)
+    void AddEntryToSequence(LostSectorPortal entry) { _passwordLock.InputNextEntry(entry); }
+    bool HasSolutionSequenceBeenCompleted { get { return _passwordLock.HasCorrectPasswordBeenEntered(); } }
+    
+    void OnCorrectEntryAddedToSequence(PasswordLock sender, Object entry)
     {
-        if (entry == null)
+        if (sender != _passwordLock)
         {
             return;
         }
 
-        if (entry == NextRequiredEntryInSequence)
-        {
-            OnCorrectEntryAddedToSequence();
-        }
-        else
-        { 
-            OnIncorrectEntryAddedToSequence();
-        }
-
-        //print("!!!!   _solutionSeqIndex: " + _solutionSeqIndex);
-    }
-
-    void OnCorrectEntryAddedToSequence()
-    {
-        _solutionSeqIndex++;
-
-        if (_solutionSeqIndex == _solutionSequence.Length - 1)
+        if (_passwordLock.RemainingEntriesNeeded == 1)
         {
             OnSequenceIsOneAwayFromCompleted();
-        }
-        if (_solutionSeqIndex == _solutionSequence.Length)
-        {
-            OnSequenceCompleted();
         }
     }
     void OnSequenceIsOneAwayFromCompleted()
     {
-        OverrideSectorsWithLostWoods(SolutionExitDirection, false);
+        OverrideSectorsWithThisSector(SolutionExitDirection, false);
     }
-    void OnSequenceCompleted()
+    void OnSequenceCompleted(PasswordLock sender)
     {
-        OnExitedLostWoods();
+        if (sender != _passwordLock)
+        {
+            return;
+        }
+
+        PlaySecretSound();
+
+        OnExitedLostSector();
     }
 
-    void OnIncorrectEntryAddedToSequence()
+    void OnIncorrectEntryAddedToSequence(PasswordLock sender, Object entry)
     {
-        ResetSequence();
+        OverrideSectorsWithThisSector(IndexDirection2.AllValidNonZeroDirections, true);
     }
+
     void ResetSequence()
     {
-        _solutionSeqIndex = 0;
+        _passwordLock.ResetEntered();
     }
 
     #endregion Sequence Solving
@@ -410,5 +366,10 @@ public class LostWoods : MonoBehaviour
             if (ob == null) { continue; }
             ob.position += offset;
         }
+    }
+
+    void PlaySecretSound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.secret);
     }
 }

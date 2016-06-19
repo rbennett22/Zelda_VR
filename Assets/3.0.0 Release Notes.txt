@@ -1,11 +1,15 @@
 ---  ZeldaVR v3.0.0 Release Notes  ---
 
 RECENTLY DONE:
- 
-- Grotto: Gap at bottom of stairs is no less visible
- 
-- BUG: Red Wizzrobes often appear outside of their DungeonRoom -FIXED
-- BUG: Dungeon 8 is visible from inside grotto to the south of it. -FIXED
+
+- Lost Hills: Implemented basic logic
+- The "secret" sound now plays upon solving the Lost Woods or Lost Hills
+- Statues: Always fire towards center of room
+- Blue Wizzrobe: Now moves around and does not teleport
+
+- BUG: Grotto: Z-fighting between walls and ocean on outer grottos -FIXED
+- BUG: Raft: There are holes that Link falls through at start/end tiles of raft paths -FIXED
+- BUG: Dungeon 5: Entrance is covered with sand tiles (but you can still enter) -FIXED
 
 
 DONE:
@@ -34,6 +38,7 @@ DONE:
 - Boomerang: returns immediately upon colliding with a collectible
 - Sword: can now collect Collectibles
 - Wooden Shield: Created new sprite to differentitate it from Magic Shield
+- CandleFlame: It's now harder to accidentally hurt yourself with it
 - Power Bracelet: Is now collectible in proper location
 
 - Stunned/Paralyzed Enemies: Can no longer hurt Link with melee damage
@@ -54,20 +59,29 @@ BUG FIXES:
 - Fixed several major memory leaks that would eventually cause crash if left running for long enough.
 
 - BUG: Collectibles in dungeons respawn if you die or exit the dungeon -FIXED
+- BUG: Enemies can often walk through walls in Lost Woods. -FIXED
+
+- BUG: Red Wizzrobes often appear outside of their DungeonRoom -FIXED
 - BUG: Vire can jump through walls -FIXED
 - BUG: Keese in sub dungeons don't move -FIXED
 - BUG: Keese in sub dungeons can move through walls -FIXED
-- BUG: Ladder Doesn't work for certain water tiles -FIXED
-- BUG: NewGameEntryData is copying to wrong location when building -FIXED
 - BUG: Moldorm inactive after killing head -FIXED
 - BUG: Moldorm looks crazy when resuming after pause -FIXED
+- BUG: Leevers change elevation when hit. -FIXED
+
+- BUG: Ladder Doesn't work for certain water tiles -FIXED
+- BUG: Boomerang doesn't spin. -FIXED
+
 - BUG: Grotto: Can't buy Blue Potion under certain conditions -FIXED
 - BUG: Fairies fly to other rooms in dungeons -FIXED
-- BUG: Leevers change elevation when hit. -FIXED
-- BUG: Boomerang doesn't spin. -FIXED
+- BUG: NewGameEntryData is copying to wrong location when building -FIXED
 - BUG: If you Pause during music opening, the loop won't play automatically when the opening finishes. -FIXED
 - BUG: Text often faces wrong way for many of the old men in dungeons, and "Grumble, grumble". -FIXED
-- BUG: Enemies can often walk through walls in Lost Woods. -FIXED
+
+
+KNOWN ISSUES:
+
+- Grotto Warps: Currently unoperational
 
 
 

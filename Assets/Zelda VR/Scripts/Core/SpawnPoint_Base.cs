@@ -2,8 +2,5 @@
 
 public class SpawnPoint_Base : MonoBehaviour 
 {
-	void Start () 
-	{
-	
-	}
+    // TODO
 }

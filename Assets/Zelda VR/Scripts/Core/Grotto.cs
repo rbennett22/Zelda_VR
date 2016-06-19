@@ -33,6 +33,7 @@ public class Grotto : MonoBehaviour
     public Transform salesItemContainerA, salesItemContainerB, salesItemContainerC;
     public ZeldaText priceTextDisplayA, priceTextDisplayB, priceTextDisplayC;
     public GameObject rupeePriceSymbol;
+    public GrottoPortal warpA, warpB, warpC;
 
     
     GrottoSpawnPoint _grottoSpawnPoint;
@@ -67,6 +68,15 @@ public class Grotto : MonoBehaviour
         get { return (rupeeTriggers == null) ? false : rupeeTriggers.gameObject.activeSelf; }
         set { if (rupeeTriggers != null) { rupeeTriggers.gameObject.SetActive(value); } }
     }
+    public bool WarpsActive
+    {
+        get { return warpA.gameObject.activeSelf; }
+        set {
+            warpA.gameObject.SetActive(value);
+            warpB.gameObject.SetActive(value);
+            warpC.gameObject.SetActive(value);
+        }
+    }
 
 
     void Start()
@@ -75,6 +85,7 @@ public class Grotto : MonoBehaviour
 
         ShopContainerActive = false;
         RupeeTriggersActive = false;
+        WarpsActive = false;
 
         entranceWalls.SetActive(_grottoSpawnPoint.showEntranceWalls);
     }
@@ -113,58 +124,36 @@ public class Grotto : MonoBehaviour
         ShowFlames();
 
 
+        bool doShowNPC = true;
+        bool doShowTheGoods = true;
+
         if (Type == GrottoType.UniqueItem)
         {
-            if (!_grottoSpawnPoint.HasSpecialResourceBeenTapped)
-            {
-                ShowNpc();
-                ShowTheGoods();
-            }
-        }
-        else if (Type == GrottoType.Shop)
-        {
-            ShowNpc();
-            ShowTheGoods();
+            doShowTheGoods = !_grottoSpawnPoint.HasSpecialResourceBeenTapped;
         }
         else if (Type == GrottoType.Medicine)
         {
-            ShowNpc();
-
-            if (Inventory.Instance.HasDeliveredLetterToOldWoman)
-            {
-                ShowTheGoods();
-            }
+            doShowTheGoods = Inventory.Instance.HasDeliveredLetterToOldWoman;
         }
         else if (Type == GrottoType.Gift)
         {
-            ShowNpc();
-
-            if (!_grottoSpawnPoint.HasSpecialResourceBeenTapped)
-            {
-                ShowTheGoods();
-            }
+            doShowTheGoods = !_grottoSpawnPoint.HasSpecialResourceBeenTapped;
         }
         else if (Type == GrottoType.PayRupees)
         {
             Inventory.Instance.SpendRupees(-_grottoSpawnPoint.giftAmount);
-
-            ShowNpc();
-            ShowTheGoods();
+        }
+        else if (Type == GrottoType.Warp)
+        {
+            WarpsActive = true;
         }
         else if (Type == GrottoType.HeartContainer)
         {
-            ShowNpc();
+            doShowTheGoods = !_grottoSpawnPoint.HasSpecialResourceBeenTapped;
+        }
 
-            if (!_grottoSpawnPoint.HasSpecialResourceBeenTapped)
-            {
-                ShowTheGoods();
-            }
-        }
-        else
-        {
-            ShowNpc();
-            ShowTheGoods();
-        }
+        if (doShowNPC) { ShowNpc(); }
+        if (doShowTheGoods) { ShowTheGoods(); }
     }
 
     public void OnPlayerExit()
@@ -515,6 +504,57 @@ public class Grotto : MonoBehaviour
         {
             ShowTheGoods(false);
         }
+    }
+
+
+    public void OnPlayerEnteredPortal(GrottoPortal portal)
+    {
+        // TODO
+        return;
+
+
+        Player player = CommonObjects.Player_C;
+        ZeldaPlayerController pc = player.PlayerController;
+
+        GrottoSpawnPoint warpToGrottoSP = null;
+        Transform warpToLocation = null;
+        Grotto destinationGrotto = null;
+
+        if (portal == warpA)
+        {
+            warpToGrottoSP = GrottoSpawnPoint.warpToA;
+            destinationGrotto = warpToGrottoSP.SpawnGrotto();
+            warpToLocation = destinationGrotto.warpA.transform;
+        }
+        else if (portal == warpB)
+        {
+            warpToGrottoSP = GrottoSpawnPoint.warpToB;
+            destinationGrotto = warpToGrottoSP.SpawnGrotto();
+            warpToLocation = destinationGrotto.warpB.transform;
+        }
+        else if(portal == warpC)
+        {
+            warpToGrottoSP = GrottoSpawnPoint.warpToC;
+            destinationGrotto = warpToGrottoSP.SpawnGrotto();
+            warpToLocation = destinationGrotto.warpC.transform;
+        }
+
+
+        Vector3 eulerDiff = warpToLocation.eulerAngles - portal.transform.eulerAngles;
+
+        Transform t = pc.transform;
+        Vector3 offset = t.position - portal.transform.position;
+        offset = Quaternion.Euler(eulerDiff) * offset;
+        t.position = warpToLocation.position + offset;
+
+        Vector3 newEuler = pc.transform.eulerAngles + eulerDiff;
+        player.ForceNewRotation(newEuler);
+
+        pc.Stop();
+
+
+        OnPlayerExit();
+        destinationGrotto.OnPlayerEnter();
     }
 
 

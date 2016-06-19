@@ -19,8 +19,9 @@ public class Weapon_Gun_Dropper : Weapon_Gun
         Ray ray = new Ray(p.transform.position, p.MoveDirection);
         RaycastHit hitInfo;
         bool hit = Physics.Raycast(ray, out hitInfo, dropDistance + halfLength);
-        float actualDropDistance = hit ? (hitInfo.distance - halfLength) : dropDistance;
+
+        float modifiedDropDistance = hit ? (hitInfo.distance - halfLength) : dropDistance;
         
-        p.transform.position += p.MoveDirection * actualDropDistance;
+        p.transform.position += p.MoveDirection * modifiedDropDistance;
     }
 }

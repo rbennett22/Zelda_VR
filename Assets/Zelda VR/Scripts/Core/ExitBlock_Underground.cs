@@ -13,11 +13,7 @@ public class ExitBlock_Underground : MonoBehaviour
 
     void OnTriggerEnter(Collider otherCollider)
     {
-        GameObject other = otherCollider.gameObject;
-        if (!CommonObjects.IsPlayer(other))
-        {
-            return;
-        }
+        if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
 
         SetPlayerGroundCollisionEnabled(false);
 
@@ -29,13 +25,17 @@ public class ExitBlock_Underground : MonoBehaviour
 
     void OnTriggerExit(Collider otherCollider)
     {
-        GameObject other = otherCollider.gameObject;
-        if (!CommonObjects.IsPlayer(other))
-        {
-            return;
-        }
+        if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
 
-        SetPlayerGroundCollisionEnabled(true);
+        if (PlayerAtTopOfStairs())
+        {
+            SetPlayerGroundCollisionEnabled(true);
+        }
+    }
+
+    bool PlayerAtTopOfStairs()
+    {
+        return CommonObjects.Player_C.Position.y > -1f;
     }
 
     void SetPlayerGroundCollisionEnabled(bool enabled)

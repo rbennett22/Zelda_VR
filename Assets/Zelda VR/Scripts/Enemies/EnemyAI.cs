@@ -122,6 +122,11 @@ public class EnemyAI : MonoBehaviour
     }
 
 
+    virtual protected bool IsPlayerInSight(float maxDistance = MAX_DISTANCE_PLAYER_CAN_BE_SEEN)
+    {
+        IndexDirection2 direction;
+        return IsPlayerInSight(maxDistance, out direction);
+    }
     virtual protected bool IsPlayerInSight(float maxDistance, out IndexDirection2 direction)
     {
         foreach (IndexDirection2 dir in IndexDirection2.AllValidNonZeroDirections)

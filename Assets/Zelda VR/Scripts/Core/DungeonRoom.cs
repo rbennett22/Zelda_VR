@@ -94,6 +94,7 @@ public class DungeonRoom : MonoBehaviour
     public DungeonRoom SouthRoom { get; set; }
     public DungeonRoom WestRoom { get; set; }
 
+    public Vector3 Center { get { return transform.position; } }
     public Rect Bounds
     {
         get

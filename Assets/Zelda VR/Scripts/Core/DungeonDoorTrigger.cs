@@ -8,10 +8,7 @@ public class DungeonDoorTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider otherCollider)
     {
-        if (!CommonObjects.IsPlayer(otherCollider.gameObject))
-        {
-            return;
-        }
+        if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
 
         if (dungeonRoom.IsDoorLocked(wallDirection))
         {

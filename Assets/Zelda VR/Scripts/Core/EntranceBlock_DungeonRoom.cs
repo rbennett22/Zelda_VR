@@ -3,53 +3,29 @@
 
 public class EntranceBlock_DungeonRoom : MonoBehaviour
 {
-    const float EntranceThresholdDistance_NorthSouth = 5.5f;
-    const float EntranceThresholdDistance_EastWest = 8.0f;
+    const float THRESHOLD_DIST_NS = 5.5f;       // north or south
+    const float THRESHOLD_DIST_EW = 8.0f;       // east or west
 
 
     public DungeonRoom dungeonRoom;
     public DungeonRoomInfo.WallDirection wallDirection;
 
 
-    float _entranceThresholdDistance;
-
-
-    void Awake()
-    {
-        if (DungeonRoomInfo.IsNorthOrSouth(wallDirection))
-        {
-            _entranceThresholdDistance = EntranceThresholdDistance_NorthSouth;
-        }
-        else
-        {
-            _entranceThresholdDistance = EntranceThresholdDistance_EastWest;
-        }
-    }
+    float ThresholdDist { get { return DungeonRoomInfo.IsNorthOrSouth(wallDirection) ? THRESHOLD_DIST_NS : THRESHOLD_DIST_EW; } }
 
 
     void OnTriggerExit(Collider otherCollider)
     {
-        GameObject other = otherCollider.gameObject;
-        if (!CommonObjects.IsPlayer(other)) { return; }
+        if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
 
-        Vector3 roomPos = dungeonRoom.transform.position;
         Vector3 playerPos = CommonObjects.Player_C.Position;
-        if (Vector3.Distance(playerPos, roomPos) < _entranceThresholdDistance)
+        if (Vector3.Distance(playerPos, dungeonRoom.Center) < ThresholdDist)
         {
-            OnEnteredRoom();
+            dungeonRoom.OnPlayerEnteredRoom(wallDirection);
         }
         else
         {
-            OnExitedRoom();
+            dungeonRoom.onPlayerExitedRoom();
         }
-    }
-
-    void OnEnteredRoom()
-    {
-        dungeonRoom.OnPlayerEnteredRoom(wallDirection);
-    }
-    void OnExitedRoom()
-    {
-        dungeonRoom.onPlayerExitedRoom();
     }
 }
