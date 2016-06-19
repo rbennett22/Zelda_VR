@@ -12,15 +12,15 @@ public class ObjectInstantiator : MonoBehaviour
     public Vector3 scale = Vector3.one;
 
 
-    public GameObject DoInstantiate()
+    public void DoInstantiate()
     {
-        return DoInstantiate(defaultPrefab);
+        DoInstantiate(defaultPrefab);
     }
-    public GameObject DoInstantiate(GameObject original)
+    public void DoInstantiate(GameObject original)
     {
         if (original == null)
         {
-            return null;
+            return;
         }
 
         GameObject g = Instantiate(original) as GameObject;
@@ -35,7 +35,5 @@ public class ObjectInstantiator : MonoBehaviour
         {
             t.SetParent(null, true);
         }
-
-        return g;
     }
 }

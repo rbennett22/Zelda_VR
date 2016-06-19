@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 
 [RequireComponent(typeof(EnemySpawnPoint))]
 
@@ -13,6 +14,6 @@ public class ArmosSpawnPoint : MonoBehaviour
         EnemyAI_Armos r = enemy.GetComponent<EnemyAI_Armos>();
         r.Type = statueType;
         r.HidesCollectibleItem = hidesCollectibleItem;
-        r.linkedTiles = GetComponentsInChildren<GameObject>();  // Any children of this spawnPoint are considered linkedTiles
+        r.linkedTiles = GetComponentsInChildren<Transform>().Select(t => t.gameObject).ToArray();  // Any children of this spawnPoint are considered linkedTiles
     }
 }

@@ -62,12 +62,14 @@ public class EnemyAI_Random : EnemyAI
     void Update()
     {
         if (!_doUpdate) { return; }
-        if (IsPreoccupied) { return; }
 
         if (_wasJumping && !_enemy.IsJumping)
         {
             OnLanded();
         }
+        _wasJumping = _enemy.IsJumping;
+
+        if (IsPreoccupied) { return; }
 
         if (_isIdling)
         {
@@ -83,14 +85,9 @@ public class EnemyAI_Random : EnemyAI
         }
     }
 
-    void LateUpdate()
-    {
-        _wasJumping = _enemy.IsJumping;
-    }
-
-
     void OnLanded()
     {
+        _enemyMove.enabled = true;
         MoveDirection_Tile = IndexDirection2.zero;
     }
 
@@ -117,8 +114,7 @@ public class EnemyAI_Random : EnemyAI
             IndexDirection2 desiredMoveDir = GetDesiredMoveDirection(desiredAction);
             if (desiredAction == DiscreteAction.Jump)
             {
-                MoveDirection_Tile = desiredMoveDir;
-                _enemy.Jump(MoveDirection_Tile.ToVector3());
+                Jump(desiredMoveDir);
             }
             else
             {
@@ -127,6 +123,13 @@ public class EnemyAI_Random : EnemyAI
         }
 
         _justFinishedIdling = false;
+    }
+
+    void Jump(IndexDirection2 dir)
+    {
+        MoveDirection_Tile = dir;
+        _enemyMove.enabled = false;
+        _enemy.Jump(MoveDirection_Tile.ToVector3());
     }
 
     DiscreteAction GetDesiredAction()

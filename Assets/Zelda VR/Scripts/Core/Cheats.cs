@@ -192,9 +192,7 @@ public class Cheats : Singleton<Cheats>
 
     public void ReturnToGroundLevel()
     {
-        float groundY = WorldInfo.Instance.WorldOffset.y;
-        float playerOffset = CommonObjects.PlayerController_C.Height * 0.5f;
-        CommonObjects.PlayerController_C.transform.SetY(groundY + playerOffset + 0.01f);
+        CommonObjects.Player_C.ReturnToGroundLevel();
     }
 
     public void RestorePlayerHealth()

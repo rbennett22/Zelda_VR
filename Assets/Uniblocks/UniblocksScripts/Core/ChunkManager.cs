@@ -18,8 +18,8 @@ namespace Uniblocks
         // chunk lists
         public static Dictionary<string, Chunk> Chunks;
 
-        private static List<Chunk> ChunkUpdateQueue; // stores chunks ordered by update priority. Processed in the ProcessChunkQueue loop
-        private static List<Chunk> ChunksToDestroy; // chunks to be destroyed at the end of SpawnChunks
+        static List<Chunk> ChunkUpdateQueue; // stores chunks ordered by update priority. Processed in the ProcessChunkQueue loop
+        static List<Chunk> ChunksToDestroy; // chunks to be destroyed at the end of SpawnChunks
 
         public static int SavesThisFrame;
 
@@ -30,33 +30,41 @@ namespace Uniblocks
         public static bool StopSpawning; // when true, the current SpawnChunks sequence is aborted (and this is set back to false afterwards)
         public static bool Initialized;
 
+
         // local flags
-        private bool Done;
+        bool _isDone;
 
         protected Index LastRequest;        // ~RJB: made protected instead of private
-        private float targetFrameDuration;
-        private Stopwatch frameStopwatch;
-        private int SpawnQueue;
+        float targetFrameDuration;
+        Stopwatch frameStopwatch;
+
+        public bool SpawnQueueIsEmpty { get; private set; }     // ~RJB: made a property instead of public var
+
+        
+        void Awake()
+        {
+            SpawnQueueIsEmpty = true;
+        }
 
         void Start()
         {
             targetFrameDuration = 1f / Engine.TargetFPS;
 
-            ChunkManager.Chunks = new Dictionary<string, Chunk>();
-            ChunkManager.ChunkUpdateQueue = new List<Chunk>();
+            Chunks = new Dictionary<string, Chunk>();
+            ChunkUpdateQueue = new List<Chunk>();
             frameStopwatch = new Stopwatch();
 
             Engine.ChunkScale = ChunkObject.transform.localScale;
             ChunkObject.GetComponent<Chunk>().meshContainer.transform.localScale = ChunkObject.transform.localScale; // set correct scale of trigger collider and additional mesh collider
             ChunkObject.GetComponent<Chunk>().chunkCollider.transform.localScale = ChunkObject.transform.localScale;
 
-            Done = true;
-            ChunkManager.SpawningChunks = false;
+            _isDone = true;
+            SpawningChunks = false;
 
-            ChunkManager.Initialized = true;
+            Initialized = true;
         }
 
-        private void ResetFrameStopwatch()
+        void ResetFrameStopwatch()
         {
             frameStopwatch.Stop();
             frameStopwatch.Reset();
@@ -71,7 +79,7 @@ namespace Uniblocks
             }
         }
 
-        private void ProcessChunkQueue()
+        void ProcessChunkQueue()
         { // called from the SpawnChunks loop to update chunk meshes
             // update the first chunk and remove it from the queue
             Chunk currentChunk = ChunkUpdateQueue[0];
@@ -84,8 +92,8 @@ namespace Uniblocks
             ChunkUpdateQueue.RemoveAt(0);
         }
 
-        private bool ProcessChunkQueueLoopActive;
-        private IEnumerator ProcessChunkQueueLoop()
+        bool ProcessChunkQueueLoopActive;
+        IEnumerator ProcessChunkQueueLoop()
         { // called from Update when SpawnChunks is not running
             ProcessChunkQueueLoopActive = true;
             while (ChunkUpdateQueue.Count > 0 && !SpawningChunks && !StopSpawning)
@@ -101,12 +109,12 @@ namespace Uniblocks
 
         public static void RegisterChunk(Chunk chunk)
         { // adds a reference to the chunk to the global chunk list
-            ChunkManager.Chunks.Add(chunk.chunkIndex.ToString(), chunk);
+            Chunks.Add(chunk.chunkIndex.ToString(), chunk);
         }
 
         public static void UnregisterChunk(Chunk chunk)
         {
-            ChunkManager.Chunks.Remove(chunk.chunkIndex.ToString());
+            Chunks.Remove(chunk.chunkIndex.ToString());
         }
 
         public static GameObject GetChunk(int x, int y, int z)
@@ -116,7 +124,7 @@ namespace Uniblocks
 
         public static GameObject GetChunk(Index index)
         {
-            Chunk chunk = ChunkManager.GetChunkComponent(index);
+            Chunk chunk = GetChunkComponent(index);
             if (chunk == null)
             {
                 return null;
@@ -134,11 +142,12 @@ namespace Uniblocks
         public static Chunk GetChunkComponent(Index index)
         {
             string indexString = index.ToString();
-            if (ChunkManager.Chunks.ContainsKey(indexString))
+            if (Chunks.ContainsKey(indexString))
             {
-                return ChunkManager.Chunks[indexString];
+                return Chunks[indexString];
             }
-            else {
+            else
+            {
                 return null;
             }
         }
@@ -147,8 +156,9 @@ namespace Uniblocks
         // ==== spawn chunks functions ====
 
         public static GameObject SpawnChunk(int x, int y, int z)
-        { // spawns a single chunk (only if it's not already spawned)
-            GameObject chunk = ChunkManager.GetChunk(x, y, z);
+        { 
+            // spawns a single chunk (only if it's not already spawned)
+            GameObject chunk = GetChunk(x, y, z);
             if (chunk == null)
             {
                 return Engine.ChunkManagerInstance.DoSpawnChunk(new Index(x, y, z));
@@ -157,8 +167,9 @@ namespace Uniblocks
         }
 
         public static GameObject SpawnChunk(Index index)
-        { // spawns a single chunk (only if it's not already spawned)
-            GameObject chunk = ChunkManager.GetChunk(index);
+        { 
+            // spawns a single chunk (only if it's not already spawned)
+            GameObject chunk = GetChunk(index);
             if (chunk == null)
             {
                 return Engine.ChunkManagerInstance.DoSpawnChunk(index);
@@ -167,8 +178,9 @@ namespace Uniblocks
         }
 
         public static GameObject SpawnChunkFromServer(Index index)
-        { // spawns a chunk and disables mesh generation and enables timeout (used by the server in multiplayer)
-            GameObject chunk = ChunkManager.GetChunk(index);
+        {
+            // spawns a chunk and disables mesh generation and enables timeout (used by the server in multiplayer)
+            GameObject chunk = GetChunk(index);
             if (chunk == null)
             {
                 chunk = Engine.ChunkManagerInstance.DoSpawnChunk(index);
@@ -215,19 +227,23 @@ namespace Uniblocks
             Engine.ChunkManagerInstance.TrySpawnChunks(index.x, index.y, index.z);
         }
 
-        private void TrySpawnChunks(Index index)
+
+        void TrySpawnChunks(Index index)
         {
             TrySpawnChunks(index.x, index.y, index.z);
         }
-        private void TrySpawnChunks(int x, int y, int z)
+        void TrySpawnChunks(int x, int y, int z)
         {
-            if (Done == true)
-            { // if we're not spawning chunks at the moment, just spawn them normally
+            if (_isDone)
+            { 
+                // if we're not spawning chunks at the moment, just spawn them normally
                 StartSpawnChunks(x, y, z);
             }
-            else { // if we are spawning chunks already, flag to spawn again once the previous round is finished using the last requested position as origin.
+            else
+            { 
+                // if we are spawning chunks already, flag to spawn again once the previous round is finished using the last requested position as origin.
                 LastRequest = new Index(x, y, z);
-                SpawnQueue = 1;
+                SpawnQueueIsEmpty = false;
                 StopSpawning = true;
                 ChunkUpdateQueue.Clear();
             }
@@ -244,10 +260,14 @@ namespace Uniblocks
 
         public void Update()
         {
-            if (SpawnQueue == 1 && Done == true)
-            { // if there is a chunk spawn queued up, and if the previous one has finished, run the queued chunk spawn.
-                SpawnQueue = 0;
-                StartSpawnChunks(LastRequest.x, LastRequest.y, LastRequest.z);
+            if (_isDone && !SpawnQueueIsEmpty)
+            {
+                // if there is a chunk spawn queued up, and if the previous one has finished, run the queued chunk spawn.
+                SpawnQueueIsEmpty = true;
+                if (LastRequest != null)
+                {
+                    StartSpawnChunks(LastRequest.x, LastRequest.y, LastRequest.z);
+                }
             }
 
             // if not currently spawning chunks, process any queued chunks here instead
@@ -256,15 +276,14 @@ namespace Uniblocks
                 StartCoroutine(ProcessChunkQueueLoop());
             }
 
-
             ResetFrameStopwatch();
         }
 
 
-        private void StartSpawnChunks(int originX, int originY, int originZ)
+        void StartSpawnChunks(int originX, int originY, int originZ)
         {
-            ChunkManager.SpawningChunks = true;
-            Done = false;
+            SpawningChunks = true;
+            _isDone = false;
 
             int range = Engine.ChunkSpawnDistance;
 
@@ -272,7 +291,7 @@ namespace Uniblocks
         }
 
 
-        private IEnumerator SpawnMissingChunks(int originX, int originY, int originZ, int range)
+        IEnumerator SpawnMissingChunks(int originX, int originY, int originZ, int range)
         {
             int heightRange = Engine.HeightRange;
 
@@ -316,7 +335,7 @@ namespace Uniblocks
                                         }
                                     }
 
-                                    Chunk currentChunk = ChunkManager.GetChunkComponent(x, y, z);
+                                    Chunk currentChunk = GetChunkComponent(x, y, z);
 
 
                                     // chunks that already exist but haven't had their mesh built yet should be added to the update queue
@@ -415,11 +434,11 @@ namespace Uniblocks
         }
 
 
-        private void EndSequence()
+        void EndSequence()
         {
-            ChunkManager.SpawningChunks = false;
+            SpawningChunks = false;
             Resources.UnloadUnusedAssets();
-            Done = true;
+            _isDone = true;
             StopSpawning = false;
 
             foreach (Chunk chunk in ChunksToDestroy)

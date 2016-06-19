@@ -388,7 +388,7 @@ namespace Uniblocks
             }
         }
 
-        public void GetNeighbors()
+        public void AssignNeighbors()
         { 
             // assign the neighbor chunk gameobjects to the NeighborChunks array
             int x = chunkIndex.x;
@@ -401,6 +401,15 @@ namespace Uniblocks
             if (neighborChunks[3] == null) neighborChunks[3] = ChunkManager.GetChunkComponent(x - 1, y, z);
             if (neighborChunks[4] == null) neighborChunks[4] = ChunkManager.GetChunkComponent(x, y, z + 1);
             if (neighborChunks[5] == null) neighborChunks[5] = ChunkManager.GetChunkComponent(x, y, z - 1);
+        }
+
+        public Chunk GetChunkDirectlyBelowThisChunk()       // TODO
+        {
+            if (neighborChunks == null || neighborChunks.Length == 0)
+            {
+                return null;
+            }
+            return neighborChunks[1];
         }
 
         public Index GetAdjacentIndex(Index index, Direction direction)

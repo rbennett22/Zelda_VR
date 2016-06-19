@@ -15,11 +15,17 @@ public class Enemy : Actor
     public EnemyAnimation enemyAnim;
     public void PauseAnimation()
     {
-        enemyAnim.Pause();
+        if (enemyAnim != null)
+        {
+            enemyAnim.Pause();
+        }
     }
     public void ResumeAnimation()
     {
-        enemyAnim.Resume();
+        if (enemyAnim != null)
+        {
+            enemyAnim.Resume();
+        }
     }
 
 
@@ -51,8 +57,7 @@ public class Enemy : Actor
     public void Jump(Vector3 direction)
     {
         direction.Normalize();
-        direction += new Vector3(0, jumpUpFactor, 0);
-        Vector3 force = direction * jumpPower;
+        Vector3 force = (direction + jumpUpFactor * Vector3.up) * jumpPower;
         GetComponent<Rigidbody>().AddForce(force);
 
         IsJumping = true;
@@ -163,9 +168,9 @@ public class Enemy : Actor
     {
         do
         {
-            _prevY = transform.position.y;
+            _prevY = Position.y;
             yield return new WaitForSeconds(0.02f);
-        } while (transform.position.y != _prevY);
+        } while (Position.y != _prevY);
 
         OnLanded();
     }

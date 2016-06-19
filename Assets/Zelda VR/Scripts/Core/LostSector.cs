@@ -183,7 +183,7 @@ public class LostSector : MonoBehaviour
         OverworldChunk ch = eng.GetChunkForSector(sector) as OverworldChunk;
         OverrideChunkWithThisSectorsVoxels(ch, doOverride);
 
-        OverworldChunk ch_down = ch.neighborChunks[1] as OverworldChunk;        // TODO: Better methods for getting neighbors
+        OverworldChunk ch_down = ch.GetChunkDirectlyBelowThisChunk() as OverworldChunk;        // TODO: Better methods for getting neighbors
         OverrideChunkWithThisSectorsVoxels(ch_down, doOverride);
     }
     void OverrideChunkWithThisSectorsVoxels(OverworldChunk ch, bool doOverride)

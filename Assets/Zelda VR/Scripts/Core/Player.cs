@@ -353,6 +353,8 @@ public class Player : Actor
 
 
         ProcessUserInput();
+
+        EnsureNoWorldFallThrough();
     }
 
     Index2 _prevOccupiedSector;
@@ -535,5 +537,25 @@ public class Player : Actor
         }
 
         return enemies;
+    }
+
+
+    void EnsureNoWorldFallThrough()
+    {
+        const float THRESHOLD_Y = -8f;
+
+        if (_playerController.IsGrounded) { return; }
+        if (Position.y > THRESHOLD_Y) { return; }
+
+        ReturnToGroundLevel();
+    }
+
+    public void ReturnToGroundLevel()
+    {
+        _playerController.Stop();
+
+        float groundY = WorldInfo.Instance.WorldOffset.y;
+        float playerOffset = _playerController.Height * 0.5f;
+        _playerController.transform.SetY(groundY + playerOffset + 0.5f);
     }
 }

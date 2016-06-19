@@ -2,6 +2,16 @@
 
 RECENTLY DONE:
 
+- Dungeon enemies can no longer push Link onto impassable tiles (ie water)
+- EnsureNoWorldFallThrough: In case player accidently falls through world (due to a bug) they will be automatically returned to ground level and should be able to recover without needing to restart.
+- When warping player to a new OverWorld location, the loading shutters will not open until at least the player's sector blocks (including ground) have loaded
+
+- BUG: Polsvoice stop jumping after first jump -FIXED
+- BUG: SubDungeon Warp pointed me in opposite direction after teleporting -FIXED
+
+
+COMMITTED BUT NOT PUSHED:
+
 - Lost Hills: Implemented basic logic
 - The "secret" sound now plays upon solving the Lost Woods or Lost Hills
 - Statues: Always fire towards center of room

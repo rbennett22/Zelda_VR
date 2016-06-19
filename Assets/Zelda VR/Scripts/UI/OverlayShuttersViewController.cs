@@ -8,12 +8,15 @@ public class OverlayShuttersViewController : Singleton<OverlayShuttersViewContro
     OverlayShuttersView _view;
 
 
+    public Predicate<OverlayShuttersViewController> _isReadyToOpen_Predicate;
+    bool IsReadyToOpen() { return (_isReadyToOpen_Predicate == null) ? true : _isReadyToOpen_Predicate(this); }
+
+    Action _onCloseCompleteCallback, _onOpenCompleteCallback;
+
     float _realDeltaTime;
     float _prevRealTime;
     float _intermissionTimer;
     float _intermissionDuration;
-
-    Action _onCloseCompleteCallback, _onOpenCompleteCallback;
 
 
     public bool CloseAndOpenSequenceIsPlaying { get; private set; }
@@ -25,8 +28,9 @@ public class OverlayShuttersViewController : Singleton<OverlayShuttersViewContro
         base.Awake();
 
         _view.viewDelegate = this;
-
         _view.gameObject.SetActive(true);
+
+        _prevRealTime = Time.realtimeSinceStartup;
     }
 
 
@@ -87,14 +91,33 @@ public class OverlayShuttersViewController : Singleton<OverlayShuttersViewContro
 
     void UpdateIntermissionTimer()
     {
-        if (_intermissionTimer > 0)
+        if (_intermissionTimer <= 0)
         {
-            _intermissionTimer -= _realDeltaTime;
-            if (_intermissionTimer <= 0)
-            {
-                Open(_onOpenCompleteCallback);
-            }
+            return;
         }
+
+        _intermissionTimer -= _realDeltaTime;
+        if (_intermissionTimer <= 0)
+        {
+            IntermissionTimesUp();
+        }
+    }
+    void IntermissionTimesUp()
+    {
+        if (IsReadyToOpen())
+        {
+            Open(_onOpenCompleteCallback);
+
+            _isReadyToOpen_Predicate = null;
+        }
+        else
+        {
+            RestartTimer();
+        }
+    }
+    void RestartTimer()
+    {
+        _intermissionTimer = _intermissionDuration;
     }
 
 

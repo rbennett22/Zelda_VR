@@ -4,9 +4,7 @@ public class ExitBlock_Dungeon : MonoBehaviour
 {
     void OnTriggerEnter(Collider otherCollider)
     {
-        GameObject other = otherCollider.gameObject;
-        //print("ExitBlock_Dungeon --> OnTriggerEnter: " + other.name);
-        if (!CommonObjects.IsPlayer(other)) { return; }
+        if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
 
         Locations.Instance.WarpToOverworldDungeonEntrance();
     }

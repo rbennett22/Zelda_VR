@@ -73,7 +73,7 @@ namespace Uniblocks
             int x = 0, y = 0, z = 0;
 
             // Refresh neighbor chunks
-            chunk.GetNeighbors();
+            chunk.AssignNeighbors();
 
             // for each voxel in Voxels, check if any of the voxel's faces are exposed, and if so, add their faces to the main mesh arrays (named Vertices and Faces)
             while (x < _sizeX)

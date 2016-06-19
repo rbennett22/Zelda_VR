@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Uniblocks;
 
 public class Locations : Singleton<Locations>
 {
@@ -243,6 +244,11 @@ public class Locations : Singleton<Locations>
         {
             player.ForceNewForwardDirection(t.forward);
         }
+
+        if (WorldInfo.Instance.IsOverworld)
+        {
+            OverworldTerrainEngine.Instance.RefreshActiveStatus();
+        }
     }
 
     string _sceneToLoad;
@@ -271,15 +277,34 @@ public class Locations : Singleton<Locations>
 
         LimitControls();
 
-        OverlayShuttersViewController.Instance.PlayCloseAndOpenSequence(onCloseCompleteCallback, RestoreControls, INTERMISSION_DURATION, closeInstantly);
+        OverlayShuttersViewController svc = OverlayShuttersViewController.Instance;
+        svc._isReadyToOpen_Predicate = IsReadyToOpen;
+        svc.PlayCloseAndOpenSequence(onCloseCompleteCallback, RestoreControls, INTERMISSION_DURATION, closeInstantly);
+    }
+
+    bool IsReadyToOpen(OverlayShuttersViewController sender)
+    {
+        if (!WorldInfo.Instance.IsOverworld)
+        {
+            return true;
+        }
+
+        OverworldChunkManager cm = OverworldTerrainEngine.ChunkManagerInstance as OverworldChunkManager;
+        if (cm == null)
+        {
+            return true;
+        }
+        return cm.AreAllVoxelsDone;     // TODO: use correct param here (should signify when all chunks have loaded)
     }
 
     bool _storedGravityEnabledState;
     // TODO: shouldn't be public
     public void LimitControls()
     {
-        PauseManager.Instance.IsPauseAllowed_Inventory = false;
-        PauseManager.Instance.IsPauseAllowed_Options = false;
+        PauseManager pm = PauseManager.Instance;
+        pm.IsPauseAllowed_Inventory = false;
+        pm.IsPauseAllowed_Options = false;
+
         CommonObjects.Player_C.IsParalyzed = true;
 
         ZeldaPlayerController pc = CommonObjects.PlayerController_C;
@@ -293,8 +318,9 @@ public class Locations : Singleton<Locations>
 
         if (WorldInfo.Instance.IsPausingAllowedInCurrentScene())
         {
-            PauseManager.Instance.IsPauseAllowed_Inventory = true;
-            PauseManager.Instance.IsPauseAllowed_Options = true;
+            PauseManager pm = PauseManager.Instance;
+            pm.IsPauseAllowed_Inventory = true;
+            pm.IsPauseAllowed_Options = true;
         }
     }
 }

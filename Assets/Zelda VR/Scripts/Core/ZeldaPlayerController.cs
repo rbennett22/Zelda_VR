@@ -34,7 +34,7 @@ public class ZeldaPlayerController : OVRPlayerController
     }
     public Vector3 LastAttemptedMotion { get; private set; }
 
-    public float Height { get { return GetComponent<CharacterController>().height; } }
+    public float Height { get { return Controller.height; } }
 
 
     protected override void Update()
@@ -53,7 +53,7 @@ public class ZeldaPlayerController : OVRPlayerController
             }
 
             var p = crt.localPosition;
-            p.y = OVRManager.profile.eyeHeight - 0.5f * Controller.height + Controller.center.y;
+            p.y = OVRManager.profile.eyeHeight - 0.5f * Height + Controller.center.y;
             crt.localPosition = p;
         }
         else if (InitialPose != null)
@@ -92,7 +92,7 @@ public class ZeldaPlayerController : OVRPlayerController
             // Gravity
             if (gravityEnabled)
             {
-                if (Controller.isGrounded && FallSpeed <= 0)
+                if (IsGrounded && FallSpeed <= 0)
                     FallSpeed = ((Physics.gravity.y * (GravityModifier * 0.002f)));
                 else
                     FallSpeed += ((Physics.gravity.y * (GravityModifier * 0.002f)) * SimulationRate * Time.deltaTime);
@@ -103,7 +103,7 @@ public class ZeldaPlayerController : OVRPlayerController
             // Offset correction for uneven ground
             float bumpUpOffset = 0.0f;
 
-            if (Controller.isGrounded && MoveThrottle.y <= transform.lossyScale.y * 0.001f)
+            if (IsGrounded && MoveThrottle.y <= transform.lossyScale.y * 0.001f)
             {
                 bumpUpOffset = Mathf.Max(Controller.stepOffset, new Vector3(motion.x, 0, motion.z).magnitude);
                 motion -= bumpUpOffset * Vector3.up;
@@ -122,6 +122,7 @@ public class ZeldaPlayerController : OVRPlayerController
         if (predictedXZ != actualXZ)
             MoveThrottle += (actualXZ - predictedXZ) / (SimulationRate * Time.deltaTime);
     }
+    public bool IsGrounded { get { return Controller.isGrounded; } }
 
     public override void UpdateMovement()
     {
@@ -199,7 +200,7 @@ public class ZeldaPlayerController : OVRPlayerController
         {
             FallSpeed = 0;
         }
-        else if (!Controller.isGrounded)
+        else if (!IsGrounded)
         {
             return false;
         }

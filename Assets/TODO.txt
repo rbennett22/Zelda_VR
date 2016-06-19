@@ -2,14 +2,12 @@
 
 NEEDS TESTING:
 
-* BUG: SubDungeon Warp pointed me in opposite direction after teleporting -FIXED
-
 
 BUGS:
 
 * BUG: Enemies can push Link upwards
-* BUG: Link can walk on water
-* BUG: Sword and Wand Projectiles can't pass over water
+* BUG: Link can walk on water in Overworld
+* BUG: Sword and Wand Projectiles can't pass over water in Overworld
 
 - BUG: When exiting a dungeon, enemies in that sector don't inititally appear (until you move far enough away)
 - BUG: Dungeon 8 is initially visible from inside grotto to the south of it.
@@ -27,8 +25,7 @@ BUGS:
 High Priority: 
 
 * Bosses: Test all
-* When warping, ensure that world has completely loaded before opening shutters
-* World fall-through fail-safe 
+* Dungeon Entrances: Test all
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
 - Waterfall Cave

@@ -48,7 +48,7 @@ public class OverworldTerrainEngine : Engine
         RefreshActiveStatus();
     }
 
-    void RefreshActiveStatus()
+    public void RefreshActiveStatus()
     {
         bool doActivate = WorldInfo.Instance.IsOverworld;
 

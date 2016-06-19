@@ -4,6 +4,28 @@ using System.Collections.Generic;
 
 public class OverworldChunkManager : ChunkManager
 {
+    public bool AreAllVoxelsDone
+    {
+        get
+        {
+            if (Chunks == null)
+            {
+                return false;
+            }
+            foreach (Chunk ch in Chunks.Values)
+            {
+                if (ch == null) { continue; }
+
+                if (!ch.voxelsDone)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+
     void OnDisabled()
     {
         StopAllCoroutines();
