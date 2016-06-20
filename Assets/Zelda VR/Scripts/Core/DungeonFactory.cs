@@ -1,5 +1,6 @@
 ﻿using Immersio.Utility;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DungeonFactory : Singleton<DungeonFactory>
@@ -459,29 +460,6 @@ public class DungeonFactory : Singleton<DungeonFactory>
     }
 
 
-    /*void CutHoleInTexture(Texture2D texture, Rect area, bool doApply = true)
-    {
-        int y = (int)area.yMin;
-        while (y < (int)area.yMax)
-        {
-            int x = (int)area.xMin;
-            while (x < (int)area.xMax)
-            {
-                Color pixel = texture.GetPixel(x, y);
-                pixel.a = 0;
-                texture.SetPixel(x, y, pixel);
-                ++x;
-            }
-            ++y;
-        }
-
-        if (doApply)
-        {
-            texture.Apply();
-        }
-    }*/
-
-
     public Material GetWallMaterial(DungeonRoomInfo.WallDirection direction, DungeonRoomInfo.WallType wallType)
     {
         bool northSouthWall = DungeonRoomInfo.IsNorthOrSouth(direction);
@@ -533,12 +511,20 @@ public class DungeonFactory : Singleton<DungeonFactory>
 
     public DungeonRoom GetRoomAtGridPosition(int x, int y)
     {
-        if (_dungeonRoomsGrid == null) { CreateDungeonRoomsGrid(); }
+        if (_dungeonRoomsGrid == null)
+        {
+            CreateDungeonRoomsGrid();
+        }
 
         if (x < 0 || x >= MaxDungeonWidthInRooms) { return null; }
         if (y < 0 || y >= MaxDungeonLengthInRooms) { return null; }
 
         return _dungeonRoomsGrid[y, x];
+    }
+
+    public DungeonRoom GetRoomContainingTriforce()
+    {
+        return Rooms.SingleOrDefault(r => r.ContainsTriforce);
     }
 
 
@@ -559,4 +545,28 @@ public class DungeonFactory : Singleton<DungeonFactory>
 
         print(output);
     }
+
+
+    /*void CutHoleInTexture(Texture2D texture, Rect area, bool doApply = true)
+{
+    int y = (int)area.yMin;
+    while (y < (int)area.yMax)
+    {
+        int x = (int)area.xMin;
+        while (x < (int)area.xMax)
+        {
+            Color pixel = texture.GetPixel(x, y);
+            pixel.a = 0;
+            texture.SetPixel(x, y, pixel);
+            ++x;
+        }
+        ++y;
+    }
+
+    if (doApply)
+    {
+        texture.Apply();
+    }
+}*/
+
 }

@@ -128,7 +128,7 @@ public class HealthController : HealthController_Abstract
 
     public bool RestoreHealth()
     {
-        return RestoreHealth(999999);       // TODO
+        return RestoreHealth((uint)maxHealth);
     }
     public override bool RestoreHealth(uint healAmount)
     {

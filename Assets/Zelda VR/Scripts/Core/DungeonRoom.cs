@@ -616,7 +616,8 @@ public class DungeonRoom : MonoBehaviour
         int x = (int)(position.x / TilesWide_WithHalls);
         int z = (int)(position.z / TilesLong_WithHalls);
 
-        return CommonObjects.CurrentDungeonFactory.GetRoomAtGridPosition(x, z);
+        DungeonFactory df = CommonObjects.CurrentDungeonFactory;
+        return df.GetRoomAtGridPosition(x, z);
     }
 
 

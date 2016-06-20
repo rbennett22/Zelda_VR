@@ -2,12 +2,19 @@
 
 NEEDS TESTING:
 
+- Dungeon enemies can no longer push Link onto impassable tiles (ie water) (test for all HazardBlock types in Dungeon)
+
 
 BUGS:
 
-* BUG: Enemies can push Link upwards
-* BUG: Link can walk on water in Overworld
+* BUG: Gleeok: Animation errors
+* BUG: WandProjectile pushes Ghoma back
+* BUG: Enemy Projectiles being shot through blocks (I saw an arrow and a sword)
+* BUG: Player slowly sinks a little bit after entering a dungeon
+
 * BUG: Sword and Wand Projectiles can't pass over water in Overworld
+* BUG: Link can walk on water in Overworld
+* BUG: Enemies can push Link off the ground
 
 - BUG: When exiting a dungeon, enemies in that sector don't inititally appear (until you move far enough away)
 - BUG: Dungeon 8 is initially visible from inside grotto to the south of it.
@@ -24,9 +31,16 @@ BUGS:
 
 High Priority: 
 
-* Bosses: Test all
-* Dungeon Entrances: Test all
+* D4 Entrance: WhiteStairs image appearing on dock end tile?
+* D6 Entrance: Fix Entrance (2x wide)
+* Make sure all HazardBlocks in Dungeons are tall (so Link can't get pushed onto them)
+* Flame Wand: Difficult to fire through narrow passages
+* CandleFlame: Difficult to use in narrow passages (ie. Dungeon 8 Entrance bush) (If hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy?)
+* OWDungeonEntrances: Lower the ceiling
+* ControlsView: Update image
+* OptionsMenu: Controls
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
+
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
 - Waterfall Cave
 - Grotto Warps: Warp player slightly away from portal so it doesn't rapidly wapr back and forth
@@ -34,19 +48,15 @@ High Priority:
 - Grotto Warps: Blocks don't always have time to spawn after warping
 - Grotto Warps: Even after blocks spawned, a flat sand tile beneath a pushable block was missing (Link could fall through)
 
+
 - Blue Wizzrobe: Implement ghosting ability
 - Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block
 - Boulders: Should bounce around
 - Statues: Enemies can walk through them
 - Armos should briefly flicker while coming alive
 
-- CandleFlame: If hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy?
-- Arrow: Graphic doesn't appear next to bow in inventory, even when you have both bow and arrow items
-
-- Allow erasing of saved games, but ask for confirmation before erasing saved data
-- ControlsView: Update image
-- OptionsMenu: Controls
-
+- Dodongo: Animation doesn't play for when he eats a bomb
+- Manhandla: What weapons should harm him (ie. Boomerang kills heads in one shot??)
 - Gannon: Intro
 - Gannon: When hit he should be temporarily invincible so that player can't take advantage
 - Gannon: Death
@@ -57,21 +67,23 @@ High Priority:
 - Dungeon: Player shouldn't be able to damage enemies if he's not all the way inside the room
 - Projectiles: Remove swift?
 
+- Arrow: Graphic doesn't appear next to bow in inventory, even when you have both bow and arrow items
+
+- Allow erasing of saved games, but ask for confirmation before erasing saved data
+
 
 Mid Priority:
 
 - Ladder: Can feel slightly unresponsive when player is next to multiple crossable tiles
 - Lost Woods: Fog Ceiling color should match fog, and fade in as player approaches LostWoods
 - Lost Woods: Warp Collectibles/Enemies/Projectiles
-- Grottos: Lower the ceiling
+- Grottos: Lower the ceiling?
 - Fairy: Allow it to move around Dungeon Room moving outside of the room
 - Fairy: Can move through walls in OW
 - Clock Item: Should also paralyze enemies in nearby OW sectors (but not other DungeonRooms)
 - Fog: Disappears abruptly in grottos close to Lost Woods
 - Boss Death Anim: Should blink 2-3 times, then "poof"
 - Gleeok: Heads Poof onDeath
-- Dungeon 6 Entrance: Make 2 blocks wide
-- Difficult to fire wand through narrow passages
 - WoodenShield: Remove opaque black from bottom corners of sprite
 - Shield: Appear every time it deflects an attack?
 - Hearts floating around in "Secret to everybody" cave that runs beneath fairy fountain

@@ -1,5 +1,6 @@
 ﻿using Immersio.Utility;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Cheats : Singleton<Cheats>
 {
@@ -15,6 +16,16 @@ public class Cheats : Singleton<Cheats>
 
     float _maxRunMultiplier = 4;
     int _maxJumpHeight = 8;
+
+
+    List<KeyCode> _keypadKeys = new List<KeyCode>() {
+        KeyCode.Keypad0, KeyCode.Keypad1, KeyCode.Keypad2, KeyCode.Keypad3, KeyCode.Keypad4,
+        KeyCode.Keypad5, KeyCode.Keypad6, KeyCode.Keypad7, KeyCode.Keypad8, KeyCode.Keypad9
+    };
+    int GetNumberForKeypadKey(KeyCode key)
+    {
+        return _keypadKeys.IndexOf(key);
+    }
 
 
     void Update()
@@ -37,6 +48,33 @@ public class Cheats : Singleton<Cheats>
         if (ZeldaInput.GetButtonUp(ZeldaInput.Button.L1)) { ToggleGodMode(); }
         if (ZeldaInput.GetButtonUp(ZeldaInput.Button.R1)) { ToggleGhostMode(); }
         if (ZeldaInput.GetButtonUp(ZeldaInput.Button.Extra)) { ToggleFlying(); }
+
+        ProcessKeypadInput();
+    }
+    void ProcessKeypadInput()
+    {
+        int d = -1;
+        foreach (KeyCode key in _keypadKeys)
+        {
+            if (Input.GetKeyDown(key))
+            {
+                d = GetNumberForKeypadKey(key);
+                break;
+            }
+        }
+        if (d == -1)
+        {
+            return;
+        }
+
+        if (d == 0)
+        {
+            WarpToTriforceDungeonRoom();
+        }
+        else if (d > 0)
+        {
+            WarpToOverworldDungeonEntrance(d);
+        }
     }
 
 
@@ -197,23 +235,36 @@ public class Cheats : Singleton<Cheats>
 
     public void RestorePlayerHealth()
     {
-        CommonObjects.Player_C.GetComponent<HealthController>().RestoreHealth();
+        CommonObjects.Player_C.HealthController.RestoreHealth();
     }
-
     public void DamagePlayer()
     {
-        CommonObjects.Player_C.GetComponent<HealthController>().TakeDamage(64, gameObject);
+        CommonObjects.Player_C.HealthController.TakeDamage(64, gameObject);
     }
-
     public void KillPlayer()
     {
-        CommonObjects.Player_C.GetComponent<HealthController>().Kill(gameObject, true);
+        CommonObjects.Player_C.HealthController.Kill(gameObject, true);
     }
-
 
     public void EquipSword(string swordName)
     {
         CommonObjects.Player_C.Inventory.EquipSword_Cheat(swordName);
+    }
+
+    public void WarpToOverworldDungeonEntrance(int dungeonNum)
+    {
+        Locations.Instance.WarpToOverworldDungeonEntrance(dungeonNum);
+    }
+
+    public void WarpToTriforceDungeonRoom()
+    {
+        if (!WorldInfo.Instance.IsInDungeon) { return; }
+
+        DungeonRoom dr = CommonObjects.CurrentDungeonFactory.GetRoomContainingTriforce();
+        if (dr == null) { return; }
+        
+        Vector3 p = dr.Center;
+        CommonObjects.Player_C.PositionXZ = new Vector2(p.x, p.z - 3);
     }
 
 
@@ -221,6 +272,8 @@ public class Cheats : Singleton<Cheats>
     int _count = 0;
     public void CycleTriforcePieces()
     {
+        Inventory inv = Inventory.Instance;
+
         if (++_count > 30)
         {
             _count = 0;
@@ -229,12 +282,12 @@ public class Cheats : Singleton<Cheats>
                 _dungeonNum = 0;
                 for (int i = 1; i <= 8; i++)
                 {
-                    Inventory.Instance.SetHasTriforcePieceForDungeon(i, false);
+                    inv.SetHasTriforcePieceForDungeon(i, false);
                 }
             }
             else
             {
-                Inventory.Instance.SetHasTriforcePieceForDungeon(_dungeonNum, true);
+                inv.SetHasTriforcePieceForDungeon(_dungeonNum, true);
             }
             _dungeonNum++;
         }

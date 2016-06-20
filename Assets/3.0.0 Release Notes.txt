@@ -2,24 +2,9 @@
 
 RECENTLY DONE:
 
-- Dungeon enemies can no longer push Link onto impassable tiles (ie water)
-- EnsureNoWorldFallThrough: In case player accidently falls through world (due to a bug) they will be automatically returned to ground level and should be able to recover without needing to restart.
-- When warping player to a new OverWorld location, the loading shutters will not open until at least the player's sector blocks (including ground) have loaded
-
-- BUG: Polsvoice stop jumping after first jump -FIXED
-- BUG: SubDungeon Warp pointed me in opposite direction after teleporting -FIXED
-
-
-COMMITTED BUT NOT PUSHED:
-
-- Lost Hills: Implemented basic logic
-- The "secret" sound now plays upon solving the Lost Woods or Lost Hills
-- Statues: Always fire towards center of room
-- Blue Wizzrobe: Now moves around and does not teleport
-
-- BUG: Grotto: Z-fighting between walls and ocean on outer grottos -FIXED
-- BUG: Raft: There are holes that Link falls through at start/end tiles of raft paths -FIXED
-- BUG: Dungeon 5: Entrance is covered with sand tiles (but you can still enter) -FIXED
+- Bomb: Increased explosion radius
+- Cheats: WarpToOverworldDungeonEntrance
+- Cheats: WarpToTriforceDungeonRoom
 
 
 DONE:
@@ -29,6 +14,7 @@ DONE:
 
 - Controls: Keyboard/Mouse and XBOX GamePad can now be used interchangabley/simultaneously
 
+- Lost Hills: Implemented basic logic
 - Inventory View: Now displays Shield to the right of the passive items
 - Dungeon Maps: Rooms are now displayed/hidden correctly (depending on player's possession of the respective map and/or compass)
 - Black overlay shutters now close vertically when player dies
@@ -37,6 +23,8 @@ DONE:
 - Getting heart container refills one heart instead of refilling it entirely
 - Movable blocks in dungeons may now pushed from any side
 - Rupees now max out properly at 255 instead of 999
+- EnsureNoWorldFallThrough: In case player accidently falls through world (due to a bug) they will be automatically returned to ground level and should be able to recover without needing to restart.
+- When warping player to a new OverWorld location, the loading shutters will not open until at least the player's sector blocks (including ground) have loaded
 
 - Terrain: Uniblocks voxel engine now used to render OverWorld terrain
 
@@ -50,6 +38,7 @@ DONE:
 - Wooden Shield: Created new sprite to differentitate it from Magic Shield
 - CandleFlame: It's now harder to accidentally hurt yourself with it
 - Power Bracelet: Is now collectible in proper location
+- Raft: Works more reliably now
 
 - Stunned/Paralyzed Enemies: Can no longer hurt Link with melee damage
 - RiverZora: Fixed emerge/submerge animation
@@ -59,9 +48,13 @@ DONE:
 - Leevers: Can no longer hurt Link when burrowing/unburrowing
 - Boulders: No longer appear in the Red Leever desert (NE of Level 1)
 - Ghini: Invincible Ghinis now die when the vulnerable Ghini is killed
+- Statues: Always fire towards center of room
+- Blue Wizzrobe: Now moves around and does not teleport
 
 - Music: Playing flute, dying, or triforceFanfare properly stops the background music
 - Music: gets quiet during pause to options menu
+
+- The "secret" sound now plays upon solving the Lost Woods or Lost Hills
 
 
 BUG FIXES:
@@ -82,6 +75,7 @@ BUG FIXES:
 - BUG: Ladder Doesn't work for certain water tiles -FIXED
 - BUG: Boomerang doesn't spin. -FIXED
 
+- BUG: Grotto: Z-fighting between walls and ocean on outer grottos -FIXED
 - BUG: Grotto: Can't buy Blue Potion under certain conditions -FIXED
 - BUG: Fairies fly to other rooms in dungeons -FIXED
 - BUG: NewGameEntryData is copying to wrong location when building -FIXED
