@@ -128,7 +128,7 @@ public class InventoryViewController : MonoBehaviour
     }
     void DoRenderItem(Item item, InventoryViewItemMapping mapping, bool isEquippedItemB = false)
     {
-        Texture texture = item.GetGuiTexture();
+        Texture texture = item.GuiSpriteTexture;
         if (texture == null)
         {
             Debug.LogError("Null texture for Item: " + item.name);

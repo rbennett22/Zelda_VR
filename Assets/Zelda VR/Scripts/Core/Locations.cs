@@ -297,10 +297,18 @@ public class Locations : Singleton<Locations>
         return cm.AreAllVoxelsDone;     // TODO: use correct param here (should signify when all chunks have loaded)
     }
 
+
+    bool _controlsHaveBeenLimited;
     bool _storedGravityEnabledState;
     // TODO: shouldn't be public
     public void LimitControls()
     {
+        if(_controlsHaveBeenLimited)
+        {
+            return;
+        }
+        _controlsHaveBeenLimited = true;
+
         PauseManager pm = PauseManager.Instance;
         pm.IsPauseAllowed_Inventory = false;
         pm.IsPauseAllowed_Options = false;
@@ -313,6 +321,12 @@ public class Locations : Singleton<Locations>
     }
     public void RestoreControls()
     {
+        if (!_controlsHaveBeenLimited)
+        {
+            return;
+        }
+        _controlsHaveBeenLimited = false;
+
         CommonObjects.Player_C.IsParalyzed = false;
         CommonObjects.PlayerController_C.gravityEnabled = _storedGravityEnabledState;
 

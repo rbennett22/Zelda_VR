@@ -2,15 +2,11 @@
 
 NEEDS TESTING:
 
-- Dungeon enemies can no longer push Link onto impassable tiles (ie water) (test for all HazardBlock types in Dungeon)
-
 
 BUGS:
 
-* BUG: Gleeok: Animation errors
-* BUG: WandProjectile pushes Ghoma back
-* BUG: Enemy Projectiles being shot through blocks (I saw an arrow and a sword)
-* BUG: Player slowly sinks a little bit after entering a dungeon
+* BUG: DungeonEntrance OW: The back-most block is missing
+* BUG: DungeonExit: If you enter dungeon, then back up stairs a little, you can't go back down them
 
 * BUG: Sword and Wand Projectiles can't pass over water in Overworld
 * BUG: Link can walk on water in Overworld
@@ -24,6 +20,7 @@ BUGS:
 - BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?)
 - BUG: If you have no ItemB equipped, and you collect an Active item, it correctly equips; however when subsequently viewing Inventory, the cursor has not been updated
 - BUG: If you buy Red potion (instead of HeartContainer in special grotto) you can obtain the letter simply by using the red and blue potions.
+- BUG: I saw Enemy Projectiles being shot through blocks (I saw an arrow and a sword near D6 OW Entrance)
 
 - BUG: Unity crashed unexpectedly shortly after returning to OW after completing Dungeon 1
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
@@ -31,23 +28,17 @@ BUGS:
 
 High Priority: 
 
-* D4 Entrance: WhiteStairs image appearing on dock end tile?
-* D6 Entrance: Fix Entrance (2x wide)
-* Make sure all HazardBlocks in Dungeons are tall (so Link can't get pushed onto them)
-* Flame Wand: Difficult to fire through narrow passages
+* Wand: Difficult to fire through narrow passages
 * CandleFlame: Difficult to use in narrow passages (ie. Dungeon 8 Entrance bush) (If hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy?)
-* OWDungeonEntrances: Lower the ceiling
-* ControlsView: Update image
 * OptionsMenu: Controls
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
 - Waterfall Cave
-- Grotto Warps: Warp player slightly away from portal so it doesn't rapidly wapr back and forth
+- Grotto Warps: Warp player slightly away from portal so it doesn't rapidly warp back and forth
 - Grotto Warps: Destination Grotto's NPC isn't being spawned
 - Grotto Warps: Blocks don't always have time to spawn after warping
 - Grotto Warps: Even after blocks spawned, a flat sand tile beneath a pushable block was missing (Link could fall through)
-
 
 - Blue Wizzrobe: Implement ghosting ability
 - Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block
@@ -90,6 +81,7 @@ Mid Priority:
 - LikeLike: Show an effect to indicate what's happening when player is trapped ("swallowed")
 - Dark Rooms: Make dimly lit instead of completely black
 - Old Men in dungeons don't fight back
+- D6 Entrance: Should be 2 tiles wide
 
 - SavedGamesScreen - Choose Name, Elimination Mode, Name text align
 - OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
@@ -176,10 +168,12 @@ OPTIMIZATIONS:
 
 RESEARCH:
 
-- Are Dark DungeonRooms supposed to go dark again when Link exits said rooms?
-- I'm not sure darknuts are supposed to be hurt by fire, or gleeoks by the wand
+1) Dark Rooms in Dungeons: If player enters a dark room, uses candle to light it up, exits room, and then reenters, is it dark again or does it stay lit?
+2) Sealed Doors in Dungeons: If a sealed door is opened by kiling all the enemies in that room, but then player dies, does he have to kill all enemies again to reopen that sealed door or does it stay opened?
+3) Darknut: Does the flame hurt him?
+4) Gleeok: Does the wand hurt him?
+5) Boss Projectiles: Are these generally blockable by Link's Magic Shield or not (or does it vary from boss to boss)?
+6) Boomerang: Should it hurt enemies that are currently stunned by it? For example if I hit a Moblin with it once to stun him, then immediately hit him again, does this kill the Moblin?
+7) Letter for Old Woman: Should it still appear in inventory after it's been used (assuming no potions in inventory)?
+
 - Fairy: Changes move direction regularly (is this how fairy is supposed to move?)
-- Boomerang: Should it hurt stunned enemies?
-- Letter: Should it still appear in inventory after its been used (assuming no potions in inventory)?
-- Sealed Doors: If sealed door is opened, then player dies, does he have to kill all enemies again to reopen it or does it stay opened?
-- "Beams from many dungeon enemies should be unblockable" (Is this too difficult though?)

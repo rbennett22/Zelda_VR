@@ -10,7 +10,8 @@ public class Inventory : Singleton<Inventory>
     const string ITEM_PREFABS_PATH = "Item Prefabs";        // (relative to a Resources folder)
 
 
-    public Transform itemsContainer;
+    [SerializeField]
+    Transform _itemsContainer;
 
 
     Dictionary<string, Item> _items;
@@ -143,7 +144,7 @@ public class Inventory : Singleton<Inventory>
     public bool HasDeliveredLetterToOldWoman { get; set; }
 
 
-    Item _equippedItemA;
+    Item _equippedItemA, _equippedItemB, _equippedShield;
     public Item EquippedItemA
     {
         get { return _equippedItemA; }
@@ -160,8 +161,6 @@ public class Inventory : Singleton<Inventory>
             }
         }
     }
-
-    Item _equippedItemB;
     public Item EquippedItemB
     {
         get { return _equippedItemB; }
@@ -178,8 +177,6 @@ public class Inventory : Singleton<Inventory>
             }
         }
     }
-
-    Item _equippedShield;
     public Item EquippedShield
     {
         get { return _equippedShield; }
@@ -278,7 +275,7 @@ public class Inventory : Singleton<Inventory>
             //print(itemPrefab.name);
             GameObject g = Instantiate(itemPrefab) as GameObject;
             g.name = itemPrefab.name;
-            g.transform.parent = itemsContainer;
+            g.transform.parent = _itemsContainer;
             Items.Add(g.name, g.GetComponent<Item>());
         }
 
@@ -320,7 +317,10 @@ public class Inventory : Singleton<Inventory>
                 for (int x = 0; x < 4; x++)
                 {
                     Item item = _equippableSecondaryItems[i, y, x];
-                    if (item == null || item.name != itemName) { continue; }
+                    if (item == null || item.name != itemName)
+                    {
+                        continue;
+                    }
                     return true;
                 }
             }

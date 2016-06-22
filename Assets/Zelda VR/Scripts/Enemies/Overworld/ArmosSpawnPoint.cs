@@ -14,6 +14,15 @@ public class ArmosSpawnPoint : MonoBehaviour
         EnemyAI_Armos r = enemy.GetComponent<EnemyAI_Armos>();
         r.Type = statueType;
         r.HidesCollectibleItem = hidesCollectibleItem;
-        r.linkedTiles = GetComponentsInChildren<Transform>().Select(t => t.gameObject).ToArray();  // Any children of this spawnPoint are considered linkedTiles
+        r.linkedTiles = GetLinkedTilesFromChildren();
+    }
+
+    GameObject[] GetLinkedTilesFromChildren()
+    {
+        // (we assume all children are linked tiles)
+        return GetComponentsInChildren<Transform>()
+            .Where(c => c != this.transform)
+            .Select(t => t.gameObject)
+            .ToArray();
     }
 }

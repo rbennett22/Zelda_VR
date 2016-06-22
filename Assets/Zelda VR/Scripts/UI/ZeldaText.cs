@@ -51,6 +51,8 @@ public class ZeldaText : MonoBehaviour
 
     void AssignSpriteFromText(string text)
     {
+        // TODO: AssignSpriteFromText isn't being called in Edit mode
+
         Texture2D tex = ZeldaFont.Instance.TextureForString(text);
         if (tex == null) { return; }
 

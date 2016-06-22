@@ -85,11 +85,11 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     void UpdateView_EquippedItemSlots()
     {
         Item itemA = _inventory.EquippedItemA;
-        Texture texture = (itemA == null) ? null : itemA.GetGuiTexture();
+        Texture texture = (itemA == null) ? null : itemA.GuiSpriteTexture;
         _view.UpdateTextureForEquippedItemSlotA(texture);
 
         Item ItemB = _inventory.EquippedItemB;
-        texture = (ItemB == null) ? null : ItemB.GetGuiTexture();
+        texture = (ItemB == null) ? null : ItemB.GuiSpriteTexture;
         _view.UpdateTextureForEquippedItemSlotB(texture);
     }
 

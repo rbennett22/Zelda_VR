@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    const string GUI_SPRITE_GAME_OBJECT_NAME = "GuiSprite";
+    readonly static Vector3 OFFSCREEN_POSITION = 9999 * Vector3.one;
 
 
     public int count, maxCount = 1;
@@ -16,54 +17,37 @@ public class Item : MonoBehaviour
     public bool useImmediately;
     public bool consumable;      // Whether or not using the item decrements it's count
 
-    public Sprite hudSprite;
 
-     
     List<Spell_Base> _triggerSpellsList;                // Spells to cast when item is used
     public List<Spell_Base> TriggerSpellsList {
         get { return _triggerSpellsList ?? (_triggerSpellsList = new List<Spell_Base>(GetComponentsInChildren<Spell_Base>())); }
     }
 
     Sprite _guiSprite;
-    Texture _guiSpriteTexture;
-
-
-    void Awake()
+    public Sprite GuiSprite { get { return _guiSprite ?? (_guiSprite = FindGuiSpriteInChildren()); } }
+    Sprite FindGuiSpriteInChildren()
     {
-        FindGuiSprite();
+        return GetComponentsInChildren<SpriteRenderer>()
+            .Where(c => c.transform != this.transform)
+            .Single().sprite;
     }
+
+    Texture _guiSpriteTexture;
+    public Texture GuiSpriteTexture { get { return _guiSpriteTexture ?? (_guiSpriteTexture = FindGuiSpriteTexture()); } }
+    Texture FindGuiSpriteTexture()
+    {
+        return (GuiSprite == null) ? null : GuiSprite.GetTextureSegment();
+    }
+
 
     void Start()
     {
-        transform.position = new Vector3(9999, 9999, 9999);     // TODO
+        transform.position = OFFSCREEN_POSITION;     // TODO
 
         if (upgradesTo != null)
         {
             upgradesTo = GameObject.Find(upgradesTo.name).GetComponent<Item>();
             upgradesTo.UpgradedFrom = this;
-        }
-    }
-
-
-    public Texture GetGuiTexture()
-    {
-        if (_guiSpriteTexture == null)
-        {
-            if (_guiSprite == null) { FindGuiSprite(); }
-            _guiSpriteTexture = (_guiSprite == null) ? null : _guiSprite.GetTextureSegment();
-        }
-        return _guiSpriteTexture;
-    }
-
-    void FindGuiSprite()
-    {
-        foreach (var sr in transform.GetComponentsInChildren<SpriteRenderer>())
-        {
-            if (sr.name == GUI_SPRITE_GAME_OBJECT_NAME)
-            {
-                _guiSprite = sr.sprite;
-                break;
-            }
         }
     }
 
@@ -143,6 +127,7 @@ public class Item : MonoBehaviour
 
         CastTriggerSpells();
     }
+
 
     void CastTriggerSpells()
     {
