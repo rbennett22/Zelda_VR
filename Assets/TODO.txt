@@ -30,7 +30,6 @@ High Priority:
 
 * Wand: Difficult to fire through narrow passages
 * CandleFlame: Difficult to use in narrow passages (ie. Dungeon 8 Entrance bush) (If hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy?)
-* OptionsMenu: Controls
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
@@ -82,6 +81,7 @@ Mid Priority:
 - Dark Rooms: Make dimly lit instead of completely black
 - Old Men in dungeons don't fight back
 - D6 Entrance: Should be 2 tiles wide
+- Sealed Doors in Dungeons: Should reseal if enemies respawn.
 
 - SavedGamesScreen - Choose Name, Elimination Mode, Name text align
 - OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
@@ -168,12 +168,6 @@ OPTIMIZATIONS:
 
 RESEARCH:
 
-1) Dark Rooms in Dungeons: If player enters a dark room, uses candle to light it up, exits room, and then reenters, is it dark again or does it stay lit?
-2) Sealed Doors in Dungeons: If a sealed door is opened by kiling all the enemies in that room, but then player dies, does he have to kill all enemies again to reopen that sealed door or does it stay opened?
-3) Darknut: Does the flame hurt him?
-4) Gleeok: Does the wand hurt him?
-5) Boss Projectiles: Are these generally blockable by Link's Magic Shield or not (or does it vary from boss to boss)?
-6) Boomerang: Should it hurt enemies that are currently stunned by it? For example if I hit a Moblin with it once to stun him, then immediately hit him again, does this kill the Moblin?
-7) Letter for Old Woman: Should it still appear in inventory after it's been used (assuming no potions in inventory)?
-
+- Darknut: Does the flame hurt him?
+- Gleeok: Does the wand hurt him?
 - Fairy: Changes move direction regularly (is this how fairy is supposed to move?)

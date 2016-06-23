@@ -8,7 +8,6 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
     [SerializeField]
     OptionsView _view;
-
     OptionsView View { get { return _view ?? (_view = InstantiateView(OPTIONS_VIEW_PREFAB_PATH, _canvasOffsetT)); } }
     OptionsView InstantiateView(string prefabPath, Transform canvasOffsetT = null)
     {
@@ -52,6 +51,8 @@ public class OptionsViewController : Singleton<OptionsViewController>
         return view;
     }
 
+    [SerializeField]
+    GameObject _controlsView;
 
     [SerializeField]
     Transform _canvasOffsetT;       // Offset is only applied if view is instantiated at runtime
@@ -69,22 +70,28 @@ public class OptionsViewController : Singleton<OptionsViewController>
             AddButtonClickListeners(_view);
         }
 
-        HideView();
+        ControlsViewActive = false;
+        ViewActive = false;
     }
 
 
     public bool IsViewShowing { get; private set; }
-    public void ShowView()
+    public bool ViewActive
     {
-        IsViewShowing = true;
-
-        View.gameObject.SetActive(true);
+        get { return View.gameObject.activeSelf; }
+        set {
+            View.gameObject.SetActive(value);
+            if (value == false)
+            {
+                ControlsViewActive = false;
+            }
+        }
     }
-    public void HideView()
-    {
-        IsViewShowing = false;
 
-        View.gameObject.SetActive(false);
+    bool ControlsViewActive
+    {
+        get { return _controlsView.activeSelf; }
+        set { _controlsView.SetActive(value); }
     }
 
 
@@ -94,27 +101,27 @@ public class OptionsViewController : Singleton<OptionsViewController>
     {
         view.AddListener_OnResumeClicked(Resume);
         view.AddListener_OnMusicClicked(ToggleMusic);
-        view.AddListener_OnControlsClicked(DisplayControls);
+        view.AddListener_OnControlsClicked(ToggleControlsView);
         view.AddListener_OnQuitClicked(SaveAndQuit);
     }
 
 
-    public void Resume()
+    void Resume()
     {
         PauseManager.Instance.ResumeGame_Options();
     }
 
-    public void ToggleMusic()
+    void ToggleMusic()
     {
         Music.Instance.enabled = !Music.Instance.enabled;
     }
 
-    public void DisplayControls()
+    void ToggleControlsView()
     {
-        // TODO
+        ControlsViewActive = !ControlsViewActive;
     }
 
-    public void SaveAndQuit()
+    void SaveAndQuit()
     {
         SaveManager.Instance.SaveGame();
 
@@ -129,15 +136,14 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
     void Update()
     {
-        if (!IsViewShowing)
+        if (!ViewActive)
         {
             return;
         }
 
         UpdateCursor();
 
-        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Start)
-            || ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack))
+        if (GetSelectButtonDown())
         {
             _view.ClickSelectedButton();
         }
@@ -145,8 +151,20 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
     void UpdateCursor()
     {
+        if (ControlsViewActive)
+        {
+            return;
+        }
+
         float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
         IndexDirection2 dir = new IndexDirection2(0, moveVert);
         _view.MoveCursor(dir);
+    }
+
+
+    bool GetSelectButtonDown()
+    {
+        return ZeldaInput.GetButtonDown(ZeldaInput.Button.Start)
+            || ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack);
     }
 }

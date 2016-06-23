@@ -16,17 +16,21 @@ public class MenuCursor : MonoBehaviour
     Index2 _cursorIndex = new Index2();
 
 
-    public void SetCursorX(int value)
-    {
-        Index2 n = CursorIndex;
-        n.x = value;
-        CursorIndex = n;
+    public int CursorX {
+        get { return CursorIndex.x; }
+        set {
+            Index2 n = CursorIndex;
+            n.x = value;
+            CursorIndex = n;
+        }
     }
-    public void SetCursorY(int value)
-    {
-        Index2 n = CursorIndex;
-        n.y = value;
-        CursorIndex = n;
+    public int CursorY {
+        get { return CursorIndex.y; }
+        set {
+            Index2 n = CursorIndex;
+            n.y = value;
+            CursorIndex = n;
+        }
     }
     public Index2 CursorIndex
     {

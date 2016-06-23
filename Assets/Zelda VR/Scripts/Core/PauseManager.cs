@@ -25,7 +25,7 @@ public class PauseManager : Singleton<PauseManager>
             return;
         IsPaused_Options = true;
 
-        _optionsViewController.ShowView();
+        _optionsViewController.ViewActive = true;
         RefreshFreezeState();
 
         Music.Instance.Volume = PAUSED_MUSIC_VOLUME;
@@ -36,7 +36,7 @@ public class PauseManager : Singleton<PauseManager>
             return;
         IsPaused_Options = false;
 
-        _optionsViewController.HideView();
+        _optionsViewController.ViewActive = false;
         RefreshFreezeState();
 
         Music.Instance.Volume = NORMAL_MUSIC_VOLUME;
@@ -82,6 +82,7 @@ public class PauseManager : Singleton<PauseManager>
 
     void Update()
     {
+        // TODO: Implement a system for sending input events to active views. 
         if (ZeldaInput.GetButtonDown(SHOW_OPTIONS_BUTTON))
         {
             if (IsPauseAllowed_Options)

@@ -10,8 +10,8 @@ public class OptionsView : MonoBehaviour
 {
     const int DEFAULT_CURSOR_INDEX = 0;
 
-    static Color DESELECTED_BTN_COLOR = Color.white;
-    static Color SELECTED_BTN_COLOR = Color.red;
+    readonly static Color DESELECTED_BTN_COLOR = Color.white;
+    readonly static Color SELECTED_BTN_COLOR = Color.red;
 
 
     [SerializeField]
@@ -81,7 +81,7 @@ public class OptionsView : MonoBehaviour
         if (_selectedBtn != null)
         {
             // Reposition the cursor view
-            // For some reason this doesn't happen if called from OnEnable, so we just call it every frame in Update for now
+            // TODO: For some reason this doesn't happen if called from OnEnable, so we just call it every frame in Update for now
             _cursorView.transform.SetY(_selectedBtn.transform.position.y);
         }
     }
@@ -89,8 +89,8 @@ public class OptionsView : MonoBehaviour
 
     public int CursorIndex
     {
-        get { return _cursor.CursorIndex.y; }
-        set { _cursor.SetCursorY(value); }
+        get { return _cursor.CursorY; }
+        set { _cursor.CursorY = value; }
     }
     void CursorIndexChanged(MenuCursor sender)
     {

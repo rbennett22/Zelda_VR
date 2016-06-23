@@ -2,20 +2,20 @@
 
 RECENTLY DONE:
 
-- Controls View: Updated to display correct controls.
-- Controls View: Uses Zelda Font
-- D6 Entrance: Changed to be only one tile wide
-- DungeonEntrance_OW: Lower the ceiling to hide blocks
-- Dungeon enemies can no longer push Link onto impassable flat tiles (ie. water, lava, etc.)
-
-- BUG: Armos: The "secret" sound played when awakening many of the Armos around Dungeon 6 OW Entrance -FIXED
-- BUG: Gleeok: Animation errors; Heads not oscillating correctly; Heads not lfashing when hit -FIXED
-- BUG: WandProjectile pushes Ghoma back - FIXED
-- BUG: Player slowly sinks a little bit after entering a dungeon -FIXED
-- BUG: D4 Entrance: WhiteStairs image appearing on dock end tile -FIXED
+- OptionsMenu: Controls View
 
 
 DONE:
+
+- Boomerang: No longer hurts enemies (except for the ones it kills instantly)
+- Controls View: Updated to display correct controls.
+- Controls View: Now uses Zelda Font
+- Dungeon enemies can no longer push Link onto impassable flat tiles (ie. water, lava, etc.)
+
+- BUG: WandProjectile pushes Ghoma back - FIXED
+
+
+DONE (OLDER):
 
 - Hardware: Oculus DK2 is now supported
 - Hardware: Standard Monitor now supported (non-VR)

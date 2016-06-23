@@ -17,8 +17,8 @@ public class SavedGamesScreen : MonoBehaviour
 
     public int CursorIndex
     {
-        get { return _cursor.CursorIndex.y; }
-        set { _cursor.SetCursorY(value); }
+        get { return _cursor.CursorY; }
+        set { _cursor.CursorY = value; }
     }
     void CursorIndexChanged(MenuCursor sender)
     {
