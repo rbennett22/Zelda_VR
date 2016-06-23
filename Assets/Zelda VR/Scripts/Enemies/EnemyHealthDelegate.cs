@@ -2,7 +2,7 @@
 
 public class EnemyHealthDelegate : MonoBehaviour
 {
-    const float PushBackPower = 7;
+    const float PUSH_BACK_POWER = 5;
 
 
     public EnemyAnimation enemyAnim;
@@ -51,14 +51,14 @@ public class EnemyHealthDelegate : MonoBehaviour
             Weapon_Melee_Sword sword = damageDealer.GetComponent<Weapon_Melee_Sword>();
             if (sword != null)
             {
-                damageAmount = 0;
                 SendMessage("OnHitWithSword", sword, SendMessageOptions.RequireReceiver);
             }
-            else if (damageDealer.name == "SilverArrow_Projectile")
+            else if (damageDealer.name.Contains("SilverArrow_Projectile"))
             {
-                damageAmount = 0;
                 SendMessage("OnHitWithSilverArrow", SendMessageOptions.RequireReceiver);
             }
+
+            damageAmount = 0;
         }
 
         if (damageAmount > 0)
@@ -71,7 +71,7 @@ public class EnemyHealthDelegate : MonoBehaviour
                     direction.y = 0;
                     direction.Normalize();
 
-                    Vector3 force = direction * PushBackPower;
+                    Vector3 force = direction * PUSH_BACK_POWER;
                     GetComponent<Enemy>().Push(force);
                 }
             }

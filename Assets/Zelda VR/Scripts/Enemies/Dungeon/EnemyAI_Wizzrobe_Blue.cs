@@ -66,8 +66,7 @@ public class EnemyAI_Wizzrobe_Blue : EnemyAI
         {
             Vector2 v2 = pp[i];
 
-            if (!DoesBoundaryAllowPosition(v2)
-                || DetectObstructions(new Index2(v2)))
+            if (!DoesBoundaryAllowPosition(v2))
             {
                 pp.RemoveAt(i);
             }

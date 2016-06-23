@@ -2,7 +2,7 @@
 
 public class EnemyAI_Gannon : EnemyAI
 {
-    const float VISIBILE_DURATION = 1.3f;
+    const float VISIBILE_DURATION = 1.5f;
     const float BOUNDS_WIDTH = 8;           // TODO: Define custom bounds through EnemySpawnPoint
     const float BOUNDS_HEIGHT = 5;
 
@@ -68,9 +68,7 @@ public class EnemyAI_Gannon : EnemyAI
     void MoveToRandomLocation()
     {
         Vector3 p = GetRandomAllowedPositionInsideBoundary();
-
-        transform.SetX(p.x);
-        transform.SetZ(p.z);
+        _enemy.PositionXZ = new Vector2(p.x, p.z);
     }
 
 
@@ -109,5 +107,6 @@ public class EnemyAI_Gannon : EnemyAI
     void Disappear()
     {
         Visible = false;
+        MoveToRandomLocation();
     }
 }

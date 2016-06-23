@@ -2,32 +2,35 @@
 
 RECENTLY DONE:
 
-- Blue Wizzrobe: Implemented their "ghost-glide" ability
-- Manhandla: Increased life of each mouth to the correct amount
-- Manhandla: Boomerang no longer hurts/stuns him
-- Patra: Changed life amount to correct values
-- Gannon Projectile: Changed damage to correct amount
-- SilverArrow: Changed damage to correct amount
-- OptionsMenu: Controls View
-- Wand: Snaps fire direction to X/Z axis to ease firing through narrow passages
-- CandleFlame: Snaps fire direction to X/Z axis to ease firing through narrow passages
-- CandleFlame: No longer collides with blocks or enemies
-- CandleFlame: Moves forward slowly after being fired
+- Gannon: Is no longer pushed back when attacked
+- Gannon: Now teleports immediately after becoming invisible again so that player can't take advantage
 
-- BUG: Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block -FIXED
-- BUG: Zols are freezing in midair -FIXED
-- BUG: Manhandla: Can move its mouths through blocks -FIXED
-- BUG: Statues: Enemies can walk through them -FIXED
-- BUG: Moldorm: Looks crazy again -FIXED
+- BUG: Gannon: It's possible to kill him with silver arrow the first time he appears -FIXED
 
 
 DONE:
 
-- Boomerang: No longer hurts enemies (except for the ones it kills instantly)
 - Controls View: Updated to display correct controls.
 - Controls View: Now uses Zelda Font
-- Dungeon enemies can no longer push Link onto impassable flat tiles (ie. water, lava, etc.)
+- OptionsMenu: Controls are now viewable from Options menu
 
+- Dungeon enemies can no longer push Link onto impassable flat tiles (ie. water, lava, etc.)
+- Blue Wizzrobe: Implemented "ghost-glide" ability
+- Manhandla: Increased life of each mouth to the correct amount
+- Manhandla: Boomerang no longer hurts/stuns him
+- Patra: Changed life amount to correct values
+- Gannon Projectile: Changed damage to correct amount
+
+- SilverArrow: Changed damage to correct amount
+- Wand: Fire direction now snaps to X/Z axis to ease firing through narrow passages
+- CandleFlame: Fire direction now snaps to X/Z axis to ease firing through narrow passages
+- CandleFlame: No longer collides with blocks or enemies
+- CandleFlame: Now slowly moves forward after being fired
+- Boomerang: No longer hurts enemies (except for the ones it kills instantly)
+
+- BUG: Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block -FIXED
+- BUG: Manhandla: Can move its mouths through blocks -FIXED
+- BUG: Statues: Enemies can walk through them -FIXED
 - BUG: WandProjectile pushes Ghoma back - FIXED
 
 
@@ -120,11 +123,56 @@ NOTES:
    Dungeon   - 5 small, 6 big.  
    Bosses    - 8
 
+
 - Maps:
 - W/O  Map:			HUD - Nothing				Inventory - Visited (except secret)
 - With Map:			HUD - All (except secret)	Inventory - Visited (except secret)
 - W/O  Compass:		HUD - Nothing				Inventory - Nothing
 - With Compass:		HUD - Triforce				Inventory - Nothing
+
+
+- Gannon: Intro
+	- Initially visible
+	- "Death Mountain" Music stops
+	- "Special Music A" plays (need to find this)
+	- Link holds up Triforce for 3 secs
+	(3 secs...)
+	- Death Mountain Music plays
+
+- Gannon: Death	(see https://www.youtube.com/watch?v=O0lYnGys3oo @ 4:30)
+	- Gannon flashes for 1 sec
+	(1 sec...)
+	- "Death Mountain" Music stops
+	- "Special Music A" plays (need to find this)
+	- "Scream 2" sound plays
+	- Gannon explodes for 1 sec, creating dust that falls into a pile, and sending out 8 red "sword hits" 
+	(1 sec...)
+	- Secret sound plays
+	- Room rapidly flashes white for 3 secs (alternating normal/white; on white frame everything black stays black, everything else goes white)
+	(3 secs...)
+	- DeathMountain music resumes
+	- Sealed doors open
+
+- Ending
+	- "Death Mountain" music stops
+	- "Special Music B" plays (need to find this)
+	(3 secs...)
+	- Zelda says, 
+		"Thanks Link, you're 
+		the hero of Hyrule."
+	- Link and Zelda each hold up a Triforce
+	- Screen flashes normal/red for 2 secs
+	(2 secs...)
+	- "Ending" music plays
+	- Text appears: 
+		"Finally, 
+		peace returns to Hyrule. 
+		This ends the story."
+	- Credits scroll down			(need to get ref)
+	- Text appears: 
+		"Another quest wil start 
+		from here. 
+		Press the start button."	(need to get ref)
 
 
 2nd-Quest-Only Enemies:

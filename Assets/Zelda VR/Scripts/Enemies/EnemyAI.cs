@@ -185,6 +185,7 @@ public class EnemyAI : MonoBehaviour
         return canOccupy;
     }
 
+    // TODO: this wasn't working correclty when I was using it with Wizzrobe_Blue gliding
     protected bool DetectObstructions(Index2 tile)
     {
         Vector2 p = Actor.TileToPosition_Center(tile);

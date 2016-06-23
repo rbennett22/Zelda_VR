@@ -37,7 +37,6 @@ public class Enemy : Actor
     public bool pushBackOnhit = true;
     
 
-
     public EnemySpawnPoint SpawnPoint { get; set; }
     public Index2 Sector { get; set; }                  // (Will be meaningless in dungeons)
     public DungeonRoom DungeonRoomRef { get; set; }     // (Will be null in overworld)
