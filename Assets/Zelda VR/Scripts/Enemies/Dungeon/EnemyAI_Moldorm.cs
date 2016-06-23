@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyAI_Moldorm : EnemyAI
 {
+    const float FRAME_LENGTH = 0.01667f;
     const int MAX_POS_HISTORY_LENGTH = 350;     // (in frames)
 
 
@@ -20,8 +21,8 @@ public class EnemyAI_Moldorm : EnemyAI
     Queue<Vector3> _positionHistory = new Queue<Vector3>(MAX_POS_HISTORY_LENGTH);
 
 
-    public EnemyAI_Moldorm Next { get; set; }
-    public EnemyAI_Moldorm Prev { get; set; }
+    public EnemyAI_Moldorm Next { get; private set; }
+    public EnemyAI_Moldorm Prev { get; private set; }
     public bool IsHead { get { return Next == null; } }
     public bool IsTail { get { return Prev == null; } }
     public bool IsVulnerable { get { return !_healthController.isIndestructible; } set { _healthController.isIndestructible = !value; } }
@@ -31,8 +32,7 @@ public class EnemyAI_Moldorm : EnemyAI
     {
         get
         {
-            float t = Time.unscaledDeltaTime;
-            return (t == 0) ? 0 : (int)(wormSeparationTime / t);
+            return (int)(wormSeparationTime / FRAME_LENGTH);
         }
     }
 
@@ -41,9 +41,9 @@ public class EnemyAI_Moldorm : EnemyAI
         Vector3[] ph = _positionHistory.ToArray();
         if (ph.Length == 0) { return transform.position; }
 
-        if (framesBack < 0) { framesBack = 0; }
-        if (framesBack > ph.Length - 1) { framesBack = ph.Length - 1; }
-        return ph[ph.Length - 1 - framesBack];
+        int n = ph.Length - 1;
+        framesBack = Mathf.Clamp(framesBack, 0, n);
+        return ph[n - framesBack];
     }
 
     public new Vector3 MoveDirection
@@ -117,7 +117,6 @@ public class EnemyAI_Moldorm : EnemyAI
     {
         if (!_doUpdate) { return; }
         if (IsPreoccupied) { return; }
-
         if (PauseManager.Instance.IsPaused_Any) { return; }
 
         if (IsHead)

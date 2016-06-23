@@ -6,7 +6,6 @@ NEEDS TESTING:
 BUGS:
 
 * BUG: DungeonEntrance OW: The back-most block is missing
-* BUG: DungeonExit: If you enter dungeon, then back up stairs a little, you can't go back down them
 
 * BUG: Sword and Wand Projectiles can't pass over water in Overworld
 * BUG: Link can walk on water in Overworld
@@ -28,8 +27,6 @@ BUGS:
 
 High Priority: 
 
-* Wand: Difficult to fire through narrow passages
-* CandleFlame: Difficult to use in narrow passages (ie. Dungeon 8 Entrance bush) (If hits Burnable/Enemy, it should spawn directly on top of Burnable/Enemy?)
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
@@ -39,20 +36,18 @@ High Priority:
 - Grotto Warps: Blocks don't always have time to spawn after warping
 - Grotto Warps: Even after blocks spawned, a flat sand tile beneath a pushable block was missing (Link could fall through)
 
-- Blue Wizzrobe: Implement ghosting ability
-- Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block
 - Boulders: Should bounce around
-- Statues: Enemies can walk through them
 - Armos should briefly flicker while coming alive
+- Ghini_Gravestone - Can move diagonally, and pass through objects, while the solid Ghini can't
 
 - Dodongo: Animation doesn't play for when he eats a bomb
-- Manhandla: What weapons should harm him (ie. Boomerang kills heads in one shot??)
-- Gannon: Intro
-- Gannon: When hit he should be temporarily invincible so that player can't take advantage
-- Gannon: Death
+- Dodongo: Should be able to defeat a Dodongo with one sword strike, regardless of it's armor or health when stunned by a bomb blast.
+* Gannon: Intro
+* Gannon: When hit he should be temporarily invincible so that player can't take advantage
+* Gannon: Death
 
-- Ending
-- Credits
+* Ending
+* Credits
 
 - Dungeon: Player shouldn't be able to damage enemies if he's not all the way inside the room
 - Projectiles: Remove swift?
@@ -64,6 +59,9 @@ High Priority:
 
 Mid Priority:
 
+- Blue Wizzrobe: WHY THE FUCK CAN'T I SET BOUNDARY?!?
+
+- Option to change block height for bushes, short blocks, dungeon blocks, etc.
 - Ladder: Can feel slightly unresponsive when player is next to multiple crossable tiles
 - Lost Woods: Fog Ceiling color should match fog, and fade in as player approaches LostWoods
 - Lost Woods: Warp Collectibles/Enemies/Projectiles
@@ -104,25 +102,19 @@ Low Priority:
 - Whistle: "If he blows multiple times while the whirlwind approaches, he can cycle through the sequence indefinitely"
 - Correctly texture custom blocks (ie. Grotto, Subdungeon) - use BoxMesh.cs?
 - Hold up HeartContainer if received in Grotto
-
 - Enemy Projectiles: Visually distinguish between MagicShield blockable and unblockable
 - Arrow: Should not be allowed to fire at a lower angle than parallel to ground
 - Enemy's PushBack Force: Apply in weapon's moveDirection
 - River Zora: Projectile should briefly hold position (~0.3 secs) before firing towards Link
 - Pushable Blocks: Should reset when leaving DungeonRoom (and linked doors reseal)
 - Lost Woods: Overriding directions doesn't work right for -x and -z;
+- Is it possible to "double collect" a Collectible by throwing the Boomerang and then walking into item as Bomerang returns?
 
 - ImageEffects on camera (bloom etc)?
 - SoundFX: DSP (ie. reverb in dungeons)
 - Music: Fade In/Out
-- Option to change block height for bushes, short blocks, dungeon blocks, etc.
 - UI: "Continue or Save & Quit?"
 - Building: Don't Copy meta files or backups (only copy NewGame.txt and NewGameEntryData.txt)
-
-- Try constraining RigidBody position for all enemies (test each one)?
-- Increase maxLiveProjectiles for certain bosses?
-- What's up with Manhandla projectiles/damage?
-- Is it possible to "double collect" a Collectible by throwing the Boomerang and then walking into item as Bomerang returns?
 
 - Refactor Spells/Buffs/Effects
 - Refactor Grottos
@@ -169,5 +161,4 @@ OPTIMIZATIONS:
 RESEARCH:
 
 - Darknut: Does the flame hurt him?
-- Gleeok: Does the wand hurt him?
 - Fairy: Changes move direction regularly (is this how fairy is supposed to move?)

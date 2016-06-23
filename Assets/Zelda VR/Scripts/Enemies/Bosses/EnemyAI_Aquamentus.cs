@@ -13,7 +13,7 @@ public class EnemyAI_Aquamentus : EnemyAI
     {
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;
         _enemyMove.AlwaysFaceTowardsMoveDirection = false;
-        _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
+        _enemyMove.targetPositionReached_Callback += OnTargetPositionReached;
 
         _forwardTileDirection = IndexDirection2.FromDirectionEnum(forwardDirection);
         transform.forward = _forwardTileDirection.ToVector3();
@@ -41,7 +41,7 @@ public class EnemyAI_Aquamentus : EnemyAI
 
         Weapon_Gun gun = _enemy.weapon as Weapon_Gun;
 
-        Vector3 dir = (Player.Position - gun.Muzzle.position).normalized;
+        Vector3 dir = (Player.Position - gun.MuzzlePosition).normalized;
         Vector3 dirL = Vector3.RotateTowards(dir, -dir, -radiansDelta, 999);
         Vector3 dirR = Vector3.RotateTowards(dir, -dir, radiansDelta, 999);
 

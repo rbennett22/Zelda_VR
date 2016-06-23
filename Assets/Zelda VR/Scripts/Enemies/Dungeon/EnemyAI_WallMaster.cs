@@ -46,7 +46,7 @@ public class EnemyAI_WallMaster : EnemyAI
 
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;
         _enemyMove.AlwaysFaceTowardsMoveDirection = true;
-        _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
+        _enemyMove.targetPositionReached_Callback += OnTargetPositionReached;
 
         _state = State.OutsideRoom;
     }

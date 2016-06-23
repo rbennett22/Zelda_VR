@@ -17,18 +17,8 @@ public class Actor : MonoBehaviour
 
     public Index2 Tile
     {
-        get
-        {
-            Vector3 p = Position;
-            return new Index2((int)p.x, (int)p.z);
-            //return new Index2(Position - WorldInfo.Instance.WorldOffset - TileMap.TileExtents);     // TODO: This should work (?)
-        }
-        set
-        {
-            Vector3 pos = value.ToVector3() + WorldInfo.Instance.WorldOffset + TileMap.TileExtents;
-            pos.y = Position.y;
-            Position = pos;
-        }
+        get { return PositionToTile(Position); }
+        set { PositionXZ = TileToPosition_Center(value); }
     }
 
     public Index2 GetOccupiedOverworldSector()
@@ -79,6 +69,17 @@ public class Actor : MonoBehaviour
         _healthController = GetComponent<HealthController>();
     }
 
+
+    static public Index2 PositionToTile(Vector3 pos)
+    {
+        return new Index2((int)pos.x, (int)pos.z);
+        //return new Index2(pos - WorldInfo.Instance.WorldOffset - TileMap.TileExtents);     // TODO: This should work (?)
+    }
+    static public Vector2 TileToPosition_Center(Index2 tile)
+    {
+        Vector3 p = tile.ToVector3() + WorldInfo.Instance.WorldOffset + TileMap.TileExtents;
+        return new Vector2(p.x, p.z);
+    }
 
     static public List<T> FindObjectsInSector<T>(Index2 sector) where T : Component
     {

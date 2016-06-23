@@ -1,122 +1,85 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Immersio.Utility;
 
 public class EnemyAI_Wizzrobe_Blue : EnemyAI
 {
+    const int GHOST_GLIDE_DISTANCE = 2;
+    const float CHANCE_TO_GHOST_GLIDE = 0.2f;
+
+
     public FlickerEffect flickerEffect;
+    bool FlickeringEnabled
+    {
+        get { return flickerEffect.enabled; }
+        set
+        {
+            flickerEffect.enabled = value;
+            GetComponent<Collider>().enabled = !value;
+        }
+    }
+
     public EnemyAI_Random enemyAI_Random;
 
 
-    float _shiftDuration = 0.7f;
-    float _attackDuration = 1.5f;
-    float _walkDuration = 3.0f;
-
-
-    /*enum State
-    {
-        Shifting,
-        Attacking,
-        Walking
-    }*/
-    //State _state = State.Walking;
-
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        if (enemyAI_Random != null) { enemyAI_Random.enabled = false; }
-    }
-
     void Start()
     {
+        _enemyMove.targetPositionReached_Callback += OnTargetPositionReached;
+        
         enemyAI_Random.enabled = true;
-        //StartCoroutine("WalkAround");
     }
 
 
-    /*IEnumerator Shift()
+    void OnTargetPositionReached(EnemyMove sender, Vector3 moveDirection)
     {
-        //_state = State.Shifting;
-        ActivateFlickering();
-
-        // TODO
-        Vector3 shiftToPos = GetRandomShiftPosition();
-
-        yield return new WaitForSeconds(_shiftDuration);
-
-        DeactivateFlickering();
-        StartCoroutine("WalkAround");
+        GhostGlideEnabled = Extensions.FlipCoin(CHANCE_TO_GHOST_GLIDE);
     }
 
-    IEnumerator Attack()
-    {
-        //_state = State.Attacking;
+    bool _ghostGlideEnabled;
+    public bool GhostGlideEnabled {
+        get { return _ghostGlideEnabled; }
+        set {
+            _ghostGlideEnabled = value;
 
-        if (_doUpdate && !IsPreoccupied)
-        {
-            _enemy.Attack();
-        }
-
-        yield return new WaitForSeconds(_attackDuration);
-
-        StartCoroutine("WalkAround");
-    }
-
-    IEnumerator WalkAround()
-    {
-        //_state = State.Walking;
-
-        enemyAI_Random.enabled = true;
-        enemyAI_Random.TargetPosition = transform.position;
-
-        yield return new WaitForSeconds(_walkDuration);
-
-        enemyAI_Random.enabled = false;
-        StartCoroutine("Shift");
-    }
-
-
-    void ActivateFlickering()
-    {
-        GetComponent<Collider>().enabled = false;
-        flickerEffect.enabled = true;
-    }
-    void DeactivateFlickering()
-    {
-        GetComponent<Collider>().enabled = true;
-        flickerEffect.enabled = false;
-    }
-
-    Vector3 GetRandomShiftPosition()
-    {
-        Vector3 p = transform.position;
-
-        Vector3 pp = Player.Tile.ToVector3();
-        pp.x += 0.5f;
-        pp.z += 0.5f;
-        List<Vector3> possiblePositions = new List<Vector3>();
-
-        //possiblePositions.Add(new Vector3(pp.x + tpDistanceToPlayer, p.y, pp.z));
-        //possiblePositions.Add(new Vector3(pp.x - tpDistanceToPlayer, p.y, pp.z));
-        //possiblePositions.Add(new Vector3(pp.x, p.y, pp.z + tpDistanceToPlayer));
-        //possiblePositions.Add(new Vector3(pp.x, p.y, pp.z - tpDistanceToPlayer));
-
-        for (int i = possiblePositions.Count - 1; i >= 0; i--)
-        {
-            if(!DoesBoundaryAllowPosition(possiblePositions[i]))
+            enemyAI_Random.enabled = !_ghostGlideEnabled;
+            FlickeringEnabled = _ghostGlideEnabled;
+            if (_ghostGlideEnabled)
             {
-                possiblePositions.RemoveAt(i);
+                TargetPosition = DetermineGhostGlidePosition();
             }
         }
+    }
 
-        if (possiblePositions.Count == 0)
+    Vector3 DetermineGhostGlidePosition()
+    {
+        Vector2 c = Actor.TileToPosition_Center(_enemy.Tile);
+        List<Vector2> pp = new List<Vector2>();     // possible positions to ghost-glide to
+
+        int d = GHOST_GLIDE_DISTANCE;
+        pp.Add(new Vector2(c.x + d, c.y + d));
+        pp.Add(new Vector2(c.x - d, c.y + d));
+        pp.Add(new Vector2(c.x + d, c.y - d));
+        pp.Add(new Vector2(c.x - d, c.y - d));
+
+        // TODO
+        /*for (int i = pp.Count - 1; i >= 0; i--)
+        {
+            Vector2 v2 = pp[i];
+
+            if (!DoesBoundaryAllowPosition(v2)
+                || DetectObstructions(new Index2(v2)))
+            {
+                pp.RemoveAt(i);
+            }
+        }*/
+
+        if (pp.Count == 0)
         {
             return transform.position;
         }
 
-        int randIdx = Random.Range(0, possiblePositions.Count);
-        return possiblePositions[randIdx];
-    }*/
+        int randIdx = Random.Range(0, pp.Count);
+        Vector2 p = pp[randIdx];
+        return new Vector3(p.x, transform.position.y, p.y);
+    }
 }

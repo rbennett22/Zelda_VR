@@ -1,111 +1,141 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAI_Wizzrobe_Red : EnemyAI
 {
-    const float OffscreenOffset = -30;      // How far to offset the Wizzrobe's y position when it is "invisible"
+    const float OFFSCREEN_OFFSET = -30;      // How far to offset the Wizzrobe's y position when it is "invisible"
 
 
     public FlickerEffect flickerEffect;
+    bool FlickeringEnabled
+    {
+        get { return flickerEffect.enabled; }
+        set
+        {
+            flickerEffect.enabled = value;
+            GetComponent<Collider>().enabled = !value;
+        }
+    }
+
     public int tpDistanceToPlayer = 3;      // How close to the player the Wizzrobe will teleport
 
 
-    float _fadeDuration = 0.7f;
-    float _attackDuration = 1.5f;
-    float _teleportDuration = 3.0f;
-    float _teleportDurationRandomOffset = 0.5f;
-
-
-    /*enum State
+    struct WizzrobeRed_State
     {
+        readonly public StateEnum state;
+        readonly public float duration;
+        readonly public float durationVariance;
+        readonly public Action activateState_Action;
+
+        public WizzrobeRed_State(StateEnum state, float duration, float durationVariance, Action activateState_Action)
+        {
+            this.state = state;
+            this.duration = duration;
+            this.durationVariance = durationVariance;
+            this.activateState_Action = activateState_Action;
+        }
+    }
+    WizzrobeRed_State[] _wizzrobeRed_States;
+
+    enum StateEnum
+    {
+        InvisibleIdle,
         FadingIn,
         Attacking,
-        Walking,
         FadingAway,
-        InvisibleIdle
-    }*/
-    //State _state = State.InvisibleIdle;
+    }
+    WizzrobeRed_State _state;
+    void SetState (WizzrobeRed_State value)
+    {
+        if (value.state == _state.state) { return; }
+        _state = value;
+
+        _state.activateState_Action();
+
+        float v = _state.durationVariance;
+        float duration = _state.duration + UnityEngine.Random.Range(-v, v);
+        StartCoroutine(WaitThenSetState(GetNextState(), duration));
+    }
+    WizzrobeRed_State GetNextState()
+    {
+        int i = (int)_state.state + 1;
+        if (i > _wizzrobeRed_States.Length - 1)
+        {
+            i = 0;
+        }
+        return _wizzrobeRed_States[i];
+    }
+    IEnumerator WaitThenSetState(WizzrobeRed_State state, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        SetState(state);
+    }
 
 
+    override protected void Awake()
+    {
+        base.Awake();
+
+        InitStates();
+    }
+    void InitStates()
+    {
+        _wizzrobeRed_States = new WizzrobeRed_State[]
+        {
+            new WizzrobeRed_State(StateEnum.InvisibleIdle, 3.0f, 0.5f, InvisibleIdle),
+            new WizzrobeRed_State(StateEnum.FadingIn, 0.7f, 0, FadeIn),
+            new WizzrobeRed_State(StateEnum.Attacking, 1.5f, 0, Attack),
+            new WizzrobeRed_State(StateEnum.FadingAway, 0.7f, 0, FadeAway)
+        };
+    }
+    
     void Start()
     {
-        Reappear();
-        StartCoroutine("FadeIn");
+        SetState(_wizzrobeRed_States[1]);
     }
 
 
-    IEnumerator FadeAway()
+    void InvisibleIdle()
     {
-        //_state = State.FadingAway;
-        ActivateFlickering();
-        yield return new WaitForSeconds(_fadeDuration);
-
-        DeactivateFlickering();
-        StartCoroutine("InvisibleIdle");
-    }
-
-    IEnumerator InvisibleIdle()
-    {
-        //_state = State.InvisibleIdle;
+        FlickeringEnabled = false;
         Disappear();
-        float teleportDuration = _teleportDuration + Random.Range(-_teleportDurationRandomOffset, _teleportDurationRandomOffset);
-
-        yield return new WaitForSeconds(teleportDuration);
-
+    }
+    void FadeIn()
+    {
         Reappear();
-        StartCoroutine("FadeIn");
+        FlickeringEnabled = true;
     }
-
-    IEnumerator FadeIn()
+    void Attack()
     {
-        //_state = State.FadingIn;
-        ActivateFlickering();
-
-        yield return new WaitForSeconds(_fadeDuration);
-
-        DeactivateFlickering();
-        StartCoroutine("Attack");
-    }
-
-    IEnumerator Attack()
-    {
-        //_state = State.Attacking;
-
+        FlickeringEnabled = false;
         if (_doUpdate && !IsPreoccupied)
         {
             _enemy.Attack();
         }
-
-        yield return new WaitForSeconds(_attackDuration);
-
-        StartCoroutine("FadeAway");
     }
-
-
-    void ActivateFlickering()
+    void FadeAway()
     {
-        GetComponent<Collider>().enabled = false;
-        flickerEffect.enabled = true;
-    }
-    void DeactivateFlickering()
-    {
-        GetComponent<Collider>().enabled = true;
-        flickerEffect.enabled = false;
+        FlickeringEnabled = true;
     }
 
+
+    float _storedPosY;
     void Disappear()
     {
         AnimatorInstance.gameObject.SetActive(false);
         GetComponent<Collider>().enabled = false;
-        transform.AddToY(OffscreenOffset);  // Move offscreen to prevent collision with player
-    }
 
+        _storedPosY = transform.position.y;
+        transform.AddToY(OFFSCREEN_OFFSET);  // Move offscreen to prevent collision with player
+    }
     void Reappear()
     {
         AnimatorInstance.gameObject.SetActive(true);
         GetComponent<Collider>().enabled = true;
-        transform.AddToY(-OffscreenOffset);
+        transform.SetY(_storedPosY);
 
         transform.position = GetRandomTeleportPosition();
 
@@ -123,32 +153,31 @@ public class EnemyAI_Wizzrobe_Red : EnemyAI
 
     Vector3 GetRandomTeleportPosition()
     {
-        Vector3 p = transform.position;
+        Vector2 c = Actor.TileToPosition_Center(Player.Tile);
+        List<Vector2> pp = new List<Vector2>();     // possible positions to teleport to
 
-        Vector3 pp = Player.Tile.ToVector3();
-        pp.x += 0.5f;
-        pp.z += 0.5f;
-        List<Vector3> possiblePositions = new List<Vector3>();
+        pp.Add(new Vector2(c.x + tpDistanceToPlayer, c.y));
+        pp.Add(new Vector2(c.x - tpDistanceToPlayer, c.y));
+        pp.Add(new Vector2(c.x, c.y + tpDistanceToPlayer));
+        pp.Add(new Vector2(c.x, c.y - tpDistanceToPlayer));
 
-        possiblePositions.Add(new Vector3(pp.x + tpDistanceToPlayer, p.y, pp.z));
-        possiblePositions.Add(new Vector3(pp.x - tpDistanceToPlayer, p.y, pp.z));
-        possiblePositions.Add(new Vector3(pp.x, p.y, pp.z + tpDistanceToPlayer));
-        possiblePositions.Add(new Vector3(pp.x, p.y, pp.z - tpDistanceToPlayer));
-
-        for (int i = possiblePositions.Count - 1; i >= 0; i--)
+        for (int i = pp.Count - 1; i >= 0; i--)
         {
-            if(!DoesBoundaryAllowPosition(possiblePositions[i]))
+            Vector2 v2 = pp[i];
+
+            if (!DoesBoundaryAllowPosition(v2))
             {
-                possiblePositions.RemoveAt(i);
+                pp.RemoveAt(i);
             }
         }
 
-        if (possiblePositions.Count == 0)
+        if (pp.Count == 0)
         {
             return transform.position;
         }
 
-        int randIdx = Random.Range(0, possiblePositions.Count);
-        return possiblePositions[randIdx];
+        int randIdx = UnityEngine.Random.Range(0, pp.Count);
+        Vector2 p = pp[randIdx];
+        return new Vector3(p.x, transform.position.y, p.y);
     }
 }

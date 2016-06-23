@@ -24,7 +24,7 @@ public class EnemyAI_Bladetrap : EnemyAI
 
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;
         _enemyMove.AlwaysFaceTowardsMoveDirection = false;
-        _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
+        _enemyMove.targetPositionReached_Callback += OnTargetPositionReached;
     }
 
 

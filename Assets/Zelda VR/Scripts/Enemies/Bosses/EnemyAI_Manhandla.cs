@@ -1,7 +1,11 @@
 ﻿public class EnemyAI_Manhandla : EnemyAI
 {
-    public float[] speeds = new float[4];
+    const int MAX_NUM_MOUTHS = 4;
 
+
+    public float[] speeds = new float[MAX_NUM_MOUTHS];
+
+    override public float Radius { get { return 1.0f; } }
 
     public int NumMouths { get { return transform.childCount - 1; } }
 

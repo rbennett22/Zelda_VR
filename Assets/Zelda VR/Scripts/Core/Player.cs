@@ -51,6 +51,9 @@ public class Player : Actor
     public int DeathCount { get; set; }
 
 
+    Index2 _prevOccupiedSector;
+
+
     #region Inventory & Weapons
 
     Inventory _inventory;
@@ -357,7 +360,6 @@ public class Player : Actor
         EnsureNoWorldFallThrough();
     }
 
-    Index2 _prevOccupiedSector;
     void UpdateEvents()
     {
         if (WorldInfo.Instance.IsOverworld)

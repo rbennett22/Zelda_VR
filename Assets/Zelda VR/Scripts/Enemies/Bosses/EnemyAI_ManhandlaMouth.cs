@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class EnemyAI_ManhandlaMouth : EnemyAI
 {
+    const float CHANCE_TO_DELAY_ATTACK = 0.07f;
+
+
     bool _delayingAttack;
-    float _chanceToDelayAttack = 70;
 
 
     void Update()
@@ -14,8 +16,7 @@ public class EnemyAI_ManhandlaMouth : EnemyAI
 
         if (!_delayingAttack)
         {
-            int rand = Random.Range(0, 100);
-            if (rand < _chanceToDelayAttack)
+            if (Extensions.FlipCoin(CHANCE_TO_DELAY_ATTACK))
             {
                 StartCoroutine("DelayAttack");
             }

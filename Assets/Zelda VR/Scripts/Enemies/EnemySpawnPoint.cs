@@ -60,6 +60,13 @@ public class EnemySpawnPoint : MonoBehaviour
         }
     }
 
+    public void Update()
+    {
+        if (_spawnedEnemy != null)
+        {
+            AssignBoundaryToSpawnedEnemy(_spawnedEnemy.GetComponent<Enemy>());
+        }
+    }
 
     public void DoUpdate()
     {
@@ -116,6 +123,10 @@ public class EnemySpawnPoint : MonoBehaviour
 
         if (WorldInfo.Instance.IsInDungeon)
         {
+            if(enemy.name == "Wizzrobe_Blue")
+            {
+                print("!!! Wizzrobe_Blue");
+            }
             DungeonRoom dr = DungeonRoom.GetRoomForPosition(transform.position);
             enemyAI.Boundary = dr.Bounds;
         }

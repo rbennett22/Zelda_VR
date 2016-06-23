@@ -13,8 +13,9 @@ public class EnemyAI : MonoBehaviour
     protected const float EPSILON = 0.001f;
 
 
-    public float Radius { get { return 0.5f; } }       // TODO
-    public Rect Boundary { get; set; }
+    virtual public float Radius { get { return 0.5f; } }       // TODO
+
+    public Rect Boundary { get; set; }    
     protected Rect GetBoundaryDeflatedByRadius()
     {
         Rect b = Boundary;
@@ -25,9 +26,9 @@ public class EnemyAI : MonoBehaviour
         return b;
     }
 
-    protected bool DoesBoundaryAllowPosition(Vector3 pt)
+    protected bool DoesBoundaryAllowPosition(Vector3 p)
     {
-        return DoesBoundaryAllowPosition(new Vector2(pt.x, pt.z));
+        return DoesBoundaryAllowPosition(new Vector2(p.x, p.z));
     }
     protected bool DoesBoundaryAllowPosition(Vector2 p)
     {
@@ -160,6 +161,12 @@ public class EnemyAI : MonoBehaviour
         return didHit ? CommonObjects.IsPlayer(hitInfo.collider.gameObject) : false;
     }
 
+    protected bool CanMoveInDirection_Overworld(Vector3 dir)
+    {
+        Vector3 newPos = _enemy.Position + dir * 2 * Radius;
+        Index2 newTile = Actor.PositionToTile(newPos);
+        return CanOccupyTile_Overworld(newTile);
+    }
     protected bool CanMoveInDirection_Overworld(IndexDirection2 dir)
     {
         Index2 adjacentTile = _enemy.Tile + dir;
@@ -178,6 +185,12 @@ public class EnemyAI : MonoBehaviour
         return canOccupy;
     }
 
+    protected bool DetectObstructions(Index2 tile)
+    {
+        Vector2 p = Actor.TileToPosition_Center(tile);
+        Vector3 pp = new Vector3(p.x, WorldOffsetY + Radius, p.y);
+        return CanMoveFromTo(pp, pp + 0.001f * Vector3.one);
+    }
     protected bool DetectObstructions(IndexDirection2 dir, float distance)
     {
         return DetectObstructions(dir.ToVector3(), distance);
@@ -203,8 +216,9 @@ public class EnemyAI : MonoBehaviour
     virtual protected bool CanMoveFromTo(Vector3 from, Vector3 to)
     {
         Vector3 dir = to - from;
-        LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls", "InvisibleBlocks");
-        return !Physics.Raycast(from, dir.normalized, dir.magnitude, mask);
+        Ray ray = new Ray(from, dir);
+        LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls", "InvisibleBlocks", "Enemies");
+        return ! Physics.SphereCast(ray, Radius * 0.99f, dir.magnitude, mask, QueryTriggerInteraction.UseGlobal);
     }
 
     protected IndexDirection2 EnforceBoundary(IndexDirection2 desiredMoveDirection)

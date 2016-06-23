@@ -51,7 +51,7 @@ public class EnemyAI_Random : EnemyAI
     {
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;
         _enemyMove.AlwaysFaceTowardsMoveDirection = faceTowardsMoveDirection;
-        _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
+        _enemyMove.targetPositionReached_Callback += OnTargetPositionReached;
 
         _baseSpeed = _enemyMove.speed;
 
@@ -134,19 +134,19 @@ public class EnemyAI_Random : EnemyAI
 
     DiscreteAction GetDesiredAction()
     {
-        if (FlipCoin(chanceToAttack) && IsAttackingAnOption())
+        if (FlipCoin(chanceToAttack * 0.01f) && IsAttackingAnOption())
         {
             return DiscreteAction.Attack;
         }
-        else if (FlipCoin(chanceToIdle) && !_justFinishedIdling)
+        else if (FlipCoin(chanceToIdle * 0.01f) && !_justFinishedIdling)
         {
             return DiscreteAction.Idle;
         }
-        else if (FlipCoin(chanceToJump))
+        else if (FlipCoin(chanceToJump * 0.01f))
         {
             return DiscreteAction.Jump;
         }
-        else if (FlipCoin(chanceToChangeDirection))
+        else if (FlipCoin(chanceToChangeDirection * 0.01f))
         {
             return DiscreteAction.ChangeDirection;
         }

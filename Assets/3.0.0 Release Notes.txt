@@ -2,7 +2,23 @@
 
 RECENTLY DONE:
 
+- Blue Wizzrobe: Implemented their "ghost-glide" ability
+- Manhandla: Increased life of each mouth to the correct amount
+- Manhandla: Boomerang no longer hurts/stuns him
+- Patra: Changed life amount to correct values
+- Gannon Projectile: Changed damage to correct amount
+- SilverArrow: Changed damage to correct amount
 - OptionsMenu: Controls View
+- Wand: Snaps fire direction to X/Z axis to ease firing through narrow passages
+- CandleFlame: Snaps fire direction to X/Z axis to ease firing through narrow passages
+- CandleFlame: No longer collides with blocks or enemies
+- CandleFlame: Moves forward slowly after being fired
+
+- BUG: Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block -FIXED
+- BUG: Zols are freezing in midair -FIXED
+- BUG: Manhandla: Can move its mouths through blocks -FIXED
+- BUG: Statues: Enemies can walk through them -FIXED
+- BUG: Moldorm: Looks crazy again -FIXED
 
 
 DONE:
@@ -109,6 +125,32 @@ NOTES:
 - With Map:			HUD - All (except secret)	Inventory - Visited (except secret)
 - W/O  Compass:		HUD - Nothing				Inventory - Nothing
 - With Compass:		HUD - Triforce				Inventory - Nothing
+
+
+2nd-Quest-Only Enemies:
+
+- Flashing Rope:  
+	Life: 12 
+	Damage: 4
+
+- Blue Bubble
+	Life: N/A
+	Damage: 0
+	(Removes Permanent Sword Curse)
+
+- Red Bubble
+	Life: N/A
+	Damage: 0
+	(Causes Permanent Sword Curse)
+	(Curse can be removed by Blue Bubbles, using a potion, collecting a Triforce shard, and I believe when one loses a life)
+
+- Black Keese
+	Life: 4
+	Damage: 4
+
+- Sword-Shooting Stalfos
+	Life: 8
+	Damage: 16 (Sword Shot) 
 
 
 CREDITS:

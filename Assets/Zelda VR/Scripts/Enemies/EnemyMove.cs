@@ -121,6 +121,7 @@ public class EnemyMove : MonoBehaviour
     bool CheckIfTargetPositionHasBeenReached()
     {
         Vector3 toTarget = _targetPos - transform.position;
+        //toTarget.y = 0;
         bool hasReachedTarget = (toTarget == Vector3.zero) || (Vector3.Dot(toTarget, _moveDirection) <= 0);
         if (hasReachedTarget)
         {

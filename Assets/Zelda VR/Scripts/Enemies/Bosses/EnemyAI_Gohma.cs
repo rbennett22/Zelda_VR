@@ -19,7 +19,7 @@ public class EnemyAI_Gohma : EnemyAI
     {
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;
         _enemyMove.AlwaysFaceTowardsMoveDirection = false;
-        _enemyMove.targetPositionReached_Callback = OnTargetPositionReached;
+        _enemyMove.targetPositionReached_Callback += OnTargetPositionReached;
 
         Vector3 p = transform.position;
         Boundary = new Rect(

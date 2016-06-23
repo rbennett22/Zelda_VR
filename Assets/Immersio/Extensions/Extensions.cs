@@ -204,6 +204,10 @@ public static class Extensions
     {
         return (pt.SnappedToGrid(increment, Vector3.zero));
     }
+    public static Vector3 SnappedTo(this Vector3 dir, Vector3 snapTo, float threshold)
+    {
+        return (Vector3.Angle(dir, snapTo) < threshold) ? snapTo : dir;
+    }
 
     // Vector2
     public static Vector2 GetNearestNormalizedAxisDirection(this Vector2 dir, float threshold = 0.01f)
