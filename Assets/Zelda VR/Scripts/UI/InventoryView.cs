@@ -185,7 +185,7 @@ public class InventoryView : MonoBehaviour
         get { return _menuCursor.CursorIndex; }
         set { _menuCursor.CursorIndex = value; }
     }
-    void OnCursorIndexChanged(MenuCursor sender)
+    void OnCursorIndexChanged(MenuCursor sender, Index2 prevIdx, Index2 newIdx)
     {
         if (sender != _menuCursor)
         {
@@ -193,7 +193,7 @@ public class InventoryView : MonoBehaviour
         }
 
         // Reposition the cursor view
-        GameObject itemSlot = _activeItemSlots[sender.CursorIndex.y, sender.CursorIndex.x];
+        GameObject itemSlot = _activeItemSlots[newIdx.y, newIdx.x];
         _cursorView.transform.position = itemSlot.transform.position;
 
         // Notify our delegate

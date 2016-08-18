@@ -89,6 +89,7 @@ public class DungeonRoomInfo : MonoBehaviour
     public Material PushBlockChangeFloorMaterial { get; set; }
 
     public bool containsBoss;
+    public bool containsGannon;
     public bool containsTriforce;
     public bool containsGoriyaNPC;
     public bool containsBombUpgrade;

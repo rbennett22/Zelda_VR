@@ -10,7 +10,7 @@ public class MenuCursor : MonoBehaviour
     public int numColumns, numRows;
     public bool wraps = true;
 
-    public Action<MenuCursor> onIndexChanged_Callback;
+    public Action<MenuCursor, Index2, Index2> onIndexChanged_Callback;
 
 
     Index2 _cursorIndex = new Index2();
@@ -45,16 +45,18 @@ public class MenuCursor : MonoBehaviour
             {
                 return;
             }
+
+            Index2 prevIdx = _cursorIndex;
             _cursorIndex = clampedIndex;
 
-            OnIndexChanged();
+            OnIndexChanged(prevIdx, _cursorIndex);
         }
     }
-    void OnIndexChanged()
+    void OnIndexChanged(Index2 prevIdx, Index2 newIdx)
     {
         if (onIndexChanged_Callback != null)
         {
-            onIndexChanged_Callback(this);
+            onIndexChanged_Callback(this, prevIdx, newIdx);
         }
     }
 

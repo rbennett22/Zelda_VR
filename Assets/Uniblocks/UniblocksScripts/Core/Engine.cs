@@ -5,7 +5,6 @@ using Immersio.Utility;
 
 namespace Uniblocks
 {
-    // enums
     public enum Facing
     {
         up, down, right, left, forward, back
@@ -29,6 +28,9 @@ namespace Uniblocks
 
     public class Engine : MonoBehaviour
     {
+        public const int NO_COLLIDE_LAYER = 26;
+
+
         // file paths
         public static string WorldName, WorldPath, BlocksPath;
 
@@ -38,7 +40,6 @@ namespace Uniblocks
 
         // voxels
         public static GameObject[] Blocks;
-
         public GameObject[] lBlocks;
 
         // chunk spawn settings
@@ -59,7 +60,6 @@ namespace Uniblocks
         public int lTargetFPS, lMaxChunkSaves, lMaxChunkDataRequests;
 
         // global settings
-
         public static bool ShowBorderFaces, GenerateColliders, SendCameraLookEvents,
         SendCursorEvents, EnableMultiplayer, MultiplayerTrackPosition, SaveVoxelData, GenerateMeshes;
 
@@ -82,9 +82,7 @@ namespace Uniblocks
         public static bool Initialized;
 
 
-
-        // ==== initialization ====
-        public void Awake()
+        void Awake()
         {
             EngineInstance = this;
             ChunkManagerInstance = GetComponent<ChunkManager>();
@@ -132,24 +130,30 @@ namespace Uniblocks
 
             if (Application.isWebPlayer)
             {
-                lSaveVoxelData = false;
-                SaveVoxelData = false;
+                lSaveVoxelData = SaveVoxelData = false;
             }
 
 
-            // set layer
-            if (LayerMask.LayerToName(26) != "" && LayerMask.LayerToName(26) != "UniblocksNoCollide")
+            // set layer collision
+            if (LayerMask.LayerToName(NO_COLLIDE_LAYER) != string.Empty)
             {
-                Debug.LogWarning("Uniblocks: Layer 26 is reserved for Uniblocks; it is automatically set to ignore collision with all layers.");
+                Debug.LogWarning("Uniblocks: " + NO_COLLIDE_LAYER + " is reserved for Uniblocks; it is automatically set to ignore collision with all layers.");
             }
             for (int i = 0; i < 31; i++)
             {
-                Physics.IgnoreLayerCollision(i, 26);
+                Physics.IgnoreLayerCollision(i, NO_COLLIDE_LAYER);
             }
 
 
+            PerformValidationChecks();
+
+            Initialized = true;
+        }
+
+        void PerformValidationChecks()
+        {
             // check block array
-            if (Blocks.Length < 1)
+            if (Blocks.Length == 0)
             {
                 Debug.LogError("Uniblocks: The blocks array is empty! Use the Block Editor to update the blocks array.");
                 Debug.Break();
@@ -191,39 +195,44 @@ namespace Uniblocks
                 Debug.LogWarning("Uniblocks: Max chunk data requests can't be a negative number! Setting max chunk data requests to 0.");
             }
 
-            // check materials
             GameObject chunkPrefab = GetComponent<ChunkManager>().ChunkObject;
-            int materialCount = chunkPrefab.GetComponent<Renderer>().sharedMaterials.Length - 1;
-
-            for (ushort i = 0; i < Blocks.Length; i++)
-            {
-                if (Blocks[i] != null)
-                {
-                    Voxel voxel = Blocks[i].GetComponent<Voxel>();
-
-                    if (voxel.VSubmeshIndex < 0)
-                    {
-                        Debug.LogError("Uniblocks: Voxel " + i + " has a material index lower than 0! Material index must be 0 or greater.");
-                        Debug.Break();
-                    }
-
-                    if (voxel.VSubmeshIndex > materialCount)
-                    {
-                        Debug.LogError("Uniblocks: Voxel " + i + " uses material index " + voxel.VSubmeshIndex + ", but the chunk prefab only has " + (materialCount + 1) + " material(s) attached. Set a lower material index or attach more materials to the chunk prefab.");
-                        Debug.Break();
-                    }
-                }
-            }
+            CheckChunkMaterials(chunkPrefab);
 
             // check anti-aliasing
             if (QualitySettings.antiAliasing > 0)
             {
                 Debug.LogWarning("Uniblocks: Anti-aliasing is enabled. This may cause seam lines to appear between blocks. If you see lines between blocks, try disabling anti-aliasing, switching to deferred rendering path, or adding some texture padding in the engine settings.");
             }
-
-
-            Initialized = true;
         }
+
+        void CheckChunkMaterials(GameObject chunkPrefab)
+        {
+            Renderer r = chunkPrefab.GetComponent<Renderer>();
+            int materialCount = r.sharedMaterials.Length - 1;
+
+            for (ushort i = 0; i < Blocks.Length; i++)
+            {
+                GameObject b = Blocks[i];
+                if (b == null)
+                {
+                    continue;
+                }
+
+                Voxel voxel = b.GetComponent<Voxel>();
+
+                if (voxel.VSubmeshIndex < 0)
+                {
+                    Debug.LogError("Uniblocks: Voxel " + i + " has a material index lower than 0! Material index must be 0 or greater.");
+                    Debug.Break();
+                }
+                if (voxel.VSubmeshIndex > materialCount)
+                {
+                    Debug.LogError("Uniblocks: Voxel " + i + " uses material index " + voxel.VSubmeshIndex + ", but the chunk prefab only has " + (materialCount + 1) + " material(s) attached. Set a lower material index or attach more materials to the chunk prefab.");
+                    Debug.Break();
+                }
+            }
+        }
+
 
         // ==== world data ====
 
@@ -242,9 +251,11 @@ namespace Uniblocks
         }
 
         public static void GetSeed()
-        { // reads the world seed from file if it exists, else creates a new seed and saves it to file
+        { 
+            // reads the world seed from file if it exists, else creates a new seed and saves it to file
             if (Application.isWebPlayer)
-            { // don't save to file if webplayer
+            { 
+                // don't save to file if webplayer
                 WorldSeed = Random.Range(ushort.MinValue, ushort.MaxValue);
                 return;
             }
@@ -255,12 +266,14 @@ namespace Uniblocks
                 WorldSeed = int.Parse(reader.ReadToEnd());
                 reader.Close();
             }
-            else {
+            else
+            {
                 while (WorldSeed == 0)
                 {
                     WorldSeed = Random.Range(ushort.MinValue, ushort.MaxValue);
                 }
-                System.IO.Directory.CreateDirectory(WorldPath);
+
+                Directory.CreateDirectory(WorldPath);
                 StreamWriter writer = new StreamWriter(WorldPath + "seed");
                 writer.Write(WorldSeed.ToString());
                 writer.Flush();
@@ -270,7 +283,8 @@ namespace Uniblocks
 
 
         public static void SaveWorld()
-        { // saves the data over multiple frames
+        { 
+            // saves the data over multiple frames
             EngineInstance.StartCoroutine(ChunkDataFiles.SaveAllChunks());
         }
         public static void SaveWorldInstant()
@@ -278,21 +292,23 @@ namespace Uniblocks
             ChunkDataFiles.SaveAllChunksInstant();
         }
 
-        // ==== other ====
 
+        // ==== other ====
 
         public static GameObject GetVoxelGameObject(ushort voxelId)
         {
             try
             {
-                if (voxelId == ushort.MaxValue) voxelId = 0;
+                if (voxelId == ushort.MaxValue) { voxelId = 0; }
+
                 GameObject voxelObject = Blocks[voxelId];
                 if (voxelObject.GetComponent<Voxel>() == null)
                 {
                     Debug.LogError("Uniblocks: Voxel id " + voxelId + " does not have the Voxel component attached!");
                     return Blocks[0];
                 }
-                else {
+                else
+                {
                     return voxelObject;
                 }
             }
@@ -312,11 +328,9 @@ namespace Uniblocks
                 if (voxel == null)
                 {
                     Debug.LogError("Uniblocks: Voxel id " + voxelId + " does not have the Voxel component attached!");
-                    return null;
                 }
-                else {
-                    return voxel;
-                }
+
+                return voxel;
             }
             catch (System.Exception)
             {
@@ -330,43 +344,48 @@ namespace Uniblocks
         public static VoxelInfo VoxelRaycast(Vector3 origin, Vector3 direction, float range, bool ignoreTransparent)
         {
             RaycastHit hit = new RaycastHit();
-
-            if (Physics.Raycast(origin, direction, out hit, range))
+            if (!Physics.Raycast(origin, direction, out hit, range))
             {
-                if (hit.collider.GetComponent<Chunk>() != null
-                    || hit.collider.GetComponent<ChunkExtension>() != null)
-                { // check if we're actually hitting a chunk
-                    GameObject hitObject = hit.collider.gameObject;
+                return null;
+            }
 
-                    if (hitObject.GetComponent<ChunkExtension>() != null)
-                    { // if we hit a mesh container instead of a chunk
-                        hitObject = hitObject.transform.parent.gameObject; // swap the mesh container for the actual chunk object
-                    }
+            GameObject g = hit.collider.gameObject;
 
-                    Index hitIndex = hitObject.GetComponent<Chunk>().PositionToVoxelIndex(hit.point, hit.normal, false);
+            if (g.GetComponent<Chunk>() == null
+                && g.GetComponent<ChunkExtension>() == null)
+            {
+                return null;
+            }
 
-                    if (ignoreTransparent)
-                    { // punch through transparent voxels by raycasting again when a transparent voxel is hit
-                        ushort hitVoxel = hitObject.GetComponent<Chunk>().GetVoxel(hitIndex.x, hitIndex.y, hitIndex.z);
-                        if (GetVoxelType(hitVoxel).VTransparency != Transparency.solid)
-                        { // if the hit voxel is transparent
-                            Vector3 newOrigin = hit.point;
-                            newOrigin.y -= 0.5f; // push the new raycast down a bit
-                            return VoxelRaycast(newOrigin, Vector3.down, range - hit.distance, true);
-                        }
-                    }
+            if (g.GetComponent<ChunkExtension>() != null)
+            { 
+                // if we hit a mesh container instead of a chunk
+                g = g.transform.parent.gameObject; // swap the mesh container for the actual chunk object
+            }
 
+            // check if we're actually hitting a chunk
+            Chunk ch = g.GetComponent<Chunk>();
+            Index idx = ch.PositionToVoxelIndex(hit.point, hit.normal, false);
 
-                    return new VoxelInfo(
-                                         hitObject.GetComponent<Chunk>().PositionToVoxelIndex(hit.point, hit.normal, false), // get hit voxel index
-                                         hitObject.GetComponent<Chunk>().PositionToVoxelIndex(hit.point, hit.normal, true), // get adjacent voxel index
-                                         hitObject.GetComponent<Chunk>()); // get chunk
+            if (ignoreTransparent)
+            { 
+                // punch through transparent voxels by raycasting again when a transparent voxel is hit
+                ushort hitVoxel = ch.GetVoxel(idx.x, idx.y, idx.z);
+
+                if (GetVoxelType(hitVoxel).VTransparency != Transparency.solid)
+                { 
+                    Vector3 newOrigin = hit.point;
+                    newOrigin.y -= 0.5f; // push the new raycast down a bit
+
+                    return VoxelRaycast(newOrigin, Vector3.down, range - hit.distance, true);
                 }
             }
 
-            // else
-            return null;
+            return new VoxelInfo(ch.PositionToVoxelIndex(hit.point, hit.normal, false), // get hit voxel index
+                                    ch.PositionToVoxelIndex(hit.point, hit.normal, true), // get adjacent voxel index
+                                    ch); // get chunk
         }
+
         public static VoxelInfo VoxelRaycast(Ray ray, float range, bool ignoreTransparent)
         {
             return VoxelRaycast(ray.origin, ray.direction, range, ignoreTransparent);
@@ -408,24 +427,26 @@ namespace Uniblocks
         public static Vector2 GetTextureOffset(ushort voxel, Facing facing)
         {
             Voxel voxelType = GetVoxelType(voxel);
-            Vector2[] textureArray = voxelType.VTexture;
+            Vector2[] texArr = voxelType.VTexture;
 
-            if (textureArray.Length == 0)
-            { // in case there are no textures defined, return a default texture
+            if (texArr.Length == 0)
+            { 
+                // in case there are no textures defined, return a default texture
                 Debug.LogWarning("Uniblocks: Block " + voxel.ToString() + " has no defined textures! Using default texture.");
                 return new Vector2(0, 0);
             }
-            else if (voxelType.VCustomSides == false)
-            { // if this voxel isn't using custom side textures, return the Up texture.
-                return textureArray[0];
+            if (voxelType.VCustomSides == false)
+            { 
+                // if this voxel isn't using custom side textures, return the Up texture.
+                return texArr[0];
             }
-            else if ((int)facing > textureArray.Length - 1)
-            { // if we're asking for a texture that's not defined, grab the last defined texture instead
-                return textureArray[textureArray.Length - 1];
+            if ((int)facing > texArr.Length - 1)
+            {
+                // if we're asking for a texture that's not defined, grab the last defined texture instead
+                return texArr[texArr.Length - 1];
             }
-            else {
-                return textureArray[(int)facing];
-            }
+
+            return texArr[(int)facing];
         }
     }
 }

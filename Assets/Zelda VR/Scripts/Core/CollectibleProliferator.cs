@@ -2,11 +2,29 @@
 
 public class CollectibleProliferator : MonoBehaviour
 {
-    public int updateInterval_ms = 1000;
+    public int updateInterval = 1;
 
 
     int _removalDist, _removalDistSq;
     Transform _playerTransform;
+
+
+    OverworldInfo _owInfo;
+    OverworldInfo OWInfo
+    {
+        get
+        {
+            if (_owInfo == null)
+            {
+                GameObject g = GameObject.FindGameObjectWithTag("OverworldInfo");
+                if (g != null)
+                {
+                    _owInfo = g.GetComponent<OverworldInfo>();
+                }
+            }
+            return _owInfo;
+        }
+    }
 
 
     void Awake()
@@ -19,36 +37,34 @@ public class CollectibleProliferator : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("Tick", 0, updateInterval_ms * 0.001f);
+        InvokeRepeating("Tick", 0, updateInterval);
     }
 
 
     void Tick()
     {
-        GameObject g = GameObject.FindGameObjectWithTag("OverworldInfo");       // TODO: cache this?
-        if (g == null)
+        if (OWInfo == null)
         {
             return;
         }
 
-        OverworldInfo owInfo = g.GetComponent<OverworldInfo>();
         Vector3 playerPos = _playerTransform.position;
 
-        foreach (Transform child in owInfo.collectibleSPs)
+        foreach (Transform child in OWInfo.collectibleSPs)
         {
-            CollectibleSpawnPoint csp = child.GetComponent<CollectibleSpawnPoint>();
-            if (csp == null) { continue; }
+            CollectibleSpawnPoint s = child.GetComponent<CollectibleSpawnPoint>();
+            if (s == null) { continue; }
 
-            float distSqr = (csp.transform.position - playerPos).sqrMagnitude;
+            float distSqr = (s.transform.position - playerPos).sqrMagnitude;
             if (distSqr > _removalDistSq)
             {
-                csp.DestroySpawnedCollectible();
+                s.DestroySpawnedCollectible();
             }
             else
             {
-                if (csp.SpawnedCollectible == null && !csp.HasBeenCollected)
+                if (s.SpawnedCollectible == null && !s.HasBeenCollected)
                 {
-                    csp.SpawnCollectible();
+                    s.SpawnCollectible();
                 }
             }
         }

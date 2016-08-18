@@ -106,11 +106,13 @@ public class Item : MonoBehaviour
         return GetUpgradeChain().Contains(item);
     }
 
+    public bool IsMaxedOut { get { return count == maxCount; } }
+
 
     public void OnCollected(int amount = 1)
     {
-        count = Mathf.Min(count + amount, maxCount);
-        count = Mathf.Max(count, 0);
+        count += amount;
+        count = Mathf.Clamp(count, 0, maxCount);
     }
 
     public void Use()

@@ -9,7 +9,7 @@ namespace Uniblocks
             int chunkSizeY = Engine.ChunkSize.y;
             int chunkSizeZ = Engine.ChunkSize.z;
 
-            int chunky = chunk.chunkIndex.y;
+            int chunky = _chunk.chunkIndex.y;
 
             for (int x = 0; x < chunkSizeX; x++)
             {
@@ -21,7 +21,7 @@ namespace Uniblocks
 
                         if (currentHeight < 8)
                         {
-                            chunk.SetVoxelSimple(x, y, z, 1); // set dirt
+                            _chunk.SetVoxelSimple(x, y, z, 1); // set dirt
                         }
                     }
                 }

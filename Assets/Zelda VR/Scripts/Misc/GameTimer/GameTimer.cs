@@ -19,14 +19,8 @@ public class GameTimer : MonoBehaviour
         }
     }
 
-    public float Time_SecsPart
-    {
-        get { return Mathf.Floor(_time_totalSecs % 60); }
-    }
-    public float Time_MinsPart
-    {
-        get { return Mathf.Floor(_time_totalSecs / 60); }
-    }
+    public float Time_SecsPart { get { return Mathf.Floor(_time_totalSecs % 60); } }
+    public float Time_MinsPart { get { return Mathf.Floor(_time_totalSecs / 60); } }
 
 
     bool _isRunning;

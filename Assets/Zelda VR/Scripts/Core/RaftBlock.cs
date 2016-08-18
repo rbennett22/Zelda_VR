@@ -9,12 +9,18 @@ public class RaftBlock : MonoBehaviour
 
     public static bool PlayerIsOnRaft;
 
+    public readonly static Vector3 VerticalRotation = new Vector3(0, 0, 0);
+    public readonly static Vector3 HorizontalRotation = new Vector3(0, 90, 0);
+
 
     public GameObject raftOverlayPrefab;
     public RaftBlock destination;
 
 
     GameObject _raftOverlay;
+
+
+    bool PlayerHasRaft { get { return Inventory.Instance.HasItem("Raft"); } }
 
 
     void Awake()
@@ -26,13 +32,12 @@ public class RaftBlock : MonoBehaviour
     void OnTriggerEnter(Collider otherCollider)
     {
         if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
-        if (PlayerIsOnRaft) { return; }
+        if (!PlayerHasRaft || PlayerIsOnRaft) { return; }
 
-        if (Inventory.Instance.HasItem("Raft"))
-        {
-            TravelToDestination();
-        }
+        TravelToDestination();
     }
+
+    
 
     void TravelToDestination()
     {
@@ -42,9 +47,8 @@ public class RaftBlock : MonoBehaviour
         Vector3 endPos = destination.transform.position;
         endPos.y = HOVER_HEIGHT;
 
-        Vector3 toDest = endPos - startPos;
-        bool layHorizontally = Mathf.Abs(toDest.z / toDest.x) < 1;
-        LayDownRaft(layHorizontally);
+        Vector3 rot = DetermineRotation(startPos, endPos);
+        LayDownRaft(rot);
 
         iTween.MoveTo(_raftOverlay, iTween.Hash(
             "position", endPos, 
@@ -65,8 +69,18 @@ public class RaftBlock : MonoBehaviour
             "easetype", EASE_TYPE)
             );
 
+        PlayKeySound();
+
         PlayerIsOnRaft = true;
     }
+
+    Vector3 DetermineRotation(Vector3 startPos, Vector3 endPos)
+    {
+        Vector3 v = endPos - startPos;
+        bool horz = Mathf.Abs(v.z / v.x) < 1;
+        return horz ? HorizontalRotation : VerticalRotation;
+    }
+
 
     void SetHazardBlocksEnabled(bool enable)
     {
@@ -93,18 +107,21 @@ public class RaftBlock : MonoBehaviour
         PlayerIsOnRaft = false;
     }
 
-    void LayDownRaft(bool horizontal)
+    void LayDownRaft(Vector3 rotation)
     {
         GameObject g = Instantiate(raftOverlayPrefab) as GameObject;
 
         Transform t = g.transform;
         t.SetParent(transform);
-        t.localPosition = Vector3.zero;
-        t.SetY(HOVER_HEIGHT);
-
-        float rotY = horizontal ? 90 : 0;
-        t.Rotate(new Vector3(0, rotY, 0));
+        t.localPosition = HOVER_HEIGHT * Vector3.up;
+        t.Rotate(rotation);
 
         _raftOverlay = g;
+    }
+
+
+    void PlayKeySound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.key);
     }
 }

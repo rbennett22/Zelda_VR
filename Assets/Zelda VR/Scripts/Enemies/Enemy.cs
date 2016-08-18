@@ -165,10 +165,11 @@ public class Enemy : Actor
     float _prevY;
     IEnumerator CheckForLanding()
     {
-        do
-        {
+        const float INTERVAL = 0.02f;
+
+        do {
             _prevY = Position.y;
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(INTERVAL);
         } while (Position.y != _prevY);
 
         OnLanded();

@@ -1,12 +1,15 @@
 using UnityEngine;
 
-public class ChunkExtension : MonoBehaviour
+namespace Uniblocks
 {
-    void Awake()
+    public class ChunkExtension : MonoBehaviour
     {
-        if (GetComponent<MeshRenderer>() == null)
+        void Awake()
         {
-            gameObject.layer = 26;
+            if (GetComponent<MeshRenderer>() == null)
+            {
+                gameObject.layer = Engine.NO_COLLIDE_LAYER;
+            }
         }
     }
 }

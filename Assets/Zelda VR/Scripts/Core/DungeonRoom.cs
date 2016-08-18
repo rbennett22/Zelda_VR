@@ -7,9 +7,9 @@ public class DungeonRoom : MonoBehaviour
 {
     const bool ALWAYS_SEAL_DOORS_FOR_BOSS = false;       // <-- Design Decision
 
-    const int BombUpgradeCost = 100;
-    public const float TilesWide = 12, TilesLong = 7;
-    public const float TilesWide_WithHalls = 16, TilesLong_WithHalls = 11;
+    const int BOMB_UPGRADE_COST = 100;
+    public const float TILES_WIDE = 12, TILES_LONG = 7;
+    public const float TILES_WIDE_WITH_HALLS = 16, TILES_LONG_WITH_HALLS = 11;
 
 
     public GameObject wall_N, wall_E, wall_S, wall_W, floor, ceiling;
@@ -24,12 +24,15 @@ public class DungeonRoom : MonoBehaviour
     public GameObject rupeeTrigger;
 
 
+    #region Info
+
     public DungeonRoomInfo Info { get; set; }
 
     public bool IsLit { get { return Info.isLit; } }
     public bool IsNpcRoom { get { return Info.npcPrefab != null; } }
     public bool LightsOffOnExit { get { return (!IsLit && !IsNpcRoom); } }
     public bool ContainsBoss { get { return Info.containsBoss; } }
+    public bool ContainsGannon { get { return Info.containsGannon; } }
     public bool ContainsGoriyaNpc { get { return Info.containsGoriyaNPC; } }
     public bool ContainsTriforce { get { return Info.containsTriforce; } }
     public bool ContainsBombUpgrade { get { return Info.containsBombUpgrade; } }
@@ -39,6 +42,9 @@ public class DungeonRoom : MonoBehaviour
     public bool PlayerHasVisited { get { return Info.PlayerHasVisited; } set { Info.PlayerHasVisited = value; } }
     public bool EnemiesHaveSpawned { get { return Info.EnemiesHaveSpawned; } set { Info.EnemiesHaveSpawned = value; } }
     public bool SpecialDropItemHasBeenCollected { get { return Info.SpecialDropItemHasBeenCollected; } set { Info.SpecialDropItemHasBeenCollected = value; } }
+
+    #endregion Info
+
 
     public bool WillShowNpcText
     {
@@ -100,7 +106,7 @@ public class DungeonRoom : MonoBehaviour
         get
         {
             Vector3 p = transform.position;
-            float w = TilesWide, h = TilesLong;
+            float w = TILES_WIDE, h = TILES_LONG;
             return new Rect(p.x - w * 0.5f, p.z - h * 0.5f, w, h);
         }
     }
@@ -261,6 +267,8 @@ public class DungeonRoom : MonoBehaviour
         _npc.SetActive(false);
         ShowNpcText(false);
         UnsealDoors();
+
+
     }
 
     void OnRupeeTrigger(RupeeTrigger rupeeTrigger)
@@ -272,7 +280,7 @@ public class DungeonRoom : MonoBehaviour
         if (Info.BombUpgradeHasBeenPurchased) { return; }
 
         Inventory inv = Inventory.Instance;
-        if (!inv.SpendRupees(BombUpgradeCost)) { return; }
+        if (!inv.SpendRupees(BOMB_UPGRADE_COST)) { return; }
 
         inv.OnItemCollected("BombUpgrade");
         Info.BombUpgradeHasBeenPurchased = true;
@@ -284,14 +292,14 @@ public class DungeonRoom : MonoBehaviour
 
     public DungeonRoom GetAdjoiningRoom(DungeonRoomInfo.WallDirection dir)
     {
-        DungeonRoom dr;
+        DungeonRoom dr = null;
         switch (dir)
         {
             case DungeonRoomInfo.WallDirection.North: dr = NorthRoom; break;
             case DungeonRoomInfo.WallDirection.East: dr = EastRoom; break;
             case DungeonRoomInfo.WallDirection.South: dr = SouthRoom; break;
             case DungeonRoomInfo.WallDirection.West: dr = WestRoom; break;
-            default: dr = null; break;
+            default: break;
         }
         return dr;
     }
@@ -434,6 +442,11 @@ public class DungeonRoom : MonoBehaviour
             {
                 SealDoors();
             }
+
+            if (ContainsGannon)
+            {
+                PlaySequence_GannonIntro();
+            }
         }
 
         if (NeedTriforceToPass && Inventory.Instance.HasAllTriforcePieces())
@@ -512,11 +525,25 @@ public class DungeonRoom : MonoBehaviour
             PlayKeySound(item.transform.position);
         }
 
+        // Enable Pushable block
+        if (_pushBlock)
+        {
+            _pushBlock.PushingEnabled = true;
+        }
+
         // UnsealDoors after boss fight
         if (ContainsBoss)
         {
             Info.BossHasBeenDefeated = true;
-            UnsealDoors();
+
+            if (ContainsGannon)
+            {
+                PlaySequence_GannonDefeated();
+            }
+            else
+            {
+                UnsealDoors();
+            }
         }
 
         // Unseal doors
@@ -526,12 +553,6 @@ public class DungeonRoom : MonoBehaviour
             {
                 UnsealDoor(d);
             }
-        }
-
-        // Enable Pushable block
-        if (_pushBlock)
-        {
-            _pushBlock.PushingEnabled = true;
         }
     }
 
@@ -580,8 +601,8 @@ public class DungeonRoom : MonoBehaviour
     public Vector2 GetSectorIndices()
     {
         Vector3 pos = transform.position;
-        int x = (int)(pos.x / TilesWide_WithHalls);
-        int z = (int)(pos.z / TilesLong_WithHalls);
+        int x = (int)(pos.x / TILES_WIDE_WITH_HALLS);
+        int z = (int)(pos.z / TILES_LONG_WITH_HALLS);
 
         return new Vector2(x, z);
     }
@@ -589,8 +610,8 @@ public class DungeonRoom : MonoBehaviour
     public Vector2 WorldPointToTile(Vector3 worldPos)
     {
         Vector3 pos = transform.position;
-        int x = (int)(worldPos.x - pos.x + TilesWide * 0.5f);
-        int z = (int)(worldPos.z - pos.z + TilesLong * 0.5f);
+        int x = (int)(worldPos.x - pos.x + TILES_WIDE * 0.5f);
+        int z = (int)(worldPos.z - pos.z + TILES_LONG * 0.5f);
 
         return new Vector2(x, z);
     }
@@ -598,8 +619,8 @@ public class DungeonRoom : MonoBehaviour
     public Rect TileToFloorTextureArea(Vector2 tile)
     {
         Texture2D floorTexture = floor.GetComponent<Renderer>().material.mainTexture as Texture2D;
-        float tileWidth_pixels = floorTexture.width / TilesWide;
-        float tileHeight_pixels = floorTexture.height / TilesLong;
+        float tileWidth_pixels = floorTexture.width / TILES_WIDE;
+        float tileHeight_pixels = floorTexture.height / TILES_LONG;
 
         return new Rect(
             tile.x * tileWidth_pixels,
@@ -613,11 +634,30 @@ public class DungeonRoom : MonoBehaviour
     {
         //position += WorldInfo.Instance.WorldOffset;
 
-        int x = (int)(position.x / TilesWide_WithHalls);
-        int z = (int)(position.z / TilesLong_WithHalls);
+        int x = (int)(position.x / TILES_WIDE_WITH_HALLS);
+        int z = (int)(position.z / TILES_LONG_WITH_HALLS);
 
         DungeonFactory df = CommonObjects.CurrentDungeonFactory;
         return df.GetRoomAtGridPosition(x, z);
+    }
+
+
+    void PlaySequence_GannonIntro()
+    {
+        Sequence_GannonIntro s = gameObject.AddComponent<Sequence_GannonIntro>();
+        s.Gannon = FindGannonInThisRoom();
+        s.Play();
+    }
+    void PlaySequence_GannonDefeated()
+    {
+        Sequence_GannonDefeated s = gameObject.AddComponent<Sequence_GannonDefeated>();
+        s.Gannon = FindGannonInThisRoom();
+        s.Play();
+    }
+    EnemyAI_Gannon FindGannonInThisRoom()
+    {
+        Enemy enemy = Enemies.Find(e => e.GetComponent<EnemyAI_Gannon>() != null);
+        return (enemy == null) ? null : enemy.GetComponent<EnemyAI_Gannon>();
     }
 
 

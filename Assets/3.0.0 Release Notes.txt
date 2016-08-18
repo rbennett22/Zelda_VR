@@ -2,10 +2,11 @@
 
 RECENTLY DONE:
 
-- Gannon: Is no longer pushed back when attacked
-- Gannon: Now teleports immediately after becoming invisible again so that player can't take advantage
+- BUG: Controls: The XBOX Controller that comes with the Rift makes Link move backwards when in the default position (no buttons pressed or axes moved) -FIXED
 
-- BUG: Gannon: It's possible to kill him with silver arrow the first time he appears -FIXED
+- Bait: Play event sound when you present meat to "Grumble, grumble"
+- Raft: Play event sound when riding
+
 
 
 DONE:
@@ -19,15 +20,18 @@ DONE:
 - Manhandla: Increased life of each mouth to the correct amount
 - Manhandla: Boomerang no longer hurts/stuns him
 - Patra: Changed life amount to correct values
-- Gannon Projectile: Changed damage to correct amount
+- Gannon: Changed projectile damage to correct amount
+- Gannon: Is no longer pushed back when attacked
+- Gannon: Now teleports immediately after becoming invisible again so that player can't take advantage
 
 - SilverArrow: Changed damage to correct amount
 - Wand: Fire direction now snaps to X/Z axis to ease firing through narrow passages
 - CandleFlame: Fire direction now snaps to X/Z axis to ease firing through narrow passages
 - CandleFlame: No longer collides with blocks or enemies
-- CandleFlame: Now slowly moves forward after being fired
+- CandleFlame: Now slowly moves forward after being fired (like in the original NES version)
 - Boomerang: No longer hurts enemies (except for the ones it kills instantly)
 
+- BUG: Gannon: It's possible to kill him with silver arrow the first time he appears -FIXED
 - BUG: Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block -FIXED
 - BUG: Manhandla: Can move its mouths through blocks -FIXED
 - BUG: Statues: Enemies can walk through them -FIXED
@@ -113,97 +117,3 @@ BUG FIXES:
 KNOWN ISSUES:
 
 - Grotto Warps: Currently unoperational
-
-
-
-NOTES:
-
-- Enemy Type Count:  
-   Overworld - 4 small, 5 big.  
-   Dungeon   - 5 small, 6 big.  
-   Bosses    - 8
-
-
-- Maps:
-- W/O  Map:			HUD - Nothing				Inventory - Visited (except secret)
-- With Map:			HUD - All (except secret)	Inventory - Visited (except secret)
-- W/O  Compass:		HUD - Nothing				Inventory - Nothing
-- With Compass:		HUD - Triforce				Inventory - Nothing
-
-
-- Gannon: Intro
-	- Initially visible
-	- "Death Mountain" Music stops
-	- "Special Music A" plays (need to find this)
-	- Link holds up Triforce for 3 secs
-	(3 secs...)
-	- Death Mountain Music plays
-
-- Gannon: Death	(see https://www.youtube.com/watch?v=O0lYnGys3oo @ 4:30)
-	- Gannon flashes for 1 sec
-	(1 sec...)
-	- "Death Mountain" Music stops
-	- "Special Music A" plays (need to find this)
-	- "Scream 2" sound plays
-	- Gannon explodes for 1 sec, creating dust that falls into a pile, and sending out 8 red "sword hits" 
-	(1 sec...)
-	- Secret sound plays
-	- Room rapidly flashes white for 3 secs (alternating normal/white; on white frame everything black stays black, everything else goes white)
-	(3 secs...)
-	- DeathMountain music resumes
-	- Sealed doors open
-
-- Ending
-	- "Death Mountain" music stops
-	- "Special Music B" plays (need to find this)
-	(3 secs...)
-	- Zelda says, 
-		"Thanks Link, you're 
-		the hero of Hyrule."
-	- Link and Zelda each hold up a Triforce
-	- Screen flashes normal/red for 2 secs
-	(2 secs...)
-	- "Ending" music plays
-	- Text appears: 
-		"Finally, 
-		peace returns to Hyrule. 
-		This ends the story."
-	- Credits scroll down			(need to get ref)
-	- Text appears: 
-		"Another quest wil start 
-		from here. 
-		Press the start button."	(need to get ref)
-
-
-2nd-Quest-Only Enemies:
-
-- Flashing Rope:  
-	Life: 12 
-	Damage: 4
-
-- Blue Bubble
-	Life: N/A
-	Damage: 0
-	(Removes Permanent Sword Curse)
-
-- Red Bubble
-	Life: N/A
-	Damage: 0
-	(Causes Permanent Sword Curse)
-	(Curse can be removed by Blue Bubbles, using a potion, collecting a Triforce shard, and I believe when one loses a life)
-
-- Black Keese
-	Life: 4
-	Damage: 4
-
-- Sword-Shooting Stalfos
-	Life: 8
-	Damage: 16 (Sword Shot) 
-
-
-CREDITS:
-
-Ramón A Olivares - "zeldaCollage_25Aniv"
-Michael Gallagher - "Zelda VR" promo artwork
- http://gamingaddictmike125.deviantart.com/art/The-Legend-of-Zelda-8-Bit-90311894
-David Linderman - Beta Tester

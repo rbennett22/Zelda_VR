@@ -35,10 +35,11 @@ public class Bait : MonoBehaviour
 
     void FeedGoriya(DungeonRoom dr)
     {
-        if(dr == null)
-            return;
+        if (dr == null) { return; }
 
         dr.FeedGoriyaNpc();
+        PlayKeySound();
+
         Destroy(gameObject);
     }
 
@@ -46,5 +47,11 @@ public class Bait : MonoBehaviour
     void OnDestroy()
     {
         ActiveBait = null;
+    }
+
+
+    void PlayKeySound()
+    {
+        SoundFx.Instance.PlayOneShot(SoundFx.Instance.key);
     }
 }

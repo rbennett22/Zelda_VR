@@ -1,16 +1,21 @@
 ﻿using UnityEngine;
+using Immersio.Utility;
 
 public class SavedGamesScreen : MonoBehaviour
 {
-    public GameObject saveEntryPrefab;
-    public Transform saveEntriesContainer;
+    public GameObject saveEntryViewPrefab;
+    public Transform saveEntryViewsContainer;
 
     public int capacity;
     public float entryHeight;
 
 
-    SaveEntryView[] _entries;
-    SaveEntryView _selectedEntry;
+    SaveEntryView[] _entryViews;
+    SaveEntryView SelectedEntryView { get { return GetEntryViewAtIndex(CursorIndex); } }
+    SaveEntryView GetEntryViewAtIndex(int idx)
+    {
+        return (idx >= _entryViews.Length) ? null : _entryViews[idx];
+    }
 
     MenuCursor _cursor;
 
@@ -20,57 +25,71 @@ public class SavedGamesScreen : MonoBehaviour
         get { return _cursor.CursorY; }
         set { _cursor.CursorY = value; }
     }
-    void CursorIndexChanged(MenuCursor sender)
+    void CursorIndexChanged(MenuCursor sender, Index2 prevIdx, Index2 newIdx)
     {
         if (sender != _cursor)
         {
             return;
         }
 
-        SelectEntry(CursorIndex);
+        SetEntryViewsSelectedState(prevIdx.y, false);
+        SetEntryViewsSelectedState(CursorIndex, true);
+    }
+
+    void SetEntryViewsSelectedState(int idx, bool value)
+    {
+        SaveEntryView v = GetEntryViewAtIndex(idx);
+        if (v == null)
+        {
+            return;
+        }
+
+        v.UpdateSelectedState(value);
     }
 
 
     void Awake()
     {
-        InstantiateSaveEntries();
+        InstantiateSaveEntryViews();
         InstantiateMenuCursor();
+
+        CursorIndex = 0;
+        SetEntryViewsSelectedState(CursorIndex, true);
     }
 
-    void InstantiateSaveEntries()
+    void InstantiateSaveEntryViews()
     {
-        _entries = new SaveEntryView[capacity];
+        _entryViews = new SaveEntryView[capacity];
 
         for (int i = 0; i < capacity; i++)
         {
-            InstantiateSaveEntry(i);
+            InstantiateSaveEntryView(i);
         }
     }
-    void InstantiateSaveEntry(int id)
+    void InstantiateSaveEntryView(int idx)
     {
-        GameObject g = Instantiate(saveEntryPrefab) as GameObject;
-        SaveEntryView view = g.GetComponent<SaveEntryView>();
+        GameObject g = Instantiate(saveEntryViewPrefab) as GameObject;
+        SaveEntryView v = g.GetComponent<SaveEntryView>();
 
-        Transform t = view.transform;
-        t.SetParent(saveEntriesContainer);
-        t.localPosition = new Vector3(0, -id * entryHeight, -0.1f);
+        Transform t = v.transform;
+        t.SetParent(saveEntryViewsContainer);
+        t.localPosition = new Vector3(0, -idx * entryHeight, -0.1f);
         t.localRotation = Quaternion.identity;
 
-        view.InitWithEntryData(SaveManager.Instance.LoadEntryData(id));
+        v.InitWithEntryData(SaveManager.Instance.LoadEntryData(idx));
 
-        _entries[id] = view;
+        _entryViews[idx] = v;
     }
 
     void InstantiateMenuCursor()
     {
-        _cursor = gameObject.AddComponent<MenuCursor>();
+        MenuCursor c = gameObject.AddComponent<MenuCursor>();
 
-        _cursor.numColumns = 1;
-        _cursor.numRows = capacity;
-        _cursor.onIndexChanged_Callback = CursorIndexChanged;
+        c.numColumns = 1;
+        c.numRows = capacity;
+        c.onIndexChanged_Callback = CursorIndexChanged;
 
-        CursorIndex = 0;
-        CursorIndexChanged(_cursor);
+        _cursor = c;
     }
 
 
@@ -78,17 +97,24 @@ public class SavedGamesScreen : MonoBehaviour
     {
         UpdateCursor();
 
-        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Start)
-            || ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack))
+        if (IsSelectButtonDown())
         {
             PlaySelectSound();
-            LoadSelectedEntry();
+            LoadEntry(CursorIndex);
         }
-
-        if (Application.isEditor && ZeldaInput.GetButtonDown(ZeldaInput.Button.Extra))      // TODO
+        else if (Application.isEditor && IsEraseButtonDown())      // TODO
         {
-            DeleteSelectedEntry();
+            EraseEntry(CursorIndex);
         }
+    }
+    bool IsSelectButtonDown()
+    {
+        return ZeldaInput.GetButtonDown(ZeldaInput.Button.Start)
+            || ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack);
+    }
+    bool IsEraseButtonDown()
+    {
+        return ZeldaInput.GetButtonDown(ZeldaInput.Button.Extra);
     }
 
     void UpdateCursor()
@@ -102,60 +128,44 @@ public class SavedGamesScreen : MonoBehaviour
         }
     }
 
-    void SelectEntry(int id)
+
+    void LoadEntry(int idx)
     {
-        print("SelectEntry: " + id);
+        print("LoadEntry: " + idx);
 
-        // Deselect previous
-        if (_selectedEntry != null)
-        {
-            _selectedEntry.MarkAsDeselected();
-        }
-
-        // Select new
-        _selectedEntry = _entries[id];
-        if (_selectedEntry != null)
-        {
-            _selectedEntry.MarkAsSelected();
-        }
-    }
-
-
-    void LoadSelectedEntry()
-    {
-        if (_selectedEntry == null)
+        SaveEntryView v = GetEntryViewAtIndex(idx);
+        if (v == null)
         {
             return;
         }
-
-        print("LoadSelectedEntry: " + _selectedEntry.name);
 
         CommonObjects.PlayerController_C.SetHaltUpdateMovement(false);
 
-        Player player = CommonObjects.Player_C;
-        player.RegisteredName = _selectedEntry.PlayerName;
-        player.DeathCount = _selectedEntry.PlayerDeathCount;
+        Player p = CommonObjects.Player_C;
+        p.RegisteredName = v.PlayerName;
+        p.DeathCount = v.PlayerDeathCount;
 
-        SaveManager.Instance.LoadGame(CursorIndex);
+        SaveManager.Instance.LoadGame(idx);
     }
 
-    void DeleteSelectedEntry()
+    void EraseEntry(int idx)
     {
-        if (_selectedEntry == null)
+        print("EraseEntry: " + idx);
+
+        SaveEntryView v = GetEntryViewAtIndex(idx);
+        if (v == null)
         {
             return;
         }
-
-        print("DeleteSelectedEntry: " + _selectedEntry.name);
 
         bool success = SaveManager.Instance.DeleteGame(CursorIndex);
         if (success)
         {
             PlayDeleteSound();
 
-            Destroy(_selectedEntry.gameObject);
-            InstantiateSaveEntry(CursorIndex);
-            SelectEntry(CursorIndex);
+            Destroy(v.gameObject);
+            InstantiateSaveEntryView(CursorIndex);
+            SetEntryViewsSelectedState(CursorIndex, true);
         }
         else
         {

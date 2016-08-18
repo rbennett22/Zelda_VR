@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-// Controls spawning and destroying chunks.
+// ChunkManager: Controls spawning and destroying chunks.
 
 namespace Uniblocks
 {
@@ -34,11 +34,11 @@ namespace Uniblocks
         // local flags
         bool _isDone;
 
-        protected Index LastRequest;        // ~RJB: made protected instead of private
+        protected Index LastRequest;    
         float targetFrameDuration;
         Stopwatch frameStopwatch;
 
-        public bool SpawnQueueIsEmpty { get; private set; }     // ~RJB: made a property instead of public var
+        public bool SpawnQueueIsEmpty { get; private set; }  
 
         
         void Awake()
@@ -54,9 +54,7 @@ namespace Uniblocks
             ChunkUpdateQueue = new List<Chunk>();
             frameStopwatch = new Stopwatch();
 
-            Engine.ChunkScale = ChunkObject.transform.localScale;
-            ChunkObject.GetComponent<Chunk>().meshContainer.transform.localScale = ChunkObject.transform.localScale; // set correct scale of trigger collider and additional mesh collider
-            ChunkObject.GetComponent<Chunk>().chunkCollider.transform.localScale = ChunkObject.transform.localScale;
+            InitChunkObject();
 
             _isDone = true;
             SpawningChunks = false;
@@ -64,12 +62,24 @@ namespace Uniblocks
             Initialized = true;
         }
 
+        void InitChunkObject()
+        {
+            Chunk ch = ChunkObject.GetComponent<Chunk>();
+            Vector3 s = ChunkObject.transform.localScale;
+
+            ch.meshContainer.transform.localScale = s; // set correct scale of trigger collider and additional mesh collider
+            ch.chunkCollider.transform.localScale = s;
+            Engine.ChunkScale = s;
+        }
+
+
         void ResetFrameStopwatch()
         {
             frameStopwatch.Stop();
             frameStopwatch.Reset();
             frameStopwatch.Start();
         }
+
 
         public static void AddChunkToUpdateQueue(Chunk chunk)
         {
@@ -107,53 +117,38 @@ namespace Uniblocks
             ProcessChunkQueueLoopActive = false;
         }
 
+
         public static void RegisterChunk(Chunk chunk)
         { // adds a reference to the chunk to the global chunk list
             Chunks.Add(chunk.chunkIndex.ToString(), chunk);
         }
-
         public static void UnregisterChunk(Chunk chunk)
         {
             Chunks.Remove(chunk.chunkIndex.ToString());
         }
 
         public static GameObject GetChunk(int x, int y, int z)
-        { // returns the gameObject of the chunk with the specified x,y,z, or returns null if the object is not instantiated
+        {
             return GetChunk(new Index(x, y, z));
         }
-
         public static GameObject GetChunk(Index index)
         {
-            Chunk chunk = GetChunkComponent(index);
-            if (chunk == null)
-            {
-                return null;
-            }
-            else {
-                return chunk.gameObject;
-            }
+            Chunk ch = GetChunkComponent(index);
+            return (ch == null) ? null : ch.gameObject;
         }
 
         public static Chunk GetChunkComponent(int x, int y, int z)
         {
             return GetChunkComponent(new Index(x, y, z));
         }
-
         public static Chunk GetChunkComponent(Index index)
         {
-            string indexString = index.ToString();
-            if (Chunks.ContainsKey(indexString))
-            {
-                return Chunks[indexString];
-            }
-            else
-            {
-                return null;
-            }
+            string s = index.ToString();
+            return Chunks.ContainsKey(s) ? Chunks[s] : null;
         }
 
 
-        // ==== spawn chunks functions ====
+        #region SpawnChunks
 
         public static GameObject SpawnChunk(int x, int y, int z)
         { 
@@ -165,33 +160,26 @@ namespace Uniblocks
             }
             else return chunk;
         }
-
         public static GameObject SpawnChunk(Index index)
         { 
             // spawns a single chunk (only if it's not already spawned)
-            GameObject chunk = GetChunk(index);
-            if (chunk == null)
-            {
-                return Engine.ChunkManagerInstance.DoSpawnChunk(index);
-            }
-            else return chunk;
+            GameObject ch = GetChunk(index);
+            return (ch == null) ? Engine.ChunkManagerInstance.DoSpawnChunk(index) : ch;
         }
 
         public static GameObject SpawnChunkFromServer(Index index)
         {
             // spawns a chunk and disables mesh generation and enables timeout (used by the server in multiplayer)
-            GameObject chunk = GetChunk(index);
-            if (chunk == null)
+            GameObject g = GetChunk(index);
+            if (g == null)
             {
-                chunk = Engine.ChunkManagerInstance.DoSpawnChunk(index);
-                Chunk chunkComponent = chunk.GetComponent<Chunk>();
-                chunkComponent.enableTimeout = true;
-                chunkComponent.disableMesh = true;
-                return chunk;
+                g = Engine.ChunkManagerInstance.DoSpawnChunk(index);
+                Chunk ch = g.GetComponent<Chunk>();
+                ch.enableTimeout = true;
+                ch.disableMesh = true;
             }
-            else return chunk; // don't disable mesh generation and don't enable timeout for chunks that are already spawned
+            return g;
         }
-
         public static GameObject SpawnChunkFromServer(int x, int y, int z)
         {
             return SpawnChunkFromServer(new Index(x, y, z));
@@ -199,16 +187,16 @@ namespace Uniblocks
         
         GameObject DoSpawnChunk(Index index)
         {
-            GameObject chunkObject = InstantiateChunk(index.ToVector3(), transform.rotation);
-            Chunk chunk = chunkObject.GetComponent<Chunk>();
-            AddChunkToUpdateQueue(chunk);
+            GameObject g = InstantiateChunk(index.ToVector3(), transform.rotation);
+            Chunk ch = g.GetComponent<Chunk>();
+            AddChunkToUpdateQueue(ch);
 
-            return chunkObject;
+            return g;
         }
 
 
         public static void SpawnChunks(float x, float y, float z)
-        { // take world pos, convert to chunk index
+        { 
             Index index = Engine.PositionToChunkIndex(new Vector3(x, y, z));
             Engine.ChunkManagerInstance.TrySpawnChunks(index);
         }
@@ -219,7 +207,7 @@ namespace Uniblocks
         }
 
         public static void SpawnChunks(int x, int y, int z)
-        { // take chunk index, no conversion needed
+        {
             Engine.ChunkManagerInstance.TrySpawnChunks(x, y, z);
         }
         public static void SpawnChunks(Index index)
@@ -256,6 +244,8 @@ namespace Uniblocks
 
             return ch;
         }
+
+        #endregion SpawnChunks
 
 
         public void Update()
@@ -306,7 +296,8 @@ namespace Uniblocks
                     ChunksToDestroy.Add(chunk);
                 }
                 else if (Mathf.Abs(chunk.chunkIndex.y - originY) > range + Engine.ChunkDespawnDistance)
-                { // destroy chunks outside of vertical range
+                { 
+                    // destroy chunks outside of vertical range
                     ChunksToDestroy.Add(chunk);
                 }
             }
@@ -316,15 +307,18 @@ namespace Uniblocks
             for (int currentLoop = 0; currentLoop <= range; currentLoop++)
             {
                 for (var x = originX - currentLoop; x <= originX + currentLoop; x++)
-                { // iterate through all potential chunk indexes within range
+                {
+                    // iterate through all potential chunk indexes within range
                     for (var y = originY - currentLoop; y <= originY + currentLoop; y++)
                     {
                         for (var z = originZ - currentLoop; z <= originZ + currentLoop; z++)
                         {
                             if (Mathf.Abs(y) <= heightRange)
-                            { // skip chunks outside of height range
+                            { 
+                                // skip chunks outside of height range
                                 if (Mathf.Abs(originX - x) + Mathf.Abs(originZ - z) < range * 1.3f)
-                                { // skip corners
+                                { 
+                                    // skip corners
                                     // pause loop while the queue is not empty
                                     while (ChunkUpdateQueue.Count > 0)
                                     {
@@ -375,10 +369,14 @@ namespace Uniblocks
                                             }
 
                                             if (currentChunk != null)
+                                            {
                                                 currentChunk.AddToQueueWhenReady();
+                                            }
                                         }
                                     }
-                                    else { // if chunk doesn't exist, create new chunk (it adds itself to the update queue when its data is ready)
+                                    else
+                                    {
+                                        // if chunk doesn't exist, create new chunk (it adds itself to the update queue when its data is ready)
                                         // spawn chunk
                                         GameObject newChunk = InstantiateChunk(new Vector3(x, y, z), transform.rotation);
                                         currentChunk = newChunk.GetComponent<Chunk>();
@@ -407,11 +405,12 @@ namespace Uniblocks
                                         }
 
                                         if (currentChunk != null)
+                                        {
                                             currentChunk.AddToQueueWhenReady();
+                                        }
                                     }
                                 }
                             }
-
 
 
                             // continue loop in next frame if the current frame time is exceeded

@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(HealthController))]
-
 public class Player : Actor
 {
     [SerializeField]
@@ -559,5 +557,28 @@ public class Player : Actor
         float groundY = WorldInfo.Instance.WorldOffset.y;
         float playerOffset = _playerController.Height * 0.5f;
         _playerController.transform.SetY(groundY + playerOffset + 0.5f);
+    }
+
+
+    bool _playerGroundCollisionEnabled;
+    public bool PlayerGroundCollisionEnabled
+    {
+        get { return _playerGroundCollisionEnabled; }
+        set
+        {
+            if (Cheats.Instance.GhostModeIsEnabled)
+            {
+                return;
+            }
+
+            _playerGroundCollisionEnabled = value;
+
+            int playerLayer = CommonObjects.Player_G.layer;
+            int groundLayer = LayerMask.NameToLayer("Ground");
+            int blocksLayer = LayerMask.NameToLayer("Blocks");
+
+            Physics.IgnoreLayerCollision(playerLayer, groundLayer, !_playerGroundCollisionEnabled);
+            Physics.IgnoreLayerCollision(playerLayer, blocksLayer, !_playerGroundCollisionEnabled);
+        }
     }
 }

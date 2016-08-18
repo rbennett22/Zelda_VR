@@ -93,6 +93,23 @@ namespace Immersio.Utility
             return !(a == b);
         }
 
+        public static Index3 operator +(Index3 a, Index3 b)
+        {
+            Index3 n = new Index3();
+            n.x = a.x + b.x;
+            n.y = a.y + b.y;
+            n.z = a.z + b.z;
+            return n;
+        }
+        public static Index3 operator -(Index3 a, Index3 b)
+        {
+            Index3 n = new Index3();
+            n.x = a.x - b.x;
+            n.y = a.y - b.y;
+            n.z = a.z - b.z;
+            return n;
+        }
+
         #endregion Operator Overloads
     }
 }

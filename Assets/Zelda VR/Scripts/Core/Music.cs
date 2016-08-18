@@ -68,6 +68,8 @@ public class Music : Singleton<Music>
     public void PlayOverworld() { PlayOpeningThenLoop(overworld_open, overworld_loop); }
     public void PlayLabyrinth() { Play(labyrinth); }
     public void PlayDeathMountain() { Play(deathMountain); }
+    public void PlaySpecialMusicA() { /* TODO */ }
+    public void PlaySpecialMusicB() { /* TODO */ }
     public void PlayEnding() { Play(ending, false); }
 
     public void Play(AudioClip clip, bool loop = true, ulong delay = 0)

@@ -64,7 +64,8 @@ public class EnemySpawnPoint : MonoBehaviour
     {
         if (_spawnedEnemy != null)
         {
-            AssignBoundaryToSpawnedEnemy(_spawnedEnemy.GetComponent<Enemy>());
+            Enemy e = _spawnedEnemy.GetComponent<Enemy>();
+            AssignBoundaryToSpawnedEnemy(e);
         }
     }
 
@@ -115,26 +116,25 @@ public class EnemySpawnPoint : MonoBehaviour
 
     void AssignBoundaryToSpawnedEnemy(Enemy enemy)
     {
-        EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
-        if(enemyAI == null)
-        {
-            return;
-        }
+        if (enemy == null) { return; }
+
+        EnemyAI ai = enemy.GetComponent<EnemyAI>();
+        if (ai == null) { return; }
 
         if (WorldInfo.Instance.IsInDungeon)
         {
-            if(enemy.name == "Wizzrobe_Blue")
+            /*if(enemy.name == "Wizzrobe_Blue")     // TODO
             {
                 print("!!! Wizzrobe_Blue");
-            }
+            }*/
             DungeonRoom dr = DungeonRoom.GetRoomForPosition(transform.position);
-            enemyAI.Boundary = dr.Bounds;
+            ai.Boundary = dr.Bounds;
         }
         else
         {
             TileMap tileMap = CommonObjects.OverworldTileMap;
             enemy.Sector = tileMap.GetSectorContainingPosition(transform.position);
-            enemyAI.Boundary = tileMap.GetBoundsForSector(enemy.Sector);
+            ai.Boundary = tileMap.GetBoundsForSector(enemy.Sector);
         }
     }
     void AssignSpecialDropItemToSpawnedEnemy(Enemy enemy)

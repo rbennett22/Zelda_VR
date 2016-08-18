@@ -14,9 +14,15 @@ public class SaveEntryView : MonoBehaviour
     public int PlayerDeathCount { get; set; }
 
 
+    public void UpdateSelectedState(bool value)
+    {
+        selectedIndicatorImage.GetComponent<Renderer>().enabled = value;
+    }
+
+
     void Awake()
     {
-        MarkAsDeselected();
+        UpdateSelectedState(false);
         //ClearToDefaultValues();
     }
 
@@ -132,15 +138,5 @@ public class SaveEntryView : MonoBehaviour
                 y = h;    // (move up to first row)
             }
         }
-    }
-
-
-    public void MarkAsSelected()
-    {
-        selectedIndicatorImage.GetComponent<Renderer>().enabled = true;
-    }
-    public void MarkAsDeselected()
-    {
-        selectedIndicatorImage.GetComponent<Renderer>().enabled = false;
     }
 }

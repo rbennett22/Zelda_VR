@@ -5,14 +5,15 @@ public class HazardBlock : MonoBehaviour
 {
     static HazardBlock LadderBlock;     // The block, if any, that currently has the Ladder over it (only one allowed at a time)
 
+    public readonly static Vector3 VerticalRotation = new Vector3(0, 0, 0);
+    public readonly static Vector3 HorizontalRotation = new Vector3(0, 90, 0);
+
 
     public GameObject ladderOverlayPrefab;
-
+    GameObject _ladderOverlay;
 
     Collider _physicsCollider;
     public bool PhysicsColliderEnabled { get { return _physicsCollider.enabled; } set { _physicsCollider.enabled = value; } }
-
-    GameObject _ladderOverlay;
 
 
     void Awake()
@@ -31,37 +32,27 @@ public class HazardBlock : MonoBehaviour
     }
     void OnTriggerEnterOrStay(Collider otherCollider)
     {
-        GameObject other = otherCollider.gameObject;
-        if (!CommonObjects.IsPlayer(other) || !PlayerHasLadder())
-        {
-            return;
-        }
-        if (LadderBlock != null)
-        {
-            return;
-        }
+        if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
+        if (!PlayerHasLadder || LadderBlock != null) { return; }
 
         Player player = CommonObjects.Player_C;
-
-        if (IsPlayerMovingTowardsThisBlock(player))
+        if (IsPlayerMovingTowardsThisBlock(player) && CanCross(player))
         {
-            if (CanCross(player))
-            {
-                Vector3 toPlayer = player.Position - transform.position;
-                bool layHorizontally = Mathf.Abs(toPlayer.z / toPlayer.x) < 1;
-                LayDownLadder(layHorizontally);
-            }
+            Vector3 rot = DetermineLadderRotation(player);
+            LayDownLadder(rot);
         }
     }
+    Vector3 DetermineLadderRotation(Player player)
+    {
+        Vector3 v = player.Position - transform.position;
+        bool horz = Mathf.Abs(v.z / v.x) < 1;
+        return horz ? HorizontalRotation : VerticalRotation;
+    }
+
     void OnTriggerExit(Collider otherCollider)
     {
-        GameObject other = otherCollider.gameObject;
-        //print("HazardBlock --> OnTriggerExit: " + other.name);
-
-        if (!CommonObjects.IsPlayer(other) || !PlayerHasLadder())
-        {
-            return;
-        }
+        if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
+        if (!PlayerHasLadder) { return; }
 
         if (LadderBlock == this)
         {
@@ -90,12 +81,8 @@ public class HazardBlock : MonoBehaviour
 
         Vector3 toOppositeTile = -1 * toPlayer;
         hits = Physics.RaycastAll(pos, toOppositeTile, MAX_RAY_DIST, mask);
-        if (hits.Length > 0)
-        {
-            return false;
-        }
 
-        return true;
+        return hits.Length == 0;
     }
     bool IsPlayerMovingTowardsThisBlock(Player player)
     {
@@ -110,12 +97,9 @@ public class HazardBlock : MonoBehaviour
         return Vector3.Dot(playerMoveDir, toPlayer) < 0.9f;
     }
 
-    bool PlayerHasLadder()
-    {
-        return Inventory.Instance.HasItem("Ladder");
-    }
+    bool PlayerHasLadder { get { return Inventory.Instance.HasItem("Ladder"); } }
 
-    void LayDownLadder(bool horizontal)
+    void LayDownLadder(Vector3 rotation)
     {
         if(LadderBlock != null)
         {
@@ -129,11 +113,8 @@ public class HazardBlock : MonoBehaviour
 
         Transform t = _ladderOverlay.transform;
         t.SetParent(transform);
-        t.localPosition = Vector3.zero;
-        t.AddToY(0.05f);
-
-        float rotY = horizontal ? 90 : 0;
-        _ladderOverlay.transform.Rotate(new Vector3(0, rotY, 0));
+        t.localPosition = 0.05f * Vector3.up;
+        t.Rotate(rotation);
     }
 
 

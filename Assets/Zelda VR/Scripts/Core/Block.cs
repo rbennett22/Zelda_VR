@@ -36,7 +36,7 @@ public class Block : MonoBehaviour, IBombable, IBurnable
         GameObject other = otherCollider.gameObject;
         if (!CommonObjects.IsPlayer(other)) { return; }
 
-        if(isIllusion)
+        if (isIllusion)
         {
             PlaySecretSound();
         }

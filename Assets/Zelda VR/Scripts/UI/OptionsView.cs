@@ -48,13 +48,13 @@ public class OptionsView : MonoBehaviour
         _cursor.onIndexChanged_Callback = CursorIndexChanged;
 
         CursorIndex = DEFAULT_CURSOR_INDEX;
-        CursorIndexChanged(_cursor);
+        CursorIndexChanged(_cursor, new Index2(), new Index2(0, CursorIndex));
     }
 
     void OnEnable()
     {
         CursorIndex = DEFAULT_CURSOR_INDEX;
-        CursorIndexChanged(_cursor);
+        CursorIndexChanged(_cursor, new Index2(), new Index2(0, CursorIndex));
     }
 
 
@@ -92,7 +92,7 @@ public class OptionsView : MonoBehaviour
         get { return _cursor.CursorY; }
         set { _cursor.CursorY = value; }
     }
-    void CursorIndexChanged(MenuCursor sender)
+    void CursorIndexChanged(MenuCursor sender, Index2 prevIdx, Index2 newIdx)
     {
         if (sender != _cursor)
         {

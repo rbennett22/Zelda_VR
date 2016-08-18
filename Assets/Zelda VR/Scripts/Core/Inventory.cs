@@ -218,7 +218,7 @@ public class Inventory : Singleton<Inventory>
         }
         return true;
     }
-    public void ReceiveRupees(int amount)
+    public void ReceiveRupees(int amount, bool doAnimate = true)
     {
         if (amount < 10)
         {
@@ -226,10 +226,18 @@ public class Inventory : Singleton<Inventory>
         }
         else
         {
-            int targetCount = Mathf.Min(RupeeCount + amount, GetItem("Rupee").maxCount);
-            //StartCoroutine("AnimateRupeeCount", targetCount);
-            _targetRupeeCount = targetCount;
-            _animateRupeeCount = true;
+            _targetRupeeCount = Mathf.Min(RupeeCount + amount, GetItem("Rupee").maxCount);
+
+            if (doAnimate)
+            {
+                //StartCoroutine("AnimateRupeeCount", targetCount);
+                _animateRupeeCount = doAnimate;
+            }
+            else
+            {
+                Item rupees = GetItem("Rupee");
+                rupees.count = _targetRupeeCount;
+            }          
         }
     }
 
@@ -444,27 +452,14 @@ public class Inventory : Singleton<Inventory>
 
     public void UseItem(string itemName)
     {
-        Item item = GetItem(itemName);
+        Item m = GetItem(itemName);
         if (!HasItem(itemName)) { return; }
 
-        item.Use();
+        m.Use();
 
         if (!HasItem(itemName))
         {
-            Item upgradesFrom = item.UpgradedFrom;
-            if (upgradesFrom != null)
-            {
-                upgradesFrom.count = 1;
-                if (EquippedItemB == item)
-                {
-                    EquippedItemB = upgradesFrom;
-                }
-            }
-
-            if (EquippedItemB == item)
-            {
-                EquippedItemB = null;
-            }
+            PlayerRanOutOfAnItem(m);
         }
 
         // TODO: Store a compass/map/triforce item for each dungeon
@@ -476,18 +471,43 @@ public class Inventory : Singleton<Inventory>
         {
             SetHasMapForDungeon(WorldInfo.Instance.DungeonNum, true);
         }
-
-        // TODO: Use events instead
-        if (itemName == "Letter")
+        else if (itemName == "Letter")      // TODO: Use events instead
         {
-            if (!HasDeliveredLetterToOldWoman)
+            PlayerUsedLetter();
+        }
+    }
+
+    void PlayerRanOutOfAnItem(Item item)
+    {
+        // Deequip item
+        if (EquippedItemB == item)
+        {
+            EquippedItemB = null;
+        }
+
+        // Equip item's predecessor if it exists
+        Item upgradesFrom = item.UpgradedFrom;
+        if (upgradesFrom != null)
+        {
+            upgradesFrom.count = 1;
+            if (EquippedItemB == item)
             {
-                Grotto grotto = Grotto.OccupiedGrotto;
-                if (grotto != null && grotto.Type == Grotto.GrottoType.Medicine)
-                {
-                    grotto.DeliverLetter();
-                }
+                EquippedItemB = upgradesFrom;
             }
+        }
+    }
+
+    void PlayerUsedLetter()
+    {
+        if (HasDeliveredLetterToOldWoman)
+        {
+            return;
+        }
+
+        Grotto gr = Grotto.OccupiedGrotto;
+        if (gr != null && gr.Type == Grotto.GrottoType.Medicine)
+        {
+            gr.DeliverLetter();
         }
     }
 

@@ -73,7 +73,7 @@ namespace Uniblocks
             {
                 StartCoroutine(RequestVoxelData()); // if multiplayer, get data from server
             }
-            else if (Engine.SaveVoxelData && TryLoadVoxelData() == true)
+            else if (Engine.SaveVoxelData && TryLoadVoxelData())
             {
                 // data is loaded through TryLoadVoxelData()
             }
@@ -84,7 +84,8 @@ namespace Uniblocks
         }
 
         public bool TryLoadVoxelData()
-        { // returns true if data was loaded successfully, false if data was not found
+        { 
+            // returns true if data was loaded successfully, false if data was not found
             return GetComponent<ChunkDataFiles>().LoadData();
         }
 
@@ -94,7 +95,8 @@ namespace Uniblocks
         }
 
         public void AddToQueueWhenReady()
-        { // adds chunk to the UpdateQueue when this chunk and all known neighbors have their data ready
+        { 
+            // adds chunk to the UpdateQueue when this chunk and all known neighbors have their data ready
             StartCoroutine(DoAddToQueueWhenReady());
         }
         IEnumerator DoAddToQueueWhenReady()
@@ -102,7 +104,8 @@ namespace Uniblocks
             while (voxelsDone == false || AllNeighborsHaveData() == false)
             {
                 if (ChunkManager.StopSpawning)
-                { // interrupt if the chunk spawn sequence is stopped. This will be restarted in the correct order from ChunkManager
+                { 
+                    // interrupt if the chunk spawn sequence is stopped. This will be restarted in the correct order from ChunkManager
                     yield break;
                 }
                 yield return new WaitForEndOfFrame();
@@ -111,7 +114,8 @@ namespace Uniblocks
         }
 
         bool AllNeighborsHaveData()
-        { // returns false if at least one neighbor is known but doesn't have data ready yet
+        {
+            // returns false if at least one neighbor is known but doesn't have data ready yet
             foreach (Chunk neighbor in neighborChunks)
             {
                 if (neighbor != null)

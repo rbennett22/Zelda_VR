@@ -21,7 +21,8 @@ namespace Uniblocks
 
         // ==== Find Engine =====
         private bool FindEngine()
-        { // returns false if engine not found, else true
+        { 
+            // returns false if engine not found, else true
             foreach (Object obj in Object.FindObjectsOfType<Engine>())
             {
                 if (obj != null)

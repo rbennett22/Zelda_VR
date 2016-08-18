@@ -9,6 +9,6 @@ public class RupeeTrigger : MonoBehaviour
         if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
 
         // TODO: Don't use SendMessage
-        SendMessageUpwards("OnRupeeTrigger", this, SendMessageOptions.RequireReceiver);
+        SendMessageUpwards("OnRupeeTriggerWasTriggered", this, SendMessageOptions.RequireReceiver);
     }
 }

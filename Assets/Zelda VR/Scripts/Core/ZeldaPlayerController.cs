@@ -136,7 +136,6 @@ public class ZeldaPlayerController : OVRPlayerController
         bool moveBack = moveVertAxis < 0;
         bool moveRight = moveHorzAxis > 0;
 
-
         MoveScale = 1.0f;
 
         if ((moveForward && moveLeft) || (moveForward && moveRight) || (moveBack && moveLeft) || (moveBack && moveRight))

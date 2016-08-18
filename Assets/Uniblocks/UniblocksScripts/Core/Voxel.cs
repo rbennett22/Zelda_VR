@@ -24,14 +24,22 @@ namespace Uniblocks
             }
 
             // single player - apply change locally
-            else {
-                GameObject voxelObject = Instantiate(Engine.GetVoxelGameObject(voxelInfo.GetVoxel())) as GameObject;
-                if (voxelObject.GetComponent<VoxelEvents>() != null)
-                {
-                    voxelObject.GetComponent<VoxelEvents>().OnBlockDestroy(voxelInfo);
-                }
-                voxelInfo.chunk.SetVoxel(voxelInfo.index, 0, true);
-                Destroy(voxelObject);
+            else
+            {
+                GameObject obj = Instantiate(Engine.GetVoxelGameObject(voxelInfo.GetVoxel())) as GameObject;
+
+                OnBlockDestroy(voxelInfo, obj);
+
+                RegisterWithChunk(voxelInfo, 0);
+                Destroy(obj);
+            }
+        }
+        static void OnBlockDestroy(VoxelInfo voxelInfo, GameObject voxelObject)
+        {
+            VoxelEvents ev = voxelObject.GetComponent<VoxelEvents>();
+            if (ev != null)
+            {
+                ev.OnBlockDestroy(voxelInfo);
             }
         }
 
@@ -44,15 +52,22 @@ namespace Uniblocks
             }
 
             // single player - apply change locally
-            else {
-                voxelInfo.chunk.SetVoxel(voxelInfo.index, data, true);
+            else
+            {
+                RegisterWithChunk(voxelInfo, data);
 
-                GameObject voxelObject = Instantiate(Engine.GetVoxelGameObject(data)) as GameObject;
-                if (voxelObject.GetComponent<VoxelEvents>() != null)
-                {
-                    voxelObject.GetComponent<VoxelEvents>().OnBlockPlace(voxelInfo);
-                }
-                Destroy(voxelObject);
+                GameObject obj = Instantiate(Engine.GetVoxelGameObject(data)) as GameObject;
+                OnBlockPlace(voxelInfo, obj);
+
+                Destroy(obj);
+            }
+        }
+        static void OnBlockPlace(VoxelInfo voxelInfo, GameObject voxelObject)
+        {
+            VoxelEvents ev = voxelObject.GetComponent<VoxelEvents>();
+            if (ev != null)
+            {
+                ev.OnBlockPlace(voxelInfo);
             }
         }
 
@@ -65,8 +80,9 @@ namespace Uniblocks
             }
 
             // single player - apply change locally
-            else {
-                voxelInfo.chunk.SetVoxel(voxelInfo.index, data, true);
+            else
+            {
+                RegisterWithChunk(voxelInfo, data);
 
                 GameObject voxelObject = Instantiate(Engine.GetVoxelGameObject(data)) as GameObject;
                 if (voxelObject.GetComponent<VoxelEvents>() != null)
@@ -77,38 +93,53 @@ namespace Uniblocks
             }
         }
 
-        // multiplayer
+
+        #region Multiplayer
 
         public static void DestroyBlockMultiplayer(VoxelInfo voxelInfo, NetworkPlayer sender)
-        { // received from server, don't use directly
-            GameObject voxelObject = Instantiate(Engine.GetVoxelGameObject(voxelInfo.GetVoxel())) as GameObject;
-            VoxelEvents events = voxelObject.GetComponent<VoxelEvents>();
-            if (events != null)
+        { 
+            // received from server, don't use directly
+            GameObject obj = Instantiate(Engine.GetVoxelGameObject(voxelInfo.GetVoxel())) as GameObject;
+
+            OnBlockDestroyMultiplayer(voxelInfo, obj, sender);
+
+            RegisterWithChunk(voxelInfo, 0);
+            Destroy(obj);
+        }
+        static void OnBlockDestroyMultiplayer(VoxelInfo voxelInfo, GameObject voxelObject, NetworkPlayer sender)
+        {
+            VoxelEvents ev = voxelObject.GetComponent<VoxelEvents>();
+            if (ev != null)
             {
-                events.OnBlockDestroy(voxelInfo);
-                events.OnBlockDestroyMultiplayer(voxelInfo, sender);
+                ev.OnBlockDestroy(voxelInfo);
+                ev.OnBlockDestroyMultiplayer(voxelInfo, sender);
             }
-            voxelInfo.chunk.SetVoxel(voxelInfo.index, 0, true);
-            Destroy(voxelObject);
         }
 
         public static void PlaceBlockMultiplayer(VoxelInfo voxelInfo, ushort data, NetworkPlayer sender)
-        { // received from server, don't use directly
-            voxelInfo.chunk.SetVoxel(voxelInfo.index, data, true);
+        {
+            // received from server, don't use directly
+            RegisterWithChunk(voxelInfo, data);
 
-            GameObject voxelObject = Instantiate(Engine.GetVoxelGameObject(data)) as GameObject;
-            VoxelEvents events = voxelObject.GetComponent<VoxelEvents>();
-            if (events != null)
+            GameObject obj = Instantiate(Engine.GetVoxelGameObject(data)) as GameObject;
+            OnBlockPlaceMultiplayer(voxelInfo, obj, sender);
+
+            Destroy(obj);
+        }
+        static void OnBlockPlaceMultiplayer(VoxelInfo voxelInfo, GameObject voxelObject, NetworkPlayer sender)
+        {
+            VoxelEvents ev = voxelObject.GetComponent<VoxelEvents>();
+            if (ev != null)
             {
-                events.OnBlockPlace(voxelInfo);
-                events.OnBlockPlaceMultiplayer(voxelInfo, sender);
+                ev.OnBlockPlace(voxelInfo);
+                ev.OnBlockPlaceMultiplayer(voxelInfo, sender);
             }
-            Destroy(voxelObject);
         }
 
         public static void ChangeBlockMultiplayer(VoxelInfo voxelInfo, ushort data, NetworkPlayer sender)
-        { // received from server, don't use directly
-            voxelInfo.chunk.SetVoxel(voxelInfo.index, data, true);
+        { 
+            // received from server, don't use directly
+            RegisterWithChunk(voxelInfo, data);
 
             GameObject voxelObject = Instantiate(Engine.GetVoxelGameObject(data)) as GameObject;
             VoxelEvents events = voxelObject.GetComponent<VoxelEvents>();
@@ -120,16 +151,24 @@ namespace Uniblocks
             Destroy(voxelObject);
         }
 
+        #endregion Multiplayer
 
-        // block editor functions
-        public ushort GetID()
+
+        static void RegisterWithChunk(VoxelInfo voxelInfo, ushort data)
         {
-            return ushort.Parse(this.gameObject.name.Split('_')[1]);
+            voxelInfo.chunk.SetVoxel(voxelInfo.index, data, true);
         }
 
+
+        // Block Editor functions
+
+        public ushort GetID()
+        {
+            return ushort.Parse(gameObject.name.Split('_')[1]);
+        }
         public void SetID(ushort id)
         {
-            this.gameObject.name = "block_" + id.ToString();
+            gameObject.name = "block_" + id.ToString();
         }
     }
 }

@@ -2,16 +2,28 @@
 
 NEEDS TESTING:
 
+* Grottos
+* Grotto_Shop: A given item should only be purchaseable once per visit to that Grotto.
+
 
 BUGS:
 
+* BUG: If you quit, you can use sword/items in the title screen
+* BUG: If you quit and restart, Link may fall through ground (seems to only happen in Editor?)
 * BUG: DungeonEntrance OW: The back-most block is missing
+
 * BUG: Sword and Wand Projectiles can't pass over water in Overworld
 * BUG: Link can walk on water in Overworld
 * BUG: Enemies can push Link off the ground
 
+* BUG: A Blue Tektite trapped me inside a Grotto. It wasn't jumping, but was frozen in place, blocking exit.
+
+- BUG: Grotto entrance shadow goes away if you back away from it by more than ~12 tiles
+- BUG: If rupees are rewarded while rupee count is already taking place, then the initial rupee count stops and the remaining rupees are not received. (I think)
 - BUG: When exiting a dungeon, enemies in that sector don't inititally appear (until you move far enough away)
 - BUG: Dungeon 8 is initially visible from inside grotto to the south of it.
+- BUG: Lanmola in D9 wasn't moving at all
+
 - BUG: Keese in SubDungeons can move through stairs
 - BUG: A Ghini somehow survived the death of its master (possibly spawned right as master died?)
 - BUG: Enemies that spawn after clock has activated aren't paralyzed
@@ -26,15 +38,20 @@ BUGS:
 
 High Priority: 
 
-* Gannon: Intro
-* Gannon: Death
+* CV1
 
+* Gannon: Intro (needs testing)
+	- Link holds up Triforce
+	- Missing Music
+* Gannon: Death (needs testing)
+	- Explodes
+	- Room flashes
 * Ending
 * Credits
 
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
-- Waterfall Cave
+* Waterfall Cave
 - Grotto Warps: Warp player slightly away from portal so it doesn't rapidly warp back and forth
 - Grotto Warps: Destination Grotto's NPC isn't being spawned
 - Grotto Warps: Blocks don't always have time to spawn after warping
@@ -52,7 +69,7 @@ High Priority:
 
 - Arrow: Graphic doesn't appear next to bow in inventory, even when you have both bow and arrow items
 
-- Allow erasing of saved games, but ask for confirmation before erasing saved data
+* Allow erasing of saved games, but ask for confirmation before erasing saved data
 
 
 Mid Priority:
@@ -64,7 +81,7 @@ Mid Priority:
 - Lost Woods: Fog Ceiling color should match fog, and fade in as player approaches LostWoods
 - Lost Woods: Warp Collectibles/Enemies/Projectiles
 - Grottos: Lower the ceiling?
-- Fairy: Allow it to move around Dungeon Room moving outside of the room
+- Fairy: Allow it to move around Dungeon Room (w/o moving through walls)
 - Fairy: Can move through walls in OW
 - Clock Item: Should also paralyze enemies in nearby OW sectors (but not other DungeonRooms)
 - Fog: Disappears abruptly in grottos close to Lost Woods
@@ -76,24 +93,22 @@ Mid Priority:
 - LikeLike: Show an effect to indicate what's happening when player is trapped ("swallowed")
 - Dark Rooms: Make dimly lit instead of completely black
 - Old Men in dungeons don't fight back
-- D6 Entrance: Should be 2 tiles wide
+- D6 OW Entrance: Should be 2 tiles wide
 - Sealed Doors in Dungeons: Should reseal if enemies respawn.
 
 - SavedGamesScreen - Choose Name, Elimination Mode, Name text align
 - OptionsMenu: Animate to beneath inventory view on Pause_Inventory?
 
-- No rolling rupee sound after "Secret to everybody" or door repair
-- There should be an event sound when you present meat to "Grumble, grumble"
-- Need event sound in "Pick any one you want" caves
-- Wrong sound effect for both types of fairy (see https://www.youtube.com/watch?v=hhb3LqLtTBM @ 11:30)
-- There should be a sound and gradual heart refill when using potion
-- There should be a wizzrobe sound
-- Should be event sound for riding raft
-- Should be a roaring sound when in or next to a boss room
+- Grotto: Play "rolling rupee" sound after "Secret to everybody" or door repair
+- Potion: Sound and gradual heart refill
+- Fairy: Wrong sound (for both types of fairy) (see https://www.youtube.com/watch?v=hhb3LqLtTBM @ 11:30)
+- Wizzrobe: Sound (what sound?)
+- Boss Room: Play "roaring" sound when in or next to a boss room (mini bosses too?)
 
 
 Low Priority:
 
+- Sword: Hold in left hand (Link is left-handed)
 - HUD Dungeon Map: Triforce icon should flash Red/Blue, cycling every ~0.7 secs
 - Dungeon: Some tunnels have passages with zero-thickness walls
 - Whistle: Facing north or west, warp to the next dungeon; facing south or east, warp to the previous dungeon
@@ -122,6 +137,8 @@ Low Priority:
 
 WishList:
 
+- Second Quest
+- Second Quest: Either complete Quest 1 or enter name as "ZELDA" to unlock
 - Whistle: Show whirlwind
 - Whistle: Better system for choosing warp location
 - Map: Display a directional arrow for Link instead of simply a square
@@ -129,7 +146,7 @@ WishList:
 - Grotto Warps: Cannon Transportation
 - SubDungeon Warps: Mirror effect
 - Pushback Force: Allow it to send enemies flying upwards
-- WandProjectile: Show it deflecting of Link's Shield if blocked
+- WandProjectile: Show it deflecting off Link's Shield if blocked
 - Weapon Particles: MagicSword, MagicBoomerang, SilverArrow...
 - Bow: Crosshair
 - Enemy Noise Alert: Have enemies make some subtle noise to alert you of their presence
@@ -141,6 +158,9 @@ WishList:
 - Unlockable: Fan Art
 - Unlockable: Cheats
 - Unlockable: Tile Texture Styles (Pixels^3)
+
+- Strange IoC
+- SBS 3D
 
 
 3rd-Person Camera Mode:
@@ -161,3 +181,4 @@ RESEARCH:
 
 - Darknut: Does the flame hurt him?
 - Fairy: Changes move direction regularly (is this how fairy is supposed to move?)
+- Grotto: Need event sound in "Pick any one you want" caves (what sound?)

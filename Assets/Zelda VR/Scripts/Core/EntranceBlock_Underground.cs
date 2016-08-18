@@ -2,18 +2,14 @@
 
 public class EntranceBlock_Underground : MonoBehaviour
 {
-    Grotto _grotto;
+    public Grotto Grotto { get; set; }
 
-
-    void Awake()
-    {
-        _grotto = transform.parent.GetComponent<Grotto>();
-    }
 
     void OnTriggerEnter(Collider otherCollider)
     {
         if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
+        if (Grotto == null) { return; }
 
-        _grotto.OnPlayerEnter();
+        Grotto.OnPlayerEnter();
     }
 }

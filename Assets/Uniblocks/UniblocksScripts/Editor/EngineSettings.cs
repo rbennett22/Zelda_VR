@@ -5,98 +5,84 @@ namespace Uniblocks
 {
     public class EngineSettings : EditorWindow
     {
-        private GameObject EngineInstance;
-
-        // ==== Find Engine =====
-        private bool FindEngine()
-        { // returns false if engine not found, else true
-            foreach (Object obj in Object.FindObjectsOfType<Engine>())
-            {
-                if (obj != null)
-                {
-                    Engine engine = obj as Engine;
-                    EngineInstance = engine.gameObject;
-                    return true;
-                }
-            }
-            return false;
-        }
+        Engine _engineInstance;
+        Engine EngineInstance { get { return _engineInstance ?? (_engineInstance = FindObjectOfType<Engine>()); } }
 
 
         [MenuItem("Window/Uniblocks: Engine Settings")]
         static void Init()
         {
-            EngineSettings window = (EngineSettings)EditorWindow.GetWindow(typeof(EngineSettings));
+            EngineSettings window = (EngineSettings)GetWindow(typeof(EngineSettings));
             window.Show();
         }
 
-        public void OnGUI()
+
+        void OnGUI()
         {
-            if (FindEngine() == false)
+            if (EngineInstance == null)
             {
-                EditorGUILayout.LabelField("Cannot find an Engine game object in the scene!");
+                EditorGUILayout.LabelField("Cannot find a Uniblocks Engine GameObject in the scene!");
                 return;
             }
-            else if (EngineInstance.GetComponent<ChunkManager>() == null)
+            if (EngineInstance.GetComponent<ChunkManager>() == null)
             {
-                EditorGUILayout.LabelField("The Engine game object does not have a ChunkManager component!");
+                EditorGUILayout.LabelField("The Uniblocks Engine GameObject does not have a ChunkManager component!");
                 return;
             }
-            else {
-                Engine engine = EngineInstance.GetComponent<Engine>();
 
-                EditorGUILayout.BeginVertical();
+            Engine n = EngineInstance;
 
+            EditorGUILayout.BeginVertical();
+            {
                 GUILayout.Space(10);
 
-                engine.lWorldName = EditorGUILayout.TextField("World name", engine.lWorldName);
+                n.lWorldName = EditorGUILayout.TextField("World name", n.lWorldName);
 
                 GUILayout.Space(20);
 
                 GUILayout.Label("Chunk settings");
 
-                engine.lChunkSpawnDistance = EditorGUILayout.IntField("Chunk spawn distance", engine.lChunkSpawnDistance);
-                engine.lChunkDespawnDistance = EditorGUILayout.IntField("Chunk despawn distance", engine.lChunkDespawnDistance);
-                engine.lHeightRange = EditorGUILayout.IntField("Chunk height range", engine.lHeightRange);
-                engine.lChunkSizeX = EditorGUILayout.IntField("Chunk size X", engine.lChunkSizeX);
-                engine.lChunkSizeY = EditorGUILayout.IntField("Chunk size Y", engine.lChunkSizeY);
-                engine.lChunkSizeZ = EditorGUILayout.IntField("Chunk size Z", engine.lChunkSizeZ);
-                engine.lTextureUnit = EditorGUILayout.FloatField("Texture unit", engine.lTextureUnit);
-                engine.lTexturePadding = EditorGUILayout.FloatField("Texture padding", engine.lTexturePadding);
-                engine.lGenerateMeshes = EditorGUILayout.Toggle("Generate meshes", engine.lGenerateMeshes);
-                engine.lGenerateColliders = EditorGUILayout.Toggle("Generate colliders", engine.lGenerateColliders);
-                engine.lShowBorderFaces = EditorGUILayout.Toggle("Show border faces", engine.lShowBorderFaces);
+                n.lChunkSpawnDistance = EditorGUILayout.IntField("Chunk spawn distance", n.lChunkSpawnDistance);
+                n.lChunkDespawnDistance = EditorGUILayout.IntField("Chunk despawn distance", n.lChunkDespawnDistance);
+                n.lHeightRange = EditorGUILayout.IntField("Chunk height range", n.lHeightRange);
+                n.lChunkSizeX = EditorGUILayout.IntField("Chunk size X", n.lChunkSizeX);
+                n.lChunkSizeY = EditorGUILayout.IntField("Chunk size Y", n.lChunkSizeY);
+                n.lChunkSizeZ = EditorGUILayout.IntField("Chunk size Z", n.lChunkSizeZ);
+                n.lTextureUnit = EditorGUILayout.FloatField("Texture unit", n.lTextureUnit);
+                n.lTexturePadding = EditorGUILayout.FloatField("Texture padding", n.lTexturePadding);
+                n.lGenerateMeshes = EditorGUILayout.Toggle("Generate meshes", n.lGenerateMeshes);
+                n.lGenerateColliders = EditorGUILayout.Toggle("Generate colliders", n.lGenerateColliders);
+                n.lShowBorderFaces = EditorGUILayout.Toggle("Show border faces", n.lShowBorderFaces);
 
                 GUILayout.Space(20);
                 GUILayout.Label("Events settings");
-                engine.lSendCameraLookEvents = EditorGUILayout.Toggle("Send camera look events", engine.lSendCameraLookEvents);
-                engine.lSendCursorEvents = EditorGUILayout.Toggle("Send cursor events", engine.lSendCursorEvents);
+                n.lSendCameraLookEvents = EditorGUILayout.Toggle("Send camera look events", n.lSendCameraLookEvents);
+                n.lSendCursorEvents = EditorGUILayout.Toggle("Send cursor events", n.lSendCursorEvents);
 
                 GUILayout.Space(20);
                 GUILayout.Label("Data settings");
-                engine.lSaveVoxelData = EditorGUILayout.Toggle("Save/load voxel data", engine.lSaveVoxelData);
+                n.lSaveVoxelData = EditorGUILayout.Toggle("Save/load voxel data", n.lSaveVoxelData);
 
                 GUILayout.Space(20);
                 GUILayout.Label("Multiplayer");
-                engine.lEnableMultiplayer = EditorGUILayout.Toggle("Enable multiplayer", engine.lEnableMultiplayer);
-                engine.lMultiplayerTrackPosition = EditorGUILayout.Toggle("Track player position", engine.lMultiplayerTrackPosition);
-                engine.lChunkTimeout = EditorGUILayout.FloatField("Chunk timeout (0=off)", engine.lChunkTimeout);
-                engine.lMaxChunkDataRequests = EditorGUILayout.IntField("Max chunk data requests", engine.lMaxChunkDataRequests);
+                n.lEnableMultiplayer = EditorGUILayout.Toggle("Enable multiplayer", n.lEnableMultiplayer);
+                n.lMultiplayerTrackPosition = EditorGUILayout.Toggle("Track player position", n.lMultiplayerTrackPosition);
+                n.lChunkTimeout = EditorGUILayout.FloatField("Chunk timeout (0=off)", n.lChunkTimeout);
+                n.lMaxChunkDataRequests = EditorGUILayout.IntField("Max chunk data requests", n.lMaxChunkDataRequests);
                 GUILayout.Label("(0=off)");
 
                 GUILayout.Space(40);
                 GUILayout.Label("Performance");
-                engine.lTargetFPS = EditorGUILayout.IntField("Target FPS", engine.lTargetFPS);
-                engine.lMaxChunkSaves = EditorGUILayout.IntField("Chunk saves limit", engine.lMaxChunkSaves);
+                n.lTargetFPS = EditorGUILayout.IntField("Target FPS", n.lTargetFPS);
+                n.lMaxChunkSaves = EditorGUILayout.IntField("Chunk saves limit", n.lMaxChunkSaves);
 
 
                 if (GUI.changed)
                 {
-                    UnityEditor.PrefabUtility.ReplacePrefab(engine.gameObject, UnityEditor.PrefabUtility.GetPrefabParent(engine.gameObject), ReplacePrefabOptions.ConnectToPrefab);
+                    PrefabUtility.ReplacePrefab(n.gameObject, PrefabUtility.GetPrefabParent(n.gameObject), ReplacePrefabOptions.ConnectToPrefab);
                 }
-
-                EditorGUILayout.EndVertical();
             }
+            EditorGUILayout.EndVertical();
         }
     }
 }

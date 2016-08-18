@@ -26,7 +26,7 @@ public class PauseManager : Singleton<PauseManager>
         IsPaused_Options = true;
 
         _optionsViewController.ViewActive = true;
-        RefreshFreezeState();
+        RefreshTimeFreezeState();
 
         Music.Instance.Volume = PAUSED_MUSIC_VOLUME;
     }
@@ -37,7 +37,7 @@ public class PauseManager : Singleton<PauseManager>
         IsPaused_Options = false;
 
         _optionsViewController.ViewActive = false;
-        RefreshFreezeState();
+        RefreshTimeFreezeState();
 
         Music.Instance.Volume = NORMAL_MUSIC_VOLUME;
     }
@@ -58,7 +58,7 @@ public class PauseManager : Singleton<PauseManager>
         IsPaused_Inventory = true;
 
         _inventoryViewController.ShowView();
-        RefreshFreezeState();
+        RefreshTimeFreezeState();
     }
     public void ResumeGame_Inventory()
     {
@@ -67,7 +67,7 @@ public class PauseManager : Singleton<PauseManager>
         IsPaused_Inventory = false;
 
         _inventoryViewController.HideView();
-        RefreshFreezeState();
+        RefreshTimeFreezeState();
     }
     public void TogglePause_Inventory()
     {
@@ -100,7 +100,7 @@ public class PauseManager : Singleton<PauseManager>
     }
 
 
-    void RefreshFreezeState()
+    void RefreshTimeFreezeState()
     {
         if (IsPaused_Any)
         {

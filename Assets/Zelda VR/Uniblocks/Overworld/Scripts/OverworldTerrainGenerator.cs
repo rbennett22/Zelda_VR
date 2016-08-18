@@ -23,7 +23,7 @@ public class OverworldTerrainGenerator : TerrainGenerator
     int[,] _tiles;
 
 
-    public OverworldChunk ChunkOW { get { return chunk as OverworldChunk; } }
+    public OverworldChunk ChunkOW { get { return _chunk as OverworldChunk; } }
 
     public Index3 ChunkPosition
     {

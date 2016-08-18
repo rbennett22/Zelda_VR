@@ -4,8 +4,9 @@ namespace Uniblocks
 {
     public class TerrainGenerator : MonoBehaviour
     {
-        protected Chunk chunk;
-        protected int seed;
+        protected Chunk _chunk;
+        protected int _seed;
+
 
         public void InitializeGenerator()
         {
@@ -14,31 +15,25 @@ namespace Uniblocks
             {
                 Engine.GetSeed();
             }
-            seed = Engine.WorldSeed;
+            _seed = Engine.WorldSeed;
 
-            // get chunk component
-            chunk = GetComponent<Chunk>();
+            _chunk = GetComponent<Chunk>();
 
-            // generate data
             GenerateVoxelData();
 
-            // set empty
-            chunk.empty = true;
-            foreach (ushort voxel in chunk.voxelData)
+            _chunk.empty = true;
+            foreach (ushort voxel in _chunk.voxelData)
             {
                 if (voxel != 0)
                 {
-                    chunk.empty = false;
+                    _chunk.empty = false;
                     break;
                 }
             }
 
-            // flag as done
-            chunk.voxelsDone = true;
+            _chunk.voxelsDone = true;
         }
 
-        public virtual void GenerateVoxelData()
-        {
-        }
+        public virtual void GenerateVoxelData() { }
     }
 }

@@ -224,7 +224,7 @@ public class Cheats : Singleton<Cheats>
     }
     public void SetRupeeCount(int r)
     {
-        Inventory.Instance.ReceiveRupees(r);
+        Inventory.Instance.ReceiveRupees(r, false);
     }
 
 

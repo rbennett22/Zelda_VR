@@ -12,6 +12,7 @@ public class EnemyAI_Gannon : EnemyAI
 
 
     int _swordHitsTaken;
+    FlashColorsSimple _flash;
 
 
     public bool Visible
@@ -21,6 +22,34 @@ public class EnemyAI_Gannon : EnemyAI
     }
 
     public bool VulnerableToArrow { get { return _swordHitsTaken >= swordHitsNeededToKill; } }
+
+
+    public void FreezeForIntro()
+    {
+        Visible = true;
+    }
+    public void UnfreezeForIntro()
+    {
+        Disappear();
+    }
+
+    public void FlashBeforeDeath()
+    {
+        if(_flash != null)
+        {
+            Destroy(_flash);
+        }
+        _flash = gameObject.AddComponent<FlashColorsSimple>();
+
+    }
+    public void ExplodeIntoPieces()
+    {
+        Destroy(_flash);
+
+        // TODO: Gannon explodes for 1 sec, creating dust that falls into a pile, and sending out 8 red "sword hits" 
+
+
+    }
 
 
     void Start()
@@ -44,14 +73,8 @@ public class EnemyAI_Gannon : EnemyAI
 
     void Tick()
     {
-        if (!_doUpdate)
-        {
-            return;
-        }
-        if (IsPreoccupied)
-        {
-            return;
-        }
+        if (!_doUpdate) { return; }
+        if (IsPreoccupied) { return; }
 
         if (!Visible)
         {

@@ -10,8 +10,8 @@ public class EnemyAnimation : MonoBehaviour
     Enemy _enemy;
     
     
-    public bool IsSpawning { get { return AnimatorComponent.GetCurrentAnimatorStateInfo(0).IsTag("Spawn"); } }
-    public bool IsDying { get { return AnimatorComponent.GetCurrentAnimatorStateInfo(0).IsTag("Die"); } }
+    public bool IsSpawning { get { return AnimatorComponent ? AnimatorComponent.GetCurrentAnimatorStateInfo(0).IsTag("Spawn") : false; } }
+    public bool IsDying { get { return AnimatorComponent ? AnimatorComponent.GetCurrentAnimatorStateInfo(0).IsTag("Die") : false; } }
 
 
     void Awake()

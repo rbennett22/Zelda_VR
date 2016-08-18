@@ -2,6 +2,8 @@
 using Immersio.Utility;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(HealthController))]
+
 public class Actor : MonoBehaviour 
 {
     virtual public Vector3 Position
@@ -69,6 +71,8 @@ public class Actor : MonoBehaviour
         _healthController = GetComponent<HealthController>();
     }
 
+
+    // TODO: move these methods elsewhere
 
     static public Index2 PositionToTile(Vector3 pos)
     {

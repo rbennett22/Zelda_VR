@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class GrottoSpawnPoint : MonoBehaviour
 {
@@ -23,7 +24,27 @@ public class GrottoSpawnPoint : MonoBehaviour
 
 
     public Collectible saleItemPrefabA, saleItemPrefabB, saleItemPrefabC;
+    public List<Collectible> SaleItemPrefabs {
+        get {
+            return new List<Collectible>() {
+                saleItemPrefabA,
+                saleItemPrefabB,
+                saleItemPrefabC
+            };
+        }
+    } 
     public int saleItemPriceA, saleItemPriceB, saleItemPriceC;
+    public List<int> SaleItemPrices
+    {
+        get
+        {
+            return new List<int>() {
+                saleItemPriceA,
+                saleItemPriceB,
+                saleItemPriceC
+            };
+        }
+    }
 
     public string[] payForInfoText;
 
@@ -72,10 +93,10 @@ public class GrottoSpawnPoint : MonoBehaviour
         return gr;
     }
 
+
     public void DestroyGrotto()
     {
-        if(SpawnedGrotto == null)
-            return;
+        if (SpawnedGrotto == null) { return; }
         
         Destroy(SpawnedGrotto.gameObject);
         SpawnedGrotto = null;

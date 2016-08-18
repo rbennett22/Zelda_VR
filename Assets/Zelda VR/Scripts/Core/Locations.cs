@@ -300,6 +300,7 @@ public class Locations : Singleton<Locations>
 
     bool _controlsHaveBeenLimited;
     bool _storedGravityEnabledState;
+
     // TODO: shouldn't be public
     public void LimitControls()
     {

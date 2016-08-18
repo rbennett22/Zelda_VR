@@ -41,12 +41,7 @@ public class HeartsView : MonoBehaviour
 
     public void UpdateHeartContainerCount(int amount)
     {
-        amount = Mathf.Clamp(amount, 0, MAX_NUM_HEARTS);
-        if (amount == _numHeartContainers)
-        {
-            return;
-        }
-        _numHeartContainers = amount;
+        _numHeartContainers = Mathf.Clamp(amount, 0, MAX_NUM_HEARTS);
 
         for (int i = 0; i < _heartImages.Length; i++)
         {

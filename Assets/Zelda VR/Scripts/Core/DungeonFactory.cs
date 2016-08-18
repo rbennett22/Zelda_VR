@@ -28,9 +28,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
     public float torchRange = 10;
     public bool centralLighting;
 
-    public Transform blocksContainer;
-    public Transform holeMarkersContainer;
-    public Transform subDungeonContainer;
+    public Transform blocksContainer, holeMarkersContainer, subDungeonContainer;
 
     public Color lightPixelColor, midPixelColor, darkPixelColor;
 

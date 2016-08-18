@@ -81,37 +81,30 @@ public class TileInfo
     {
         return _flatTiles.Contains(tileCode);
     }
-
     public static bool IsTileShort(int tileCode)
     {
         return _shortTiles.Contains(tileCode);
     }
-
     public static bool IsTileUnitHeight(int tileCode)
     {
         return _unitHeightTiles.Contains(tileCode);
     }
-
     public static bool IsTilePassable(int tileCode)
     {
         return _passableTiles.Contains(tileCode);
     }
-
     public static bool IsTileFlatImpassable(int tileCode)
     {
         return _flatImpassableTiles.Contains(tileCode);
     }
-
     public static bool IsTileAnEntrance(int tileCode)
     {
         return _entranceTiles.Contains(tileCode);
     }
-
     public static bool IsTileWater(int tileCode)
     {
         return _waterTiles.Contains(tileCode);
     }
-
     public static bool IsTileSand(int tileCode)
     {
         return _sandTiles.Contains(tileCode);
@@ -121,7 +114,6 @@ public class TileInfo
     {
         return _armosTiles.Contains(tileCode);
     }
-
     public static bool IsRedArmosTile(int tileCode) { return tileCode == 0x16; }
     public static bool IsGreenArmosTile(int tileCode) { return tileCode == 0x1C; }
     public static bool IsWhiteArmosTile(int tileCode) { return tileCode == 0x22; }

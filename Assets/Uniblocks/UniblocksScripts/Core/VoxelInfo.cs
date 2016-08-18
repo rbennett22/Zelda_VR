@@ -10,39 +10,39 @@ namespace Uniblocks
 
         public VoxelInfo(int setX, int setY, int setZ, Chunk setChunk)
         {
-            this.index.x = setX;
-            this.index.y = setY;
-            this.index.z = setZ;
+            index.x = setX;
+            index.y = setY;
+            index.z = setZ;
 
-            this.chunk = setChunk;
+            chunk = setChunk;
         }
 
         public VoxelInfo(int setX, int setY, int setZ, int setXa, int setYa, int setZa, Chunk setChunk)
         {
-            this.index.x = setX;
-            this.index.y = setY;
-            this.index.z = setZ;
+            index.x = setX;
+            index.y = setY;
+            index.z = setZ;
 
-            this.adjacentIndex.x = setXa;
-            this.adjacentIndex.y = setYa;
-            this.adjacentIndex.z = setZa;
+            adjacentIndex.x = setXa;
+            adjacentIndex.y = setYa;
+            adjacentIndex.z = setZa;
 
-            this.chunk = setChunk;
+            chunk = setChunk;
         }
 
         public VoxelInfo(Index setIndex, Chunk setChunk)
         {
-            this.index = setIndex;
+            index = setIndex;
 
-            this.chunk = setChunk;
+            chunk = setChunk;
         }
 
         public VoxelInfo(Index setIndex, Index setAdjacentIndex, Chunk setChunk)
         {
-            this.index = setIndex;
-            this.adjacentIndex = setAdjacentIndex;
+            index = setIndex;
+            adjacentIndex = setAdjacentIndex;
 
-            this.chunk = setChunk;
+            chunk = setChunk;
         }
 
 

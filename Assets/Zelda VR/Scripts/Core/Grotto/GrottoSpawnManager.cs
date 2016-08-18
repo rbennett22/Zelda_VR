@@ -29,10 +29,13 @@ public class GrottoSpawnManager : MonoBehaviour
 
         GrottoSpawnPoint closestGSP = null;
         float closestDistSq = GetGrottoClosestToPlayer(out closestGSP);
-        
-        if (closestDistSq > _spawnDistThresholdSq || closestGSP != _activeGrottoSP)
+
+        if (_activeGrottoSP != null)
         {
-            DestroyCurrentlyActiveGrotto();
+            if (closestDistSq > _spawnDistThresholdSq || closestGSP != _activeGrottoSP)
+            {
+                DestroyCurrentlyActiveGrotto();
+            }
         }
 
         if (closestDistSq <= _spawnDistThresholdSq && closestGSP != _activeGrottoSP)
@@ -65,9 +68,8 @@ public class GrottoSpawnManager : MonoBehaviour
 
     void DestroyCurrentlyActiveGrotto()
     {
-        if (_activeGrottoSP == null)
-            return;
-
+        if (_activeGrottoSP == null) { return; }
+            
         _activeGrottoSP.DestroyGrotto();
         _activeGrottoSP = null;
     }

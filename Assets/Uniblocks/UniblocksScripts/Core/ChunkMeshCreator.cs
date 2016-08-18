@@ -116,9 +116,12 @@ namespace Uniblocks
                                     AddCubeMesh(x, y, z, false);
                                 }
                             }
-                            else { // if not cube
+                            else
+                            { 
+                                // if not cube
                                 if (CheckAllAdjacent(x, y, z) == false)
-                                { // if any adjacent voxel isn't opaque, we render the mesh
+                                { 
+                                    // if any adjacent voxel isn't opaque, we render the mesh
                                     CreateCustomMesh(voxel, x, y, z, voxelType.VMesh);
                                 }
                             }
@@ -137,12 +140,14 @@ namespace Uniblocks
         }
 
         bool CheckAdjacent(int x, int y, int z, Direction direction, Transparency transparency)
-        { // returns true if a face should be spawned
+        { 
+            // returns true if a face should be spawned
             Index index = chunk.GetAdjacentIndex(x, y, z, direction);
             ushort adjacentVoxel = chunk.GetVoxel(index.x, index.y, index.z);
 
             if (adjacentVoxel == ushort.MaxValue)
-            { // if the neighbor chunk is missing
+            { 
+                // if the neighbor chunk is missing
                 if (Engine.ShowBorderFaces || direction == Direction.up)
                 {
                     return true;
@@ -171,7 +176,8 @@ namespace Uniblocks
         }
 
         public bool CheckAllAdjacent(int x, int y, int z)
-        { // returns true if all adjacent voxels are solid
+        { 
+            // returns true if all adjacent voxels are solid
             for (int direction = 0; direction < 6; direction++)
             {
                 if (Engine.GetVoxelType(chunk.GetVoxel(chunk.GetAdjacentIndex(x, y, z, (Direction)direction))).VTransparency != Transparency.solid)
@@ -435,7 +441,8 @@ namespace Uniblocks
         }
 
         void AddCubeMesh(int x, int y, int z, bool solid)
-        { // adds cube verts and faces to the chosen lists (for Solid or NoCollide colliders)
+        { 
+            // adds cube verts and faces to the chosen lists (for Solid or NoCollide colliders)
             if (solid)
             {
                 // vertices
@@ -453,7 +460,8 @@ namespace Uniblocks
                 // Add to the face count
                 SolidFaceCount += Cube.vertexCount;
             }
-            else {
+            else
+            {
                 // vertices
                 foreach (Vector3 vertex1 in Cube.vertices)
                 {
@@ -544,7 +552,8 @@ namespace Uniblocks
 
 
         void CreateNewMeshObject()
-        { // in case the amount of vertices exceeds the maximum for one mesh, we need to create a new mesh
+        { 
+            // in case the amount of vertices exceeds the maximum for one mesh, we need to create a new mesh
             GameObject meshContainer = Instantiate(chunk.meshContainer, transform.position, transform.rotation) as GameObject;
             meshContainer.transform.parent = this.transform;
 
