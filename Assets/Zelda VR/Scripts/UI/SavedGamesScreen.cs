@@ -109,8 +109,7 @@ public class SavedGamesScreen : MonoBehaviour
     }
     bool IsSelectButtonDown()
     {
-        return ZeldaInput.GetButtonDown(ZeldaInput.Button.Start)
-            || ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack);
+        return ZeldaInput.GetButtonDown(ZeldaInput.Button.Start);
     }
     bool IsEraseButtonDown()
     {

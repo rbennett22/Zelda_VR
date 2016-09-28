@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 Shader "ColoredCubes_TEST"
 {
 	Properties
@@ -42,7 +44,7 @@ Shader "ColoredCubes_TEST"
 				v.tangent = float4 (1.0f, 0.0f, 0.0f, 1.0f);
 
 				// Volume-space position is use for adding noise.
-				float4 worldPos = mul(_Object2World, v.vertex);
+				float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
 				o.volumePos = mul(_World2Volume, worldPos);
 			}
 

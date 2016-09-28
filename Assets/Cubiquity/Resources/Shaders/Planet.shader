@@ -1,4 +1,6 @@
-﻿Shader "Planet"
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+Shader "Planet"
 {
 	Properties
 	{
@@ -50,7 +52,7 @@
 			UNITY_INITIALIZE_OUTPUT(Input,o);
 
 			// Volume-space positions and normals are used for triplanar texturing
-			float4 worldPos = mul(_Object2World, v.vertex);
+			float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
 			o.volumePos = mul(_World2Volume, worldPos);
 			o.volumeNormal = v.normal;
 		}

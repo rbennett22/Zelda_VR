@@ -1,5 +1,6 @@
 ﻿using Immersio.Utility;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(AudioSource))]
 
@@ -22,6 +23,8 @@ public class Music : Singleton<Music>
         base.Awake();
 
         _audio = GetComponent<AudioSource>();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void OnEnable()
@@ -33,7 +36,7 @@ public class Music : Singleton<Music>
         Stop();
     }
 
-    void OnLevelWasLoaded(int level)
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         PlayAppropriateMusic();
     }

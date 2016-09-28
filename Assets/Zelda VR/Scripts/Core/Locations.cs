@@ -57,6 +57,8 @@ public class Locations : Singleton<Locations>
 
         _overworldLocationsContainer.position = WorldInfo.OVERWORLD_OFFSET;
         _dungeonLocationsContainer.position = WorldInfo.DUNGEON_OFFSET;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void Start()
@@ -75,7 +77,7 @@ public class Locations : Singleton<Locations>
         }
     }
 
-    void OnLevelWasLoaded(int level)
+    void OnSceneLoaded(Scene s, LoadSceneMode mode)
     {
         //print(" OnLevelWasLoaded: " + level);
 
@@ -102,6 +104,9 @@ public class Locations : Singleton<Locations>
     {
         spawnLocation = titleScreen;
         LoadScene(TITLE_SCREEN_SCENE_NAME);
+
+        CommonObjects.Player_C.IsParalyzed = true;
+        CommonObjects.PlayerController_C.gravityEnabled = false;
     }
 
     public void LoadInitialScene()

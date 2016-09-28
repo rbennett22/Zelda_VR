@@ -2,11 +2,13 @@
 
 RECENTLY DONE:
 
-- BUG: Controls: The XBOX Controller that comes with the Rift makes Link move backwards when in the default position (no buttons pressed or axes moved) -FIXED
+- CV1: Confirmed to work with Oculus Consumer Version 1.
+- Disabled Dynamic Batching: As a temporary workaround for the "Dynamic batching: index buffer source is NULL" errors.
 
-- Bait: Play event sound when you present meat to "Grumble, grumble"
-- Raft: Play event sound when riding
-
+- BUG: Can't enter Grottos -FIXED (Changed PLayerController's Center y to -0.75)
+- BUG: Clicking the left mouse button will select an entry on SavedGames screen. -FIXED
+- BUG: GlobalFog not working. -FIXED
+- BUG: If you quit, you can use sword/items in the title screen. -FIXED
 
 
 DONE:
@@ -30,12 +32,15 @@ DONE:
 - CandleFlame: No longer collides with blocks or enemies
 - CandleFlame: Now slowly moves forward after being fired (like in the original NES version)
 - Boomerang: No longer hurts enemies (except for the ones it kills instantly)
+- Bait: Play event sound when you present meat to "Grumble, grumble"
+- Raft: Play event sound when riding
 
 - BUG: Gannon: It's possible to kill him with silver arrow the first time he appears -FIXED
 - BUG: Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block -FIXED
 - BUG: Manhandla: Can move its mouths through blocks -FIXED
 - BUG: Statues: Enemies can walk through them -FIXED
 - BUG: WandProjectile pushes Ghoma back - FIXED
+- BUG: Controls: The XBOX Controller that comes with the Rift makes Link move backwards when in the default position (no buttons pressed or axes moved) -FIXED
 
 
 DONE (OLDER):

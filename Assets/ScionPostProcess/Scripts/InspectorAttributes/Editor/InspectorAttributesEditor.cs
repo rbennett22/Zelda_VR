@@ -338,7 +338,7 @@ namespace InspectorDrawers {
             // Unity renders Vector4s in a different manner from Vector3 and Vector2... lets fix that!
             Rect controlPosition = EditorGUI.PrefixLabel(position, label);
             controlPosition.y -= controlPosition.height;
-            return EditorGUI.Vector4Field(controlPosition, null, value);
+            return EditorGUI.Vector4Field(controlPosition, (string)null, value);
         }
 
         // Comfort objects

@@ -8,7 +8,6 @@ NEEDS TESTING:
 
 BUGS:
 
-* BUG: If you quit, you can use sword/items in the title screen
 * BUG: If you quit and restart, Link may fall through ground (seems to only happen in Editor?)
 * BUG: DungeonEntrance OW: The back-most block is missing
 
@@ -17,6 +16,8 @@ BUGS:
 * BUG: Enemies can push Link off the ground
 
 * BUG: A Blue Tektite trapped me inside a Grotto. It wasn't jumping, but was frozen in place, blocking exit.
+
+* BUG: "Dynamic batching: index buffer source is NULL..." errors.  Need a permanent fix (waiting on Unity update).
 
 - BUG: Grotto entrance shadow goes away if you back away from it by more than ~12 tiles
 - BUG: If rupees are rewarded while rupee count is already taking place, then the initial rupee count stops and the remaining rupees are not received. (I think)
@@ -38,7 +39,7 @@ BUGS:
 
 High Priority: 
 
-* CV1
+* Allow erasing of saved games, but ask for confirmation before erasing saved data
 
 * Gannon: Intro (needs testing)
 	- Link holds up Triforce
@@ -49,6 +50,7 @@ High Priority:
 * Ending
 * Credits
 
+* OW Fog is too weak (GlobalFog settings)
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
 * Waterfall Cave
@@ -68,8 +70,6 @@ High Priority:
 - Projectiles: Remove swift?
 
 - Arrow: Graphic doesn't appear next to bow in inventory, even when you have both bow and arrow items
-
-* Allow erasing of saved games, but ask for confirmation before erasing saved data
 
 
 Mid Priority:

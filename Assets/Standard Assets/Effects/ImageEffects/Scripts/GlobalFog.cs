@@ -88,7 +88,7 @@ namespace UnityStandardAssets.ImageEffects
 
             var camPos = camtr.position;
             float FdotC = camPos.y - height;
-            float paramK = (FdotC <= 0.0f ? 1.0f : 0.0f);
+            float paramK = (FdotC <= 0.0f ? 1.0f : 0.0f);        
             fogMaterial.SetMatrix("_FrustumCornersWS", frustumCorners);
             fogMaterial.SetVector("_CameraWS", camPos);
             fogMaterial.SetVector("_HeightParams", new Vector4(height, FdotC, paramK, heightDensity * 0.5f));

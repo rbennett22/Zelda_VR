@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(DebugOptions))]
 
@@ -113,13 +114,15 @@ public class DebugOptions_Zelda : MonoBehaviour
 
     void Awake()
     {
-        _debugOptions = GetComponent<DebugOptions>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+       _debugOptions = GetComponent<DebugOptions>();
         _debugOptions.Options.AddRange(_options);
 
         ApplyCurrentSettings();
     }
 
-    void OnLevelWasLoaded(int level)
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         ApplyCurrentSettings();
     }

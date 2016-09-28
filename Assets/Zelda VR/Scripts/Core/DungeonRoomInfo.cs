@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DungeonRoomInfo : MonoBehaviour
 {
@@ -112,7 +113,12 @@ public class DungeonRoomInfo : MonoBehaviour
     public bool BombUpgradeHasBeenPurchased { get; set; }
 
 
-    void OnLevelWasLoaded(int level)
+    void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (!containsBoss || !BossHasBeenDefeated)
         {

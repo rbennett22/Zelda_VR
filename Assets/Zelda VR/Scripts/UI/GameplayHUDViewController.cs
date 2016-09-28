@@ -1,6 +1,6 @@
 ﻿using Immersio.Utility;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
 {
@@ -15,9 +15,11 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
         base.Awake();
 
         _inventory = Inventory.Instance;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    void OnLevelWasLoaded(int level)
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (WorldInfo.Instance.ShouldShowGameplayHUDInCurrentScene())
         {

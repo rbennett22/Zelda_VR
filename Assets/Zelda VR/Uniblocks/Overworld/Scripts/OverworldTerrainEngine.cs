@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using Uniblocks;
 using System.Collections.Generic;
 using Immersio.Utility;
@@ -42,8 +43,11 @@ public class OverworldTerrainEngine : Engine
     void Start()
     {
         RefreshActiveStatus();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    void OnLevelWasLoaded(int level)
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         RefreshActiveStatus();
     }

@@ -1,4 +1,6 @@
-﻿Shader "Triplanar"
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+Shader "Triplanar"
 {
 	Properties{
 		_Tex0("Texture 0", 2D) = "white" {}
@@ -89,7 +91,7 @@
 			o.volumeNormal = v.normal;
 
 			// Volume-space positions and normals are used for triplanar texturing
-			float4 worldPos = mul(_Object2World, v.vertex);
+			float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
 			o.volumePos = mul(_World2Volume, worldPos);
 
 #if EIGHT_MATERIALS

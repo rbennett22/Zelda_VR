@@ -21,6 +21,7 @@ limitations under the License.
 
 using System.Collections; // required for Coroutines
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Fades the screen from black after a new scene is loaded.
@@ -48,6 +49,8 @@ public class OVRScreenFade : MonoBehaviour
     {
         // create the fade material
         fadeMaterial = new Material(Shader.Find("Oculus/Unlit Transparent Color"));
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     /// <summary>
@@ -61,7 +64,7 @@ public class OVRScreenFade : MonoBehaviour
     /// <summary>
     /// Starts a fade in when a new level is loaded
     /// </summary>
-    void OnLevelWasLoaded(int level)
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StartCoroutine(FadeIn());
     }
