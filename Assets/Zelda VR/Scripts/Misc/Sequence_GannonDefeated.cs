@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Sequence_GannonDefeated : Sequence_Base
 {
+    const float ROOM_FLASH_DURATION = 3.0f;
+
+
     public EnemyAI_Gannon Gannon { get; set; }
 
 
@@ -24,7 +27,7 @@ public class Sequence_GannonDefeated : Sequence_Base
         
         // TODO: Room rapidly flashes white for 3 secs(alternating normal/white; on white frame everything black stays black, everything else goes white)
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(ROOM_FLASH_DURATION);
 
         Locations.Instance.RestoreControls();
         Music.Instance.PlayDeathMountain();
@@ -56,7 +59,10 @@ public class Sequence_GannonDefeated : Sequence_Base
 }
 
 /*
-(see https://www.youtube.com/watch?v=O0lYnGys3oo @ 4:30)
+    ---  Sequence Summary ---
+
+    (see https://www.youtube.com/watch?v=O0lYnGys3oo @ 4:30)
+
     - Disable Controls
     - Gannon flashes for 1 sec
         (1 sec...)

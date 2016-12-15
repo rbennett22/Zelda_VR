@@ -216,7 +216,7 @@ public class EnemyAI : MonoBehaviour
 
     virtual protected bool CanMoveFromTo(Vector3 from, Vector3 to)
     {
-        Vector3 dir = to - from;
+        Vector3 dir = (to - from).normalized;
         Ray ray = new Ray(from, dir);
         LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls", "InvisibleBlocks", "Enemies");
         return ! Physics.SphereCast(ray, Radius * 0.99f, dir.magnitude, mask, QueryTriggerInteraction.UseGlobal);

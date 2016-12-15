@@ -47,8 +47,6 @@ public class EnemyAI_Gannon : EnemyAI
         Destroy(_flash);
 
         // TODO: Gannon explodes for 1 sec, creating dust that falls into a pile, and sending out 8 red "sword hits" 
-
-
     }
 
 

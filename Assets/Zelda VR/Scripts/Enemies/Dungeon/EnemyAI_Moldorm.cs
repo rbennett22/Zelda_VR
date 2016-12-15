@@ -49,7 +49,7 @@ public class EnemyAI_Moldorm : EnemyAI
     public new Vector3 MoveDirection
     {
         get { return _enemyMove.MoveDirection; }
-        set { _enemyMove.MoveDirection = value.normalized; }
+        set { _enemyMove.MoveDirection = value; }
     }
 
     void ReverseMoveDirection() { MoveDirection *= -1; }

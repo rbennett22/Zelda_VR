@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Sequence_GameEnding : Sequence_Base
 {
+    const float ROOM_FLASH_DURATION = 2.0f;
+
+
     override protected IEnumerator DoPlay()
     {
         Locations.Instance.LimitControls();
@@ -16,7 +19,7 @@ public class Sequence_GameEnding : Sequence_Base
         // - Link and Zelda each hold up a Triforce
         // - Screen flashes normal/ red for 2 secs
 
-         yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(ROOM_FLASH_DURATION);
 
         Music.Instance.PlayEnding();
 
@@ -35,17 +38,17 @@ public class Sequence_GameEnding : Sequence_Base
 }
 
 /*
+    ---  Sequence Summary ---
+
 	- "Death Mountain" music stops
 	- "Special Music B" plays (need to find this)
-
-	(3 secs...)
+	    (3 secs...)
 	- Zelda says, 
 		"Thanks Link, you're 
 		the hero of Hyrule."
 	- Link and Zelda each hold up a Triforce
 	- Screen flashes normal/red for 2 secs
-
-	(2 secs...)
+	    (2 secs...)
 	- "Ending" music plays
 	- Text appears: 
 		"Finally, 

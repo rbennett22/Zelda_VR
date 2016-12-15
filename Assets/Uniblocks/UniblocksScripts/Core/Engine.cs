@@ -46,7 +46,7 @@ namespace Uniblocks
         public static int HeightRange, ChunkSpawnDistance, ChunkDespawnDistance;
         public int lHeightRange, lChunkSpawnDistance, lChunkDespawnDistance;
 
-        public static Index3 ChunkSize;
+        public static Index3 ChunkSize = new Index3(1, 1, 1);
         public int lChunkSizeX, lChunkSizeY, lChunkSizeZ;
 
         // texture settings

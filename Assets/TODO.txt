@@ -52,10 +52,6 @@ BUGS:
 
 High Priority: 
 
-* Combine Invisble Collision Blocks into one single mesh per chunk
-
-* Allow erasing of saved games, but ask for confirmation before erasing saved data
-
 * Gannon: Intro (needs testing)
 	- Link holds up Triforce
 	- Missing Music
@@ -65,23 +61,20 @@ High Priority:
 * Ending
 * Credits
 
+* Combine Invisible Collision Blocks into one single mesh per chunk
+* Allow erasing of saved games, but ask for confirmation before erasing saved data
 * OW Fog is too weak (GlobalFog settings)
+* Waterfall Cave
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
-* Waterfall Cave
 - Grotto Warps: Warp player slightly away from portal so it doesn't rapidly warp back and forth
 - Grotto Warps: Destination Grotto's NPC isn't being spawned
 - Grotto Warps: Blocks don't always have time to spawn after warping
 - Grotto Warps: Even after blocks spawned, a flat sand tile beneath a pushable block was missing (Link could fall through)
 
-- Play "Scream 1" sound when bosses attack?
-- Boulders: Should bounce around
-- Armos should briefly flicker while coming alive
-- Ghini_Gravestone - Can move diagonally, and pass through objects, while the solid Ghini can't
 - Dodongo: Animation doesn't play for when he eats a bomb
 - Dodongo: Should be able to defeat a Dodongo with one sword strike, regardless of it's armor or health when stunned by a bomb blast.
 
-- Dungeon: Player shouldn't be able to damage enemies if he's not all the way inside the room
 - Projectiles: Remove swift?
 
 - Arrow: Graphic doesn't appear next to bow in inventory, even when you have both bow and arrow items
@@ -90,6 +83,7 @@ High Priority:
 Mid Priority:
 
 - Blue Wizzrobe: WHY THE FUCK CAN'T I SET BOUNDARY?!?
+- Play "Scream 1" sound when bosses attack?
 
 - Option to change block height for bushes, short blocks, dungeon blocks, etc.
 - Ladder: Can feel slightly unresponsive when player is next to multiple crossable tiles

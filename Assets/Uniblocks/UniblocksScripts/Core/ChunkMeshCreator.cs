@@ -474,14 +474,14 @@ namespace Uniblocks
             mesh.Clear();
             mesh.vertices = Vertices.ToArray();
             mesh.subMeshCount = GetComponent<Renderer>().materials.Length;
-
+            
             for (int i = 0; i < Faces.Count; ++i)
             {
-                mesh.SetTriangles(Faces[i].ToArray(), i);
+                mesh.SetTriangles(Faces[i].ToArray(), i);   // TODO: The "Dynamic batching: index buffer source is NULL..." errors are related to this line
             }
 
             mesh.uv = UVs.ToArray();//UVs.ToBuiltin(Vector2) as Vector2[]
-            mesh.Optimize();
+            ;
             mesh.RecalculateNormals();
 
             if (Engine.GenerateColliders)
@@ -491,7 +491,7 @@ namespace Uniblocks
 
                 colMesh.vertices = SolidColliderVertices.ToArray();
                 colMesh.triangles = SolidColliderFaces.ToArray();
-                colMesh.Optimize();
+                ;
                 colMesh.RecalculateNormals();
 
                 GetComponent<MeshCollider>().sharedMesh = null;
@@ -504,7 +504,7 @@ namespace Uniblocks
                     Mesh nocolMesh = new Mesh();
                     nocolMesh.vertices = NoCollideVertices.ToArray();
                     nocolMesh.triangles = NoCollideFaces.ToArray();
-                    nocolMesh.Optimize();
+                    ;
                     nocolMesh.RecalculateNormals();
 
                     _noCollideCollider = Instantiate(_chunk.chunkCollider, transform.position, transform.rotation) as GameObject;
@@ -537,7 +537,6 @@ namespace Uniblocks
             SolidFaceCount = 0;
             NoCollideFaceCount = 0;
         }
-
 
 
         void CreateNewMeshObject()

@@ -5,6 +5,9 @@ using System.Linq;
 
 public class EnemyAI_Random : EnemyAI
 {
+    const float PCNT_TO_RATIO = 0.01f;
+
+
     public int chanceToIdle = 0;
     public int chanceToAttack = 0;
     public int chanceToJump = 0;
@@ -134,19 +137,19 @@ public class EnemyAI_Random : EnemyAI
 
     DiscreteAction GetDesiredAction()
     {
-        if (FlipCoin(chanceToAttack * 0.01f) && IsAttackingAnOption())
+        if (FlipCoin(chanceToAttack * PCNT_TO_RATIO) && IsAttackingAnOption())
         {
             return DiscreteAction.Attack;
         }
-        else if (FlipCoin(chanceToIdle * 0.01f) && !_justFinishedIdling)
+        else if (FlipCoin(chanceToIdle * PCNT_TO_RATIO) && !_justFinishedIdling)
         {
             return DiscreteAction.Idle;
         }
-        else if (FlipCoin(chanceToJump * 0.01f))
+        else if (FlipCoin(chanceToJump * PCNT_TO_RATIO))
         {
             return DiscreteAction.Jump;
         }
-        else if (FlipCoin(chanceToChangeDirection * 0.01f))
+        else if (FlipCoin(chanceToChangeDirection * PCNT_TO_RATIO))
         {
             return DiscreteAction.ChangeDirection;
         }
@@ -176,11 +179,7 @@ public class EnemyAI_Random : EnemyAI
 
         if (_enemy.ShouldFollowBait())
         {
-            Vector3 toBait = Bait.ActiveBait.transform.position - transform.position;
-            Vector2 toBaitXZ = new Vector2(toBait.x, toBait.z);
-            toBaitXZ = toBaitXZ.GetNearestNormalizedAxisDirection();
-
-            desiredMoveDir = new IndexDirection2(toBaitXZ);
+            desiredMoveDir = GetDirectionToBait();
         }
         else if (chasePlayerIfInSight && IsPlayerInSight(MAX_DISTANCE_PLAYER_CAN_BE_SEEN, out toPlayer))
         {
@@ -224,6 +223,15 @@ public class EnemyAI_Random : EnemyAI
         }
 
         return desiredMoveDir;
+    }
+
+    IndexDirection2 GetDirectionToBait()
+    {
+        Vector3 toBait = Bait.ActiveBait.transform.position - transform.position;
+        Vector2 toBaitXZ = new Vector2(toBait.x, toBait.z);
+        toBaitXZ = toBaitXZ.GetNearestNormalizedAxisDirection();
+
+        return new IndexDirection2(toBaitXZ);
     }
 
     IndexDirection2 DetermineActualMoveDirection(IndexDirection2 desiredMoveDirection)

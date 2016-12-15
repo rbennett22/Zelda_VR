@@ -171,6 +171,8 @@ public class Player : Actor
     const int LIKE_LIKE_ESCAPE_COUNT = 8;
 
 
+    public bool IsInDungeonRoom { get; set; }    // Player can't attack when he's standing in the corridor between dungeon rooms
+
     // Jinx:  Player can't use sword
     public bool IsJinxed { get; private set; }      
     public void ActivateJinx(float duration = DEFAULT_JINX_DURATION)
@@ -425,6 +427,10 @@ public class Player : Actor
             return;
         }
         if (IsJinxed)
+        {
+            return;
+        }
+        if (WorldInfo.Instance.IsInDungeon && !IsInDungeonRoom)
         {
             return;
         }

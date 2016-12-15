@@ -154,6 +154,6 @@ public class BoxMesh : MonoBehaviour
         mesh.triangles = triangles;
 
         mesh.RecalculateBounds();
-        mesh.Optimize();
+        ;
     }
 }

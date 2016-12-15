@@ -182,7 +182,7 @@ namespace ScionGUI
 
 			AssetDatabase.Refresh();
 			TextureImporter importer = (TextureImporter)TextureImporter.GetAtPath(relativePath);
-			importer.textureType = TextureImporterType.Advanced;
+			importer.textureType = TextureImporterType.Default;
 			importer.spriteImportMode = SpriteImportMode.None;
 			importer.textureFormat = TextureImporterFormat.AutomaticTruecolor;
 			importer.anisoLevel = 0;
@@ -251,7 +251,7 @@ namespace ScionGUI
 			
 			AssetDatabase.Refresh();
 			TextureImporter importer 	= (TextureImporter)TextureImporter.GetAtPath(relativePath);
-			importer.textureType 		= TextureImporterType.Image;
+			importer.textureType 		= TextureImporterType.Default;
 			importer.spriteImportMode 	= SpriteImportMode.None;
 			importer.textureFormat 		= TextureImporterFormat.AutomaticCompressed;
 			importer.anisoLevel 		= 0;

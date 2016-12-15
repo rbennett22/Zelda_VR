@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class EnemyAI_Armos : MonoBehaviour
 {
-    const float ProximityThreshold = 1.5f;
-    const float ProximityThresholdSq = ProximityThreshold * ProximityThreshold;
-    const float SpeedSlow = 1.5f;
-    const float SpeedFast = 3.5f;
+    const float PROXIMITY_THRESHOLD = 1.5f;
+    const float PROXIMITY_THRESHOLD_SQ = PROXIMITY_THRESHOLD * PROXIMITY_THRESHOLD;
+    const float SPEED_SLOW = 1.5f;
+    const float SPEED_FAST = 3.5f;
+    const float FLASH_DURATION = 1.0f;
 
 
     public enum StatueType
@@ -80,15 +81,16 @@ public class EnemyAI_Armos : MonoBehaviour
 
     void OnTriggerEnter(Collider otherCollider)
     {
+        if (!CommonObjects.IsPlayer(otherCollider.gameObject))
+        {
+            return;
+        }
+
         if (_isInStatueMode)
         {
-            if (otherCollider.gameObject == CommonObjects.PlayerController_G)
-            {
-                StartCoroutine("ComeAlive");
-            }
+            StartCoroutine("ComeAlive");
         }
     }
-
 
     IEnumerator ComeAlive()
     {
@@ -106,7 +108,11 @@ public class EnemyAI_Armos : MonoBehaviour
             linkedTilesWereRemoved = true;
         }
 
-        yield return new WaitForSeconds(1.0f);
+        StartFlashingColors();
+
+        yield return new WaitForSeconds(FLASH_DURATION);
+
+        StopFlashingColors();
 
         if (linkedTilesWereRemoved)
         {
@@ -118,7 +124,7 @@ public class EnemyAI_Armos : MonoBehaviour
             ActivateHiddenCollectible();
         }
 
-        GetComponent<EnemyMove>().speed = Extensions.FlipCoin() ? SpeedFast : SpeedSlow;
+        GetComponent<EnemyMove>().speed = Extensions.FlipCoin() ? SPEED_FAST : SPEED_SLOW;
         GetComponent<Enemy>().meleeDamage = _meleeDamage;
         _enemyMove.enabled = true;
     }
@@ -167,5 +173,21 @@ public class EnemyAI_Armos : MonoBehaviour
         {
             Destroy(linkedTiles[i]);
         }
+    }
+
+
+    FlashColors _flash;
+    public void StartFlashingColors()
+    {
+        if (_flash != null)
+        {
+            return;
+        }
+        _flash = gameObject.AddComponent<FlashColors>();
+    }
+    public void StopFlashingColors()
+    {
+        Destroy(_flash);
+        _flash = null;
     }
 }

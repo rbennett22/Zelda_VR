@@ -1,72 +1,70 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Eyefluence.Utility
+public class FlashColors : MonoBehaviour
 {
-    public class FlashColors : MonoBehaviour
+    public Color normalColor = Color.gray;
+    public Color flashColor = Color.white;
+    public float speed = 30.0f;
+    public bool useSharedMaterial;
+
+
+    Renderer _renderer;
+    Graphic _graphic;
+    float _time;
+    Color _origColor;
+
+
+    void Awake()
     {
-        public Color normalColor = Color.gray;
-        public Color flashColor = Color.white;
-        public float speed = 30.0f;
-        public bool useSharedMaterial;
+        _renderer = GetComponentInChildren<Renderer>();
+        _graphic = GetComponentInChildren<Graphic>();
 
-
-        Renderer _renderer;
-        Graphic _graphic;
-        float _time;
-
-
-        void Awake()
+        if (_renderer != null)
         {
-            _renderer = GetComponentInChildren<Renderer>();
-            _graphic = GetComponentInChildren<Graphic>();
-
-            /*if (_renderer != null)
-            {
-                Material m = useSharedMaterial ? _renderer.sharedMaterial : _renderer.material;
-                normalColor = m.color;
-            }
-            else if (_graphic != null)
-            {
-                normalColor = _graphic.color;
-            }*/
-
-            SetColor(normalColor);
+            Material m = useSharedMaterial ? _renderer.sharedMaterial : _renderer.material;
+            _origColor = m.color;
+        }
+        else if (_graphic != null)
+        {
+            _origColor = _graphic.color;
         }
 
-        void OnEnable()
+        SetColor(normalColor);
+    }
+
+    void OnEnable()
+    {
+        _time = 0;
+        SetColor(normalColor);
+    }
+    void OnDisable()
+    {
+        SetColor(_origColor);
+    }
+
+
+    void Update()
+    {
+        _time += Time.deltaTime;
+
+        const float PhaseShift = -Mathf.PI / 2;
+        float t = (Mathf.Sin(PhaseShift + speed * _time) + 1) * 0.5f;
+        Color c = Color.Lerp(normalColor, flashColor, t);
+        SetColor(c);
+    }
+
+    void SetColor(Color color)
+    {
+        if (_renderer != null)
         {
-            _time = 0;
-            SetColor(normalColor);
+            Material m = useSharedMaterial ? _renderer.sharedMaterial : _renderer.material;
+            m.SetColor("_Color", color);
         }
-        void OnDisable()
+
+        if (_graphic != null)
         {
-            SetColor(normalColor);
-        }
-
-
-        void Update()
-        {
-            _time += Time.deltaTime;
-
-            const float PhaseShift = -Mathf.PI / 2;
-            float t = (Mathf.Sin(PhaseShift + speed * _time) + 1) * 0.5f;
-            Color c = Color.Lerp(normalColor, flashColor, t);
-            SetColor(c);
-        }
-
-        void SetColor(Color color)
-        {
-            if (_renderer != null)
-            {
-                Material m = useSharedMaterial ? _renderer.sharedMaterial : _renderer.material;
-                m.SetColor("_Color", color);
-            }
-
-            if (_graphic != null)
-            {
-                _graphic.color = color;
-            }
+            _graphic.color = color;
         }
     }
 }

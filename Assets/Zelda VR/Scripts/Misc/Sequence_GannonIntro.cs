@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Sequence_GannonIntro : Sequence_Base
 {
-    const float DURATION = 3.0f;
+    const float HOLD_TRIFORCE_FOR_DURATION = 3.0f;
 
 
     public EnemyAI_Gannon Gannon { get; set; }
@@ -18,7 +18,7 @@ public class Sequence_GannonIntro : Sequence_Base
 
         // TODO: Link holds up Triforce
 
-        yield return new WaitForSeconds(DURATION);
+        yield return new WaitForSeconds(HOLD_TRIFORCE_FOR_DURATION);
 
         Locations.Instance.RestoreControls();
         Music.Instance.PlayDeathMountain();
@@ -35,10 +35,12 @@ public class Sequence_GannonIntro : Sequence_Base
 }
 
 /*
+    ---  Sequence Summary ---
+
     - Disable Controls
     - Initially visible
     - "Death Mountain" Music stops
-    - "Special Music A" plays(need to find this)
+    - "Special Music A" plays (need to find this)
     - Link holds up Triforce for 3 secs
         (3 secs...)
     - Death Mountain Music plays

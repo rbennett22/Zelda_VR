@@ -43,8 +43,14 @@ public class DungeonDoorTrigger : MonoBehaviour
             return;
         }
 
-        if (!PlayerIsOnOuterSideOfDoor())
+        if (PlayerIsOnOuterSideOfDoor())
         {
+            CommonObjects.Player_C.IsInDungeonRoom = false;
+        }
+        else
+        {
+            CommonObjects.Player_C.IsInDungeonRoom = true;
+
             SetPlayerWallCollisionEnabled(true);
         }
     }
