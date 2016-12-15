@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,20 +13,25 @@ namespace Uniblocks
 
     public class ChunkMeshCreator : MonoBehaviour
     {
-        Chunk chunk;
-        int _sizeX, _sizeY, _sizeZ;
-        GameObject noCollideCollider;
-
         public Mesh Cube;
 
+
+        Chunk _chunk;
+        int _sizeX, _sizeY, _sizeZ;
+        GameObject _noCollideCollider;
+
+
         // variables for storing the mesh data
+
         List<Vector3> Vertices = new List<Vector3>();
 
         List<List<int>> Faces = new List<List<int>>();
         List<Vector2> UVs = new List<Vector2>();
         int FaceCount;
 
+
         // variables for storing collider data
+
         List<Vector3> SolidColliderVertices = new List<Vector3>();
 
         List<int> SolidColliderFaces = new List<int>();
@@ -34,16 +40,16 @@ namespace Uniblocks
         List<int> NoCollideFaces = new List<int>();
         int NoCollideFaceCount;
 
-        bool initialized;
+        bool _initialized;
 
 
         public void Initialize()
         {
             // set variables
-            chunk = GetComponent<Chunk>();
-            _sizeX = chunk.sizeX;
-            _sizeY = chunk.sizeY;
-            _sizeZ = chunk.sizeZ;
+            _chunk = GetComponent<Chunk>();
+            _sizeX = _chunk.sizeX;
+            _sizeY = _chunk.sizeY;
+            _sizeZ = _chunk.sizeZ;
 
             // make a list for each material (each material is a submesh)
             for (int i = 0; i < GetComponent<Renderer>().materials.Length; i++)
@@ -51,7 +57,7 @@ namespace Uniblocks
                 Faces.Add(new List<int>());
             }
 
-            initialized = true;
+            _initialized = true;
         }
 
 
@@ -59,7 +65,7 @@ namespace Uniblocks
 
         public void RebuildMesh()
         {
-            if (!initialized)
+            if (!_initialized)
             {
                 Initialize();
             }
@@ -73,7 +79,7 @@ namespace Uniblocks
             int x = 0, y = 0, z = 0;
 
             // Refresh neighbor chunks
-            chunk.AssignNeighbors();
+            _chunk.AssignNeighbors();
 
             // for each voxel in Voxels, check if any of the voxel's faces are exposed, and if so, add their faces to the main mesh arrays (named Vertices and Faces)
             while (x < _sizeX)
@@ -82,57 +88,43 @@ namespace Uniblocks
                 {
                     while (z < _sizeZ)
                     {
-                        ushort voxel = chunk.GetVoxel(x, y, z); // the current voxel data
-                        if (voxel != 0)
-                        { // don't render empty blocks.
+                        ushort voxel = _chunk.GetVoxel(x, y, z);     // the current voxel data
+                        if (voxel != 0)     // don't render empty blocks.
+                        { 
                             Voxel voxelType = Engine.GetVoxelType(voxel);
-                            if (voxelType.VCustomMesh == false)
-                            { // if cube
-                                //Transparency transparency = Engine.GetVoxelType (chunk.GetVoxel(x,y,z)).VTransparency;
-                                Transparency transparency = voxelType.VTransparency;
-                                ColliderType colliderType = voxelType.VColliderType;
-
-                                if (CheckAdjacent(x, y, z, Direction.forward, transparency) == true)
-                                    CreateFace(voxel, Facing.forward, colliderType, x, y, z);
-
-                                if (CheckAdjacent(x, y, z, Direction.back, transparency) == true)
-                                    CreateFace(voxel, Facing.back, colliderType, x, y, z);
-
-                                if (CheckAdjacent(x, y, z, Direction.up, transparency) == true)
-                                    CreateFace(voxel, Facing.up, colliderType, x, y, z);
-
-                                if (CheckAdjacent(x, y, z, Direction.down, transparency) == true)
-                                    CreateFace(voxel, Facing.down, colliderType, x, y, z);
-
-                                if (CheckAdjacent(x, y, z, Direction.right, transparency) == true)
-                                    CreateFace(voxel, Facing.right, colliderType, x, y, z);
-
-                                if (CheckAdjacent(x, y, z, Direction.left, transparency) == true)
-                                    CreateFace(voxel, Facing.left, colliderType, x, y, z);
-
-                                // if no collider, create a trigger cube collider
-                                if (colliderType == ColliderType.none && Engine.GenerateColliders)
+                            if (voxelType.VCustomMesh)      // if not cube
+                            {
+                                if (!CheckAllAdjacent(x, y, z))
                                 {
-                                    AddCubeMesh(x, y, z, false);
-                                }
-                            }
-                            else
-                            { 
-                                // if not cube
-                                if (CheckAllAdjacent(x, y, z) == false)
-                                { 
                                     // if any adjacent voxel isn't opaque, we render the mesh
                                     CreateCustomMesh(voxel, x, y, z, voxelType.VMesh);
                                 }
                             }
+                            else    // if cube
+                            { 
+                                Transparency tr = voxelType.VTransparency;
+                                ColliderType ct = voxelType.VColliderType;
+
+                                foreach (Direction d in Enum.GetValues(typeof(Direction)))
+                                {
+                                    if (CheckAdjacent(x, y, z, d, tr))
+                                        CreateFace(voxel, (Facing)d, ct, x, y, z);
+                                }
+
+                                // if no collider, create a trigger cube collider
+                                if (ct == ColliderType.none && Engine.GenerateColliders)
+                                {
+                                    AddCubeMesh(x, y, z, false);
+                                }
+                            } 
                         }
-                        z += 1;
+                        z++;
                     }
                     z = 0;
-                    y += 1;
+                    y++;
                 }
                 y = 0;
-                x += 1;
+                x++;
             }
 
             // update mesh using the values from the arrays
@@ -142,19 +134,13 @@ namespace Uniblocks
         bool CheckAdjacent(int x, int y, int z, Direction direction, Transparency transparency)
         { 
             // returns true if a face should be spawned
-            Index index = chunk.GetAdjacentIndex(x, y, z, direction);
-            ushort adjacentVoxel = chunk.GetVoxel(index.x, index.y, index.z);
+            Index idx = _chunk.GetAdjacentIndex(x, y, z, direction);
+            ushort adjacentVoxel = _chunk.GetVoxel(idx);
 
             if (adjacentVoxel == ushort.MaxValue)
-            { 
-                // if the neighbor chunk is missing
-                if (Engine.ShowBorderFaces || direction == Direction.up)
-                {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+            {
+                bool neighborChunkIsMissing = Engine.ShowBorderFaces || direction == Direction.up;
+                return neighborChunkIsMissing;
             }
 
             Transparency result = Engine.GetVoxelType(adjacentVoxel).VTransparency; // get the transparency of the adjacent voxel
@@ -162,25 +148,24 @@ namespace Uniblocks
             // parse the result (taking into account the transparency of the adjacent block as well as the one doing this check)
             if (transparency == Transparency.transparent)
             {
-                if (result == Transparency.transparent)
-                    return false; // don't draw a transparent block next to another transparent block
-                else
-                    return true; // draw a transparent block next to a solid or semi-transparent
+                return (result != Transparency.transparent);
+                // don't draw a transparent block next to another transparent block
+                // draw a transparent block next to a solid or semi-transparent
             }
-            else {
-                if (result == Transparency.solid)
-                    return false; // don't draw a solid block or a semi-transparent block next to a solid block
-                else
-                    return true; // draw a solid block or a semi-transparent block next to both transparent and semi-transparent
+            else
+            {
+                return (result != Transparency.solid);
+                // don't draw a solid block or a semi-transparent block next to a solid block
+                // draw a solid block or a semi-transparent block next to both transparent and semi-transparent
             }
         }
 
         public bool CheckAllAdjacent(int x, int y, int z)
         { 
             // returns true if all adjacent voxels are solid
-            for (int direction = 0; direction < 6; direction++)
+            for (int dir = 0; dir < 6; dir++)
             {
-                if (Engine.GetVoxelType(chunk.GetVoxel(chunk.GetAdjacentIndex(x, y, z, (Direction)direction))).VTransparency != Transparency.solid)
+                if (Engine.GetVoxelType(_chunk.GetVoxel(_chunk.GetAdjacentIndex(x, y, z, (Direction)dir))).VTransparency != Transparency.solid)
                 {
                     return false;
                 }
@@ -193,6 +178,10 @@ namespace Uniblocks
 
         void CreateFace(ushort voxel, Facing facing, ColliderType colliderType, int x, int y, int z)
         {
+            const float H = 0.5f;
+            const float H1 = 0.5001f;
+
+
             Voxel voxelComponent = Engine.GetVoxelType(voxel);
             List<int> FacesList = Faces[voxelComponent.VSubmeshIndex];
 
@@ -201,86 +190,86 @@ namespace Uniblocks
             // add the positions of the vertices depending on the facing of the face
             if (facing == Facing.forward)
             {
-                Vertices.Add(new Vector3(x + 0.5001f, y + 0.5001f, z + 0.5f));
-                Vertices.Add(new Vector3(x - 0.5001f, y + 0.5001f, z + 0.5f));
-                Vertices.Add(new Vector3(x - 0.5001f, y - 0.5001f, z + 0.5f));
-                Vertices.Add(new Vector3(x + 0.5001f, y - 0.5001f, z + 0.5f));
+                Vertices.Add(new Vector3(x + H1, y + H1, z + H));
+                Vertices.Add(new Vector3(x - H1, y + H1, z + H));
+                Vertices.Add(new Vector3(x - H1, y - H1, z + H));
+                Vertices.Add(new Vector3(x + H1, y - H1, z + H));
                 if (colliderType == ColliderType.cube && Engine.GenerateColliders)
                 {
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y + 0.5f, z + 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y - 0.5f, z + 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y - 0.5f, z + 0.5f));
+                    SolidColliderVertices.Add(new Vector3(x + H, y + H, z + H));
+                    SolidColliderVertices.Add(new Vector3(x - H, y + H, z + H));
+                    SolidColliderVertices.Add(new Vector3(x - H, y - H, z + H));
+                    SolidColliderVertices.Add(new Vector3(x + H, y - H, z + H));
                 }
             }
             else if (facing == Facing.up)
             {
-                Vertices.Add(new Vector3(x - 0.5001f, y + 0.5f, z + 0.5001f));
-                Vertices.Add(new Vector3(x + 0.5001f, y + 0.5f, z + 0.5001f));
-                Vertices.Add(new Vector3(x + 0.5001f, y + 0.5f, z - 0.5001f));
-                Vertices.Add(new Vector3(x - 0.5001f, y + 0.5f, z - 0.5001f));
+                Vertices.Add(new Vector3(x - H1, y + H, z + H1));
+                Vertices.Add(new Vector3(x + H1, y + H, z + H1));
+                Vertices.Add(new Vector3(x + H1, y + H, z - H1));
+                Vertices.Add(new Vector3(x - H1, y + H, z - H1));
                 if (colliderType == ColliderType.cube && Engine.GenerateColliders)
                 {
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y + 0.5f, z + 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y + 0.5f, z - 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y + 0.5f, z - 0.5f));
+                    SolidColliderVertices.Add(new Vector3(x - H, y + H, z + H));
+                    SolidColliderVertices.Add(new Vector3(x + H, y + H, z + H));
+                    SolidColliderVertices.Add(new Vector3(x + H, y + H, z - H));
+                    SolidColliderVertices.Add(new Vector3(x - H, y + H, z - H));
                 }
             }
             else if (facing == Facing.right)
             {
-                Vertices.Add(new Vector3(x + 0.5f, y + 0.5001f, z - 0.5001f));
-                Vertices.Add(new Vector3(x + 0.5f, y + 0.5001f, z + 0.5001f));
-                Vertices.Add(new Vector3(x + 0.5f, y - 0.5001f, z + 0.5001f));
-                Vertices.Add(new Vector3(x + 0.5f, y - 0.5001f, z - 0.5001f));
+                Vertices.Add(new Vector3(x + H, y + H1, z - H1));
+                Vertices.Add(new Vector3(x + H, y + H1, z + H1));
+                Vertices.Add(new Vector3(x + H, y - H1, z + H1));
+                Vertices.Add(new Vector3(x + H, y - H1, z - H1));
                 if (colliderType == ColliderType.cube && Engine.GenerateColliders)
                 {
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y + 0.5f, z - 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y - 0.5f, z + 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y - 0.5f, z - 0.5f));
+                    SolidColliderVertices.Add(new Vector3(x + H, y + H, z - H));
+                    SolidColliderVertices.Add(new Vector3(x + H, y + H, z + H));
+                    SolidColliderVertices.Add(new Vector3(x + H, y - H, z + H));
+                    SolidColliderVertices.Add(new Vector3(x + H, y - H, z - H));
                 }
             }
             else if (facing == Facing.back)
             {
-                Vertices.Add(new Vector3(x - 0.5001f, y + 0.5001f, z - 0.5f));
-                Vertices.Add(new Vector3(x + 0.5001f, y + 0.5001f, z - 0.5f));
-                Vertices.Add(new Vector3(x + 0.5001f, y - 0.5001f, z - 0.5f));
-                Vertices.Add(new Vector3(x - 0.5001f, y - 0.5001f, z - 0.5f));
+                Vertices.Add(new Vector3(x - H1, y + H1, z - H));
+                Vertices.Add(new Vector3(x + H1, y + H1, z - H));
+                Vertices.Add(new Vector3(x + H1, y - H1, z - H));
+                Vertices.Add(new Vector3(x - H1, y - H1, z - H));
                 if (colliderType == ColliderType.cube && Engine.GenerateColliders)
                 {
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y + 0.5f, z - 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y + 0.5f, z - 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y - 0.5f, z - 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y - 0.5f, z - 0.5f));
+                    SolidColliderVertices.Add(new Vector3(x - H, y + H, z - H));
+                    SolidColliderVertices.Add(new Vector3(x + H, y + H, z - H));
+                    SolidColliderVertices.Add(new Vector3(x + H, y - H, z - H));
+                    SolidColliderVertices.Add(new Vector3(x - H, y - H, z - H));
                 }
             }
             else if (facing == Facing.down)
             {
-                Vertices.Add(new Vector3(x - 0.5001f, y - 0.5f, z - 0.5001f));
-                Vertices.Add(new Vector3(x + 0.5001f, y - 0.5f, z - 0.5001f));
-                Vertices.Add(new Vector3(x + 0.5001f, y - 0.5f, z + 0.5001f));
-                Vertices.Add(new Vector3(x - 0.5001f, y - 0.5f, z + 0.5001f));
+                Vertices.Add(new Vector3(x - H1, y - H, z - H1));
+                Vertices.Add(new Vector3(x + H1, y - H, z - H1));
+                Vertices.Add(new Vector3(x + H1, y - H, z + H1));
+                Vertices.Add(new Vector3(x - H1, y - H, z + H1));
                 if (colliderType == ColliderType.cube && Engine.GenerateColliders)
                 {
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y - 0.5f, z - 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y - 0.5f, z - 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x + 0.5f, y - 0.5f, z + 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y - 0.5f, z + 0.5f));
+                    SolidColliderVertices.Add(new Vector3(x - H, y - H, z - H));
+                    SolidColliderVertices.Add(new Vector3(x + H, y - H, z - H));
+                    SolidColliderVertices.Add(new Vector3(x + H, y - H, z + H));
+                    SolidColliderVertices.Add(new Vector3(x - H, y - H, z + H));
                 }
             }
             else if (facing == Facing.left)
             {
-                Vertices.Add(new Vector3(x - 0.5f, y + 0.5001f, z + 0.5001f));
-                Vertices.Add(new Vector3(x - 0.5f, y + 0.5001f, z - 0.5001f));
-                Vertices.Add(new Vector3(x - 0.5f, y - 0.5001f, z - 0.5001f));
-                Vertices.Add(new Vector3(x - 0.5f, y - 0.5001f, z + 0.5001f));
+                Vertices.Add(new Vector3(x - H, y + H1, z + H1));
+                Vertices.Add(new Vector3(x - H, y + H1, z - H1));
+                Vertices.Add(new Vector3(x - H, y - H1, z - H1));
+                Vertices.Add(new Vector3(x - H, y - H1, z + H1));
                 if (colliderType == ColliderType.cube && Engine.GenerateColliders)
                 {
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y + 0.5f, z + 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y + 0.5f, z - 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y - 0.5f, z - 0.5f));
-                    SolidColliderVertices.Add(new Vector3(x - 0.5f, y - 0.5f, z + 0.5f));
+                    SolidColliderVertices.Add(new Vector3(x - H, y + H, z + H));
+                    SolidColliderVertices.Add(new Vector3(x - H, y + H, z - H));
+                    SolidColliderVertices.Add(new Vector3(x - H, y - H, z - H));
+                    SolidColliderVertices.Add(new Vector3(x - H, y - H, z + H));
                 }
             }
 
@@ -518,13 +507,13 @@ namespace Uniblocks
                     nocolMesh.Optimize();
                     nocolMesh.RecalculateNormals();
 
-                    noCollideCollider = Instantiate(chunk.chunkCollider, transform.position, transform.rotation) as GameObject;
-                    noCollideCollider.transform.parent = this.transform;
-                    noCollideCollider.GetComponent<MeshCollider>().sharedMesh = nocolMesh;
+                    _noCollideCollider = Instantiate(_chunk.chunkCollider, transform.position, transform.rotation) as GameObject;
+                    _noCollideCollider.transform.parent = this.transform;
+                    _noCollideCollider.GetComponent<MeshCollider>().sharedMesh = nocolMesh;
                 }
-                else if (noCollideCollider != null)
+                else if (_noCollideCollider != null)
                 {
-                    Destroy(noCollideCollider); // destroy the existing collider if there is no NoCollide vertices
+                    Destroy(_noCollideCollider); // destroy the existing collider if there is no NoCollide vertices
                 }
             }
 
@@ -554,7 +543,7 @@ namespace Uniblocks
         void CreateNewMeshObject()
         { 
             // in case the amount of vertices exceeds the maximum for one mesh, we need to create a new mesh
-            GameObject meshContainer = Instantiate(chunk.meshContainer, transform.position, transform.rotation) as GameObject;
+            GameObject meshContainer = Instantiate(_chunk.meshContainer, transform.position, transform.rotation) as GameObject;
             meshContainer.transform.parent = this.transform;
 
             UpdateMesh(meshContainer.GetComponent<MeshFilter>().mesh);

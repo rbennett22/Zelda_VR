@@ -8,6 +8,7 @@ namespace Uniblocks
     {
         public int x, y, z;
 
+
         public Index(int setX, int setY, int setZ)
         {
             this.x = setX;
@@ -21,6 +22,19 @@ namespace Uniblocks
             this.y = (int)setIndex.y;
             this.z = (int)setIndex.z;
         }
+
+
+        public Index GetAdjacentIndex(Direction direction)
+        {
+            if (direction == Direction.down) return new Index(x, y - 1, z);
+            else if (direction == Direction.up) return new Index(x, y + 1, z);
+            else if (direction == Direction.left) return new Index(x - 1, y, z);
+            else if (direction == Direction.right) return new Index(x + 1, y, z);
+            else if (direction == Direction.back) return new Index(x, y, z - 1);
+            else if (direction == Direction.forward) return new Index(x, y, z + 1);
+            else return null;
+        }
+
 
         public Vector3 ToVector3()
         {
@@ -46,17 +60,6 @@ namespace Uniblocks
                 return true;
             }
             else return false;
-        }
-
-        public Index GetAdjacentIndex(Direction direction)
-        {
-            if (direction == Direction.down) return new Index(x, y - 1, z);
-            else if (direction == Direction.up) return new Index(x, y + 1, z);
-            else if (direction == Direction.left) return new Index(x - 1, y, z);
-            else if (direction == Direction.right) return new Index(x + 1, y, z);
-            else if (direction == Direction.back) return new Index(x, y, z - 1);
-            else if (direction == Direction.forward) return new Index(x, y, z + 1);
-            else return null;
         }
 
         public static bool Compare(Index a, Index b)

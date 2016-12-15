@@ -64,7 +64,7 @@ public class EnemyAI_Tektite : EnemyAI
 
     void JumpToNextDestination()
     {
-        if (IsBlockingAnExit())  // Prevent trapping Link into a Grotto or Dungeon stairs entrance/exit
+        if (IsBlockingAnExit() || Player.Position.y < WorldInfo.Instance.WorldOffset.y)  // Prevent trapping Link into a Grotto or Dungeon stairs entrance/exit
         {
             JumpAwayFromPlayer();
         }

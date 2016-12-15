@@ -1,5 +1,24 @@
 --- TODO ---
 
+BEFORE SUBMITTING TO OCULUS STORE:
+
+- Oculus PC SDK version 1.6 or later.
+- Oculus PC SDK version 1.8 or later if you use Oculus Touch.
+- Unity game engine 5.3 must be version 5.3.4p5 or later.
+- Unity game engine 5.4 must be version 5.4.1p1 or later.
+
+- Maintains 90 FPS through most of the app.
+
+- Renders head-locked UI elements such as cursors and in-game dialog in a separate layer from the main game 
+	to avoid judder if the app misses frames or runs with asynchronous spacewarp. (See VR Compositor Layers.)
+- Does not launch with a Unity configuration prompt.
+- Displays graphics and responds to head tracking within 4 seconds of launch. Longer launch times are allowed if there is a loading indicator.
+
+- Re-orients forward when using the reorientation option in the Universal Home menu. 
+	Does not apply to apps that allow movement using the Guardian System play area.
+- Exit to Home function must work.
+
+
 NEEDS TESTING:
 
 * Grottos
@@ -8,14 +27,7 @@ NEEDS TESTING:
 
 BUGS:
 
-* BUG: If you quit and restart, Link may fall through ground (seems to only happen in Editor?)
-* BUG: DungeonEntrance OW: The back-most block is missing
-
-* BUG: Sword and Wand Projectiles can't pass over water in Overworld
-* BUG: Link can walk on water in Overworld
 * BUG: Enemies can push Link off the ground
-
-* BUG: A Blue Tektite trapped me inside a Grotto. It wasn't jumping, but was frozen in place, blocking exit.
 
 * BUG: "Dynamic batching: index buffer source is NULL..." errors.  Need a permanent fix (waiting on Unity update).
 
@@ -35,9 +47,12 @@ BUGS:
 
 - BUG: Unity crashed unexpectedly shortly after returning to OW after completing Dungeon 1
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
+- BUG: If you quit and restart, Link may fall through ground (seems to only happen in Editor?) [Can't reproduce]
 
 
 High Priority: 
+
+* Combine Invisble Collision Blocks into one single mesh per chunk
 
 * Allow erasing of saved games, but ask for confirmation before erasing saved data
 

@@ -2,16 +2,16 @@
 
 RECENTLY DONE:
 
-- CV1: Confirmed to work with Oculus Consumer Version 1.
-- Disabled Dynamic Batching: As a temporary workaround for the "Dynamic batching: index buffer source is NULL" errors.
-
-- BUG: Can't enter Grottos -FIXED (Changed PLayerController's Center y to -0.75)
-- BUG: Clicking the left mouse button will select an entry on SavedGames screen. -FIXED
-- BUG: GlobalFog not working. -FIXED
-- BUG: If you quit, you can use sword/items in the title screen. -FIXED
+- BUG: Sword and Wand Projectiles can't pass over water in Overworld. -FIXED
+- BUG: Tektites can trap player inside a Grotto by blocking exit. -FIXED
+- BUG: DungeonEntrance OW: The back-most block is missing. -FIXED
+- BUG: Link can walk on water in Overworld. -FIXED
 
 
 DONE:
+
+- CV1: Confirmed to work with Oculus Consumer Version 1.
+- Disabled Dynamic Batching: As a temporary workaround for the "Dynamic batching: index buffer source is NULL" errors.
 
 - Controls View: Updated to display correct controls.
 - Controls View: Now uses Zelda Font
@@ -35,6 +35,10 @@ DONE:
 - Bait: Play event sound when you present meat to "Grumble, grumble"
 - Raft: Play event sound when riding
 
+- BUG: Can't enter Grottos -FIXED (Changed PLayerController's Center y to -0.75)
+- BUG: Clicking the left mouse button will select an entry on SavedGames screen. -FIXED
+- BUG: GlobalFog not working. -FIXED
+- BUG: If you quit, you can use sword/items in the title screen. -FIXED
 - BUG: Gannon: It's possible to kill him with silver arrow the first time he appears -FIXED
 - BUG: Peahat: Can fly through blocks, and sometimes gets "bounced" forcefully across the world when colliding with a block -FIXED
 - BUG: Manhandla: Can move its mouths through blocks -FIXED

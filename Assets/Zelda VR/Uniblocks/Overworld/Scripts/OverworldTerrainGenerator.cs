@@ -75,6 +75,10 @@ public class OverworldTerrainGenerator : TerrainGenerator
             }
         }
 
+
+        ChunkOW.DestroyAllInvisibleCollisionBlocks();
+
+
         Index3 chunkSize = Engine.ChunkSize;
         Index3 chunkPos = ChunkPosition;
 
@@ -155,9 +159,22 @@ public class OverworldTerrainGenerator : TerrainGenerator
 
                 for (int vY = 0; vY < chunkSize.y; vY++)
                 {
-                    // TODO: Make clearer/more generic
+                    // TODO: Make clearer and more generic
 
                     int y = vY + chunkPos.y - yOffset;
+
+                    // Create an Invisible Collision Block?
+                    if (y == 0)
+                    {
+                        if (isTileFlatImpassable)
+                        {
+                            // TODO: Combine blocks into one single mesh per chunk
+
+                            Index idx = new Index(vX, 0, vZ);
+                            ChunkOW.InstantiateInvisibleCollisionBlockAtIndex(idx);
+                        }
+                    }
+
                     if (y < -1)
                     {
                         continue;
@@ -171,17 +188,18 @@ public class OverworldTerrainGenerator : TerrainGenerator
                     }
                     if (y > blockStackHeight - 1)
                     {
-                        bool isFlatTop = isTileFlatImpassable && (y == blockStackHeight);
+                        /*bool isFlatTop = isTileFlatImpassable && (y == blockStackHeight);
                         if (isFlatTop)
                         {
                             ChunkOW.SetVoxelSimple(vX, vY, vZ, INVISIBLE_COLLIDER_VOXEL);
-                        }
+                        }*/
 
                         /*// Clear previous
                         if (!isFlatTop)
                         {
                             ChunkOW.SetVoxelSimple(vX, vY, vZ, 0);
                         }*/
+
                         continue;
                     }
 
@@ -255,8 +273,6 @@ public class OverworldTerrainGenerator : TerrainGenerator
             {
                 blockHeight = GetRandomBlockHeightForTile(x, z - 2);
             }
-
-            yOffset = ENTRANCE_TILE_Y_OFFSET - 2;
 
             return false;
         }

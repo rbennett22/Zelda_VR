@@ -1,6 +1,7 @@
 #pragma warning disable 0618 // variable is obsolete
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Immersio.Utility;
 
@@ -20,9 +21,6 @@ namespace Uniblocks
         public bool disableMesh;    // for chunks spawned from UniblocksServer; if true, the chunk will not build a mesh
         public float lifetime;      // how long since the chunk has been spawned
 
-        // update queue
-        public bool flaggedToUpdate;
-        public bool inUpdateQueue;
         public bool voxelsDone;     // true when this chunk has finished generating or loading voxel data
 
         public GameObject meshContainer, chunkCollider;
@@ -39,6 +37,7 @@ namespace Uniblocks
 
 
         ChunkMeshCreator MeshCreator;
+        bool _flaggedToUpdate;
         bool _flaggedToRemove;
 
 
@@ -211,6 +210,7 @@ namespace Uniblocks
             SetVoxel(index.x, index.y, index.z, data, updateMesh);
         }
 
+
         void SetVoxelForNeighbor(Direction dir, int x, int y, int z, ushort data, bool updateMesh)
         {
             Chunk n = neighborChunks[(int)dir];
@@ -270,6 +270,7 @@ namespace Uniblocks
             return GetVoxel(index.x, index.y, index.z);
         }
 
+
         ushort GetVoxelForNeighbor(Direction dir, int x, int y, int z)
         {
             Chunk n = neighborChunks[(int)dir];
@@ -289,7 +290,7 @@ namespace Uniblocks
         }
         public void FlagToUpdate()
         {
-            flaggedToUpdate = true;
+            _flaggedToUpdate = true;
         }
 
 
@@ -313,9 +314,9 @@ namespace Uniblocks
             }
 
             // Update the mesh?
-            if (flaggedToUpdate && voxelsDone && !disableMesh && Engine.GenerateMeshes)
+            if (_flaggedToUpdate && voxelsDone && !disableMesh && Engine.GenerateMeshes)
             { 
-                flaggedToUpdate = false;
+                _flaggedToUpdate = false;
                 RebuildMesh();
             }
 
@@ -521,6 +522,36 @@ namespace Uniblocks
             index.z = Mathf.RoundToInt(point.z);
 
             return index;
+        }
+
+
+        // ===== invisible collision blocks ================
+
+        [SerializeField]
+        GameObject _invisibleCollisionBlockPrefab;
+
+        List<GameObject> _invisibleCollisionBlocks = new List<GameObject>();
+
+        public void InstantiateInvisibleCollisionBlockAtIndex(Index index)
+        {
+            if(_invisibleCollisionBlockPrefab == null)
+            {
+                return;
+            }
+
+            GameObject g = Instantiate(_invisibleCollisionBlockPrefab) as GameObject;
+            g.transform.position = VoxelIndexToPosition(index);
+
+            _invisibleCollisionBlocks.Add(g);
+        }
+
+        public void DestroyAllInvisibleCollisionBlocks()
+        {
+            foreach (GameObject g in _invisibleCollisionBlocks)
+            {
+                Destroy(g);
+            }
+            _invisibleCollisionBlocks.Clear();
         }
 
 
