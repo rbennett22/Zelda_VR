@@ -104,14 +104,17 @@ public class Enemy : Actor
         IsStunned = false;
     }
 
-    public void Paralyze(float duration)
+    public void Paralyze(float duration, bool pauseAnim = true)
     {
         if (!gameObject.activeSelf) { return; }
+        if(pauseAnim)
+        {
+            PauseAnimation();
+        }
         StartCoroutine("ParalyzeCoroutine", duration);
     }
     IEnumerator ParalyzeCoroutine(float duration)
     {
-        PauseAnimation();
         IsParalyzed = true;
 
         yield return new WaitForSeconds(duration);

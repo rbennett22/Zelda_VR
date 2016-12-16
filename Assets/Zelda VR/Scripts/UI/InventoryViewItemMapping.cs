@@ -7,7 +7,8 @@ public class InventoryViewItemMapping : MonoBehaviour
         Passive = 0,
         Active = 1,
         Auxillary = 2,
-        Triforce = 3
+        Triforce = 3,
+        Bow = 4
     }
 
 
@@ -18,6 +19,8 @@ public class InventoryViewItemMapping : MonoBehaviour
 
     [SerializeField]
     int _row = -1, _column = -1, _aux = -1;
+    [SerializeField]
+    bool _isBow;
 
     public int Row { get { return _row; } }
     public int Column { get { return _column; } }

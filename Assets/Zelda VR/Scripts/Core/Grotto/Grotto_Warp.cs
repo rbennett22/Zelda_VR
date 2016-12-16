@@ -19,10 +19,15 @@ public class Grotto_Warp : GrottoExtension_Base
 
     public void OnPlayerEnteredPortal(GrottoPortal portal)
     {
-        // TODO
-        return;
+        int warpDestination = GrottoSpawnPoint.GetWarpDestinationIndexForPortal(portal);
+        Locations.Instance.WarpToGrottoWarpDestination(warpDestination);
 
 
+        //WarpToPortalInsideGrotto(portal);
+    }
+
+    void WarpToPortalInsideGrotto(GrottoPortal fromPortal)
+    {
         Player player = CommonObjects.Player_C;
         ZeldaPlayerController pc = player.PlayerController;
 
@@ -30,19 +35,19 @@ public class Grotto_Warp : GrottoExtension_Base
         Transform warpToLocation = null;
         Grotto destinationGrotto = null;
 
-        if (portal == Grotto.warpA)
+        if (fromPortal == Grotto.warpA)
         {
             warpToGrottoSP = GrottoSpawnPoint.warpToA;
             destinationGrotto = warpToGrottoSP.SpawnGrotto();
             warpToLocation = destinationGrotto.warpA.transform;
         }
-        else if (portal == Grotto.warpB)
+        else if (fromPortal == Grotto.warpB)
         {
             warpToGrottoSP = GrottoSpawnPoint.warpToB;
             destinationGrotto = warpToGrottoSP.SpawnGrotto();
             warpToLocation = destinationGrotto.warpB.transform;
         }
-        else if (portal == Grotto.warpC)
+        else if (fromPortal == Grotto.warpC)
         {
             warpToGrottoSP = GrottoSpawnPoint.warpToC;
             destinationGrotto = warpToGrottoSP.SpawnGrotto();
@@ -50,10 +55,10 @@ public class Grotto_Warp : GrottoExtension_Base
         }
 
 
-        Vector3 eulerDiff = warpToLocation.eulerAngles - portal.transform.eulerAngles;
+        Vector3 eulerDiff = warpToLocation.eulerAngles - fromPortal.transform.eulerAngles;
 
         Transform t = pc.transform;
-        Vector3 offset = t.position - portal.transform.position;
+        Vector3 offset = t.position - fromPortal.transform.position;
         offset = Quaternion.Euler(eulerDiff) * offset;
         t.position = warpToLocation.position + offset;
 
@@ -61,7 +66,6 @@ public class Grotto_Warp : GrottoExtension_Base
         player.ForceNewRotation(newEuler);
 
         pc.Stop();
-
 
         OnPlayerExit();
         destinationGrotto.OnPlayerEnter();

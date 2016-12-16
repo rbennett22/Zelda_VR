@@ -181,10 +181,16 @@ public class LostSector : MonoBehaviour
         OverworldTerrainEngine eng = OverworldTerrainEngine.Instance;
 
         OverworldChunk ch = eng.GetChunkForSector(sector) as OverworldChunk;
-        OverrideChunkWithThisSectorsVoxels(ch, doOverride);
+        if (ch != null)
+        {
+            OverrideChunkWithThisSectorsVoxels(ch, doOverride);
 
-        OverworldChunk ch_down = ch.GetChunkDirectlyBelowThisChunk() as OverworldChunk;        // TODO: Better methods for getting neighbors
-        OverrideChunkWithThisSectorsVoxels(ch_down, doOverride);
+            OverworldChunk ch_down = ch.GetChunkDirectlyBelowThisChunk() as OverworldChunk;        // TODO: Better methods for getting neighbors
+            if (ch_down != null)
+            {
+                OverrideChunkWithThisSectorsVoxels(ch_down, doOverride);
+            }
+        }
     }
     void OverrideChunkWithThisSectorsVoxels(OverworldChunk ch, bool doOverride)
     {

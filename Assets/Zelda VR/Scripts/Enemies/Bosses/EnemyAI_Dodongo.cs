@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class EnemyAI_Dodongo : EnemyAI
 {
-    public bool StunnedByBomb { get { return AnimatorInstance.GetBool("Bombed"); } }
+    public bool StunnedByBomb {
+        get { return AnimatorInstance.GetBool("Bombed"); }
+        private set { AnimatorInstance.SetBool("Bombed", value); }
+    }
 
 
     void OnTriggerEnter(Collider otherCollider)
@@ -35,11 +38,11 @@ public class EnemyAI_Dodongo : EnemyAI
 
         float duration = _healthController.tempInvincibilityDuration;
 
-        _enemy.Paralyze(duration);
-        AnimatorInstance.SetBool("Bombed", true);
+        _enemy.Paralyze(duration, false);
+        StunnedByBomb = true;
 
         yield return new WaitForSeconds(duration);
 
-        AnimatorInstance.SetBool("Bombed", false);
+        StunnedByBomb = false;
     }
 }

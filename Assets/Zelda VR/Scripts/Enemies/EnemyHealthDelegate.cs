@@ -34,14 +34,28 @@ public class EnemyHealthDelegate : MonoBehaviour
             }
         }
 
+        EnemyAI_Dodongo dodongo = GetComponent<EnemyAI_Dodongo>();
+        if (dodongo != null)
+        {
+            // Player can one-hit kill Dodongo when it stunned after eating a bomb
+            if(dodongo.StunnedByBomb)
+            {
+                healthController.Kill(damageDealer, true);
+            }
+            else
+            {
+                damageAmount = 0;
+                PlayShieldSound();
+            }
+        }
+
         EnemyAI_Gohma gohma = GetComponent<EnemyAI_Gohma>();
         if (gohma != null)
         {
             if (gohma.IsEyeClosed)
             {
                 damageAmount = 0;
-                SoundFx sfx = SoundFx.Instance;
-                sfx.PlayOneShot(sfx.shield);
+                PlayShieldSound();
             }
         }
 
@@ -168,5 +182,12 @@ public class EnemyHealthDelegate : MonoBehaviour
         if (f != null) { return false; }
 
         return true;
+    }
+
+
+    void PlayShieldSound()
+    {
+        SoundFx sfx = SoundFx.Instance;
+        sfx.PlayOneShot(sfx.shield);
     }
 }

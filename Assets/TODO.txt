@@ -28,12 +28,9 @@ NEEDS TESTING:
 BUGS:
 
 * BUG: Enemies can push Link off the ground
-
 * BUG: "Dynamic batching: index buffer source is NULL..." errors.  Need a permanent fix (waiting on Unity update).
 
-- BUG: Grotto entrance shadow goes away if you back away from it by more than ~12 tiles
-- BUG: If rupees are rewarded while rupee count is already taking place, then the initial rupee count stops and the remaining rupees are not received. (I think)
-- BUG: When exiting a dungeon, enemies in that sector don't inititally appear (until you move far enough away)
+- BUG: When exiting a dungeon or warping, enemies in that sector don't inititally appear (until you move far enough away)
 - BUG: Dungeon 8 is initially visible from inside grotto to the south of it.
 - BUG: Lanmola in D9 wasn't moving at all
 
@@ -48,6 +45,8 @@ BUGS:
 - BUG: Unity crashed unexpectedly shortly after returning to OW after completing Dungeon 1
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
 - BUG: If you quit and restart, Link may fall through ground (seems to only happen in Editor?) [Can't reproduce]
+
+- BUG: If rupees are rewarded while rupee count is already taking place, then the initial rupee count stops and the remaining rupees are not received. (I think)
 
 
 High Priority: 
@@ -67,23 +66,14 @@ High Priority:
 * Waterfall Cave
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
-- Grotto Warps: Warp player slightly away from portal so it doesn't rapidly warp back and forth
 - Grotto Warps: Destination Grotto's NPC isn't being spawned
 - Grotto Warps: Blocks don't always have time to spawn after warping
 - Grotto Warps: Even after blocks spawned, a flat sand tile beneath a pushable block was missing (Link could fall through)
-
-- Dodongo: Animation doesn't play for when he eats a bomb
-- Dodongo: Should be able to defeat a Dodongo with one sword strike, regardless of it's armor or health when stunned by a bomb blast.
-
-- Projectiles: Remove swift?
-
-- Arrow: Graphic doesn't appear next to bow in inventory, even when you have both bow and arrow items
 
 
 Mid Priority:
 
 - Blue Wizzrobe: WHY THE FUCK CAN'T I SET BOUNDARY?!?
-- Play "Scream 1" sound when bosses attack?
 
 - Option to change block height for bushes, short blocks, dungeon blocks, etc.
 - Ladder: Can feel slightly unresponsive when player is next to multiple crossable tiles
@@ -113,6 +103,7 @@ Mid Priority:
 - Fairy: Wrong sound (for both types of fairy) (see https://www.youtube.com/watch?v=hhb3LqLtTBM @ 11:30)
 - Wizzrobe: Sound (what sound?)
 - Boss Room: Play "roaring" sound when in or next to a boss room (mini bosses too?)
+- Play "Scream 1" sound when bosses attack?
 
 
 Low Priority:
@@ -188,6 +179,4 @@ OPTIMIZATIONS:
 
 RESEARCH:
 
-- Darknut: Does the flame hurt him?
 - Fairy: Changes move direction regularly (is this how fairy is supposed to move?)
-- Grotto: Need event sound in "Pick any one you want" caves (what sound?)

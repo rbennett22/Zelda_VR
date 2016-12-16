@@ -45,7 +45,8 @@ public class InventoryView : MonoBehaviour
                _itemA00, _itemA01, _itemA02, _itemA03,                      // Active items
                _itemA10, _itemA11, _itemA12, _itemA13,
                _aux0, _aux1, _aux2,                                         // Auxillary items
-               _tri0, _tri1, _tri2, _tri3, _tri4, _tri5, _tri6, _tri7;      // Triforce pieces
+               _tri0, _tri1, _tri2, _tri3, _tri4, _tri5, _tri6, _tri7,      // Triforce pieces
+               _bowSlot;                                                        // Bow (special case since it can display bow and/or arrow icons)
 
     GameObject[] _passiveItemSlots;
     GameObject[,] _activeItemSlots;
@@ -105,6 +106,8 @@ public class InventoryView : MonoBehaviour
             int dungeonNum = i + 1;
             SetTriforcePieceVisible(dungeonNum, false);
         }
+
+        SetTextureForItemSlot(_bowSlot, null);
     }
 
 
@@ -148,6 +151,7 @@ public class InventoryView : MonoBehaviour
             case InventoryViewItemMapping.TypeEnum.Active: itemSlot = _activeItemSlots[mapping.Row, mapping.Column]; break;
             case InventoryViewItemMapping.TypeEnum.Auxillary: itemSlot = _auxItemSlots[mapping.Aux]; break;
             case InventoryViewItemMapping.TypeEnum.Triforce: break;
+            case InventoryViewItemMapping.TypeEnum.Bow: itemSlot = _bowSlot; break;
             default: break;
         }
 

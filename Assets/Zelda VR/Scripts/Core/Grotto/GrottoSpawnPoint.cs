@@ -49,6 +49,24 @@ public class GrottoSpawnPoint : MonoBehaviour
     public string[] payForInfoText;
 
     public GrottoSpawnPoint warpToA, warpToB, warpToC;
+    public int warpDestination_Left, warpDestination_Mid, warpDestination_Right;
+    public int GetWarpDestinationIndexForPortal(GrottoPortal portal)
+    {
+        if(portal == null)
+        {
+            return -1;
+        }
+
+        int idx = -1;
+        switch (portal.Location)
+        {
+            case GrottoPortal.LocationType.Left:    idx = warpDestination_Left; break;
+            case GrottoPortal.LocationType.Mid:     idx = warpDestination_Mid; break;
+            case GrottoPortal.LocationType.Right:   idx = warpDestination_Right; break;
+            default: break;
+        }
+        return idx;
+    }
 
 
     OverworldInfo _overworldInfo;

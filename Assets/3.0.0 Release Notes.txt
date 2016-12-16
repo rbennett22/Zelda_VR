@@ -2,11 +2,15 @@
 
 RECENTLY DONE:
 
-- Boulders: Bounce around before disappearing
-- Armos: Briefly flickers before coming alive
-- Ghini_Gravestone - Can move diagonally, and pass through objects (however the solid leader Ghini cannot)
+- Inventory: Both the arrow and the bow icons now appear when the player has obtained both of them
 
-- Dungeon: Player can no longer attack with sword from the dungeon corridors
+- Projectiles: Disabled "swift" functionality in which certain projectiles could travel through blocks
+
+- Darknut: Are no longer damaged by flame (from candle or wand)
+- Dodongo: Correct animation now plays when he eats a bomb
+- Dodongo: Can now be defeated with a single sword strike if it lands while Dodongo is recovering from eating a bomb
+
+- Grotto Warps: Are now working.  Player warps to just outside the destination warp Grotto
 
 
 DONE:
@@ -18,7 +22,12 @@ DONE:
 - Controls View: Now uses Zelda Font
 - OptionsMenu: Controls are now viewable from Options menu
 
+- Dungeon: Player can no longer attack with sword from the dungeon corridors
 - Dungeon enemies can no longer push Link onto impassable flat tiles (ie. water, lava, etc.)
+
+- Boulders: Bounce around before disappearing
+- Armos: Briefly flickers before coming alive
+- Ghini_Gravestone - Can move diagonally, and pass through objects (however the solid leader Ghini cannot)
 - Blue Wizzrobe: Implemented "ghost-glide" ability
 - Manhandla: Increased life of each mouth to the correct amount
 - Manhandla: Boomerang no longer hurts/stuns him

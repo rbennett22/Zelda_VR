@@ -29,13 +29,24 @@ public class EnemyAnimation : MonoBehaviour
     }
 
     float _storedSpeed;
+    bool _paused;
     public void Pause()
     {
+        if(_paused)
+        {
+            return;
+        }
+
         _storedSpeed = AnimatorComponent.speed;
         AnimatorComponent.speed = 0;
     }
     public void Resume()
     {
+        if (!_paused)
+        {
+            return;
+        }
+
         AnimatorComponent.speed = _storedSpeed;
     }
 

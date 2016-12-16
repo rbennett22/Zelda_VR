@@ -22,8 +22,10 @@ public class Locations : Singleton<Locations>
     public Transform special;
     public Transform overworldStart;
     public Transform[] overworldDungeonEntrance;
+    public Transform[] grottoWarpDestinations;
     public Transform[] dungeonEntranceStairs;
     public Transform[] dungeonEntranceRoom;
+    
 
     [SerializeField]
     Transform _overworldLocationsContainer;
@@ -40,6 +42,14 @@ public class Locations : Singleton<Locations>
     public Transform GetOverworldDungeonEntranceLocation(int dungeonNum)
     {
         return overworldDungeonEntrance[dungeonNum - 1];
+    }
+    public Transform GetGrottoWarpDestinationLocation(int warpNum)
+    {
+        if(warpNum < 0 || warpNum > 3)
+        {
+            return null;
+        }
+        return grottoWarpDestinations[warpNum - 1];
     }
     public Transform GetDungeonEntranceStairsLocation(int dungeonNum)
     {
@@ -182,6 +192,19 @@ public class Locations : Singleton<Locations>
     public void WarpToOverworldDungeonEntrance(int dungeonNum, bool useShutters = true, bool closeShuttersInstantly = false)
     {
         spawnLocation = GetOverworldDungeonEntranceLocation(dungeonNum);
+        if (WorldInfo.Instance.IsOverworld)
+        {
+            WarpPlayerToLocation(spawnLocation, null, useShutters);
+        }
+        else
+        {
+            LoadScene(WorldInfo.GetSceneNameForOverworld(), useShutters, closeShuttersInstantly);
+        }
+    }
+
+    public void WarpToGrottoWarpDestination(int warpNum, bool useShutters = true, bool closeShuttersInstantly = false)
+    {
+        spawnLocation = GetGrottoWarpDestinationLocation(warpNum);
         if (WorldInfo.Instance.IsOverworld)
         {
             WarpPlayerToLocation(spawnLocation, null, useShutters);
