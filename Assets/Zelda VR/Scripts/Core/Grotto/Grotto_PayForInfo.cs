@@ -50,10 +50,10 @@ public class Grotto_PayForInfo : GrottoExtension_Base
         Inventory inv = Inventory.Instance;
         if (!inv.SpendRupees(payAmount)) { return; }
 
+        ShowTheGoods(false);
+
         string info = GrottoSpawnPoint.payForInfoText[rupeeTriggerID];
         Grotto.DisplayMessage(true, info);
-
-        ShowTheGoods(false);
 
         _hasMadePurchase = true;
     }

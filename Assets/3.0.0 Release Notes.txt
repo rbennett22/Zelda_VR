@@ -2,12 +2,10 @@
 
 RECENTLY DONE:
 
-- BUG: Link falls through ground after warping from Grotto Warp. -Fixed
-- BUG: When exiting a dungeon or warping, enemies in that sector don't inititally appear (until you move far enough away). -FIXED
-- BUG: Dungeon 8 is initially visible from inside grotto to the south of it. -FIXED
-- BUG: Lanmola in D9 wasn't moving at all. -FIXED
-- BUG: Keese in SubDungeons can move through stairs. -FIXED
-- BUG: SubDungeon Entrance has opaque tile showing. -FIXED
+- BUG: Leevers move one tile and then just idle. -FIXED
+- BUG: Enemies that spawn after clock has activated aren't paralyzed. -FIXED
+- BUG: If you have no ItemB equipped, and you collect an Active item, it correctly equips; however when subsequently viewing Inventory, the cursor has not been updated. -FIXED
+- BUG: In the PayForInfo grottos, no info text appears after payment is made. -FIXED
 
 
 DONE:
@@ -62,6 +60,12 @@ DONE:
 - BUG: Statues: Enemies can walk through them -FIXED
 - BUG: WandProjectile pushes Ghoma back - FIXED
 - BUG: Controls: The XBOX Controller that comes with the Rift makes Link move backwards when in the default position (no buttons pressed or axes moved) -FIXED
+- BUG: Link falls through ground after warping from Grotto Warp. -Fixed
+- BUG: When exiting a dungeon or warping, enemies in that sector don't inititally appear (until you move far enough away). -FIXED
+- BUG: Dungeon 8 is initially visible from inside grotto to the south of it. -FIXED
+- BUG: Lanmola in D9 wasn't moving at all. -FIXED
+- BUG: Keese in SubDungeons can move through stairs. -FIXED
+- BUG: SubDungeon Entrance has opaque tile showing. -FIXED
 
 
 DONE (OLDER):

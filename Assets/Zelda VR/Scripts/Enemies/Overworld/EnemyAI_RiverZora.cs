@@ -45,40 +45,7 @@ public class EnemyAI_RiverZora : EnemyAI
         bool timesUp = (Time.time - _startTime >= _timerDuration);
         if (timesUp)
         {
-            if (IsUnderwater)
-            {
-                AnimatorInstance.SetTrigger("Emerge");
-                _timerDuration = emergeDuration;
-
-                _healthController.isIndestructible = true;
-                Renderer.enabled = true;
-                WarpToRandomNearbyWaterTile();
-            }
-            else if (IsEmerging)
-            {
-                AnimatorInstance.SetTrigger("Surface");
-                _timerDuration = surfaceDuration;
-
-                _healthController.isIndestructible = false;
-                FacePlayer();
-                _enemy.Attack();
-            }
-            else if (IsSurfaced)
-            {
-                AnimatorInstance.SetTrigger("Submerge");
-                _timerDuration = submergeDuration;
-
-                _healthController.isIndestructible = true;
-            }
-            else if (IsSubmerging)
-            {
-                AnimatorInstance.SetTrigger("Underwater");
-                _timerDuration = underwaterDuration;
-
-                _healthController.isIndestructible = true;
-                Renderer.enabled = false;
-                ReplenishHealth();
-            }
+            ProceedToNextState();
 
             _startTime = Time.time;
         }
@@ -86,6 +53,40 @@ public class EnemyAI_RiverZora : EnemyAI
         if (IsSurfaced)
         {
             FacePlayer();
+        }
+    }
+
+    void ProceedToNextState()
+    {
+        _healthController.isIndestructible = !IsEmerging;
+        Renderer.enabled = !IsSubmerging;
+
+        if (IsUnderwater)
+        {
+            AnimatorInstance.SetTrigger("Emerge");
+            _timerDuration = emergeDuration;
+
+            WarpToRandomNearbyWaterTile();
+        }
+        else if (IsEmerging)
+        {
+            AnimatorInstance.SetTrigger("Surface");
+            _timerDuration = surfaceDuration;
+
+            FacePlayer();
+            _enemy.Attack();
+        }
+        else if (IsSurfaced)
+        {
+            AnimatorInstance.SetTrigger("Submerge");
+            _timerDuration = submergeDuration;
+        }
+        else if (IsSubmerging)
+        {
+            AnimatorInstance.SetTrigger("Underwater");
+            _timerDuration = underwaterDuration;
+
+            ReplenishHealth();
         }
     }
 

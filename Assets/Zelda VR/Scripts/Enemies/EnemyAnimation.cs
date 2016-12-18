@@ -35,7 +35,7 @@ public class EnemyAnimation : MonoBehaviour
     bool _paused;
     public void Pause()
     {
-        if(_paused)
+        if (_paused)
         {
             return;
         }

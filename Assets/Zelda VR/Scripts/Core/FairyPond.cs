@@ -47,7 +47,7 @@ public class FairyPond : MonoBehaviour
         if (_playingRestorationSequence) { return; }
 
         CommonObjects.Player_C.IsParalyzed = true;
-        CommonObjects.Player_C.ParalyzeAllNearbyEnemies(3.0f);
+        CommonObjects.Player_C.ParalyzeAllEnemies(3.0f);
         CommonObjects.Player_C.DeactivateJinx();
 
         ParticleEmissionRate = peakEmission;

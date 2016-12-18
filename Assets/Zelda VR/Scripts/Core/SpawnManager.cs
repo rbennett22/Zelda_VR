@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 
 public interface ISpawnManager
 {
+    void SetSpawningEnabled(bool value);
     void DoUpdate(bool ignoreProxThreshMin = false);
 }
 
+// TODO
 
 public class SpawnManager : MonoBehaviour, ISpawnManager
 {
@@ -23,7 +26,7 @@ public class SpawnManager : MonoBehaviour, ISpawnManager
 
     void Start()
     {
-        InvokeRepeating("Tick", 0, _updateInterval);
+        //InvokeRepeating("Tick", 0, _updateInterval);  // TODO
     }
 
 
@@ -33,6 +36,12 @@ public class SpawnManager : MonoBehaviour, ISpawnManager
     }
     void ISpawnManager.DoUpdate(bool ignoreProxThreshMin = false)
     {
-        //
+        // TODO
+    }
+
+
+    void ISpawnManager.SetSpawningEnabled(bool value)
+    {
+        // TODO
     }
 }

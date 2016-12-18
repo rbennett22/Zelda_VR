@@ -399,7 +399,7 @@ public class Inventory : Singleton<Inventory>
 
             foreach (var subItem in item.GetUpgradeChain())
             {
-                print("subItem: " + subItem.name);
+                //print("subItem: " + subItem.name);
                 if (subItem == item) { break; }
                 subItem.OnCollected();
             }

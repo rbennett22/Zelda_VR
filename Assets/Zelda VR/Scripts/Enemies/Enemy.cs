@@ -107,7 +107,7 @@ public class Enemy : Actor
     public void Paralyze(float duration, bool pauseAnim = true)
     {
         if (!gameObject.activeSelf) { return; }
-        if(pauseAnim)
+        if (pauseAnim)
         {
             PauseAnimation();
         }

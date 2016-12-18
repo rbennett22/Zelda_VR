@@ -6,6 +6,6 @@ public class Spell_ParalyzeNearbyEnemies : Spell_Base
     {
         base.Cast(target);
 
-        PlayerC.ParalyzeAllNearbyEnemies(duration);
+        PlayerC.ParalyzeAllEnemies(duration);
     }
 }

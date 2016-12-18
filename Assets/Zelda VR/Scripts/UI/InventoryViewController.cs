@@ -15,6 +15,38 @@ public class InventoryViewController : MonoBehaviour
     public Action<MenuCursor> onCursorIndexChanged_Callback;
 
 
+    public bool IsViewShowing { get; private set; }
+    public void ShowView()
+    {
+        if (IsViewShowing)
+        {
+            return;
+        }
+        IsViewShowing = true;
+
+        _view.gameObject.SetActive(true);
+        PlayInventoryToggleSound();
+
+        Item itemB = _inventory.EquippedItemB;
+        if (itemB != null)
+        {
+            InventoryViewItemMapping mapping = itemB.GetComponent<InventoryViewItemMapping>();
+            _view.CursorIndex = new Index2(mapping.Column, mapping.Row);
+        }
+    }
+    public void HideView()
+    {
+        if (!IsViewShowing)
+        {
+            return;
+        }
+        IsViewShowing = false;
+
+        _view.gameObject.SetActive(false);
+        PlayInventoryToggleSound();
+    }
+
+
     void Awake()
     {
         //_view = GetComponent<InventoryView>();
@@ -54,30 +86,24 @@ public class InventoryViewController : MonoBehaviour
         UpdateView();
     }
 
-    public bool IsViewShowing { get; private set; }
-    public void ShowView()
+    void UpdateCursor()
     {
-        if (IsViewShowing)
+        float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
+        float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
+        IndexDirection2 dir = new IndexDirection2(moveHorz, moveVert);
+
+        _view.MoveCursor(dir);
+    }
+    void OnCursorIndexChanged(InventoryView sender)
+    {
+        if (sender != _view)
         {
             return;
         }
-        IsViewShowing = true;
 
-        _view.gameObject.SetActive(true);
-        PlayInventoryToggleSound();
+        Index2 idx = sender.CursorIndex;
+        _inventory.EquippedItemB = _inventory.GetEquippableSecondaryItem(idx.x, idx.y);
     }
-    public void HideView()
-    {
-        if (!IsViewShowing)
-        {
-            return;
-        }
-        IsViewShowing = false;
-
-        _view.gameObject.SetActive(false);
-        PlayInventoryToggleSound();
-    }
-
 
     void UpdateView()
     {
@@ -185,26 +211,6 @@ public class InventoryViewController : MonoBehaviour
         _view.ShouldDungeonMapRevealUnvisitedRooms = false;
         _view.ShouldDungeonMapRevealTriforceRoom = false;
         _view.UpdateDungeonMap();
-    }
-
-
-    void UpdateCursor()
-    {
-        float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
-        float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
-        IndexDirection2 dir = new IndexDirection2(moveHorz, moveVert);
-
-        _view.MoveCursor(dir);
-    }
-    void OnCursorIndexChanged(InventoryView sender)
-    {
-        if (sender != _view)
-        {
-            return;
-        }
-
-        Index2 idx = sender.CursorIndex;
-        _inventory.EquippedItemB = _inventory.GetEquippableSecondaryItem(idx.x, idx.y);
     }
 
 

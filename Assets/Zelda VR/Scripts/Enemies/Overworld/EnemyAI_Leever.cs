@@ -17,6 +17,7 @@ public class EnemyAI_Leever : EnemyAI
 
     Vector3 _origin;
     List<Index2> _warpableTiles = new List<Index2>();
+    EnemyAI_Random _enemyAI_Random;
 
     int _normalMeleeDamage;
 
@@ -36,6 +37,9 @@ public class EnemyAI_Leever : EnemyAI
     {
         base.Awake();
 
+        _enemyAI_Random = GetComponent<EnemyAI_Random>();
+        _enemyAI_Random.enabled = false;
+
         _enemyMove.enabled = false;
     }
 
@@ -50,51 +54,60 @@ public class EnemyAI_Leever : EnemyAI
     }
 
 
-    void WaitThenProceedToNextState(float delay)
+    void ProceedToNextStateAfterDelay(float delay)
     {
         Invoke("ProceedToNextState", delay);
-
-        //_timerDuration = duration;
-        //_startTime = Time.time;
     }
-
     void ProceedToNextState()
     {
+        if(_enemy.IsParalyzed)
+        {
+            ProceedToNextStateAfterDelay(0.01f);
+            return;
+        }
+
         _enemy.meleeDamage = IsEmerging ? _normalMeleeDamage : 0;
         _enemyMove.enabled = IsEmerging;
+        _enemyAI_Random.enabled = IsEmerging;
         _healthController.isIndestructible = !IsEmerging;
 
         Renderer.enabled = !IsSubmerging;
 
         if (IsUnderground)
         {
-            transform.SetY(_origin.y);
+            PlaceOnscreen();
             WarpToRandomNearbySandTile();
 
             AnimatorInstance.SetTrigger("Emerge");
-            WaitThenProceedToNextState(emergeDuration);
+            ProceedToNextStateAfterDelay(emergeDuration);
         }
         else if (IsEmerging)
         {
-            MoveDirection_Tile = new IndexDirection2(EnemyAI_Random.GetRandomTileDirection());
-
             AnimatorInstance.SetTrigger("Surface");
-            WaitThenProceedToNextState(surfaceDuration);
+            ProceedToNextStateAfterDelay(surfaceDuration);
         }
         else if (IsSurfaced)
         {
             AnimatorInstance.SetTrigger("Submerge");
-            WaitThenProceedToNextState(submergeDuration);
+            ProceedToNextStateAfterDelay(submergeDuration);
         }
         else if (IsSubmerging)
         {
-            transform.SetY(_origin.y - OFFSCREEN_OFFSET);  // Move offscreen to prevent collision with player
+            PlaceOffscreen();
 
             AnimatorInstance.SetTrigger("Underground");
-            WaitThenProceedToNextState(undergroundDuration);
+            ProceedToNextStateAfterDelay(undergroundDuration);
         }
     }
 
+    void PlaceOffscreen()
+    {
+        transform.SetY(_origin.y + OFFSCREEN_OFFSET);  // Move offscreen to prevent collision with player
+    }
+    void PlaceOnscreen()
+    {
+        transform.SetY(_origin.y);
+    }
 
     void AssignWarpableTiles()
     {

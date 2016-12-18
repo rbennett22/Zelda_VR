@@ -23,7 +23,6 @@ public class PlayerHealthDelegate : MonoBehaviour
 
     Player _player;
     HealthController _hc;
-
     Vector3 _playerDeathLocation;
 
 

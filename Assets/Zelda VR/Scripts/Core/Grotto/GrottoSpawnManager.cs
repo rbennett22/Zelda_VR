@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GrottoSpawnManager : MonoBehaviour, ISpawnManager
 {
@@ -10,6 +11,8 @@ public class GrottoSpawnManager : MonoBehaviour, ISpawnManager
 
 
     GrottoSpawnPoint _activeGrottoSP;
+
+    bool _spawningEnabled = true;
 
 
     void Start()
@@ -80,6 +83,11 @@ public class GrottoSpawnManager : MonoBehaviour, ISpawnManager
 
     void SpawnNewActiveGrotto(GrottoSpawnPoint gSP)
     {
+        if(!_spawningEnabled)
+        {
+            return;
+        }
+
         gSP.SpawnGrotto();
         _activeGrottoSP = gSP;
     }
@@ -88,5 +96,11 @@ public class GrottoSpawnManager : MonoBehaviour, ISpawnManager
     public bool PlayerIsInsideAGrotto()
     {
         return (_activeGrottoSP != null) && _activeGrottoSP.SpawnedGrotto.PlayerIsInside;
+    }
+
+
+    void ISpawnManager.SetSpawningEnabled(bool value)
+    {
+        _spawningEnabled = value;
     }
 }

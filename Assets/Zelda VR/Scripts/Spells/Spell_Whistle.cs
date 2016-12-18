@@ -24,7 +24,7 @@ public class Spell_Whistle : Spell_Base
             PlayerC.DeactivateJinx();
         }
 
-        PlayerC.ParalyzeAllNearbyEnemies(WHISTLE_MELODY_DURATION);
+        PlayerC.ParalyzeAllEnemies(WHISTLE_MELODY_DURATION);
         PlayerC.ActivateParalyze(WHISTLE_MELODY_DURATION);
 
         Music.Instance.Stop();

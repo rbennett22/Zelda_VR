@@ -42,4 +42,11 @@ public class EnemySpawnManager : MonoBehaviour, ISpawnManager
             }
         }
     }
+    void ISpawnManager.SetSpawningEnabled(bool value)
+    {
+        foreach (EnemySpawnPoint sp in GetComponentsInChildren<EnemySpawnPoint>())
+        {
+            sp.SpawningEnabled = value;
+        }
+    }
 }

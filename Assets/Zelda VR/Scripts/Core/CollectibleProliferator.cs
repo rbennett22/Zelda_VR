@@ -70,4 +70,17 @@ public class CollectibleProliferator : MonoBehaviour, ISpawnManager
             }
         }
     }
+
+    void ISpawnManager.SetSpawningEnabled(bool value)
+    {
+        if (OWInfo == null)
+        {
+            return;
+        }
+
+        foreach (Transform sp in OWInfo.collectibleSPs)
+        {
+            sp.GetComponent<CollectibleSpawnPoint>().SpawningEnabled = value;
+        }
+    }
 }

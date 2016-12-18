@@ -358,6 +358,7 @@ public class Player : Actor
         ProcessUserInput();
 
         EnsureNoWorldFallThrough();
+        //EnsureNoFlying();
     }
 
     void UpdateEvents()
@@ -521,14 +522,36 @@ public class Player : Actor
     }
 
 
-    public void ParalyzeAllNearbyEnemies(float duration)
+    public void ParalyzeAllEnemies(float duration)
+    {
+        foreach (Enemy enemy in GetAllEnemies())
+        {
+            enemy.Paralyze(duration);
+        }
+
+        SetEnemySpawningEnabled(false);
+        Invoke("ReenableEnemySpawning", duration);
+    }
+    void ReenableEnemySpawning()
+    {
+        SetEnemySpawningEnabled(true);
+    }
+    void SetEnemySpawningEnabled(bool value)
+    {
+        EnemySpawnManager m = FindObjectOfType<EnemySpawnManager>();
+        if (m != null)
+        {
+            (m as ISpawnManager).SetSpawningEnabled(value);
+        }
+    }
+
+    /*public void ParalyzeAllNearbyEnemies(float duration)
     {
         foreach (Enemy enemy in GetEnemiesInCurrentRoomOrSector())
         {
             enemy.Paralyze(duration);
         }
     }
-
     public List<Enemy> GetEnemiesInCurrentRoomOrSector()
     {
         List<Enemy> enemies = new List<Enemy>();
@@ -543,28 +566,45 @@ public class Player : Actor
         }
 
         return enemies;
-    }
+    }*/
 
+
+    const float FALL_THRESHOLD_Y = -10f;
+    const float FLY_THRESHOLD_Y = 0.01f;
+
+    public float GroundedPlayerY
+    {
+        get
+        {
+            float groundY = WorldInfo.Instance.WorldOffset.y;
+            float playerOffset = _playerController.Height * 0.5f;
+            return groundY + playerOffset + 0.5f;
+        }
+    }
 
     void EnsureNoWorldFallThrough()
     {
-        const float THRESHOLD_Y = -8f;
-
         if (_playerController.IsGrounded) { return; }
-        if (Position.y > THRESHOLD_Y) { return; }
-
-        ReturnToGroundLevel();
+        if (Position.y < GroundedPlayerY + FALL_THRESHOLD_Y)
+        {
+            ReturnToGroundLevel();
+        }
+    }
+    void EnsureNoFlying()
+    {
+        if (_playerController.IsGrounded) { return; }
+        if (Position.y > GroundedPlayerY + FLY_THRESHOLD_Y)
+        {
+            ReturnToGroundLevel();
+        }
     }
 
     public void ReturnToGroundLevel()
     {
         _playerController.Stop();
-
-        float groundY = WorldInfo.Instance.WorldOffset.y;
-        float playerOffset = _playerController.Height * 0.5f;
-        _playerController.transform.SetY(groundY + playerOffset + 0.5f);
+        _playerController.transform.SetY(GroundedPlayerY);
     }
-
+    
 
     bool _playerGroundCollisionEnabled;
     public bool PlayerGroundCollisionEnabled

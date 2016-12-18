@@ -8,6 +8,7 @@ public class CollectibleSpawnPoint : MonoBehaviour
 
     public bool HasBeenCollected { get; set; }
     public Collectible SpawnedCollectible { get; private set; }
+    public bool SpawningEnabled { get; set; }
 
 
     void Awake()
@@ -19,6 +20,7 @@ public class CollectibleSpawnPoint : MonoBehaviour
     public GameObject SpawnCollectible()
     {
         if (HasBeenCollected) { return null; }
+        if (!SpawningEnabled) { return null; }
 
         GameObject g = Instantiate(collectiblePrefab) as GameObject;
         g.name = collectiblePrefab.name;

@@ -112,6 +112,11 @@ public class Actor : MonoBehaviour
         return actors;
     }
 
+    static public Enemy[] GetAllEnemies()
+    {
+        return CommonObjects.EnemiesContainer.GetComponentsInChildren<Enemy>();
+    }
+
 
     /*public static GameObject GetContainerForActorType<T>() where T : Actor
     {
