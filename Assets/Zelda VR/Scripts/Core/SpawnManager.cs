@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 
-public class SpawnManager : MonoBehaviour
+
+public interface ISpawnManager
+{
+    void DoUpdate(bool ignoreProxThreshMin = false);
+}
+
+
+public class SpawnManager : MonoBehaviour, ISpawnManager
 {
     [SerializeField]
     float _updateInterval = 1.0f;
@@ -8,6 +15,11 @@ public class SpawnManager : MonoBehaviour
     float _spawnDistThreshold = 8;
     float _spawnDistThresholdSq;
 
+
+    void Awake()
+    {
+        _spawnDistThresholdSq = _spawnDistThreshold * _spawnDistThreshold;
+    }
 
     void Start()
     {
@@ -17,6 +29,10 @@ public class SpawnManager : MonoBehaviour
 
     void Tick()
     {
-
+        (this as ISpawnManager).DoUpdate();
+    }
+    void ISpawnManager.DoUpdate(bool ignoreProxThreshMin = false)
+    {
+        //
     }
 }

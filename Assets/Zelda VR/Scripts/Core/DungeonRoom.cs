@@ -215,11 +215,11 @@ public class DungeonRoom : MonoBehaviour
         {
             foreach (var wall in _walls)
             {
-                wall.GetComponent<LightsOnOffMaterial>().TurnLightsOn(doActivate);
+                wall.GetComponent<LightsOnOffMaterial>().SetLightsOnOff(doActivate);
             }
             foreach (var block in _blocks)
             {
-                block.GetComponent<LightsOnOffMaterial>().TurnLightsOn(doActivate);
+                block.GetComponent<LightsOnOffMaterial>().SetLightsOnOff(doActivate);
             }
 
             if (doActivate)

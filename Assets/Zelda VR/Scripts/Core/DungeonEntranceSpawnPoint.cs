@@ -5,6 +5,7 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
     [SerializeField]
     float _updateInterval = 0.5f;
 
+
     public GameObject dungeonEntrancePrefab;
     public GameObject marker;
 
@@ -15,16 +16,16 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
     DungeonEntrance _spawnedDungeonEntrance = null;
     Transform _dungeonEntranceContainer;
 
-    float _spawnDistanceSqd;
-    float _destroyDistanceSqd;
+    float _spawnDistanceSq;
+    float _destroyDistanceSq;
 
 
     void Awake()
     {
         _dungeonEntranceContainer = GameObject.Find("DungeonEntrances").transform;
 
-        _spawnDistanceSqd = spawnDistance * spawnDistance;
-        _destroyDistanceSqd = _spawnDistanceSqd + 20;
+        _spawnDistanceSq = spawnDistance * spawnDistance;
+        _destroyDistanceSq = _spawnDistanceSq + 20;
 
         marker.SetActive(false);
     }
@@ -45,14 +46,14 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
 
         if (_spawnedDungeonEntrance == null)
         {
-            if (distToPlayerSqd < _spawnDistanceSqd && !playerIsInsideAGrotto)
+            if (distToPlayerSqd < _spawnDistanceSq && !playerIsInsideAGrotto)
             {
                 SpawnDungeonEntrance();
             }
         }
         else
         {
-            if (distToPlayerSqd > _destroyDistanceSqd || playerIsInsideAGrotto)
+            if (distToPlayerSqd > _destroyDistanceSq || playerIsInsideAGrotto)
             {
                 DestroyDungeonEntrance();
             }
@@ -61,10 +62,14 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
 
     void SpawnDungeonEntrance()
     {
+        if (_spawnedDungeonEntrance != null)
+        {
+            return;
+        }
+
         GameObject g = Instantiate(dungeonEntrancePrefab, transform.position, transform.rotation) as GameObject;
 
-        DungeonEntrance e = g.GetComponent<DungeonEntrance>();
-        
+        DungeonEntrance e = g.GetComponent<DungeonEntrance>();   
         e.name = "Dungeon Entrance " + dungeonNum.ToString();
         e.transform.SetParent(_dungeonEntranceContainer);
         e.DungeonNum = dungeonNum;
@@ -74,6 +79,11 @@ public class DungeonEntranceSpawnPoint : MonoBehaviour
 
     void DestroyDungeonEntrance()
     {
+        if(_spawnedDungeonEntrance == null)
+        {
+            return;
+        }
+
         Destroy(_spawnedDungeonEntrance.gameObject);
         _spawnedDungeonEntrance = null;
     }

@@ -1,41 +1,42 @@
 ﻿using UnityEngine;
 
-public class EnemySpawnManager : MonoBehaviour
+public class EnemySpawnManager : MonoBehaviour, ISpawnManager
 {
     [SerializeField]
-    float _updateInterval_ms = 500;
-
+    float _updateInterval = 0.5f;
     [SerializeField]
     float _enemyRemovalDistance = 32;      // How far away Enemy must be from player before it is destroyed (Overworld only)
 
 
-    Transform _enemiesContainer;
     float _enemyRemovalDistanceSq;
 
 
     void Start()
     {
-        _enemiesContainer = GameObject.Find("Enemies").transform;
         _enemyRemovalDistanceSq = _enemyRemovalDistance * _enemyRemovalDistance;
 
-        InvokeRepeating("Tick", 0, _updateInterval_ms * 0.001f);
+        InvokeRepeating("Tick", 0, _updateInterval);
     }
 
 
     void Tick()
     {
+        (this as ISpawnManager).DoUpdate();
+    }
+    void ISpawnManager.DoUpdate(bool ignoreProxThreshMin = false)
+    {
         foreach (EnemySpawnPoint sp in GetComponentsInChildren<EnemySpawnPoint>())
         {
-            sp.DoUpdate();
+            sp.DoUpdate(ignoreProxThreshMin);
         }
 
         Vector3 playerPos = CommonObjects.Player_C.Position;
 
-        foreach (Transform child in _enemiesContainer)
+        foreach (Transform child in CommonObjects.EnemiesContainer)
         {
             Vector3 toPlayer = playerPos - child.position;
-            float distToPlayerSqr = toPlayer.sqrMagnitude;
-            if (distToPlayerSqr > _enemyRemovalDistanceSq)
+            float distToPlayerSq = toPlayer.sqrMagnitude;
+            if (distToPlayerSq > _enemyRemovalDistanceSq)
             {
                 Destroy(child.gameObject);
             }

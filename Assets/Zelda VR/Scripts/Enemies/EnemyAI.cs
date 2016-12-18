@@ -218,7 +218,7 @@ public class EnemyAI : MonoBehaviour
     {
         Vector3 dir = (to - from).normalized;
         Ray ray = new Ray(from, dir);
-        LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls", "InvisibleBlocks", "Enemies");
+        LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls", "InvisibleBlocks"/*, "Enemies"*/);   // TODO: Lanmola movement breaks if "Enemies" layer is included here
         return ! Physics.SphereCast(ray, Radius * 0.99f, dir.magnitude, mask, QueryTriggerInteraction.UseGlobal);
     }
 

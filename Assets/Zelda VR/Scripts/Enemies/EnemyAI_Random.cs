@@ -269,7 +269,7 @@ public class EnemyAI_Random : EnemyAI
         if (flying)
         {
             Vector3 dir = to - from;
-            LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls");
+            LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls", "Stairs");
             return !Physics.Raycast(from, dir.normalized, dir.magnitude, mask);
         }
 
@@ -315,6 +315,7 @@ public class EnemyAI_Random : EnemyAI
         List<IndexDirection2> availableDirections = IndexDirection2.AllValidNonZeroDirections.Where(d => !excludeDirections.Contains(d)).ToList();
         return availableDirections[Random.Range(0, availableDirections.Count)];
     }
+
 
     static bool FlipCoin(float chanceOfTrue = 0.5f)
     {

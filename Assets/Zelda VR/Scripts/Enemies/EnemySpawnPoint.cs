@@ -14,7 +14,9 @@ public class EnemySpawnPoint : MonoBehaviour
     public float spawnDistanceMin = -1;
     public float spawnDistance = -1;
     public Collectible specialDrop = null;
-    public bool autoSpawn = false;
+
+
+    public bool SpawningEnabled { get; set; }
 
 
     float _lastEnemyTimeOfDeath = float.NegativeInfinity;
@@ -58,20 +60,24 @@ public class EnemySpawnPoint : MonoBehaviour
         {
             specialDrop.gameObject.SetActive(false);
         }
+
+        SpawningEnabled = true;
     }
 
-    public void Update()
+
+    void Update()
     {
         if (_spawnedEnemy != null)
         {
+            // TODO: Why am I doing this every frame??  Is it related to LostSector?
+
             Enemy e = _spawnedEnemy.GetComponent<Enemy>();
             AssignBoundaryToSpawnedEnemy(e);
         }
     }
 
-    public void DoUpdate()
+    public void DoUpdate(bool ignoreProxThreshMin = false)
     {
-        if (!autoSpawn) { return; }
         if (_spawnedEnemy != null) { return; }
 
         float timeSinceLastSpawn = Time.time - _lastEnemyTimeOfDeath;
@@ -80,13 +86,15 @@ public class EnemySpawnPoint : MonoBehaviour
         Vector3 toPlayer = CommonObjects.Player_C.Position - transform.position;
         float distToPlayerSq = Vector3.SqrMagnitude(toPlayer);
         if (distToPlayerSq > _proximityThresholdMaxSq) { return; }
-        if (distToPlayerSq < _proximityThresholdMinSq) { return; }
+        if (distToPlayerSq < _proximityThresholdMinSq && !ignoreProxThreshMin) { return; }
 
         SpawnEnemy();
     }
 
     public GameObject SpawnEnemy()
     {
+        if (!SpawningEnabled) { return null; }
+
         GameObject g = Instantiate(enemyPrefab, transform.position, Quaternion.identity) as GameObject;
         g.name = enemyPrefab.name;
 

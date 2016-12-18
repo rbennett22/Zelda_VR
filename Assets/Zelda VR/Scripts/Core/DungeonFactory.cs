@@ -388,7 +388,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
                 origTexture = dr.floor.GetComponent<Renderer>().material.mainTexture as Texture2D;
             }
 
-            Texture2D newTexture = new Texture2D(origTexture.width, origTexture.height, origTexture.format, true);
+            Texture2D newTexture = new Texture2D(origTexture.width, origTexture.height);
             newTexture.filterMode = origTexture.filterMode;
 
             // Copy the pixels and cut the hole
@@ -401,6 +401,9 @@ public class DungeonFactory : Singleton<DungeonFactory>
                 {
                     int i = newTexture.width * y + x;
                     pixels[i].a = 0;
+                    pixels[i].r = 0.9f;
+                    pixels[i].g = 0.8f;
+                    pixels[i].b = 0.7f;
                     ++x;
                 }
                 ++y;

@@ -5,37 +5,43 @@ public class LightsOnOffMaterial : MonoBehaviour
     Color _origColor;
 
 
-    public bool IsTurnedOn { get; private set; }
+    public bool IsOn { get; private set; }
 
 
     void Awake()
     {
-        IsTurnedOn = true;
+        IsOn = true;
     }
 
-    public void TurnLightsOn(bool turnOn = true)
+    public void SetLightsOnOff(bool value = true)
     {
-        if (IsTurnedOn == turnOn) { return; }
+        if (IsOn == value)
+        {
+            return;
+        }
+        IsOn = value;
 
-        if (turnOn)
+        if (IsOn)
         {
             GetComponent<Renderer>().material.color = _origColor;
         }
         else
         {
-            Material m = GetComponent<Renderer>().material;
-            _origColor = m.color;
-            m.color = new Color(0, 0, 0, m.color.a);
+            SetColorToBlack();
         }
-
-        IsTurnedOn = turnOn;
     }
 
     // Call this if you change the object's material from outside this class
     public void OnMaterialChanged()
     {
-        if (IsTurnedOn) { return; }
+        if (IsOn) { return; }
 
+        SetColorToBlack();
+    }
+
+
+    void SetColorToBlack()
+    {
         Material m = GetComponent<Renderer>().material;
         _origColor = m.color;
         m.color = new Color(0, 0, 0, m.color.a);

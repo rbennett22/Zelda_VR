@@ -56,6 +56,14 @@ public class WorldInfo : Singleton<WorldInfo>
     }
 
 
+    public static IWorld TryGetWorld()
+    {
+        GameObject g = GameObject.FindGameObjectWithTag("World");
+        IWorld world = (g == null) ? null : g.GetComponent<IWorld>();
+        return world;
+    }
+
+
     public GameObject GetDungeon(int dungeonNum)
     {
         string dungeonInfoName = "Dungeon Info " + dungeonNum;

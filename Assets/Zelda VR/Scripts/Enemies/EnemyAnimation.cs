@@ -16,7 +16,10 @@ public class EnemyAnimation : MonoBehaviour
 
     void Awake()
     {
-        AnimatorComponent.logWarnings = false;
+        if (AnimatorComponent != null)
+        {
+            AnimatorComponent.logWarnings = false;
+        }
 
         _enemy = transform.parent.GetComponent<Enemy>();
     }

@@ -276,6 +276,7 @@ public class Locations : Singleton<Locations>
         if (WorldInfo.Instance.IsOverworld)
         {
             OverworldTerrainEngine.Instance.RefreshActiveStatus();
+            WorldInfo.TryGetWorld().DoUpdate(true);
         }
     }
 

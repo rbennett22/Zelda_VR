@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GrottoSpawnManager : MonoBehaviour
+public class GrottoSpawnManager : MonoBehaviour, ISpawnManager
 {
     [SerializeField]
     float _updateInterval = 0.5f;
@@ -21,6 +21,10 @@ public class GrottoSpawnManager : MonoBehaviour
 
 
     void Tick()
+    {
+        (this as ISpawnManager).DoUpdate();
+    }
+    void ISpawnManager.DoUpdate(bool ignoreProxThreshMin = false)
     {
         if (PlayerIsInsideAGrotto())
         {

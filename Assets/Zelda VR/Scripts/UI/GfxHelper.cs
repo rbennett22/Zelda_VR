@@ -26,6 +26,10 @@ public static class GfxHelper
         }
         tex.SetPixels(x, y, blockWidth, blockHeight, colors);
     }
+    public static void Clear(this Texture2D tex)
+    {
+        tex.Clear(Color.clear);
+    }
     public static void Clear(this Texture2D tex, Color color)
     {
         tex.SetColorForArea(0, 0, tex.width, tex.height, color);

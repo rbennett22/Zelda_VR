@@ -10,6 +10,7 @@ public class CommonObjects : Singleton<CommonObjects>
     public static ZeldaPlayerController PlayerController_C { get { return Instance.playerController_C; } }
 
     public static Transform ProjectilesContainer { get { return Instance._projectilesContainer; } }
+    public static Transform EnemiesContainer { get { return Instance._enemiesContainer; } }
 
 
     public GameObject player_G;
@@ -18,7 +19,7 @@ public class CommonObjects : Singleton<CommonObjects>
     public ZeldaPlayerController playerController_C;
 
     [SerializeField]
-    Transform _projectilesContainer;
+    Transform _projectilesContainer, _enemiesContainer;
 
     public Canvas headSpaceCanvas;
 

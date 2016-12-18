@@ -220,14 +220,14 @@ public class LostSector : MonoBehaviour
         }
         foreach (EnemySpawnPoint sp in Actor.FindObjectsInSector<EnemySpawnPoint>(sector))
         {
-            sp.autoSpawn = false;
+            sp.SpawningEnabled = false;
         }
     }
     void EnableEnemySpawningInSector(Index2 sector)
     {
         foreach (EnemySpawnPoint sp in Actor.FindObjectsInSector<EnemySpawnPoint>(sector))
         {
-            sp.autoSpawn = true;
+            sp.SpawningEnabled = true;
         }
     }
 

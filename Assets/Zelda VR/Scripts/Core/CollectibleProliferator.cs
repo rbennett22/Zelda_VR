@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 
-public class CollectibleProliferator : MonoBehaviour
+public class CollectibleProliferator : MonoBehaviour, ISpawnManager
 {
     public int updateInterval = 1;
 
 
     int _removalDist, _removalDistSq;
-    Transform _playerTransform;
 
 
     OverworldInfo _owInfo;
@@ -29,8 +28,6 @@ public class CollectibleProliferator : MonoBehaviour
 
     void Awake()
     {
-        _playerTransform = CommonObjects.PlayerController_G.transform;
-
         _removalDist = ZeldaVRSettings.Instance.collectibleRemovalDistance;
         _removalDistSq = _removalDist * _removalDist;
     }
@@ -43,12 +40,16 @@ public class CollectibleProliferator : MonoBehaviour
 
     void Tick()
     {
+        (this as ISpawnManager).DoUpdate();
+    }
+    void ISpawnManager.DoUpdate(bool ignoreProxThreshMin = false)
+    {
         if (OWInfo == null)
         {
             return;
         }
 
-        Vector3 playerPos = _playerTransform.position;
+        Vector3 playerPos = CommonObjects.Player_C.Position;
 
         foreach (Transform child in OWInfo.collectibleSPs)
         {

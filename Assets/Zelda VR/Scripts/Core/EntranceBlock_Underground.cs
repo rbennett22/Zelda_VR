@@ -10,6 +10,8 @@ public class EntranceBlock_Underground : MonoBehaviour
         if (!CommonObjects.IsPlayer(otherCollider.gameObject)) { return; }
         if (Grotto == null) { return; }
 
+        CommonObjects.Player_C.PlayerGroundCollisionEnabled = true;
+
         Grotto.OnPlayerEnter();
     }
 }
