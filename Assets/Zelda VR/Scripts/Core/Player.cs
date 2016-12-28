@@ -357,7 +357,7 @@ public class Player : Actor
 
         ProcessUserInput();
 
-        EnsureNoWorldFallThrough();
+        //EnsureNoWorldFallThrough();
         //EnsureNoFlying();
     }
 

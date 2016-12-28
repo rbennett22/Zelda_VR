@@ -55,9 +55,9 @@ High Priority:
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
 
-- VR: Oculus Touch
+- Oculus Touch:  When I change playerController's scale related variables, the Avatar hands are no longer positioned correctly
 - VR: Experiment with player acceleration to minimize nausea
-- VR: Add "nose" to help reduce nausea
+- VR: Add "nose" to help reduce nausea?
 
 
 Mid Priority:
