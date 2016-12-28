@@ -2,7 +2,6 @@
 
 RECENTLY DONE:
 
-- BUG: If rupees are rewarded while rupee count is already taking place, then the initial rupee count stops and the remaining rupees are not received. -FIXED
 
 
 DONE:
@@ -43,6 +42,7 @@ DONE:
 - Bait: Play event sound when you present meat to "Grumble, grumble"
 - Raft: Play event sound when riding
 
+- BUG: If rupees are rewarded while rupee count is already taking place, then the initial rupee count stops and the remaining rupees are not received. -FIXED
 - BUG: Sword and Wand Projectiles can't pass over water in Overworld. -FIXED
 - BUG: Tektites can trap player inside a Grotto by blocking exit. -FIXED
 - BUG: DungeonEntrance OW: The back-most block is missing. -FIXED

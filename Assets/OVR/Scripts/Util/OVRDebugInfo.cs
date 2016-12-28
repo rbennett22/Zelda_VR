@@ -1,15 +1,15 @@
-﻿/************************************************************************************
+/************************************************************************************
 
 Copyright   :   Copyright 2014 Oculus VR, LLC. All Rights reserved.
 
-Licensed under the Oculus VR Rift SDK License Version 3.2 (the "License");
+Licensed under the Oculus VR Rift SDK License Version 3.3 (the "License");
 you may not use the Oculus VR Rift SDK except in compliance with the License,
 which is provided at the time of installation or download, or which
 otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
 
-http://www.oculusvr.com/licenses/LICENSE-3.2
+http://www.oculus.com/licenses/LICENSE-3.3
 
 Unless required by applicable law or agreed to in writing, the Oculus VR SDK
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,7 @@ limitations under the License.
 ************************************************************************************/
 
 using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 using VR = UnityEngine.VR;
 
@@ -29,50 +30,44 @@ using VR = UnityEngine.VR;
 /// </summary>
 public class OVRDebugInfo : MonoBehaviour
 {
-    #region GameObjects for Debug Information UIs
-
+    #region GameObjects for Debug Information UIs   
     GameObject debugUIManager;
     GameObject debugUIObject;
-    GameObject riftPresent;
-    GameObject fps;
+    GameObject riftPresent;    
+    GameObject fps;    
     GameObject ipd;
     GameObject fov;
     GameObject height;
-    GameObject depth;
-    GameObject resolutionEyeTexture;
+	GameObject depth;
+	GameObject resolutionEyeTexture;
     GameObject latencies;
-    GameObject texts;
-
-    #endregion GameObjects for Debug Information UIs
+    GameObject texts;    
+    #endregion
 
     #region Debug strings
-
-    string strRiftPresent = null; // "VR DISABLED"
-    string strFPS = null; // "FPS: 0";
-    string strIPD = null; // "IPD: 0.000";
-    string strFOV = null; // "FOV: 0.0f";
-    string strHeight = null; // "Height: 0.0f";
-    string strDepth = null; // "Depth: 0.0f";
-    string strResolutionEyeTexture = null; // "Resolution : {0} x {1}"
-    string strLatencies = null; // "R: {0:F3} TW: {1:F3} PP: {2:F3} RE: {3:F3} TWE: {4:F3}"
-
-    #endregion Debug strings
+	string strRiftPresent            = null; // "VR DISABLED"
+    string strFPS                    = null; // "FPS: 0";
+    string strIPD                    = null; // "IPD: 0.000";
+    string strFOV                    = null; // "FOV: 0.0f";
+    string strHeight                 = null; // "Height: 0.0f";
+	string strDepth                  = null; // "Depth: 0.0f";
+	string strResolutionEyeTexture   = null; // "Resolution : {0} x {1}"
+    string strLatencies              = null; // "R: {0:F3} TW: {1:F3} PP: {2:F3} RE: {3:F3} TWE: {4:F3}"
+    #endregion
 
     /// <summary>
     /// Variables for FPS
     /// </summary>
     float updateInterval = 0.5f;
-
-    float accum = 0.0f;
-    int frames = 0;
-    float timeLeft = 0.0f;
+    float accum          = 0.0f;
+    int   frames         = 0;
+    float timeLeft       = 0.0f;
 
     /// <summary>
     /// Managing for UI initialization
     /// </summary>
-    bool initUIComponent = false;
-
-    bool isInited = false;
+    bool  initUIComponent = false;
+    bool  isInited        = false;
 
     /// <summary>
     /// UIs Y offset
@@ -135,7 +130,7 @@ public class OVRDebugInfo : MonoBehaviour
         {
             debugUIManager.SetActive(true);
             UpdateVariable();
-            UpdateStrings();
+            UpdateStrings();           
         }
         else
         {
@@ -150,11 +145,9 @@ public class OVRDebugInfo : MonoBehaviour
     {
         isInited = false;
     }
-
-    #endregion MonoBehaviour handler
+    #endregion
 
     #region Private Functions
-
     /// <summary>
     /// Initialize UI GameObjects
     /// </summary>
@@ -193,14 +186,14 @@ public class OVRDebugInfo : MonoBehaviour
         {
             height = VariableObjectManager(height, "Height", posY -= offsetY, strHeight, fontSize);
         }
+		
+		// Print out for Depth
+		if (!string.IsNullOrEmpty(strDepth))
+		{
+			depth = VariableObjectManager(depth, "Depth", posY -= offsetY, strDepth, fontSize);
+		}
 
-        // Print out for Depth
-        if (!string.IsNullOrEmpty(strDepth))
-        {
-            depth = VariableObjectManager(depth, "Depth", posY -= offsetY, strDepth, fontSize);
-        }
-
-        // Print out for Resoulution of Eye Texture
+		// Print out for Resoulution of Eye Texture
         if (!string.IsNullOrEmpty(strResolutionEyeTexture))
         {
             resolutionEyeTexture = VariableObjectManager(resolutionEyeTexture, "Resolution", posY -= offsetY, strResolutionEyeTexture, fontSize);
@@ -215,20 +208,21 @@ public class OVRDebugInfo : MonoBehaviour
 
         initUIComponent = false;
         isInited = true;
+
     }
 
     /// <summary>
     /// Update VR Variables
     /// </summary>
     void UpdateVariable()
-    {
+    {        
         UpdateIPD();
         UpdateEyeHeightOffset();
-        UpdateEyeDepthOffset();
-        UpdateFOV();
+		UpdateEyeDepthOffset();
+		UpdateFOV();
         UpdateResolutionEyeTexture();
         UpdateLatencyValues();
-        UpdateFPS();
+        UpdateFPS();       
     }
 
     /// <summary>
@@ -237,8 +231,8 @@ public class OVRDebugInfo : MonoBehaviour
     void UpdateStrings()
     {
         if (debugUIObject == null)
-            return;
-
+            return;       
+                
         if (!string.IsNullOrEmpty(strFPS))
             fps.GetComponentInChildren<Text>().text = strFPS;
         if (!string.IsNullOrEmpty(strIPD))
@@ -248,17 +242,17 @@ public class OVRDebugInfo : MonoBehaviour
         if (!string.IsNullOrEmpty(strResolutionEyeTexture))
             resolutionEyeTexture.GetComponentInChildren<Text>().text = strResolutionEyeTexture;
         if (!string.IsNullOrEmpty(strLatencies))
-        {
+		{
             latencies.GetComponentInChildren<Text>().text = strLatencies;
-            latencies.GetComponentInChildren<Text>().fontSize = 14;
-        }
+			latencies.GetComponentInChildren<Text>().fontSize = 14;
+		}
         if (!string.IsNullOrEmpty(strHeight))
             height.GetComponentInChildren<Text>().text = strHeight;
-        if (!string.IsNullOrEmpty(strDepth))
-            depth.GetComponentInChildren<Text>().text = strDepth;
-    }
-
-    /// <summary>
+		if (!string.IsNullOrEmpty(strDepth))
+			depth.GetComponentInChildren<Text>().text = strDepth;
+	}
+	
+	/// <summary>
     /// It's for rift present GUI
     /// </summary>
     void RiftPresentGUI(GameObject guiMainOBj)
@@ -328,7 +322,7 @@ public class OVRDebugInfo : MonoBehaviour
         texts.AddComponent<CanvasRenderer>();
         texts.AddComponent<Text>();
         texts.GetComponent<RectTransform>().sizeDelta = new Vector2(350f, 50f);
-        texts.GetComponent<Text>().font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+		texts.GetComponent<Text>().font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
         texts.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
 
         texts.transform.SetParent(GO.transform);
@@ -336,11 +330,9 @@ public class OVRDebugInfo : MonoBehaviour
 
         return GO;
     }
-
-    #endregion Private Functions
+    #endregion
 
     #region Debugging variables handler
-
     /// <summary>
     /// Updates the IPD.
     /// </summary>
@@ -356,24 +348,24 @@ public class OVRDebugInfo : MonoBehaviour
     {
         float eyeHeight = OVRManager.profile.eyeHeight;
         strHeight = System.String.Format("Eye Height (m): {0:F3}", eyeHeight);
-    }
-
-    /// <summary>
-    /// Updates the eye depth offset.
-    /// </summary>
-    void UpdateEyeDepthOffset()
-    {
-        float eyeDepth = OVRManager.profile.eyeDepth;
-        strDepth = System.String.Format("Eye Depth (m): {0:F3}", eyeDepth);
-    }
-
-    /// <summary>
-    /// Updates the FOV.
+	}
+	
+	/// <summary>
+	/// Updates the eye depth offset.
+	/// </summary>
+	void UpdateEyeDepthOffset()
+	{
+		float eyeDepth = OVRManager.profile.eyeDepth;
+		strDepth = System.String.Format("Eye Depth (m): {0:F3}", eyeDepth);
+	}
+	
+	/// <summary>
+	/// Updates the FOV.
     /// </summary>
     void UpdateFOV()
     {
         OVRDisplay.EyeRenderDesc eyeDesc = OVRManager.display.GetEyeRenderDesc(VR.VRNode.LeftEye);
-        strFOV = System.String.Format("FOV (deg): {0:F3}", eyeDesc.fov.y);
+        strFOV = System.String.Format("FOV (deg): {0:F3}", eyeDesc.fov.y);   
     }
 
     /// <summary>
@@ -381,10 +373,10 @@ public class OVRDebugInfo : MonoBehaviour
     /// </summary>
     void UpdateResolutionEyeTexture()
     {
-        OVRDisplay.EyeRenderDesc leftEyeDesc = OVRManager.display.GetEyeRenderDesc(VR.VRNode.LeftEye);
-        OVRDisplay.EyeRenderDesc rightEyeDesc = OVRManager.display.GetEyeRenderDesc(VR.VRNode.RightEye);
+		OVRDisplay.EyeRenderDesc leftEyeDesc = OVRManager.display.GetEyeRenderDesc(VR.VRNode.LeftEye);
+		OVRDisplay.EyeRenderDesc rightEyeDesc = OVRManager.display.GetEyeRenderDesc(VR.VRNode.RightEye);
 
-        float scale = VR.VRSettings.renderScale;
+		float scale = VR.VRSettings.renderScale;
         float w = (int)(scale * (float)(leftEyeDesc.resolution.x + rightEyeDesc.resolution.x));
         float h = (int)(scale * (float)Mathf.Max(leftEyeDesc.resolution.y, rightEyeDesc.resolution.y));
 
@@ -397,16 +389,16 @@ public class OVRDebugInfo : MonoBehaviour
     void UpdateLatencyValues()
     {
 #if !UNITY_ANDROID || UNITY_EDITOR
-        OVRDisplay.LatencyData latency = OVRManager.display.latency;
-        if (latency.render < 0.000001f && latency.timeWarp < 0.000001f && latency.postPresent < 0.000001f)
-            strLatencies = System.String.Format("Latency values are not available.");
-        else
-            strLatencies = System.String.Format("Render: {0:F3} TimeWarp: {1:F3} Post-Present: {2:F3}\nRender Error: {3:F3} TimeWarp Error: {4:F3}",
-                latency.render,
-                latency.timeWarp,
-                latency.postPresent,
-                latency.renderError,
-                latency.timeWarpError);
+            OVRDisplay.LatencyData latency = OVRManager.display.latency;
+            if (latency.render < 0.000001f && latency.timeWarp < 0.000001f && latency.postPresent < 0.000001f)
+                strLatencies = System.String.Format("Latency values are not available.");
+            else
+                strLatencies = System.String.Format("Render: {0:F3} TimeWarp: {1:F3} Post-Present: {2:F3}\nRender Error: {3:F3} TimeWarp Error: {4:F3}",
+                    latency.render,
+                    latency.timeWarp,
+                    latency.postPresent,
+                    latency.renderError,
+                    latency.timeWarpError);      
 #endif
     }
 
@@ -432,6 +424,5 @@ public class OVRDebugInfo : MonoBehaviour
             frames = 0;
         }
     }
-
-    #endregion Debugging variables handler
+    #endregion
 }
