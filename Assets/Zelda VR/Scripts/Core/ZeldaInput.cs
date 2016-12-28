@@ -43,6 +43,16 @@ public class ZeldaInput : Singleton<ZeldaInput>
             axisName = axis.ToString();
             v = (string.IsNullOrEmpty(axisName)) ? 0 : Input.GetAxisRaw(axisName);
         }
+
+        // TODO
+        if (AreAnyTouchControllersActive())
+        {
+            if (axis == Axis.MoveVertical)
+            {
+                v = OVRInput.Get(OVRInput.RawAxis2D.LThumbstick).y;
+            }
+        }
+
         return v;
     }
 
@@ -82,9 +92,18 @@ public class ZeldaInput : Singleton<ZeldaInput>
         return b;
     }
 
+    bool AreAnyTouchControllersActive_()
+    {
+        OVRInput.Controller c = OVRInput.GetActiveController();
+        return c == OVRInput.Controller.Touch
+            || c == OVRInput.Controller.LTouch
+            || c == OVRInput.Controller.RTouch;
+    }
+
 
     static public float GetAxis(Axis axis) { return Instance.GetAxis_(axis); }
     static public bool GetButton(Button button) { return Instance.GetButton_(button); }
     static public bool GetButtonDown(Button button) { return Instance.GetButtonDown_(button); }
     static public bool GetButtonUp(Button button) { return Instance.GetButtonUp_(button); }
+    static public bool AreAnyTouchControllersActive() { return Instance.AreAnyTouchControllersActive_(); }
 }

@@ -83,7 +83,7 @@ public class PauseManager : Singleton<PauseManager>
     void Update()
     {
         // TODO: Implement a system for sending input events to active views. 
-        if (ZeldaInput.GetButtonDown(SHOW_OPTIONS_BUTTON))
+        if (IsOptionsButtonDown())
         {
             if (IsPauseAllowed_Options)
             {
@@ -96,6 +96,19 @@ public class PauseManager : Singleton<PauseManager>
             {
                 TogglePause_Inventory();
             }
+        }
+    }
+
+    bool IsOptionsButtonDown()
+    {
+        if (ZeldaInput.AreAnyTouchControllersActive())
+        {
+            // TODO: Integrate OVRInput (Oculus Touch Controllers) with ZeldaInput
+            return OVRInput.GetDown(OVRInput.RawButton.X);  
+        }
+        else
+        {
+            return ZeldaInput.GetButtonDown(SHOW_OPTIONS_BUTTON);
         }
     }
 

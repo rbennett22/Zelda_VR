@@ -578,7 +578,8 @@ public class Player : Actor
         {
             float groundY = WorldInfo.Instance.WorldOffset.y;
             float playerOffset = _playerController.Height * 0.5f;
-            return groundY + playerOffset + 0.5f;
+            //return groundY + playerOffset + 0.5f;
+            return groundY + playerOffset;
         }
     }
 

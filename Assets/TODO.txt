@@ -30,7 +30,7 @@ BUGS:
 * BUG: Enemies can push Link off the ground
 * BUG: "Dynamic batching: index buffer source is NULL..." errors.  Need a permanent fix (waiting on Unity update).
 
-- BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?).
+- BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?  OR use Oculus's rendering SDK).
 - BUG: If you buy Red potion (instead of HeartContainer in special grotto) you can obtain the letter simply by using the red and blue potions.
 - BUG: I saw Enemy Projectiles being shot through blocks (I saw an arrow and a sword near D6 OW Entrance)
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor

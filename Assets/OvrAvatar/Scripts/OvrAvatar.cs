@@ -408,7 +408,7 @@ public class OvrAvatar : MonoBehaviour {
         }
     }
 
-    void AvatarSpecificationCallback(IntPtr avatarSpecification) {
+    protected void AvatarSpecificationCallback(IntPtr avatarSpecification) {
         sdkAvatar = CAPI.ovrAvatar_Create(avatarSpecification, Capabilities);
         ShowLeftController(showLeftController);
         ShowRightController(showRightController);
