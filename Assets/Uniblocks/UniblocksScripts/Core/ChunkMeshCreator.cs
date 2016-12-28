@@ -174,6 +174,50 @@ namespace Uniblocks
         }
 
 
+        /*public void BuildInvisibleBlockCollisionMesh()
+        {
+            int x = 0, y = 0, z = 0;
+
+            // for each voxel in Voxels, check if any of the voxel's faces are exposed, and if so, add their faces to the main mesh arrays (named Vertices and Faces)
+            while (x < _sizeX)
+            {
+                while (y < _sizeY)
+                {
+                    while (z < _sizeZ)
+                    {
+                        ushort voxel = _chunk.GetVoxel(x, y, z);     // the current voxel data
+                        if (voxel != 0)     // don't render empty blocks.
+                        {
+                            Voxel voxelType = Engine.GetVoxelType(voxel);
+                            Transparency tr = voxelType.VTransparency;
+                            ColliderType ct = voxelType.VColliderType;
+
+                            foreach (Direction d in Enum.GetValues(typeof(Direction)))
+                            {
+                                if (CheckAdjacent(x, y, z, d, tr))
+                                    CreateFace(voxel, (Facing)d, ct, x, y, z);
+                            }
+
+                            // if no collider, create a trigger cube collider
+                            if (ct == ColliderType.none && Engine.GenerateColliders)
+                            {
+                                AddCubeMesh(x, y, z, false);
+                            }
+                        }
+                        z++;
+                    }
+                    z = 0;
+                    y++;
+                }
+                y = 0;
+                x++;
+            }
+
+            // update mesh using the values from the arrays
+            UpdateMesh(GetComponent<MeshFilter>().mesh);
+        }*/
+
+
         // ==== mesh generation =======================================================================================
 
         void CreateFace(ushort voxel, Facing facing, ColliderType colliderType, int x, int y, int z)
@@ -474,10 +518,10 @@ namespace Uniblocks
             mesh.Clear();
             mesh.vertices = Vertices.ToArray();
             mesh.subMeshCount = GetComponent<Renderer>().materials.Length;
-            
+
             for (int i = 0; i < Faces.Count; ++i)
             {
-                mesh.SetTriangles(Faces[i].ToArray(), i);   // TODO: The "Dynamic batching: index buffer source is NULL..." errors are related to this line
+                mesh.SetTriangles(Faces[i], i);     // TODO: The "Dynamic batching: index buffer source is NULL..." errors are related to this line
             }
 
             mesh.uv = UVs.ToArray();//UVs.ToBuiltin(Vector2) as Vector2[]

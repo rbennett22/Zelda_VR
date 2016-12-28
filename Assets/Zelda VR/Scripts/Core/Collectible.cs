@@ -77,21 +77,7 @@ public class Collectible : MonoBehaviour
 
         if (CommonObjects.IsPlayer(other))
         {
-            bool canCollect = true;
-            if (MustBePurchased)
-            {
-                Inventory inv = Inventory.Instance;
-                if (inv.CanAfford(price))
-                {
-                    inv.SpendRupees(price);
-                    canCollect = true;
-                }
-                else
-                {
-                    canCollect = false;
-                }
-            }
-            if (canCollect)
+            if (!MustBePurchased || Inventory.Instance.TrySpendRupees(price))
             {
                 Collect();
             }

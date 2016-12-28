@@ -66,7 +66,7 @@ public class Grotto_Gamble : GrottoExtension_Base
             case 2: winnings = winningsC; break;
         }
         Inventory inv = Inventory.Instance;
-        if (winnings < 0) { inv.SpendRupees(-winnings); }
+        if (winnings < 0) { inv.TrySpendRupees(-winnings); }
         else { inv.ReceiveRupees(winnings); }
 
         _hasMadeChoice = true;

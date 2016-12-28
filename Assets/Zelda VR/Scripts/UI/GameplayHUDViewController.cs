@@ -56,14 +56,11 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
 
     void Update()
     {
-        UpdateView();
+        UpdateView();   // TODO: Only update views when data changes (instead of every frame)
     }
-
 
     void UpdateView()
     {
-        // TODO: Only update views when data changes (instead of every frame)
-
         UpdateView_EquippedItemSlots();
         UpdateView_Hearts();
         UpdateView_ItemCounts();
@@ -108,7 +105,7 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
         Inventory inv = Inventory.Instance;
 
         // Rupees
-        int numRupees = inv.GetItem("Rupee").count;
+        int numRupees = inv.RupeeCount;
         _view.UpdateRupeesCountText(numRupees);
 
         // Keys

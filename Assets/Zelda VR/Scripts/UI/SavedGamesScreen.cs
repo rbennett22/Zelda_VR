@@ -97,21 +97,21 @@ public class SavedGamesScreen : MonoBehaviour
     {
         UpdateCursor();
 
-        if (IsSelectButtonDown())
+        if (GetSelectButtonDown())
         {
             PlaySelectSound();
             LoadEntry(CursorIndex);
         }
-        else if (Application.isEditor && IsEraseButtonDown())      // TODO
+        else if (Application.isEditor && GetEraseButtonDown())      // TODO
         {
             EraseEntry(CursorIndex);
         }
     }
-    bool IsSelectButtonDown()
+    bool GetSelectButtonDown()
     {
         return ZeldaInput.GetButtonDown(ZeldaInput.Button.Start);
     }
-    bool IsEraseButtonDown()
+    bool GetEraseButtonDown()
     {
         return ZeldaInput.GetButtonDown(ZeldaInput.Button.Extra);
     }

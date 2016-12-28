@@ -209,6 +209,14 @@ public class OverworldTerrainGenerator : TerrainGenerator
         }
     }
 
+
+
+    public void BuildInvisibleBlockCollisionMesh()
+    {
+
+    }
+
+
     ushort GetDataForTileCode(int tileCode)
     {
         Index2 tileMapIndex = _overworldTileMap.TileMapTexture.IndexForTileCode(tileCode);

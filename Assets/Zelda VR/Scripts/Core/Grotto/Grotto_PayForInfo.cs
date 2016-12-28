@@ -48,7 +48,7 @@ public class Grotto_PayForInfo : GrottoExtension_Base
         }
 
         Inventory inv = Inventory.Instance;
-        if (!inv.SpendRupees(payAmount)) { return; }
+        if (!inv.TrySpendRupees(payAmount)) { return; }
 
         ShowTheGoods(false);
 

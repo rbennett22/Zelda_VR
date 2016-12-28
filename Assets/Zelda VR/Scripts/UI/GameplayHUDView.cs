@@ -70,11 +70,41 @@ public class GameplayHUDView : MonoBehaviour
     public void UpdateHeartContainerCount(int amount) { _heartsView.UpdateHeartContainerCount(amount); }
     public void UpdateHeartContainersFillState(int numHalfHearts) { _heartsView.UpdateHeartContainersFillState(numHalfHearts); }
 
+    #region Rupees
+
+    int _targetRupeeCount, _displayedRupeeCount;
+
+
     public void UpdateRupeesCountText(int amount)
     {
+        _targetRupeeCount = amount;
+    }
+    void UpdateDisplayedRupeesCountText(int amount)
+    {
+        _displayedRupeeCount = amount;
         string amountStr = amount.ToString();
         _rupeesText.Text = (amount < 100) ? "x" + amountStr : amountStr;
     }
+
+    void Update()
+    {
+        UpdateRupeeCountAnimation();
+    }  
+    void UpdateRupeeCountAnimation()
+    {
+        if (_displayedRupeeCount == _targetRupeeCount) { return; }
+
+        if (_displayedRupeeCount > _targetRupeeCount) { _displayedRupeeCount--; }
+        else if (_displayedRupeeCount < _targetRupeeCount) { _displayedRupeeCount++; }
+
+        UpdateDisplayedRupeesCountText(_displayedRupeeCount);
+
+        SoundFx sfx = SoundFx.Instance;
+        sfx.PlayOneShot(sfx.text);
+    }
+
+    #endregion
+
 
     public void UpdateKeysCountText(int amount)
     {

@@ -532,7 +532,7 @@ namespace Uniblocks
 
         List<GameObject> _invisibleCollisionBlocks = new List<GameObject>();
 
-        public void InstantiateInvisibleCollisionBlockAtIndex(Index index)
+        public void InstantiateInvisibleCollisionBlockAtIndex(Index index, Transform parent = null)
         {
             if(_invisibleCollisionBlockPrefab == null)
             {
@@ -540,7 +540,10 @@ namespace Uniblocks
             }
 
             GameObject g = Instantiate(_invisibleCollisionBlockPrefab) as GameObject;
-            g.transform.position = VoxelIndexToPosition(index);
+
+            Transform t = g.transform;
+            t.position = VoxelIndexToPosition(index);
+            t.SetParent(parent);
 
             _invisibleCollisionBlocks.Add(g);
         }

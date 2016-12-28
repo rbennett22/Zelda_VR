@@ -197,73 +197,24 @@ public class Inventory : Singleton<Inventory>
 
     Item[,,] _equippableSecondaryItems;
 
-    int _targetRupeeCount;
-    bool _animateRupeeCount;
-    public int RupeeCount { get { return GetItem("Rupee").count; } }
+
+    public int RupeeCount {
+        get { return GetItem("Rupee").count; }
+        set { GetItem("Rupee").count = Mathf.Clamp(value, 0, MaxRupeeCount); }
+    }
+    public int MaxRupeeCount { get { return GetItem("Rupee").maxCount; } }
     public bool CanAfford(int price) { return RupeeCount >= price; }
-    public bool SpendRupees(int amount)
+    
+    public bool TrySpendRupees(int amount)
     {
         if (!CanAfford(amount)) { return false; }
 
-        if (amount < 10)
-        {
-            GetItem("Rupee").count -= amount;
-        }
-        else
-        {
-            int targetCount = RupeeCount - amount;
-            //StartCoroutine("AnimateRupeeCount", targetCount);
-            _targetRupeeCount = targetCount;
-            _animateRupeeCount = true;
-        }
+        RupeeCount -= amount;
         return true;
     }
-    public void ReceiveRupees(int amount, bool doAnimate = true)
+    public void ReceiveRupees(int amount)
     {
-        if (amount < 10)
-        {
-            GetItem("Rupee").OnCollected(amount);
-        }
-        else
-        {
-            _targetRupeeCount = Mathf.Min(RupeeCount + amount, GetItem("Rupee").maxCount);
-
-            if (doAnimate)
-            {
-                //StartCoroutine("AnimateRupeeCount", targetCount);
-                _animateRupeeCount = doAnimate;
-            }
-            else
-            {
-                Item rupees = GetItem("Rupee");
-                rupees.count = _targetRupeeCount;
-            }          
-        }
-    }
-
-
-    void Update()
-    {
-        if (_animateRupeeCount)
-        {
-            UpdateRupeeCountAnimation();
-        }
-    }
-
-    void UpdateRupeeCountAnimation()
-    {
-        Item rupees = GetItem("Rupee");
-        SoundFx sfx = SoundFx.Instance;
-
-        if (_targetRupeeCount > rupees.count) { rupees.count++; }
-        else { rupees.count--; }
-
-        sfx.PlayOneShot(sfx.text);
-
-        if (rupees.count == _targetRupeeCount)
-        {
-            _animateRupeeCount = false;
-        }
+        RupeeCount += amount;
     }
 
 
@@ -480,6 +431,10 @@ public class Inventory : Singleton<Inventory>
     void PlayerRanOutOfAnItem(Item item)
     {
         // Deequip item
+        if (EquippedItemA == item)
+        {
+            EquippedItemA = null;
+        }
         if (EquippedItemB == item)
         {
             EquippedItemB = null;

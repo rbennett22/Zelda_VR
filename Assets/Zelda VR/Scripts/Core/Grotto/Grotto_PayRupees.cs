@@ -15,7 +15,7 @@ public class Grotto_PayRupees : GrottoExtension_Base
 
     override public void ShowTheGoods(bool doShow = true)
     {
-        Inventory.Instance.SpendRupees(-GiftAmount);
+        Inventory.Instance.TrySpendRupees(-GiftAmount);
 
         ShowRupeeDeduction(doShow);
 

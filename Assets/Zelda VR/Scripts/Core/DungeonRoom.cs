@@ -280,7 +280,7 @@ public class DungeonRoom : MonoBehaviour
         if (Info.BombUpgradeHasBeenPurchased) { return; }
 
         Inventory inv = Inventory.Instance;
-        if (!inv.SpendRupees(BOMB_UPGRADE_COST)) { return; }
+        if (!inv.TrySpendRupees(BOMB_UPGRADE_COST)) { return; }
 
         inv.OnItemCollected("BombUpgrade");
         Info.BombUpgradeHasBeenPurchased = true;

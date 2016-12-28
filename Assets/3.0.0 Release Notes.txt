@@ -2,10 +2,7 @@
 
 RECENTLY DONE:
 
-- BUG: Leevers move one tile and then just idle. -FIXED
-- BUG: Enemies that spawn after clock has activated aren't paralyzed. -FIXED
-- BUG: If you have no ItemB equipped, and you collect an Active item, it correctly equips; however when subsequently viewing Inventory, the cursor has not been updated. -FIXED
-- BUG: In the PayForInfo grottos, no info text appears after payment is made. -FIXED
+- BUG: If rupees are rewarded while rupee count is already taking place, then the initial rupee count stops and the remaining rupees are not received. -FIXED
 
 
 DONE:
@@ -66,6 +63,10 @@ DONE:
 - BUG: Lanmola in D9 wasn't moving at all. -FIXED
 - BUG: Keese in SubDungeons can move through stairs. -FIXED
 - BUG: SubDungeon Entrance has opaque tile showing. -FIXED
+- BUG: Leevers move one tile and then just idle. -FIXED
+- BUG: Enemies that spawn after clock has activated aren't paralyzed. -FIXED
+- BUG: If you have no ItemB equipped, and you collect an Active item, it correctly equips; however when subsequently viewing Inventory, the cursor has not been updated. -FIXED
+- BUG: In the PayForInfo grottos, no info text appears after payment is made. -FIXED
 
 
 DONE (OLDER):
