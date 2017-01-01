@@ -1,27 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ZVRAvatar : OvrAvatar 
-{   
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnLevelFinishedLoading;
-    }
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
-    }
+public class ZVRAvatar : MonoBehaviour 
+{
+    [SerializeField]
+    Transform _weaponContainerLeft, _weaponContainerRight;
 
-    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-    {
-        Init();
-    }
-
-    void Init()
-    {
-        ShowLeftController(StartWithControllers);
-        ShowRightController(StartWithControllers);
-        OvrAvatarSDKManager.Instance.RequestAvatarSpecification(
-            oculusUserID, this.AvatarSpecificationCallback);
-    }
+    public Transform WeaponContainerLeft { get { return _weaponContainerLeft; } }
+    public Transform WeaponContainerRight { get { return _weaponContainerRight; } }
 }

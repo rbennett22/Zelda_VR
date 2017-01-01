@@ -1,5 +1,6 @@
 ﻿using Immersio.Utility;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Uniblocks;
@@ -71,9 +72,12 @@ public class Locations : Singleton<Locations>
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    void Start()
+    IEnumerator Start()
+    //void Start()
     {
         //print(" Start");
+
+        yield return new WaitForSecondsRealtime(1f);     // TODO: this currently seems to be necessary to prevent OVRAvatar errors
 
         LoadInfoScenes();
 

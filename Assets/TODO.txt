@@ -9,7 +9,7 @@ BEFORE SUBMITTING TO OCULUS STORE:
 
 - Maintains 90 FPS through most of the app.
 
-- Renders head-locked UI elements such as cursors and in-game dialog in a separate layer from the main game 
+* Renders head-locked UI elements such as cursors and in-game dialog in a separate layer from the main game 
 	to avoid judder if the app misses frames or runs with asynchronous spacewarp. (See VR Compositor Layers.)
 - Does not launch with a Unity configuration prompt.
 - Displays graphics and responds to head tracking within 4 seconds of launch. Longer launch times are allowed if there is a loading indicator.
@@ -58,6 +58,11 @@ High Priority:
 - Oculus Touch:  When I change playerController's scale related variables, the Avatar hands are no longer positioned correctly
 - VR: Experiment with player acceleration to minimize nausea
 - VR: Add "nose" to help reduce nausea?
+
+* NOTES on OVRAvatar issue:
+-- must not subclass OVRAvatar (?)
+-- must finish loading avatar assets before loading new scene
+-- hands must be sensed by sensors before loading new scene or else they will never appear (only controllers will)
 
 
 Mid Priority:

@@ -4,6 +4,20 @@
 
 public class Weapon_Base : MonoBehaviour
 {
+    public enum ControlStyleEnum
+    {
+        Classic,        // NES
+        VR              // Oculus Touch
+    }
+    [SerializeField]
+    protected ControlStyleEnum _controlStyle;
+    virtual public ControlStyleEnum ControlStyle {
+        get { return _controlStyle; }
+        set {
+            _controlStyle = value;
+        }
+    }
+
     [SerializeField]
     protected float _cooldown = 0;
     [SerializeField]

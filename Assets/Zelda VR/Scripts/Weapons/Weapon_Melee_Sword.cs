@@ -15,9 +15,40 @@ public class Weapon_Melee_Sword : Weapon_Melee
     float _speed = 12;
 
 
+    override public ControlStyleEnum ControlStyle
+    {
+        set
+        {
+            base.ControlStyle = value;
+
+            switch (_controlStyle)
+            {
+                case ControlStyleEnum.Classic:
+                    SetCollidesWithEnvironment(true);
+                    break;
+                case ControlStyleEnum.VR:
+                    SetCollidesWithEnvironment(false);
+                    break;
+                default: break;
+            }
+        }
+    }
+    void SetCollidesWithEnvironment(bool value)
+    {
+        int swordLayer = LayerMask.NameToLayer("Sword");
+        int blocksLayer = LayerMask.NameToLayer("Blocks");
+        int wallLayer = LayerMask.NameToLayer("Walls");
+        int groundLayer = LayerMask.NameToLayer("Ground");
+
+        Physics.IgnoreLayerCollision(swordLayer, blocksLayer, !value);
+        Physics.IgnoreLayerCollision(swordLayer, wallLayer, !value);
+        Physics.IgnoreLayerCollision(swordLayer, groundLayer, !value);
+    }
+
+
     bool _isExtending, _isRetracting;
     override public bool IsAttacking { get { return base.IsAttacking || _isExtending || _isRetracting; } }
-    override public bool CanAttack { get { return (base.CanAttack && !IsAttacking); } }
+    override public bool CanAttack { get { return base.CanAttack && !IsAttacking; } }
 
     override public Vector3 AttackDirection { get { return transform.TransformDirection(_attackDirection_Local); } }
 
@@ -25,17 +56,37 @@ public class Weapon_Melee_Sword : Weapon_Melee
     Weapon_Gun _swordGun;
     public bool ProjectilesEnabled { get; set; }
 
+    bool _collisionIsAllowedWhenRetracted;
+    public bool CollisionIsAllowedWhenRetracted {
+        get { return _collisionIsAllowedWhenRetracted; }
+        set {
+            _collisionIsAllowedWhenRetracted = value;
+
+            if (!IsAttacking)
+            {
+                CollisionEnabled = _collisionIsAllowedWhenRetracted;
+            }
+        }
+    }
+
 
     override protected void Awake()
     {
         base.Awake();
 
         _swordGun = GetComponent<Weapon_Gun>();
+
+        CollisionIsAllowedWhenRetracted = _collisionIsAllowedWhenRetracted;
     }
 
 
     override public void Attack()
     {
+        if(_controlStyle == ControlStyleEnum.VR)
+        {
+            return;
+        }
+
         if (!CanAttack)
         {
             return;
@@ -111,7 +162,7 @@ public class Weapon_Melee_Sword : Weapon_Melee
     {
         _isExtending = _isRetracting = false;
 
-        CollisionEnabled = false;
+        CollisionEnabled = _collisionIsAllowedWhenRetracted;
 
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.velocity = Vector3.zero;

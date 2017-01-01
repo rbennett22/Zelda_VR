@@ -77,6 +77,8 @@ public class Player : Actor
         _sword = g.GetComponent<Weapon_Melee_Sword>();
 
         SwordProjectilesEnabled = HealthController.IsAtFullHealth;
+        SwordControlStyle = Weapon_Base.ControlStyleEnum.VR;        // TODO
+        _sword.CollisionIsAllowedWhenRetracted = true;              // TODO
     }
     public void DeequipSword()
     {
@@ -91,6 +93,11 @@ public class Player : Actor
     {
         get { return HasSword && _sword.ProjectilesEnabled; }
         set { if (HasSword) { _sword.ProjectilesEnabled = value; } }
+    }
+    public Weapon_Base.ControlStyleEnum SwordControlStyle
+    {
+        get { return HasSword ? _sword.ControlStyle : Weapon_Base.ControlStyleEnum.Classic; }
+        set { if (HasSword) { _sword.ControlStyle = value; } }
     }
 
     public void EquipShield(string shieldName)

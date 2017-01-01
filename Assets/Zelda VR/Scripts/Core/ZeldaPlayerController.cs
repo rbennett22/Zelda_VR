@@ -12,12 +12,37 @@ public class ZeldaPlayerController : OVRPlayerController
 
 
     [SerializeField]
+    ZVRAvatar _avatar;
+
+    [SerializeField]
     Transform _weaponContainerLeft;
-    public Transform WeaponContainerLeft { get { return _weaponContainerLeft; } }
+    public Transform WeaponContainerLeft {
+        get {
+            if (ZeldaInput.AreAnyTouchControllersActive())
+            {
+                return _avatar.WeaponContainerLeft;
+            }
+            else
+            {
+                return _weaponContainerLeft;
+            }
+        }
+    }
 
     [SerializeField]
     Transform _weaponContainerRight;
-    public Transform WeaponContainerRight { get { return _weaponContainerRight; } }
+    public Transform WeaponContainerRight {
+        get {
+            if (ZeldaInput.AreAnyTouchControllersActive())
+            {
+                return _avatar.WeaponContainerRight;
+            }
+            else
+            {
+                return _weaponContainerRight;
+            }
+        }
+    }
 
     [SerializeField]
     Transform _shieldContainer;
@@ -36,31 +61,38 @@ public class ZeldaPlayerController : OVRPlayerController
 
     public float Height { get { return Controller.height; } }
 
-
-    protected override void Update()
+    /*protected override void Update()
     {
-        Transform crt = CameraRig.transform;
+        //Transform crt = CameraRig.transform;
         if (useProfileData)
         {
             if (InitialPose == null)
             {
-                // Save the initial pose so it can be recovered if useProfileData is turned off later.
+                // Save the initial pose so it can be recovered if useProfileData
+                // is turned off later.
                 InitialPose = new OVRPose()
                 {
-                    position = crt.localPosition,
-                    orientation = crt.localRotation
+                    position = CameraRig.transform.localPosition,
+                    orientation = CameraRig.transform.localRotation
                 };
             }
 
-            var p = crt.localPosition;
-            p.y = OVRManager.profile.eyeHeight - 0.5f * Height + Controller.center.y;
-            crt.localPosition = p;
+            var p = CameraRig.transform.localPosition;
+            if (OVRManager.instance.trackingOriginType == OVRManager.TrackingOrigin.EyeLevel)
+            {
+                p.y = OVRManager.profile.eyeHeight - (0.5f * Controller.height) + Controller.center.y;
+            }
+            else if (OVRManager.instance.trackingOriginType == OVRManager.TrackingOrigin.FloorLevel)
+            {
+                p.y = -(0.5f * Controller.height) + Controller.center.y;
+            }
+            CameraRig.transform.localPosition = p;
         }
         else if (InitialPose != null)
         {
             // Return to the initial pose if useProfileData was turned off at runtime
-            crt.localPosition = InitialPose.Value.position;
-            crt.localRotation = InitialPose.Value.orientation;
+            CameraRig.transform.localPosition = InitialPose.Value.position;
+            CameraRig.transform.localRotation = InitialPose.Value.orientation;
             InitialPose = null;
         }
 
@@ -121,10 +153,10 @@ public class ZeldaPlayerController : OVRPlayerController
 
         if (predictedXZ != actualXZ)
             MoveThrottle += (actualXZ - predictedXZ) / (SimulationRate * Time.deltaTime);
-    }
+    }*/
     public bool IsGrounded { get { return Controller.isGrounded; } }
 
-    public override void UpdateMovement()
+    /*public override void UpdateMovement()
     {
         if (HaltUpdateMovement)
             return;
@@ -180,10 +212,10 @@ public class ZeldaPlayerController : OVRPlayerController
 
         float rotateInfluence = SimulationRate * Time.deltaTime * RotationAmount * RotationScaleMultiplier;
 
-        /*if (!SkipMouseRotation)
-        {
-            euler.y += Input.GetAxis("Mouse X") * rotateInfluence * 3.25f;
-        }*/
+        //if (!SkipMouseRotation)
+        //{
+        //    euler.y += Input.GetAxis("Mouse X") * rotateInfluence * 3.25f;
+        //}
 
         moveInfluence = SimulationRate * Time.deltaTime * Acceleration * 0.1f * MoveScale * MoveScaleMultiplier;
 
@@ -191,7 +223,7 @@ public class ZeldaPlayerController : OVRPlayerController
         euler.y += deltaRotation;
 
         transform.rotation = Quaternion.Euler(euler);
-    }
+    }*/
 
     new public bool Jump()
     {
