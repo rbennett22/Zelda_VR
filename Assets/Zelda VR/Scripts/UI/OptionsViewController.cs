@@ -128,7 +128,7 @@ public class OptionsViewController : Singleton<OptionsViewController>
         PauseManager.Instance.ResumeGame_Options();
         PauseManager.Instance.ResumeGame_Inventory();
 
-        Locations.Instance.LoadTitleScreen();
+        Locations.Instance.GoToTitleScreen();
     }
 
     #endregion Button Click Handlers

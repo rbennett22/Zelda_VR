@@ -3,11 +3,25 @@ using UnityEngine;
 
 public class CommonObjects : Singleton<CommonObjects>
 {
+    /*static Player FindPlayer()
+    {
+        // TODO: cache result
+        return FindObjectOfType<Player>();
+    }
+
+    public static GameObject Player_G { get { return Instance.player_G ?? (Instance.player_G = FindPlayer().gameObject); } }   
+    public static GameObject PlayerController_G { get { return Instance.playerController_G ?? (Instance.playerController_G = FindPlayer().PlayerController.gameObject); } }
+
+    public static Player Player_C { get { return Instance.player_C ?? (Instance.player_C = FindPlayer()); } }
+    public static ZeldaPlayerController PlayerController_C { get { return Instance.playerController_C ?? (Instance.playerController_C = FindPlayer().PlayerController); } }
+    */
+
     public static GameObject Player_G { get { return Instance.player_G; } }
     public static GameObject PlayerController_G { get { return Instance.playerController_G; } }
 
     public static Player Player_C { get { return Instance.player_C; } }
     public static ZeldaPlayerController PlayerController_C { get { return Instance.playerController_C; } }
+
 
     public static Transform ProjectilesContainer { get { return Instance._projectilesContainer; } }
     public static Transform EnemiesContainer { get { return Instance._enemiesContainer; } }
@@ -17,6 +31,30 @@ public class CommonObjects : Singleton<CommonObjects>
     public Player player_C;
     public GameObject playerController_G;
     public ZeldaPlayerController playerController_C;
+
+
+    public GameObject primaryCamera;
+    public static GameObject PrimaryCamera { get { return Instance.primaryCamera; } }
+    static GameObject FindPrimaryCamera()
+    {
+        GameObject cam = null;
+
+        if (Camera.main != null)
+        {
+            cam = Camera.main.gameObject;
+        }
+        else
+        {
+            GameObject[] cams = GameObject.FindGameObjectsWithTag("MainCamera");
+            if (cams != null && cams.Length > 0)
+            {
+                cam = cams[0];
+            }
+        }
+
+        return cam;
+    }
+
 
     [SerializeField]
     Transform _projectilesContainer, _enemiesContainer;

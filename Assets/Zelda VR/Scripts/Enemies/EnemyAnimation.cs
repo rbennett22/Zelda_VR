@@ -71,7 +71,7 @@ public class EnemyAnimation : MonoBehaviour
 
     float GetFacingAngleRelativeToCamera()
     {
-        Transform cam = WorldInfo.Instance.GetPrimaryCamera().transform;
+        Transform cam = CommonObjects.PrimaryCamera.transform;
 
         Vector3 myForward = transform.parent.forward;
         Vector3 toCam = cam.position - transform.parent.position;

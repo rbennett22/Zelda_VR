@@ -10,12 +10,20 @@ namespace Immersio.Utility
     //
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
+        [SerializeField]
+        bool _dontDestroyOnLoad = true;
+
+
         protected static T _instance;
 
 
         virtual protected void Awake()
         {
-            DontDestroyOnLoad(gameObject);
+            if (_dontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+                DontDestroyOnLoad(this);
+            }
         }
 
         public static T Instance
@@ -30,11 +38,11 @@ namespace Immersio.Utility
                         //print("Singleton :: Instantiating Singleton instance of type " + typeof(T).ToString());
 
                         GameObject go = new GameObject();
-                        DontDestroyOnLoad(go);
+                        //DontDestroyOnLoad(go);
                         go.name = GetNameFromType();
                         _instance = go.AddComponent<T>();
                     }
-                    DontDestroyOnLoad(_instance);
+                    //DontDestroyOnLoad(_instance);
                 }
                 return _instance;
             }

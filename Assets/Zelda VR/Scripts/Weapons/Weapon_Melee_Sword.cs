@@ -130,7 +130,7 @@ public class Weapon_Melee_Sword : Weapon_Melee
         Retract();
     }
 
-    void FireProjectile()
+    public void FireProjectile()
     {
         if(_swordGun == null || !_swordGun.CanAttack)
         {

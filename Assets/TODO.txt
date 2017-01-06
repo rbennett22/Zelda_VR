@@ -55,14 +55,7 @@ High Priority:
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
 
-- Oculus Touch:  When I change playerController's scale related variables, the Avatar hands are no longer positioned correctly
-- VR: Experiment with player acceleration to minimize nausea
-- VR: Add "nose" to help reduce nausea?
-
-* NOTES on OVRAvatar issue:
--- must not subclass OVRAvatar (?)
--- must finish loading avatar assets before loading new scene
--- hands must be sensed by sensors before loading new scene or else they will never appear (only controllers will)
+- Oculus Touch:  Secondary Weapons
 
 
 Mid Priority:

@@ -1,24 +1,17 @@
 ﻿using Immersio.Utility;
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Uniblocks;
 
 public class Locations : Singleton<Locations>
 {
-    public const string EMPTY_SCENE_NAME = "_Empty";
-    public const string COMMON_SCENE_NAME = "Common";
-    public const string TITLE_SCREEN_SCENE_NAME = "TitleScreen";
-    public const string SPECIAL_SCENE_NAME = "Special";
-    public const string OVERWORLD_SCENE_NAME = "Overworld";
-
-
     public bool skipTitleScreen = false;
     public bool startInSpecial;
     public int startInDungeon = -1;
     public Transform spawnLocation = null;
 
+    // Spawn Locations
     public Transform titleScreen;
     public Transform special;
     public Transform overworldStart;
@@ -30,12 +23,9 @@ public class Locations : Singleton<Locations>
 
     [SerializeField]
     Transform _overworldLocationsContainer;
-
     [SerializeField]
     Transform _dungeonLocationsContainer;
 
-
-    string _reloadingScene = null;
 
     Action _warpCompleteCallback;
 
@@ -72,14 +62,9 @@ public class Locations : Singleton<Locations>
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    IEnumerator Start()
-    //void Start()
+    void Start()
     {
-        //print(" Start");
-
-        yield return new WaitForSecondsRealtime(1f);     // TODO: this currently seems to be necessary to prevent OVRAvatar errors
-
-        LoadInfoScenes();
+        ZeldaSceneManager.Instance.LoadInfoScenes();
 
         if (skipTitleScreen)
         {
@@ -87,7 +72,7 @@ public class Locations : Singleton<Locations>
         }
         else
         {
-            LoadTitleScreen();
+            GoToTitleScreen();
         }
     }
 
@@ -95,11 +80,8 @@ public class Locations : Singleton<Locations>
     {
         //print(" OnLevelWasLoaded: " + level);
 
-        if (_reloadingScene != null)
+        if(s.name != ZeldaSceneManager.Instance.UniqueScene)
         {
-            string scene = _reloadingScene;
-            _reloadingScene = null;
-            LoadScene(scene);
             return;
         }
 
@@ -110,14 +92,14 @@ public class Locations : Singleton<Locations>
         }
 
         // TODO: do this elsewhere
-        UnityStandardAssets.ImageEffects.GlobalFog fog = FindObjectOfType<UnityStandardAssets.ImageEffects.GlobalFog>();
-        fog.enabled = WorldInfo.Instance.IsOverworld;
+        ZeldaFog.Instance.enabled = WorldInfo.Instance.IsOverworld;
     }
 
-    public void LoadTitleScreen()
+
+    public void GoToTitleScreen()
     {
         spawnLocation = titleScreen;
-        LoadScene(TITLE_SCREEN_SCENE_NAME);
+        ZeldaSceneManager.Instance.LoadTitleScene();
 
         CommonObjects.Player_C.IsParalyzed = true;
         CommonObjects.PlayerController_C.gravityEnabled = false;
@@ -129,12 +111,12 @@ public class Locations : Singleton<Locations>
 
         if (startInSpecial)
         {
-            intitialScene = SPECIAL_SCENE_NAME;
+            intitialScene = ZeldaSceneManager.SPECIAL_SCENE_NAME;
             spawnLocation = special;
         }
         else if (startInDungeon == -1)
         {
-            intitialScene = WorldInfo.GetSceneNameForOverworld();
+            intitialScene = ZeldaSceneManager.GetSceneNameForOverworld();
             if (spawnLocation == null)
             {
                 spawnLocation = overworldStart;
@@ -142,7 +124,7 @@ public class Locations : Singleton<Locations>
         }
         else
         {
-            intitialScene = WorldInfo.GetSceneNameForDungeon(startInDungeon);
+            intitialScene = ZeldaSceneManager.GetSceneNameForDungeon(startInDungeon);
             if (spawnLocation == null)
             {
                 spawnLocation = GetDungeonEntranceStairsLocation(startInDungeon);
@@ -151,18 +133,6 @@ public class Locations : Singleton<Locations>
 
         LoadScene(intitialScene, true, true);
     }
-
-
-    void LoadInfoScenes()
-    {
-        LoadScene(WorldInfo.GetSceneNameForOverworldInfo());
-
-        for (int i = 0; i < WorldInfo.NUM_DUNGEONS; i++)
-        {
-            LoadScene(WorldInfo.GetSceneNameForDungeonInfo(i + 1));
-        }
-    }
-
 
     public void RespawnPlayer()
     {
@@ -176,13 +146,7 @@ public class Locations : Singleton<Locations>
             spawnLocation = GetDungeonEntranceRoomLocation(dungeonNum);
         }
 
-        ReloadCurrentScene();
-    }
-
-    void ReloadCurrentScene()
-    {
-        _reloadingScene = SceneManager.GetActiveScene().name;
-        LoadScene(EMPTY_SCENE_NAME);
+        ZeldaSceneManager.Instance.ReloadCurrentUniqueScene();
     }
 
 
@@ -202,7 +166,7 @@ public class Locations : Singleton<Locations>
         }
         else
         {
-            LoadScene(WorldInfo.GetSceneNameForOverworld(), useShutters, closeShuttersInstantly);
+            LoadScene(ZeldaSceneManager.GetSceneNameForOverworld(), useShutters, closeShuttersInstantly);
         }
     }
 
@@ -215,7 +179,7 @@ public class Locations : Singleton<Locations>
         }
         else
         {
-            LoadScene(WorldInfo.GetSceneNameForOverworld(), useShutters, closeShuttersInstantly);
+            LoadScene(ZeldaSceneManager.GetSceneNameForOverworld(), useShutters, closeShuttersInstantly);
         }
     }
 
@@ -228,7 +192,7 @@ public class Locations : Singleton<Locations>
         }
         else
         {
-            LoadScene(WorldInfo.GetSceneNameForDungeon(dungeonNum), true);
+            LoadScene(ZeldaSceneManager.GetSceneNameForDungeon(dungeonNum), true);
         }
     }
 
@@ -284,6 +248,7 @@ public class Locations : Singleton<Locations>
         }
     }
 
+
     string _sceneToLoad;
     void LoadScene(string scene, bool useShutters = false, bool closeShuttersInstantly = false)
     {
@@ -300,9 +265,10 @@ public class Locations : Singleton<Locations>
     }
     void DoLoadScene()
     {
-        SceneManager.LoadScene(_sceneToLoad);
+        ZeldaSceneManager.Instance.LoadUniqueScene(_sceneToLoad);
         _sceneToLoad = null;
     }
+
 
     void PlayShutterSequence(Action onCloseCompleteCallback, bool closeInstantly = false)
     {

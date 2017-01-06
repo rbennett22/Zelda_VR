@@ -9,7 +9,7 @@ public class FaceCamera : MonoBehaviour
 
     void Awake()
     {
-        _target = WorldInfo.Instance.GetPrimaryCamera().transform;
+        _target = CommonObjects.PrimaryCamera.transform;
     }
 
     void LateUpdate()

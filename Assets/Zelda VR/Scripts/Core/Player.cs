@@ -444,6 +444,14 @@ public class Player : Actor
         }
 
         _sword.Attack();
+        
+        if (SwordControlStyle == Weapon_Base.ControlStyleEnum.VR)
+        {
+            if (SwordProjectilesEnabled)
+            {
+                _sword.FireProjectile();
+            }
+        }
     }
 
     void AttackWithWeaponB()

@@ -79,10 +79,14 @@ public class DungeonMapView : MonoBehaviour
             Debug.Log("_mapTexture is null.  You probably need to call Init");
             return;
         }
-
         _mapTexture.Clear(_bgColor);
 
         Vector3 playerPos = CommonObjects.Player_C.Position;
+
+        if(CommonObjects.CurrentDungeonFactory == null)
+        {
+            return;
+        }
 
         foreach (var room in CommonObjects.CurrentDungeonFactory.Rooms)
         {

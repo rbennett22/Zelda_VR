@@ -46,7 +46,7 @@ public class Music : Singleton<Music>
         if (!enabled) { return; }
 
         WorldInfo w = WorldInfo.Instance;
-        if (w.IsTitleScene)
+        if (w.IsTitleScreen)
         {
             PlayIntro();
         }

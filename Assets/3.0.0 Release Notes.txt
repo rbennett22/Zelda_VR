@@ -2,6 +2,10 @@
 
 RECENTLY DONE:
 
+- ZeldaSceneManager:  Loads all scenes additively, and manually unloads "Unique" scenes when entering a new scene
+- PlayerController:  Scaled to 0.5.  Seems to be working well.
+- ZeldaFog:  Created class
+- Skybox:  Fixed issue where skybox wasn't appeaing in Overworld
 
 
 DONE:

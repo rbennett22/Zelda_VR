@@ -14,7 +14,8 @@ class ZeldaEditorMenu
     const string SCENES_DIRECTORY = "Assets/Zelda VR/Scenes";
 
     static string[] SCENES = {
-                GetPathForSceneName(Locations.COMMON_SCENE_NAME),
+                GetPathForSceneName(ZeldaSceneManager.COMMON_SCENE_NAME),
+                GetPathForSceneName(ZeldaSceneManager.ZELDA_PLAYER_SCENE_NAME),
                 GetPathForSceneName("Overworld Info"),
                 GetPathForSceneName("Dungeon 1 Q1"),
                 GetPathForSceneName("Dungeon 2 Q1"),
@@ -25,9 +26,9 @@ class ZeldaEditorMenu
                 GetPathForSceneName("Dungeon 7 Q1"),
                 GetPathForSceneName("Dungeon 8 Q1"),
                 GetPathForSceneName("Dungeon 9 Q1"),
-                GetPathForSceneName(Locations.EMPTY_SCENE_NAME),
-                GetPathForSceneName(Locations.TITLE_SCREEN_SCENE_NAME),
-                GetPathForSceneName(Locations.OVERWORLD_SCENE_NAME),
+                GetPathForSceneName(ZeldaSceneManager.EMPTY_SCENE_NAME),
+                GetPathForSceneName(ZeldaSceneManager.TITLE_SCREEN_SCENE_NAME),
+                GetPathForSceneName(ZeldaSceneManager.OVERWORLD_SCENE_NAME),
                 GetPathForSceneName("Dungeon 1 Q1 Info"),
                 GetPathForSceneName("Dungeon 2 Q1 Info"),
                 GetPathForSceneName("Dungeon 3 Q1 Info"),
@@ -47,7 +48,12 @@ class ZeldaEditorMenu
     [MenuItem(M0 + "Common %#HOME")]
     static void OpenScene_Common()
     {
-        SaveAndOpenScene(GetPathForSceneName(Locations.COMMON_SCENE_NAME));
+        SaveAndOpenScene(GetPathForSceneName(ZeldaSceneManager.COMMON_SCENE_NAME));
+    }
+    [MenuItem(M0 + "ZeldaPlayer")]
+    static void OpenScene_ZeldaPlayer()
+    {
+        SaveAndOpenScene(GetPathForSceneName(ZeldaSceneManager.ZELDA_PLAYER_SCENE_NAME));
     }
     [MenuItem(M0 + "Title Screen %#END")]
     static void OpenScene_TitleScreen()
@@ -57,13 +63,13 @@ class ZeldaEditorMenu
     [MenuItem(M0 + "Special %#PGDN")]
     static void OpenScene_Special()
     {
-        SaveAndOpenScene(GetPathForSceneName(Locations.SPECIAL_SCENE_NAME));
+        SaveAndOpenScene(GetPathForSceneName(ZeldaSceneManager.SPECIAL_SCENE_NAME));
     }
 
     [MenuItem(M0 + "Overworld %#PGUP")]
     static void OpenScene_Overworld()
     {
-        SaveAndOpenScene(GetPathForSceneName(Locations.OVERWORLD_SCENE_NAME));
+        SaveAndOpenScene(GetPathForSceneName(ZeldaSceneManager.OVERWORLD_SCENE_NAME));
     }
     [MenuItem(M0 + "Overworld Info %&PGUP")]
     static void OpenScene_OverworldInfo()
@@ -187,11 +193,12 @@ class ZeldaEditorMenu
     static void BuildOverworld()
     {
         string[] scenes = new string[] {
-            GetPathForSceneName(Locations.COMMON_SCENE_NAME),
+            GetPathForSceneName(ZeldaSceneManager.COMMON_SCENE_NAME),
+            GetPathForSceneName(ZeldaSceneManager.ZELDA_PLAYER_SCENE_NAME),
             GetPathForSceneName("Overworld Info"),
-            GetPathForSceneName(Locations.EMPTY_SCENE_NAME),
-            GetPathForSceneName(Locations.TITLE_SCREEN_SCENE_NAME),
-            GetPathForSceneName(Locations.OVERWORLD_SCENE_NAME)
+            GetPathForSceneName(ZeldaSceneManager.EMPTY_SCENE_NAME),
+            GetPathForSceneName(ZeldaSceneManager.TITLE_SCREEN_SCENE_NAME),
+            GetPathForSceneName(ZeldaSceneManager.OVERWORLD_SCENE_NAME)
         };
 
         PerformBuild(scenes);
@@ -247,12 +254,13 @@ class ZeldaEditorMenu
     static void BuildSingleDungeon(int dungeonNum)
     {
         string[] scenes = new string[] {
-            GetPathForSceneName(Locations.COMMON_SCENE_NAME),
+            GetPathForSceneName(ZeldaSceneManager.COMMON_SCENE_NAME),
+            GetPathForSceneName(ZeldaSceneManager.ZELDA_PLAYER_SCENE_NAME),
             GetPathForSceneName("Overworld Info"),
             GetPathForSceneName("Dungeon " + dungeonNum + " Q1"),
-            GetPathForSceneName(Locations.EMPTY_SCENE_NAME),
-            GetPathForSceneName(Locations.TITLE_SCREEN_SCENE_NAME),
-            GetPathForSceneName(Locations.OVERWORLD_SCENE_NAME),
+            GetPathForSceneName(ZeldaSceneManager.EMPTY_SCENE_NAME),
+            GetPathForSceneName(ZeldaSceneManager.TITLE_SCREEN_SCENE_NAME),
+            GetPathForSceneName(ZeldaSceneManager.OVERWORLD_SCENE_NAME),
             GetPathForSceneName("Dungeon " + dungeonNum + " Q1 Info")
         };
 

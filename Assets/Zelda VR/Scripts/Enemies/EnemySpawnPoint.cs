@@ -50,7 +50,7 @@ public class EnemySpawnPoint : MonoBehaviour
         _proximityThresholdMaxSq = _proximityThresholdMax * _proximityThresholdMax;
 
 
-        _enemiesContainer = GameObject.Find("Enemies").transform;
+        _enemiesContainer = CommonObjects.EnemiesContainer;
 
         // The SpawnPoint's SpriteRenderer exists only for convenience in the Editor, so we Destroy it here
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
@@ -65,7 +65,7 @@ public class EnemySpawnPoint : MonoBehaviour
     }
 
 
-    void Update()
+    /*void Update()
     {
         if (_spawnedEnemy != null)
         {
@@ -74,7 +74,7 @@ public class EnemySpawnPoint : MonoBehaviour
             Enemy e = _spawnedEnemy.GetComponent<Enemy>();
             AssignBoundaryToSpawnedEnemy(e);
         }
-    }
+    }*/
 
     public void DoUpdate(bool ignoreProxThreshMin = false)
     {
@@ -129,7 +129,16 @@ public class EnemySpawnPoint : MonoBehaviour
         EnemyAI ai = enemy.GetComponent<EnemyAI>();
         if (ai == null) { return; }
 
-        if (WorldInfo.Instance.IsInDungeon)
+        if (WorldInfo.Instance.IsOverworld)
+        {
+            TileMap tileMap = CommonObjects.OverworldTileMap;
+            if (tileMap != null)
+            {
+                enemy.Sector = tileMap.GetSectorContainingPosition(transform.position);
+                ai.Boundary = tileMap.GetBoundsForSector(enemy.Sector);
+            }
+        }
+        else if (WorldInfo.Instance.IsInDungeon)
         {
             /*if(enemy.name == "Wizzrobe_Blue")     // TODO
             {
@@ -137,12 +146,6 @@ public class EnemySpawnPoint : MonoBehaviour
             }*/
             DungeonRoom dr = DungeonRoom.GetRoomForPosition(transform.position);
             ai.Boundary = dr.Bounds;
-        }
-        else
-        {
-            TileMap tileMap = CommonObjects.OverworldTileMap;
-            enemy.Sector = tileMap.GetSectorContainingPosition(transform.position);
-            ai.Boundary = tileMap.GetBoundsForSector(enemy.Sector);
         }
     }
     void AssignSpecialDropItemToSpawnedEnemy(Enemy enemy)

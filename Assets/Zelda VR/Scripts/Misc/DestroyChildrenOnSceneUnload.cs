@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DestroyChildrenOnLevelLoad : MonoBehaviour
+public class DestroyChildrenOnSceneUnload : MonoBehaviour
 {
     void Awake()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    void OnSceneUnloaded(Scene scene)
     {
-        //print(" OnSceneLoaded: " + scene);
+        //print(" OnSceneUnloaded: " + scene);
 
         foreach (Transform child in transform)
         {
