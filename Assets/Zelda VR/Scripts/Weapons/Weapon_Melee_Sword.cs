@@ -138,6 +138,8 @@ public class Weapon_Melee_Sword : Weapon_Melee
         }
 
         _swordGun.Attack(AttackDirection);
+
+        ZeldaHaptics.Instance.Rumble_Right();
     }
 
     void Retract()

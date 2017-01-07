@@ -56,6 +56,8 @@ public class PlayerHealthDelegate : MonoBehaviour
 
             PlayHurtSound();
 
+            ZeldaHaptics.Instance.Rumble_Both();
+
             Enemy.EnemiesKilledWithoutTakingDamage = 0;
         }
 

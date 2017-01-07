@@ -24,6 +24,12 @@ public class EnemyHealthDelegate : MonoBehaviour
 
     void DamageTaken(HealthController healthController, ref uint damageAmount, GameObject damageDealer)
     {
+        Weapon_Melee_Sword sword = damageDealer.GetComponent<Weapon_Melee_Sword>();
+        bool wasHitBySword = (sword != null);
+
+        bool wasHitBySilverArrow = damageDealer.name.Contains("SilverArrow_Projectile");
+
+
         EnemyAI_Zol zol = GetComponent<EnemyAI_Zol>();
         if (zol != null)
         {
@@ -62,13 +68,14 @@ public class EnemyHealthDelegate : MonoBehaviour
         EnemyAI_Gannon gannon = GetComponent<EnemyAI_Gannon>();
         if (gannon != null)
         {
-            Weapon_Melee_Sword sword = damageDealer.GetComponent<Weapon_Melee_Sword>();
-            if (sword != null)
+            if (wasHitBySword)
             {
+                ZeldaHaptics.Instance.Rumble_Right();
                 SendMessage("OnHitWithSword", sword, SendMessageOptions.RequireReceiver);
             }
-            else if (damageDealer.name.Contains("SilverArrow_Projectile"))
+            else if (wasHitBySilverArrow)
             {
+                ZeldaHaptics.Instance.Rumble_Left();
                 SendMessage("OnHitWithSilverArrow", SendMessageOptions.RequireReceiver);
             }
 
@@ -88,6 +95,11 @@ public class EnemyHealthDelegate : MonoBehaviour
                     Vector3 force = direction * PUSH_BACK_POWER;
                     GetComponent<Enemy>().Push(force);
                 }
+            }
+
+            if (wasHitBySword)
+            {
+                ZeldaHaptics.Instance.Rumble_Right();
             }
         }
     }

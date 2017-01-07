@@ -26,19 +26,26 @@ NEEDS TESTING:
 
 BUGS:
 
+* BUG: Sword sometimes appears below you and doesn't track with Controller
+* BUG: PauseMenu text is "whited out"
+* BUG: HUD Hearts are skewed
+* BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?  OR use Oculus's rendering SDK).
+* BUG: Can briefly see through OW ground when loading
 * BUG: Paralyze breaks Leevers and RiverZora.
 * BUG: Enemies can push Link off the ground
 * BUG: "Dynamic batching: index buffer source is NULL..." errors.  Need a permanent fix (waiting on Unity update).
 
-- BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?  OR use Oculus's rendering SDK).
 - BUG: If you buy Red potion (instead of HeartContainer in special grotto) you can obtain the letter simply by using the red and blue potions.
 - BUG: I saw Enemy Projectiles being shot through blocks (I saw an arrow and a sword near D6 OW Entrance)
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
 - BUG: A Ghini somehow survived the death of its master (possibly spawned right as master died?)
-- BUG: Unity crashed unexpectedly shortly after returning to OW after completing Dungeon 1x
+- BUG: Unity crashed unexpectedly shortly after returning to OW after completing Dungeon 1
 
 
 High Priority: 
+
+* VR Composite Layers
+* Oculus Touch:  Secondary Weapons
 
 * Gannon: Intro (needs testing)
 	- Link holds up Triforce
@@ -54,8 +61,6 @@ High Priority:
 * OW Fog is too weak (GlobalFog settings)
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
-
-- Oculus Touch:  Secondary Weapons
 
 
 Mid Priority:
