@@ -70,8 +70,7 @@ public class EnemyAI_Statue : EnemyAI
 
         if (!FIRES_AT_PLAYER)
         {
-            Vector3 roomCenter = _enemy.DungeonRoomRef.Center;
-            Vector3 toCenter = roomCenter - transform.position;
+            Vector3 toCenter = RoomCenter - transform.position;
             toCenter.y = 0;
 
             dir = toCenter.normalized;

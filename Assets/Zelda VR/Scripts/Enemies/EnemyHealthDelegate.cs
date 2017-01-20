@@ -70,12 +70,12 @@ public class EnemyHealthDelegate : MonoBehaviour
         {
             if (wasHitBySword)
             {
-                ZeldaHaptics.Instance.Rumble_Right();
+                ZeldaHaptics.Instance.RumbleSimple_Right();
                 SendMessage("OnHitWithSword", sword, SendMessageOptions.RequireReceiver);
             }
             else if (wasHitBySilverArrow)
             {
-                ZeldaHaptics.Instance.Rumble_Left();
+                ZeldaHaptics.Instance.RumbleSimple_Left();
                 SendMessage("OnHitWithSilverArrow", SendMessageOptions.RequireReceiver);
             }
 
@@ -99,7 +99,7 @@ public class EnemyHealthDelegate : MonoBehaviour
 
             if (wasHitBySword)
             {
-                ZeldaHaptics.Instance.Rumble_Right();
+                ZeldaHaptics.Instance.RumbleSimple_Right();
             }
         }
     }

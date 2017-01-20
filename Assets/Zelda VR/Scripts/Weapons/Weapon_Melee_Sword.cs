@@ -35,10 +35,10 @@ public class Weapon_Melee_Sword : Weapon_Melee
     }
     void SetCollidesWithEnvironment(bool value)
     {
-        int swordLayer = LayerMask.NameToLayer("Sword");
-        int blocksLayer = LayerMask.NameToLayer("Blocks");
-        int wallLayer = LayerMask.NameToLayer("Walls");
-        int groundLayer = LayerMask.NameToLayer("Ground");
+        int swordLayer = LayerMask.NameToLayer(ZeldaLayers.SWORD);
+        int blocksLayer = LayerMask.NameToLayer(ZeldaLayers.BLOCKS);
+        int wallLayer = LayerMask.NameToLayer(ZeldaLayers.WALLS);
+        int groundLayer = LayerMask.NameToLayer(ZeldaLayers.GROUND);
 
         Physics.IgnoreLayerCollision(swordLayer, blocksLayer, !value);
         Physics.IgnoreLayerCollision(swordLayer, wallLayer, !value);
@@ -139,7 +139,7 @@ public class Weapon_Melee_Sword : Weapon_Melee
 
         _swordGun.Attack(AttackDirection);
 
-        ZeldaHaptics.Instance.Rumble_Right();
+        ZeldaHaptics.Instance.RumbleSimple_Right();
     }
 
     void Retract()

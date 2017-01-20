@@ -33,7 +33,8 @@ public class EnemyAI_WallMaster : EnemyAI
         CrawlingDownWall,
         OnFloor,
         CrawlingUpWall,
-        ExitingThroughWall
+        ExitingThroughWall,
+        Idle
     }
     State _state;
 
@@ -42,6 +43,12 @@ public class EnemyAI_WallMaster : EnemyAI
 
     void Start()
     {
+        if (wall == null)
+        {
+            _state = State.Idle;
+            return;
+        }
+
         AssignToWall(wallDir);
 
         _enemyMove.Mode = EnemyMove.MovementMode.Destination;

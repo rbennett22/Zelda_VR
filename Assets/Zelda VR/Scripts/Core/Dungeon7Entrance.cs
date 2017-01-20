@@ -14,7 +14,7 @@ public class Dungeon7Entrance : MonoBehaviour
 
     void Start()
     {
-        _waterBlocks = GameObject.FindGameObjectsWithTag("Dungeon7LakeBlock");
+        _waterBlocks = GameObject.FindGameObjectsWithTag(ZeldaTags.DUNGEON_7_LAKE_BLOCK);
 
         LakeIsFull = false;
         FillLake();

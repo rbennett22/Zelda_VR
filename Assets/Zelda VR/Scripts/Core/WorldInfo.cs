@@ -26,7 +26,7 @@ public class WorldInfo : Singleton<WorldInfo>
 
     public static IWorld TryGetWorld()
     {
-        GameObject g = GameObject.FindGameObjectWithTag("World");
+        GameObject g = GameObject.FindGameObjectWithTag(ZeldaTags.WORLD);
         IWorld world = (g == null) ? null : g.GetComponent<IWorld>();
         return world;
     }

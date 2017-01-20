@@ -117,13 +117,13 @@ public class Collectible : MonoBehaviour
         foreach (var clip in sounds)
         {
             sfx.PlayOneShot(clip);
+            ZeldaHaptics.Instance.Rumble_Both(clip);
         }
     }
 
     IEnumerator RiseAboveLink()
     {
         CommonObjects.Player_C.ActivateParalyze(RISE_ABOVE_LINK_DURATION);
-
         PlayRisingTween();
 
         yield return new WaitForSeconds(RISE_ABOVE_LINK_DURATION);

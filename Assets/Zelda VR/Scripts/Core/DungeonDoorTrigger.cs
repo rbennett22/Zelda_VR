@@ -70,7 +70,7 @@ public class DungeonDoorTrigger : MonoBehaviour
         }
 
         int playerLayer = CommonObjects.Player_G.layer;
-        int wallLayer = LayerMask.NameToLayer("Walls");
+        int wallLayer = LayerMask.NameToLayer(ZeldaLayers.WALLS);
 
         Physics.IgnoreLayerCollision(playerLayer, wallLayer, !enabled);
     }

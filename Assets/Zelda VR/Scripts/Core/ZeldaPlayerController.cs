@@ -33,7 +33,8 @@ public class ZeldaPlayerController : OVRPlayerController
     Transform _weaponContainerRight;
     public Transform WeaponContainerRight {
         get {
-            if (ZeldaInput.AreAnyTouchControllersActive())
+            // TODO
+            if (ZeldaInput.AreAnyTouchControllersActive())      
             {
                 return _avatar.WeaponContainerRight;
             }

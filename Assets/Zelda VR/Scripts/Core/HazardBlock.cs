@@ -72,7 +72,7 @@ public class HazardBlock : MonoBehaviour
 
         // Cast to opposite tile.  If there are no Blocks or InvisibleBlocks
         //  (ie. other HazardBlocks), then player can cross
-        LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "InvisibleBlocks");
+        LayerMask mask = Extensions.GetLayerMaskIncludingLayers(ZeldaLayers.BLOCKS, ZeldaLayers.INVISIBLE_BLOCKS);
         RaycastHit[] hits = Physics.RaycastAll(pos, toPlayer, MAX_RAY_DIST, mask);
         if (hits.Length > 0)
         {

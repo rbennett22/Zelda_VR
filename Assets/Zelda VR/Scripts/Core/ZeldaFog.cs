@@ -15,7 +15,7 @@ public class ZeldaFog : Singleton<ZeldaFog>
     float _fogDensity_Normal;
 
     Light _sunlight;
-    public Light Sunlight { get { return _sunlight ?? (_sunlight = GameObject.FindGameObjectWithTag("Sunlight").GetComponent<Light>()); } }
+    public Light Sunlight { get { return _sunlight ?? (_sunlight = GameObject.FindGameObjectWithTag(ZeldaTags.SUNLIGHT).GetComponent<Light>()); } }
     float _sunlightIntensityNormal;
     
 

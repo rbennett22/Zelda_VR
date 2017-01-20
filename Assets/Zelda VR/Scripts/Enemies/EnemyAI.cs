@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public const string PLAYER_LAYER_NAME = "Link";     // TODO
-
-
     protected const float MAX_DISTANCE_PLAYER_CAN_BE_SEEN = 16.0f;
     protected const float DEFAULT_OBSTRUCTION_FEELER_LENGTH = 1.45f;
     protected const float EPSILON = 0.001f;
@@ -97,6 +94,16 @@ public class EnemyAI : MonoBehaviour
     }
 
 
+    protected Vector3 RoomCenter
+    {
+        get
+        {
+            DungeonRoom room = _enemy.DungeonRoomRef;
+            return room ? room.Center : transform.position;
+        }
+    }
+
+
     virtual protected void Awake()
     {
         _enemy = GetComponent<Enemy>();
@@ -154,7 +161,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        LayerMask mask = Extensions.GetLayerMaskIncludingLayers(PLAYER_LAYER_NAME, "Walls", "Blocks");
+        LayerMask mask = Extensions.GetLayerMaskIncludingLayers(ZeldaLayers.LINK, ZeldaLayers.WALLS, ZeldaLayers.BLOCKS);
         RaycastHit hitInfo;
         bool didHit = Physics.Raycast(transform.position, direction, out hitInfo, maxDistance, mask);
         
@@ -174,6 +181,11 @@ public class EnemyAI : MonoBehaviour
     }
     protected bool CanOccupyTile_Overworld(Index2 tile)
     {
+        if (!WorldInfo.Instance.IsOverworld)
+        {
+            return true;
+        }
+
         int tileCode = CommonObjects.OverworldTileMap.TryGetTile(tile);
         bool canOccupy = TileMapData.IsTileCodeValid(tileCode) && TileInfo.IsTilePassable(tileCode);
 
@@ -218,7 +230,7 @@ public class EnemyAI : MonoBehaviour
     {
         Vector3 dir = (to - from).normalized;
         Ray ray = new Ray(from, dir);
-        LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls", "InvisibleBlocks"/*, "Enemies"*/);   // TODO: Lanmola movement breaks if "Enemies" layer is included here
+        LayerMask mask = Extensions.GetLayerMaskIncludingLayers(ZeldaLayers.BLOCKS, ZeldaLayers.INVISIBLE_BLOCKS, ZeldaLayers.WALLS/*, ZeldaLayers.ENEMIES*/);   // TODO: Lanmola movement breaks if ENEMIES layer is included here
         return ! Physics.SphereCast(ray, Radius * 0.99f, dir.magnitude, mask, QueryTriggerInteraction.UseGlobal);
     }
 

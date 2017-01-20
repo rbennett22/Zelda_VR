@@ -129,9 +129,9 @@ public class Cheats : Singleton<Cheats>
         GhostModeIsEnabled = enable;
 
         int playerLayer = CommonObjects.Player_G.layer;
-        int wallLayer = LayerMask.NameToLayer("Walls");
-        int blocksLayer = LayerMask.NameToLayer("Blocks");
-        int invisibleBlocksLayer = LayerMask.NameToLayer("InvisibleBlocks");
+        int wallLayer = LayerMask.NameToLayer(ZeldaLayers.WALLS);
+        int blocksLayer = LayerMask.NameToLayer(ZeldaLayers.BLOCKS);
+        int invisibleBlocksLayer = LayerMask.NameToLayer(ZeldaLayers.INVISIBLE_BLOCKS);
 
         Physics.IgnoreLayerCollision(playerLayer, wallLayer, GhostModeIsEnabled);
         Physics.IgnoreLayerCollision(playerLayer, blocksLayer, GhostModeIsEnabled);

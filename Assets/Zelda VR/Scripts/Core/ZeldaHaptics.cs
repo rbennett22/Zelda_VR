@@ -3,6 +3,9 @@ using Immersio.Utility;
 
 public class ZeldaHaptics : Singleton<ZeldaHaptics>
 {
+    [SerializeField, Range(0, 10)]
+    int _audioClipAmpMultiplier = 1;
+
     [SerializeField, Range (0, 1)]
     float _rumbleStrength = 1;
     public float RumbleStrength {
@@ -10,7 +13,7 @@ public class ZeldaHaptics : Singleton<ZeldaHaptics>
         set
         {
             _rumbleStrength = Mathf.Clamp01(value);
-            InitRumbleClip();
+            _rumbleSimpleClip = null; // This essentially marks clip as "dirty" so it will be recreated lazily.
         }
     }
 
@@ -18,16 +21,12 @@ public class ZeldaHaptics : Singleton<ZeldaHaptics>
     const int SAMPLES_COUNT = 64;
     byte[] _samples = new byte[SAMPLES_COUNT];
 
-    OVRHapticsClip _rumbleClip;
-
-
-    ZeldaHaptics()
+    OVRHapticsClip _rumbleSimpleClip;
+    public OVRHapticsClip RumbleSimpleClip { get { return _rumbleSimpleClip ?? (_rumbleSimpleClip = CreateRumbleClip()); } }
+    OVRHapticsClip CreateRumbleClip()
     {
-        InitRumbleClip();
-    }
+        OVRHapticsClip clip = null;
 
-    void InitRumbleClip()
-    {
         for (int i = 0; i < SAMPLES_COUNT; i++)
         {
             float t = 1;
@@ -37,28 +36,58 @@ public class ZeldaHaptics : Singleton<ZeldaHaptics>
             _samples[i] = (byte)(255 * t);
         }
 
-        _rumbleClip = new OVRHapticsClip(_samples, SAMPLES_COUNT);
+        if (ZeldaInput.AreAnyTouchControllersActive())
+        {
+            clip = new OVRHapticsClip(_samples, SAMPLES_COUNT);
+        }
+
+        return clip;
+    }
+    
+
+    public void RumbleSimple_Both()
+    {
+        RumbleSimple_Left();
+        RumbleSimple_Right();
+    }
+    public void RumbleSimple_Left()
+    {
+        RumbleSimple(OVRHaptics.LeftChannel);
+    }
+    public void RumbleSimple_Right()
+    {
+        RumbleSimple(OVRHaptics.RightChannel);
+    }
+
+    public void Rumble_Both(AudioClip audioClip)
+    {
+        Rumble_Left(audioClip);
+        Rumble_Right(audioClip);
+    }
+    public void Rumble_Left(AudioClip audioClip)
+    {
+        Rumble(OVRHaptics.LeftChannel, audioClip);
+    }
+    public void Rumble_Right(AudioClip audioClip)
+    {
+        Rumble(OVRHaptics.RightChannel, audioClip);
     }
 
 
-    public void Rumble_Both()
+    void RumbleSimple(OVRHaptics.OVRHapticsChannel channel)
     {
-        Rumble_Left();
-        Rumble_Right();
+        if (RumbleSimpleClip != null)
+        {
+            channel.Mix(RumbleSimpleClip);
+        }
     }
-    public void Rumble_Left()
+    void Rumble(OVRHaptics.OVRHapticsChannel channel, AudioClip audioClip)
     {
-        Rumble(OVRHaptics.Channels[0]);
-    }
-    public void Rumble_Right()
-    {
-        Rumble(OVRHaptics.Channels[1]);
-    }
-
-
-    void Rumble(OVRHaptics.OVRHapticsChannel channel)
-    {
-        channel.Mix(_rumbleClip);
+        OVRHapticsClip clip = new OVRHapticsClip(audioClip);
+        for (int i = 0; i < _audioClipAmpMultiplier; i++)
+        {
+            channel.Mix(clip);
+        }
     }
 
 

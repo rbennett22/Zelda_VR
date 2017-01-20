@@ -76,7 +76,7 @@ public class Player : Actor
 
         _sword = g.GetComponent<Weapon_Melee_Sword>();
 
-        SwordProjectilesEnabled = HealthController.IsAtFullHealth;
+        SwordProjectilesEnabled = IsAtFullHealth;
         SwordControlStyle = Weapon_Base.ControlStyleEnum.VR;        // TODO
         _sword.CollisionIsAllowedWhenRetracted = true;              // TODO
     }
@@ -636,8 +636,8 @@ public class Player : Actor
             _playerGroundCollisionEnabled = value;
 
             int playerLayer = CommonObjects.Player_G.layer;
-            int groundLayer = LayerMask.NameToLayer("Ground");
-            int blocksLayer = LayerMask.NameToLayer("Blocks");
+            int groundLayer = LayerMask.NameToLayer(ZeldaLayers.GROUND);
+            int blocksLayer = LayerMask.NameToLayer(ZeldaLayers.BLOCKS);
 
             Physics.IgnoreLayerCollision(playerLayer, groundLayer, !_playerGroundCollisionEnabled);
             Physics.IgnoreLayerCollision(playerLayer, blocksLayer, !_playerGroundCollisionEnabled);

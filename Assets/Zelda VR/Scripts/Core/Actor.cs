@@ -120,11 +120,11 @@ public class Actor : MonoBehaviour
 
     /*public static GameObject GetContainerForActorType<T>() where T : Actor
     {
-        GameObject container = GameObject.FindGameObjectWithTag("Enemies");
+        GameObject container = GameObject.FindGameObjectWithTag(ZeldaTags.ENEMIES);
 
         if (typeof(T) == typeof(Enemy))     // TODO: This line needs Testing
         {
-            container = GameObject.FindGameObjectWithTag("Enemies");
+            container = GameObject.FindGameObjectWithTag(ZeldaTags.ENEMIES);
         }
 
         return container;

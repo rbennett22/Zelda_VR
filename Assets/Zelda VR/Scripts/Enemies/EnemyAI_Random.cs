@@ -269,7 +269,7 @@ public class EnemyAI_Random : EnemyAI
         if (flying)
         {
             Vector3 dir = to - from;
-            LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks", "Walls", "Stairs");
+            LayerMask mask = Extensions.GetLayerMaskIncludingLayers(ZeldaLayers.BLOCKS, ZeldaLayers.WALLS, ZeldaLayers.STAIRS);
             return !Physics.Raycast(from, dir.normalized, dir.magnitude, mask);
         }
 

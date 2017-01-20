@@ -29,7 +29,7 @@ BUGS:
 * BUG: Sword sometimes appears below you and doesn't track with Controller
 * BUG: PauseMenu text is "whited out"
 * BUG: HUD Hearts are skewed
-* BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?  OR use Oculus's rendering SDK).
+* BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?  OR use VR Composite Layers?).
 * BUG: Can briefly see through OW ground when loading
 * BUG: Paralyze breaks Leevers and RiverZora.
 * BUG: Enemies can push Link off the ground
@@ -44,8 +44,14 @@ BUGS:
 
 High Priority: 
 
-* VR Composite Layers
 * Oculus Touch:  Secondary Weapons
+* Oculus Touch:  Wrist Menu
+* Sword:  Adjust offset of other swords (besides wooden) and make sure they still work with XBOX Gamepad (in "Classic" Sword mode)
+* Sword:  In VR mode, Jinx should make sword deal no damage
+
+- OVRAvatar:  Hide controller shadows
+
+* VR Composite Layers
 
 * Gannon: Intro (needs testing)
 	- Link holds up Triforce

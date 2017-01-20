@@ -68,12 +68,12 @@ public class CommonObjects : Singleton<CommonObjects>
 
     public static bool IsPlayer(GameObject g)
     {
-        if (g.tag == "Player")
+        if (g.CompareTag("Player"))
         {
             return true;
         }
         Transform p = g.transform.parent;
-        return (p != null) && (p.tag == "Player");
+        return (p != null) && (p.CompareTag("Player"));
     }
 
     public Material GetEnemyStatueMaterialForDungeon(int dungeonNum)
@@ -94,7 +94,7 @@ public class CommonObjects : Singleton<CommonObjects>
     {
         get
         {
-            GameObject g = GameObject.FindGameObjectWithTag("DungeonFactory");
+            GameObject g = GameObject.FindGameObjectWithTag(ZeldaTags.DUNGEON_FACTORY);
             if (g == null) { return null; }
             return g.GetComponent<DungeonFactory>();
         }

@@ -2,7 +2,7 @@
 
 RECENTLY DONE:
 
-- OVRHaptics:  Touch Controllers now rumble when appropriate
+- OVRHaptics:  Controllers rumble when collecting an item
 
 
 DONE:
@@ -10,6 +10,7 @@ DONE:
 - Oculus Avatar:  Hands/Controllers are now visible and locked to Player  
 - Oculus Touch:  Options Menu can now be opened with LController's X Button.  
 - Oculus Touch:  LController's Vertical Axis now maps correctly (direction was reversed) 
+- OVRHaptics:  Touch Controllers now rumble when appropriate
 
 - CV1: Confirmed to work with Oculus Consumer Version 1.
 - Disabled Dynamic Batching: As a temporary workaround for the "Dynamic batching: index buffer source is NULL" errors.

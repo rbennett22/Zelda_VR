@@ -59,7 +59,7 @@ public class BombExplosion : MonoBehaviour
                 Bomb(b);
             }
 
-            if (g.layer == LayerMask.NameToLayer("Walls"))      // TODO
+            if (g.layer == LayerMask.NameToLayer(ZeldaLayers.WALLS))      // TODO
             {
                 BlastWall(g);
             }

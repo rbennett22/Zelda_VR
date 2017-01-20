@@ -15,7 +15,7 @@ public class CollectibleProliferator : MonoBehaviour, ISpawnManager
         {
             if (_owInfo == null)
             {
-                GameObject g = GameObject.FindGameObjectWithTag("OverworldInfo");
+                GameObject g = GameObject.FindGameObjectWithTag(ZeldaTags.OVERWORLD_INFO);
                 if (g != null)
                 {
                     _owInfo = g.GetComponent<OverworldInfo>();

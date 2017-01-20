@@ -328,7 +328,7 @@ public class DungeonFactory : Singleton<DungeonFactory>
             }
 
             // Scale blocks accordingly, and position so they touch ground
-            if (block.gameObject.layer != LayerMask.NameToLayer("InvisibleBlocks"))
+            if (block.gameObject.layer != LayerMask.NameToLayer(ZeldaLayers.INVISIBLE_BLOCKS))
             {
                 block.localScale = new Vector3(block.localScale.x, _shortBlockHeight, block.localScale.z);
                 block.SetLocalY(_shortBlockHeight * 0.5f);

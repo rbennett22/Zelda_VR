@@ -84,7 +84,7 @@ public class LostSector : MonoBehaviour
         _sectorHeight = s.SectorHeightInTiles;
 
         _playerTransform = CommonObjects.PlayerController_G.transform;
-        _enemiesContainer = GameObject.FindGameObjectWithTag("Enemies").transform;
+        _enemiesContainer = GameObject.FindGameObjectWithTag(ZeldaTags.ENEMIES).transform;
 
         CommonObjects.Player_C.OccupiedSectorChanged += PlayerEnteredNewSector;
     }

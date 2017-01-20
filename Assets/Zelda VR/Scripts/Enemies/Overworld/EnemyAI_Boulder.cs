@@ -32,7 +32,7 @@ public class EnemyAI_Boulder : EnemyAI
         rayOrigin.y += 100;
 
         Ray ray = new Ray(rayOrigin, Vector3.down);
-        LayerMask mask = Extensions.GetLayerMaskIncludingLayers("Blocks");
+        LayerMask mask = Extensions.GetLayerMaskIncludingLayers(ZeldaLayers.BLOCKS);
         hit = Physics.Raycast(ray, out hitInfo, 999, mask);
         if (hit)
         {

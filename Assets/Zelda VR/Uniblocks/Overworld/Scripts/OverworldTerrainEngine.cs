@@ -19,7 +19,7 @@ public class OverworldTerrainEngine : Engine
     }
 
 
-    public GameObject GroundPlane { get { return GameObject.FindGameObjectWithTag("GroundPlane"); } }
+    public GameObject GroundPlane { get { return GameObject.FindGameObjectWithTag(ZeldaTags.GROUND_PLANE); } }
     public bool GroundPlaneCollisionEnabled
     {
         get { return (GroundPlane == null) ? false : GroundPlane.GetComponent<Collider>().enabled; }

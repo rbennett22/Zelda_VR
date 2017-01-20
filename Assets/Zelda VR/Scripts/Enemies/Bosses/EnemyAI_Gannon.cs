@@ -60,10 +60,10 @@ public class EnemyAI_Gannon : EnemyAI
 
     void InitBounds()
     {
-        Vector3 center = _enemy.DungeonRoomRef.Center;
+        Vector3 c = RoomCenter;
         Boundary = new Rect(
-            center.x - BOUNDS_WIDTH * 0.5f,
-            center.z - BOUNDS_HEIGHT * 0.5f,
+            c.x - BOUNDS_WIDTH * 0.5f,
+            c.z - BOUNDS_HEIGHT * 0.5f,
             BOUNDS_WIDTH, BOUNDS_HEIGHT
             );
     }

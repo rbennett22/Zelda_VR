@@ -8,83 +8,107 @@ namespace Eyefluence.Utility
 {
     public class DebugOptionsUI : MonoBehaviour
     {
-        const string DefaultTextColor = "white";
-        const string BoolFalseTextColor = "#ff5050ff";
-        const string BoolTrueTextColor = "lime";
-        const string EnumTextColor = "cyan";
+        const string TEXT_COLOR_DEFAULT = "white";
+        const string TEXT_COLOR_BOOL_FALSE = "#ff5050ff";
+        const string TEXT_COLOR_BOOL_TRUE = "lime";
+        const string TEXT_COLOR_ENUM = "cyan";
 
 
-        public Text keyBindingsText, optionsText, valuesText;
+        [SerializeField]
+        Text _keyBindingsText, _optionsText, _valuesText;
+
+
+        StringBuilder _keysSB, _optionsSB, _valuesSB;
+
+
+        void Awake()
+        {
+            _keysSB = new StringBuilder("Key\n", 50);
+            _optionsSB = new StringBuilder("Option\n", 200);
+            _valuesSB = new StringBuilder("Value\n", 50);
+        }
 
 
         void Update()
         {
-            StringBuilder keysSB = new StringBuilder("Key\n", 50);
-            StringBuilder optionsSB = new StringBuilder("Option\n", 200);
-            StringBuilder valuesSB = new StringBuilder("Value\n", 50);
+            // TODO: Only Update UI when values change (Observer)
+
+            _keysSB.Remove(0, _keysSB.Length);
+            _optionsSB.Remove(0, _optionsSB.Length);
+            _valuesSB.Remove(0, _valuesSB.Length);
 
             foreach (DebugOption option in DebugOptions.Instance.Options)
             {
                 KeyCode keyCode = option.Key;
                 string keyStr = (keyCode == DebugOption.NullKeyCode) ? string.Empty : keyCode.ToString();
 
-                keysSB.Append("\n" + keyStr);
-                optionsSB.Append("\n" + option.Name);
-                valuesSB.Append("\n");
+                _keysSB.Append("\n" + keyStr);
+                _optionsSB.Append("\n" + option.Name);
+                _valuesSB.Append("\n");
                 if (!option.IsTrigger)
                 {
-                    valuesSB.Append(GetRichTextForValue(option.IsActivated));
+                    _valuesSB.Append(GetRichTextForValue(option.IsActivated));
                 }
             }
 
-            keyBindingsText.text = keysSB.ToString();
-            optionsText.text = optionsSB.ToString();
-            valuesText.text = valuesSB.ToString();
+            _keyBindingsText.text = _keysSB.ToString();
+            _optionsText.text = _optionsSB.ToString();
+            _valuesText.text = _valuesSB.ToString();
         }
 
 
         static string GetRichTextForValue(object obj, string format = null)
         {
-            string colorStr, objStr;
+            string objStr = GetValueStringForObject(obj, format);
+            string colorStr = GetColorStringForObject(obj);
 
-            // Determine text color
+            return "<color=" + colorStr + ">" + objStr + "</color>";
+        }
+        static string GetValueStringForObject(object obj, string format = null)
+        {
+            string s;
+
             if (obj is bool)
             {
-                colorStr = (bool)obj ? BoolTrueTextColor : BoolFalseTextColor;
+                s = (bool)obj ? "On" : "Off";
             }
-            else if (obj is Enum)
+            else if (obj is IFormattable)
             {
-                colorStr = EnumTextColor;
-            }
-            else
-            {
-                colorStr = DefaultTextColor;
-            }
-
-            // Determine object string value
-            if (obj is IFormattable)
-            {
-                objStr = ((IFormattable)obj).ToString(format, null);
+                s = ((IFormattable)obj).ToString(format, null);
             }
             else
             {
                 Type[] types = { typeof(string) };
                 if (HasMethod(obj, "ToString", types))
                 {
-                    objStr = (string)CallMethod(obj, "ToString", types, format);
+                    s = (string)CallMethod(obj, "ToString", types, format);
                 }
                 else
                 {
-                    objStr = obj.ToString();
+                    s = obj.ToString();
                 }
             }
+            
+            return s;
+        }
+        static string GetColorStringForObject(object obj)
+        {
+            string s = null;
 
             if (obj is bool)
             {
-                objStr = (bool)obj ? "On" : "Off";
+                s = (bool)obj ? TEXT_COLOR_BOOL_TRUE : TEXT_COLOR_BOOL_FALSE;
+            }
+            else if (obj is Enum)
+            {
+                s = TEXT_COLOR_ENUM;
+            }
+            else
+            {
+                s = TEXT_COLOR_DEFAULT;
             }
 
-            return "<color=" + colorStr + ">" + objStr + "</color>";
+            return s;
         }
 
         static bool HasMethod(object objectToCheck, string methodName, Type[] types)
