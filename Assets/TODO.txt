@@ -49,8 +49,6 @@ High Priority:
 * Sword:  Adjust offset of other swords (besides wooden) and make sure they still work with XBOX Gamepad (in "Classic" Sword mode)
 * Sword:  In VR mode, Jinx should make sword deal no damage
 
-- OVRAvatar:  Hide controller shadows
-
 * VR Composite Layers
 
 * Gannon: Intro (needs testing)
@@ -67,6 +65,8 @@ High Priority:
 * OW Fog is too weak (GlobalFog settings)
 * Lost Hills: There's no fog, so other sectors can appear abruptly in certain cases (especially when walking backwards)
 - Lost Hills: Armos don't seem to be getting destroyed correctly when reentering Lost Hills from top (after solving it)
+- Inventory UI:  Selecting Bow and Arrow looks wrong
+- OVRAvatar:  Hide controller shadows
 
 
 Mid Priority:

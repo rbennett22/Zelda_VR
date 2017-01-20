@@ -25,7 +25,7 @@ public class PauseManager : Singleton<PauseManager>
             return;
         IsPaused_Options = true;
 
-        _optionsViewController.ViewActive = true;
+        _optionsViewController.OptionsViewActive = true;
         RefreshTimeFreezeState();
 
         Music.Instance.Volume = PAUSED_MUSIC_VOLUME;
@@ -36,7 +36,7 @@ public class PauseManager : Singleton<PauseManager>
             return;
         IsPaused_Options = false;
 
-        _optionsViewController.ViewActive = false;
+        _optionsViewController.OptionsViewActive = false;
         RefreshTimeFreezeState();
 
         Music.Instance.Volume = NORMAL_MUSIC_VOLUME;

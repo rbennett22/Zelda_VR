@@ -32,7 +32,8 @@ public class InventoryView : MonoBehaviour
 
 
     [SerializeField]
-    OverlayView _bgOverlay;
+    GameObject _bgOverlay;
+    public bool BGOverlayIsActive { get { return _bgOverlay.activeSelf; } set { _bgOverlay.SetActive(value); } }
 
     [SerializeField]
     GameObject _overworldView, _dungeonView;
@@ -46,7 +47,7 @@ public class InventoryView : MonoBehaviour
                _itemA10, _itemA11, _itemA12, _itemA13,
                _aux0, _aux1, _aux2,                                         // Auxillary items
                _tri0, _tri1, _tri2, _tri3, _tri4, _tri5, _tri6, _tri7,      // Triforce pieces
-               _bowSlot;                                                        // Bow (special case since it can display bow and/or arrow icons)
+               _bowSlot;                                                    // Bow (special case since it can display bow and/or arrow icons)
 
     GameObject[] _passiveItemSlots;
     GameObject[,] _activeItemSlots;
@@ -69,8 +70,6 @@ public class InventoryView : MonoBehaviour
 
     void Awake()
     {
-        _bgOverlay.gameObject.SetActive(true);
-
         _passiveItemSlots = new GameObject[] { _itemP0, _itemP1, _itemP2, _itemP3, _itemP4, _itemP5 };
         _activeItemSlots = new GameObject[,] { { _itemA00, _itemA01, _itemA02, _itemA03 }, { _itemA10, _itemA11, _itemA12, _itemA13 } };
         _auxItemSlots = new GameObject[] { _aux0, _aux1, _aux2 };

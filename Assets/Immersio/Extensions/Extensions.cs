@@ -33,6 +33,19 @@ public static class Extensions
         t.localPosition = new Vector3(t.localPosition.x, t.localPosition.y, z);
     }
 
+    public static void SetAnchoredX(this Transform t, float x)
+    {
+        RectTransform r = t as RectTransform;
+        Vector3 p = r.anchoredPosition3D;
+        r.anchoredPosition3D = new Vector3(x, p.y, p.z);
+    }
+    public static void SetAnchoredY(this Transform t, float y)
+    {
+        RectTransform r = t as RectTransform;
+        Vector3 p = r.anchoredPosition3D;
+        r.anchoredPosition3D = new Vector3(p.x, y, p.z);
+    }
+
     public static void AddToX(this Transform t, float amount)
     {
         Vector3 p = t.position;

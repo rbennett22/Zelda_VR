@@ -4,8 +4,23 @@ using UnityEngine.SceneManagement;
 
 public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
 {
+    #region View
+
     [SerializeField]
+    GameObject _viewPrefab;
+
     GameplayHUDView _view;
+    public GameplayHUDView View { get { return _view ?? (_view = InstantiateView(_viewPrefab)); } }
+    GameplayHUDView InstantiateView(GameObject prefab)
+    {
+        Transform parent = CommonObjects.ActiveCanvas.GameplayHUDViewContainer;
+        GameObject g = ZeldaViewController.InstantiateView(prefab, parent);
+        GameplayHUDView v = g.GetComponent<GameplayHUDView>();
+        return v;
+    }
+
+    #endregion  // View
+
 
     Inventory _inventory;
 
@@ -44,13 +59,13 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     {
         IsViewShowing = true;
 
-        _view.gameObject.SetActive(true);
+        View.gameObject.SetActive(true);
     }
     public void HideView()
     {
         IsViewShowing = false;
 
-        _view.gameObject.SetActive(false);
+        View.gameObject.SetActive(false);
     }
 
 
@@ -67,15 +82,15 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
 
         if (WorldInfo.Instance.IsOverworld)
         {
-            _view.DisplayMode = GameplayHUDView.DisplayModeEnum.Overworld;
+            View.DisplayMode = GameplayHUDView.DisplayModeEnum.Overworld;
         }
         else if (WorldInfo.Instance.IsInDungeon)
         {
-            _view.DisplayMode = GameplayHUDView.DisplayModeEnum.Dungeon;
+            View.DisplayMode = GameplayHUDView.DisplayModeEnum.Dungeon;
 
             UpdateView_DungeonMap();
 
-            _view.UpdateLevelNumText(WorldInfo.Instance.DungeonNum);
+            View.UpdateLevelNumText(WorldInfo.Instance.DungeonNum);
         }
 
         UpdateViewPosition();
@@ -85,19 +100,19 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     {
         Item itemA = _inventory.EquippedItemA;
         Texture texture = (itemA == null) ? null : itemA.GuiSpriteTexture;
-        _view.UpdateTextureForEquippedItemSlotA(texture);
+        View.UpdateTextureForEquippedItemSlotA(texture);
 
         Item ItemB = _inventory.EquippedItemB;
         texture = (ItemB == null) ? null : ItemB.GuiSpriteTexture;
-        _view.UpdateTextureForEquippedItemSlotB(texture);
+        View.UpdateTextureForEquippedItemSlotB(texture);
     }
 
     void UpdateView_Hearts()
     {
         Item heartContainer = Inventory.Instance.GetItem("HeartContainer");
 
-        _view.UpdateHeartContainerCount(heartContainer.count);
-        _view.UpdateHeartContainersFillState(CommonObjects.Player_C.HealthInHalfHearts);
+        View.UpdateHeartContainerCount(heartContainer.count);
+        View.UpdateHeartContainersFillState(CommonObjects.Player_C.HealthInHalfHearts);
     }
 
     void UpdateView_ItemCounts()
@@ -106,28 +121,28 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
 
         // Rupees
         int numRupees = inv.RupeeCount;
-        _view.UpdateRupeesCountText(numRupees);
+        View.UpdateRupeesCountText(numRupees);
 
         // Keys
         if (inv.HasItem("MagicKey"))
         {
-            _view.UpdateKeysCountText_SetToInfinite();
+            View.UpdateKeysCountText_SetToInfinite();
         }
         else
         {
             int numKeys = inv.GetItem("Key").count;
-            _view.UpdateKeysCountText(numKeys);
+            View.UpdateKeysCountText(numKeys);
         }
 
         // Bombs
         int bombs = inv.GetItem("Bomb").count;
-        _view.UpdateBombsCountText(bombs);
+        View.UpdateBombsCountText(bombs);
     }
 
 
     void InitOverworldMap(int sectorsWide, int sectorsHigh)
     {
-        _view.InitOverworldMap(sectorsWide, sectorsHigh);
+        View.InitOverworldMap(sectorsWide, sectorsHigh);
 
         Player player = CommonObjects.Player_C;
         if (WorldInfo.Instance.IsOverworld)
@@ -135,7 +150,7 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
             Index2 playerOccupiedSector = player.GetOccupiedOverworldSector();
             if (playerOccupiedSector != null)
             {
-                _view.UpdateOverworldMap(playerOccupiedSector);
+                View.UpdateOverworldMap(playerOccupiedSector);
             }
         }
 
@@ -143,12 +158,12 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     }
     void PlayerOccupiedSectorChanged(Index2 prevSector, Index2 newSector)
     {
-        _view.UpdateOverworldMap(newSector);
+        View.UpdateOverworldMap(newSector);
     }
 
     void InitDungeonMap(int sectorsWide, int sectorsHigh)
     {
-        _view.InitDungeonMap(sectorsWide, sectorsHigh);
+        View.InitDungeonMap(sectorsWide, sectorsHigh);
     }
     void UpdateView_DungeonMap()
     {
@@ -156,35 +171,42 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
         bool hasMap = _inventory.HasMapForDungeon(dungeonNum);
         bool hasCompass = _inventory.HasCompassForDungeon(dungeonNum);
 
-        _view.ShouldDungeonMapRevealVisitedRooms = hasMap;
-        _view.ShouldDungeonMapRevealUnvisitedRooms = hasMap;
-        _view.ShouldDungeonMapRevealTriforceRoom = hasCompass;
-        _view.UpdateDungeonMap();
+        View.ShouldDungeonMapRevealVisitedRooms = hasMap;
+        View.ShouldDungeonMapRevealUnvisitedRooms = hasMap;
+        View.ShouldDungeonMapRevealTriforceRoom = hasCompass;
+        View.UpdateDungeonMap();
     }
 
-
-    const float Y_BASE_OFFSET = 400;
 
     [SerializeField]
     Transform _pausedTransform;
 
-    public int vertShiftSpeed = 1200;
+    //const float Y_BASE_OFFSET = 400;
+    //public int vertShiftSpeed = 600;
 
     void UpdateViewPosition()
     {
+        Transform t = View.transform;
+
         if (PauseManager.Instance.IsPaused_Inventory)
         {
-            _view.transform.position = _pausedTransform.position;
-            _view.transform.rotation = _pausedTransform.rotation;
+            Transform pausedT = CommonObjects.ActiveCanvas.GameplayHUDPausedTransform;
+            t.position = pausedT.position;
+            t.rotation = pausedT.rotation;
         }
         else
         {
+            /*
             // As player tilts head upwards, the gameplayHUD moves downwards
 
             Vector3 camForward = CommonObjects.PlayerController_C.LineOfSight;
             float dot = Vector3.Dot(camForward, Vector3.up);
             int y = Mathf.RoundToInt(Y_BASE_OFFSET - dot * vertShiftSpeed);
-            _view.transform.SetLocalY(y);
+            t.SetLocalY(y);*/
+
+
+            t.localPosition = Vector3.zero;
+            t.localRotation = Quaternion.identity;
         }
     }
 }

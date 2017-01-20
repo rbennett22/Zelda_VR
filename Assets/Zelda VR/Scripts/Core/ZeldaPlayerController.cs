@@ -13,6 +13,7 @@ public class ZeldaPlayerController : OVRPlayerController
 
     [SerializeField]
     ZVRAvatar _avatar;
+    public ZVRAvatar Avatar { get { return _avatar; } }
 
     [SerializeField]
     Transform _weaponContainerLeft;

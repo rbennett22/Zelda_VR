@@ -41,7 +41,7 @@ public class OptionsView : MonoBehaviour
     {
         _allButtons = new Button[] { _resumeBtn, _musicBtn, _controlsBtn, _quitBtn };
 
-        _bgOverlay.gameObject.SetActive(true);
+        _bgOverlay.gameObject.SetActive(false);
 
         _cursor.numColumns = 1;
         _cursor.numRows = _allButtons.Length;
@@ -103,6 +103,7 @@ public class OptionsView : MonoBehaviour
 
         // Reposition the cursor view
         _cursorView.transform.SetY(_selectedBtn.transform.position.y);
+        //_cursorView.transform.SetLocalY(_selectedBtn.transform.localPosition.y);
 
         // Notify our delegate
         if (onCursorIndexChanged_Callback != null)
@@ -142,7 +143,7 @@ public class OptionsView : MonoBehaviour
         dir.FlipVertically();
         if (_cursor.TryMoveCursor(dir))
         {
-            print("MoveCursor: " + dir);
+            //print("MoveCursor: " + dir);
             PlayCursorMoveSound();
         }
     }

@@ -3,84 +3,56 @@ using UnityEngine;
 
 public class OptionsViewController : Singleton<OptionsViewController>
 {
-    const string OPTIONS_VIEW_PREFAB_PATH = "Options View";
-
+    #region OptionsView
 
     [SerializeField]
-    OptionsView _view;
-    OptionsView View { get { return _view ?? (_view = InstantiateView(OPTIONS_VIEW_PREFAB_PATH, _canvasOffsetT)); } }
-    OptionsView InstantiateView(string prefabPath, Transform canvasOffsetT = null)
+    GameObject _optionsViewPrefab;
+
+    OptionsView _optionsView;
+    public OptionsView OptionsView { get { return _optionsView ?? (_optionsView = InstantiateOptionsView(_optionsViewPrefab)); } }
+    OptionsView InstantiateOptionsView(GameObject prefab)
     {
-        if (ViewCanvas == null)
-        {
-            Debug.LogWarning("ViewCanvas is null");
-            return null;
-        }
-
-        GameObject prefab = Resources.Load<GameObject>(prefabPath);
-        if (prefab == null)
-        {
-            Debug.LogWarning("Prefab not found in Resources: " + prefabPath);
-            return null;
-        }
-
-        GameObject g = Instantiate(prefab) as GameObject;
-        g.name = prefab.name;
-
-
-        Transform t = g.transform;
-        t.SetParent(ViewCanvas.transform);
-
-        if (canvasOffsetT != null)
-        {
-            t.localPosition = canvasOffsetT.localPosition;
-            t.localRotation = canvasOffsetT.localRotation;
-            t.localScale = canvasOffsetT.localScale;
-        }
-        else
-        {
-            t.localPosition = Vector3.zero;
-            t.localRotation = Quaternion.identity;
-            t.localScale = Vector3.one;
-        }
-
-
-        OptionsView view = g.GetComponent<OptionsView>();
-        AddButtonClickListeners(view);
-
-        return view;
+        Transform parent = CommonObjects.ActiveCanvas.OptionsViewContainer;
+        GameObject g = ZeldaViewController.InstantiateView(prefab, parent);
+        OptionsView v = g.GetComponent<OptionsView>();
+        AddButtonClickListeners(v);
+        return v;
     }
 
-    [SerializeField]
-    GameObject _controlsView;
+    #endregion  // OptionsView
+
+
+    #region ControlsView
 
     [SerializeField]
-    Transform _canvasOffsetT;       // Offset is only applied if view is instantiated at runtime
+    GameObject _controlsViewPrefab;
 
+    ControlsView _controlsView;
+    public ControlsView ControlsView { get { return _controlsView ?? (_controlsView = InstantiateControlsView(_controlsViewPrefab)); } }
+    ControlsView InstantiateControlsView(GameObject prefab)
+    {
+        Transform parent = CommonObjects.ActiveCanvas.ControlsViewContainer;
+        GameObject g = ZeldaViewController.InstantiateView(prefab, parent);
+        ControlsView v = g.GetComponent<ControlsView>();
+        return v;
+    }
 
-    Canvas ViewCanvas { get { return CommonObjects.Instance.headSpaceCanvas; } }
+    #endregion  // ControlsView
 
 
     override protected void Awake()
     {
         base.Awake();
 
-        if (_view != null)
-        {
-            AddButtonClickListeners(_view);
-        }
-
-        ControlsViewActive = false;
-        ViewActive = false;
+        OptionsViewActive = false;
     }
 
 
-    public bool IsViewShowing { get; private set; }
-    public bool ViewActive
+    public bool OptionsViewActive
     {
-        get { return View.gameObject.activeSelf; }
+        get { return OptionsView.gameObject.activeSelf; }
         set {
-            View.gameObject.SetActive(value);
+            OptionsView.gameObject.SetActive(value);
             if (value == false)
             {
                 ControlsViewActive = false;
@@ -90,8 +62,8 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
     bool ControlsViewActive
     {
-        get { return _controlsView.activeSelf; }
-        set { _controlsView.SetActive(value); }
+        get { return ControlsView.gameObject.activeSelf; }
+        set { ControlsView.gameObject.SetActive(value); }
     }
 
 
@@ -136,16 +108,16 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
     void Update()
     {
-        if (!ViewActive)
+        if (!OptionsViewActive)
         {
             return;
         }
 
         UpdateCursor();
 
-        if (GetSelectButtonDown())
+        if (GetButtonDown_Select())
         {
-            _view.ClickSelectedButton();
+            _optionsView.ClickSelectedButton();
         }
     }
 
@@ -158,11 +130,11 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
         float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
         IndexDirection2 dir = new IndexDirection2(0, moveVert);
-        _view.MoveCursor(dir);
+        _optionsView.MoveCursor(dir);
     }
 
 
-    bool GetSelectButtonDown()
+    bool GetButtonDown_Select()
     {
         return ZeldaInput.GetButtonDown(ZeldaInput.Button.Start)
             || ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack);

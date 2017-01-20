@@ -22,6 +22,7 @@ public class CommonObjects : Singleton<CommonObjects>
     public static Player Player_C { get { return Instance.player_C; } }
     public static ZeldaPlayerController PlayerController_C { get { return Instance.playerController_C; } }
 
+    public static ZVRAvatar PlayerAvatar { get { return PlayerController_C ? PlayerController_C.Avatar : null; } }
 
     public static Transform ProjectilesContainer { get { return Instance._projectilesContainer; } }
     public static Transform EnemiesContainer { get { return Instance._enemiesContainer; } }
@@ -59,11 +60,22 @@ public class CommonObjects : Singleton<CommonObjects>
     [SerializeField]
     Transform _projectilesContainer, _enemiesContainer;
 
-    public Canvas headSpaceCanvas;
 
     public GameObject enemyDeathAnimation;
     public Material[] enemyStatueMaterials;
     public GameObject invisibleBlockStatuePrefab;
+
+
+    #region Canvas
+    
+    [SerializeField]
+    ZeldaCanvas _headSpaceCanvas;
+    public static ZeldaCanvas HeadSpaceCanvas { get { return Instance._headSpaceCanvas; } }
+    public static ZeldaCanvas HandSpaceCanvas { get { return PlayerAvatar ? PlayerAvatar.MenuContainerLeft.GetComponent<ZeldaCanvas>() : null; } }
+
+    public static ZeldaCanvas ActiveCanvas { get { return HandSpaceCanvas; } }      // TODO
+
+    #endregion // Canvas
 
 
     public static bool IsPlayer(GameObject g)

@@ -1,13 +1,30 @@
 ﻿using Immersio.Utility;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 //[RequireComponent(typeof(InventoryView))]
 
 public class InventoryViewController : MonoBehaviour
 {
+    #region View
+
     [SerializeField]
+    GameObject _viewPrefab;
+
     InventoryView _view;
+    public InventoryView View { get { return _view ?? (_view = InstantiateView(_viewPrefab)); } }
+    InventoryView InstantiateView(GameObject prefab)
+    {
+        Transform parent = CommonObjects.ActiveCanvas.InventoryViewContainer;
+        GameObject g = ZeldaViewController.InstantiateView(prefab, parent);
+        InventoryView v = g.GetComponent<InventoryView>();
+        v.BGOverlayIsActive = false;    // TODO: Set this to true when not using Touch Controllers
+        return v;
+    }
+
+    #endregion  // View
+
 
     Inventory _inventory;
 
@@ -24,14 +41,14 @@ public class InventoryViewController : MonoBehaviour
         }
         IsViewShowing = true;
 
-        _view.gameObject.SetActive(true);
+        View.gameObject.SetActive(true);
         PlayInventoryToggleSound();
 
         Item itemB = _inventory.EquippedItemB;
         if (itemB != null)
         {
             InventoryViewItemMapping mapping = itemB.GetComponent<InventoryViewItemMapping>();
-            _view.CursorIndex = new Index2(mapping.Column, mapping.Row);
+            View.CursorIndex = new Index2(mapping.Column, mapping.Row);
         }
     }
     public void HideView()
@@ -42,18 +59,17 @@ public class InventoryViewController : MonoBehaviour
         }
         IsViewShowing = false;
 
-        _view.gameObject.SetActive(false);
+        View.gameObject.SetActive(false);
         PlayInventoryToggleSound();
     }
 
 
     void Awake()
     {
-        //_view = GetComponent<InventoryView>();
         _inventory = Inventory.Instance;
 
-        _view.gameObject.SetActive(false);
-        _view.onCursorIndexChanged_Callback = OnCursorIndexChanged;
+        View.gameObject.SetActive(false);
+        View.onCursorIndexChanged_Callback = OnCursorIndexChanged;
     }
 
     void Start()
@@ -64,7 +80,7 @@ public class InventoryViewController : MonoBehaviour
 
     void InitDungeonMap(int sectorsWide, int sectorsHigh)
     {
-        _view.InitDungeonMap(sectorsWide, sectorsHigh);
+        View.InitDungeonMap(sectorsWide, sectorsHigh);
     }
 
 
@@ -74,7 +90,6 @@ public class InventoryViewController : MonoBehaviour
         {
             return;
         }
-
         if (!IsViewShowing)
         {
             return;
@@ -88,15 +103,21 @@ public class InventoryViewController : MonoBehaviour
 
     void UpdateCursor()
     {
+        int numSelectableItems = GetSelectableItems().Count;
+        if (numSelectableItems == 0)
+        {
+            return;
+        }
+
         float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
         float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
         IndexDirection2 dir = new IndexDirection2(moveHorz, moveVert);
 
-        _view.MoveCursor(dir);
+        View.MoveCursor(dir);
     }
     void OnCursorIndexChanged(InventoryView sender)
     {
-        if (sender != _view)
+        if (sender != View)
         {
             return;
         }
@@ -111,13 +132,13 @@ public class InventoryViewController : MonoBehaviour
 
         if (WorldInfo.Instance.IsOverworld)
         {
-            _view.DisplayMode = InventoryView.DisplayModeEnum.Overworld;
+            View.DisplayMode = InventoryView.DisplayModeEnum.Overworld;
 
             UpdateView_TriforcePieces();
         }
         else if (WorldInfo.Instance.IsInDungeon)
         {
-            _view.DisplayMode = InventoryView.DisplayModeEnum.Dungeon;
+            View.DisplayMode = InventoryView.DisplayModeEnum.Dungeon;
 
             UpdateView_DungeonMapAndItems();
         }
@@ -125,7 +146,7 @@ public class InventoryViewController : MonoBehaviour
 
     void UpdateView_Items()
     {
-        _view.ClearAllItemSlots();
+        View.ClearAllItemSlots();
 
         foreach (Item item in _inventory.Items.Values)
         {
@@ -161,7 +182,7 @@ public class InventoryViewController : MonoBehaviour
             return;
         }
 
-        _view.SetTextureForMappedItem(texture, mapping, isEquippedItemB);
+        View.SetTextureForMappedItem(texture, mapping, isEquippedItemB);
     }
 
     void UpdateView_EquippedItemB()
@@ -182,7 +203,7 @@ public class InventoryViewController : MonoBehaviour
         {
             int dungeonNum = i + 1;
             bool showTriPiece = _inventory.HasTriforcePieceForDungeon(dungeonNum);
-            _view.SetTriforcePieceVisible(dungeonNum, showTriPiece);
+            View.SetTriforcePieceVisible(dungeonNum, showTriPiece);
         }
     }
 
@@ -207,15 +228,37 @@ public class InventoryViewController : MonoBehaviour
         }
 
         // Dungeon Map
-        _view.ShouldDungeonMapRevealVisitedRooms = true;
-        _view.ShouldDungeonMapRevealUnvisitedRooms = false;
-        _view.ShouldDungeonMapRevealTriforceRoom = false;
-        _view.UpdateDungeonMap();
+        View.ShouldDungeonMapRevealVisitedRooms = true;
+        View.ShouldDungeonMapRevealUnvisitedRooms = false;
+        View.ShouldDungeonMapRevealTriforceRoom = false;
+        View.UpdateDungeonMap();
     }
 
 
     void PlayInventoryToggleSound()
     {
         SoundFx.Instance.PlayOneShot(SoundFx.Instance.pause);
+    }
+
+
+    // Returns a list of Items that the MenuCursor is currently allowed to be over
+    List<Item> GetSelectableItems()
+    {
+        List<Item> selectableItems = new List<Item>();
+
+        foreach (Item item in _inventory.Items.Values)
+        {
+            if (!ShouldRenderItem(item)) { continue; }
+
+            InventoryViewItemMapping mapping = item.GetComponent<InventoryViewItemMapping>();
+            if (mapping == null || mapping.Type != InventoryViewItemMapping.TypeEnum.Active)
+            {
+                continue;
+            }
+
+            selectableItems.Add(item);
+        }
+
+        return selectableItems;
     }
 }
