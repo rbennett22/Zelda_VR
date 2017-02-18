@@ -252,7 +252,7 @@ public class Player : Actor
             return;
         }
         
-        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack))
+        if (ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.SwordAttack))
         {
             if (++_likeLikeTrapCounter >= LIKE_LIKE_ESCAPE_COUNT)
             {
@@ -383,7 +383,7 @@ public class Player : Actor
 
     void ProcessUserInput()
     {
-        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack))
+        if (ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.SwordAttack))
         {
             AttackWithSword();
         }
@@ -407,14 +407,15 @@ public class Player : Actor
 
             // Use Item?
             bool doUseItem = false;
-            if (bow != null)
+            /*if (bow != null)
             {
                 doUseItem = ZeldaInput.GetButtonUp(ZeldaInput.Button.UseItemB);
             }
             else
             {
                 doUseItem = ZeldaInput.GetButtonDown(ZeldaInput.Button.UseItemB);
-            }
+            }*/
+            doUseItem = ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.UseItemB);
 
             if (doUseItem)
             {

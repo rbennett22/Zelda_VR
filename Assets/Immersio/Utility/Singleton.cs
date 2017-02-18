@@ -37,12 +37,10 @@ namespace Immersio.Utility
                     {
                         //print("Singleton :: Instantiating Singleton instance of type " + typeof(T).ToString());
 
-                        GameObject go = new GameObject();
-                        //DontDestroyOnLoad(go);
-                        go.name = GetNameFromType();
-                        _instance = go.AddComponent<T>();
+                        GameObject g = new GameObject();
+                        g.name = GetNameFromType();
+                        _instance = g.AddComponent<T>();
                     }
-                    //DontDestroyOnLoad(_instance);
                 }
                 return _instance;
             }

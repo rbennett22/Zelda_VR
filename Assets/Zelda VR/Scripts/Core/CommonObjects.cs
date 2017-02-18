@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CommonObjects : Singleton<CommonObjects>
 {
+    #region Player
+
     /*static Player FindPlayer()
     {
         // TODO: cache result
@@ -24,14 +26,13 @@ public class CommonObjects : Singleton<CommonObjects>
 
     public static ZVRAvatar PlayerAvatar { get { return PlayerController_C ? PlayerController_C.Avatar : null; } }
 
-    public static Transform ProjectilesContainer { get { return Instance._projectilesContainer; } }
-    public static Transform EnemiesContainer { get { return Instance._enemiesContainer; } }
-
 
     public GameObject player_G;
     public Player player_C;
     public GameObject playerController_G;
     public ZeldaPlayerController playerController_C;
+
+    #endregion Player
 
 
     public GameObject primaryCamera;
@@ -58,7 +59,12 @@ public class CommonObjects : Singleton<CommonObjects>
 
 
     [SerializeField]
-    Transform _projectilesContainer, _enemiesContainer;
+    Transform _projectilesContainer;
+    public static Transform ProjectilesContainer { get { return Instance._projectilesContainer; } }
+
+    [SerializeField]
+    Transform _enemiesContainer;
+    public static Transform EnemiesContainer { get { return Instance._enemiesContainer; } }
 
 
     public GameObject enemyDeathAnimation;

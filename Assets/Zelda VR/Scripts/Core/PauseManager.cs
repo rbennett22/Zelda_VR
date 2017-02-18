@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class PauseManager : Singleton<PauseManager>
 {
-    const ZeldaInput.Button SHOW_OPTIONS_BUTTON = ZeldaInput.Button.Back;
-    const ZeldaInput.Button SHOW_INVENTORY_BUTTON = ZeldaInput.Button.Start;
-
     const float NORMAL_MUSIC_VOLUME = 1.0f;
     const float PAUSED_MUSIC_VOLUME = 0.3f;
 
@@ -83,14 +80,14 @@ public class PauseManager : Singleton<PauseManager>
     void Update()
     {
         // TODO: Implement a system for sending input events to active views. 
-        if (IsOptionsButtonDown())
+        if (WasOptionsButtonJustPressed())
         {
             if (IsPauseAllowed_Options)
             {
                 TogglePause_Options();
             }
         }
-        else if (ZeldaInput.GetButtonDown(SHOW_INVENTORY_BUTTON))
+        else if (ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.ToggleInventory))
         {
             if (IsPauseAllowed_Inventory && !IsPaused_Options)
             {
@@ -99,7 +96,7 @@ public class PauseManager : Singleton<PauseManager>
         }
     }
 
-    bool IsOptionsButtonDown()
+    bool WasOptionsButtonJustPressed()
     {
         if (ZeldaInput.AreAnyTouchControllersActive())
         {
@@ -108,7 +105,7 @@ public class PauseManager : Singleton<PauseManager>
         }
         else
         {
-            return ZeldaInput.GetButtonDown(SHOW_OPTIONS_BUTTON);
+            return ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.ToggleOptionsMenu);
         }
     }
 

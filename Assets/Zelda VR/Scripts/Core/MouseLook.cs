@@ -35,7 +35,7 @@ public class MouseLook : MonoBehaviour
     {
         if (axes == RotationAxes.MouseXAndY)
         {
-            float rotationX = transform.localEulerAngles.y + ZeldaInput.GetAxis(ZeldaInput.Axis.LookHorizontal) * sensitivityX;
+            float rotationX = transform.localEulerAngles.y + ZeldaInput.GetCommand_Float(ZeldaInput.Cmd_Float.LookHorizontal) * sensitivityX;
             //float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
 
             rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
@@ -47,7 +47,7 @@ public class MouseLook : MonoBehaviour
         }
         else if (axes == RotationAxes.MouseX)
         {
-            float rotationX = ZeldaInput.GetAxis(ZeldaInput.Axis.LookHorizontal) * sensitivityX;
+            float rotationX = ZeldaInput.GetCommand_Float(ZeldaInput.Cmd_Float.LookHorizontal) * sensitivityX;
             //float rotationX = Input.GetAxis("Mouse X") * sensitivityX;
 
             transform.Rotate(0, rotationX, 0);

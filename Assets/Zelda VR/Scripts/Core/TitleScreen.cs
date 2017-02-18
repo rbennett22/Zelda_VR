@@ -29,7 +29,7 @@ public class TitleScreen : MonoBehaviour
 
     void Update()
     {
-        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Start))
+        if (ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.MenuNavSelect))
         {
             ShowSavedGamesScreen();
         }

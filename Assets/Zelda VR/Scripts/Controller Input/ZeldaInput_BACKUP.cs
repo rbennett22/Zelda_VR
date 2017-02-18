@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZeldaInput : Singleton<ZeldaInput>
+public class ZeldaInput_BACKUP : Singleton<ZeldaInput_BACKUP>
 {
-    public enum Axis { MoveHorizontal, MoveVertical, LookHorizontal, Triggers };
+    public enum Axis { MoveHorizontal, MoveVertical, LookHorizontal, MenuNavVertical, Triggers };
 
     public enum Button { SwordAttack, UseItemB, Run, Jump, Extra, Start, Back, L1, R1 };
-
-
-    public bool XBoxControllerAvailable { get; set; }
 
 
     Dictionary<Axis, string> _zeldaAxisToXBox = new Dictionary<Axis, string>()
@@ -17,6 +14,7 @@ public class ZeldaInput : Singleton<ZeldaInput>
         { Axis.MoveHorizontal, "XBox LS Horizontal" },
         { Axis.MoveVertical, "XBox LS Vertical" },
         { Axis.LookHorizontal, "XBox RS Horizontal" },
+        { Axis.MenuNavVertical, "XBox RS Vertical" },
         { Axis.Triggers, "XBox Triggers" }
     };
 
@@ -50,6 +48,10 @@ public class ZeldaInput : Singleton<ZeldaInput>
             if (axis == Axis.MoveVertical)
             {
                 v = OVRInput.Get(OVRInput.RawAxis2D.LThumbstick).y;
+            }
+            else if (axis == Axis.MenuNavVertical)
+            {
+                v = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick).y;
             }
         }
 
@@ -92,6 +94,21 @@ public class ZeldaInput : Singleton<ZeldaInput>
         return b;
     }
 
+
+    float GetMenuNavHorzAxis_()
+    {
+        float moveVert = GetAxis(Axis.MoveHorizontal)
+            + GetAxis(Axis.LookHorizontal);
+        return moveVert;
+    }
+    float GetMenuNavVertAxis_()
+    {
+        float moveVert = GetAxis(Axis.MoveVertical)
+            + GetAxis(Axis.MenuNavVertical);
+        return moveVert;
+    }
+
+
     bool AreAnyTouchControllersActive_()
     {
         OVRInput.Controller c = OVRInput.GetActiveController();
@@ -101,9 +118,17 @@ public class ZeldaInput : Singleton<ZeldaInput>
     }
 
 
+    #region static
+
     static public float GetAxis(Axis axis) { return Instance.GetAxis_(axis); }
     static public bool GetButton(Button button) { return Instance.GetButton_(button); }
     static public bool GetButtonDown(Button button) { return Instance.GetButtonDown_(button); }
     static public bool GetButtonUp(Button button) { return Instance.GetButtonUp_(button); }
+        
+    static public float GetMenuNavHorzAxis() { return Instance.GetMenuNavHorzAxis_(); }
+    static public float GetMenuNavVertAxis() { return Instance.GetMenuNavVertAxis_(); }
+
     static public bool AreAnyTouchControllersActive() { return Instance.AreAnyTouchControllersActive_(); }
+
+    #endregion static
 }

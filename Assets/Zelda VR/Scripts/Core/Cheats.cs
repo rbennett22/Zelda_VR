@@ -45,9 +45,9 @@ public class Cheats : Singleton<Cheats>
         if (Input.GetKeyDown(KeyCode.Alpha3)) { EquipSword("MagicSword"); }
         if (Input.GetKeyDown(KeyCode.Alpha4)) { EquipSword(null); }
 
-        if (ZeldaInput.GetButtonUp(ZeldaInput.Button.L1)) { ToggleGodMode(); }
-        if (ZeldaInput.GetButtonUp(ZeldaInput.Button.R1)) { ToggleGhostMode(); }
-        if (ZeldaInput.GetButtonUp(ZeldaInput.Button.Extra)) { ToggleFlying(); }
+        if (ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.ToggleGodMode)) { ToggleGodMode(); }
+        if (ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.ToggleGhostMode)) { ToggleGhostMode(); }
+        if (ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.ToggleFlying)) { ToggleFlying(); }
 
         ProcessKeypadInput();
     }

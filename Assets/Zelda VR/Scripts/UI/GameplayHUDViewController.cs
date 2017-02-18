@@ -19,7 +19,7 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
         return v;
     }
 
-    #endregion  // View
+    #endregion View
 
 
     Inventory _inventory;
@@ -178,12 +178,6 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
     }
 
 
-    [SerializeField]
-    Transform _pausedTransform;
-
-    //const float Y_BASE_OFFSET = 400;
-    //public int vertShiftSpeed = 600;
-
     void UpdateViewPosition()
     {
         Transform t = View.transform;
@@ -196,17 +190,24 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
         }
         else
         {
-            /*
-            // As player tilts head upwards, the gameplayHUD moves downwards
-
-            Vector3 camForward = CommonObjects.PlayerController_C.LineOfSight;
-            float dot = Vector3.Dot(camForward, Vector3.up);
-            int y = Mathf.RoundToInt(Y_BASE_OFFSET - dot * vertShiftSpeed);
-            t.SetLocalY(y);*/
-
-
             t.localPosition = Vector3.zero;
             t.localRotation = Quaternion.identity;
+
+            //ApplyDynamicTilting();
         }
     }
+
+    /*
+    const float Y_BASE_OFFSET = 400;
+    public int vertShiftSpeed = 600;
+
+    void ApplyDynamicTilting()
+    {
+        // As player tilts head upwards, the gameplay HUD moves downwards
+
+        Vector3 camForward = CommonObjects.PlayerController_C.LineOfSight;
+        float dot = Vector3.Dot(camForward, Vector3.up);
+        int y = Mathf.RoundToInt(Y_BASE_OFFSET - dot * vertShiftSpeed);
+        t.SetLocalY(y);
+    }*/
 }

@@ -19,7 +19,7 @@ public class OptionsViewController : Singleton<OptionsViewController>
         return v;
     }
 
-    #endregion  // OptionsView
+    #endregion OptionsView
 
 
     #region ControlsView
@@ -37,7 +37,7 @@ public class OptionsViewController : Singleton<OptionsViewController>
         return v;
     }
 
-    #endregion  // ControlsView
+    #endregion ControlsView
 
 
     override protected void Awake()
@@ -115,7 +115,7 @@ public class OptionsViewController : Singleton<OptionsViewController>
 
         UpdateCursor();
 
-        if (GetButtonDown_Select())
+        if (ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.MenuNavSelect))
         {
             _optionsView.ClickSelectedButton();
         }
@@ -128,15 +128,8 @@ public class OptionsViewController : Singleton<OptionsViewController>
             return;
         }
 
-        float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
+        float moveVert = ZeldaInput.GetCommand_Float(ZeldaInput.Cmd_Float.MenuNavVertical);
         IndexDirection2 dir = new IndexDirection2(0, moveVert);
         _optionsView.MoveCursor(dir);
-    }
-
-
-    bool GetButtonDown_Select()
-    {
-        return ZeldaInput.GetButtonDown(ZeldaInput.Button.Start)
-            || ZeldaInput.GetButtonDown(ZeldaInput.Button.SwordAttack);
     }
 }

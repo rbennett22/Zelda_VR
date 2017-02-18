@@ -97,28 +97,20 @@ public class SavedGamesScreen : MonoBehaviour
     {
         UpdateCursor();
 
-        if (GetSelectButtonDown())
+        if (ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.MenuNavSelect))
         {
             PlaySelectSound();
             LoadEntry(CursorIndex);
         }
-        else if (Application.isEditor && GetEraseButtonDown())      // TODO
+        else if (Application.isEditor && ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.EraseSaveEntry))      // TODO
         {
             EraseEntry(CursorIndex);
         }
     }
-    bool GetSelectButtonDown()
-    {
-        return ZeldaInput.GetButtonDown(ZeldaInput.Button.Start);
-    }
-    bool GetEraseButtonDown()
-    {
-        return ZeldaInput.GetButtonDown(ZeldaInput.Button.Extra);
-    }
 
     void UpdateCursor()
     {
-        float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
+        float moveVert = ZeldaInput.GetCommand_Float(ZeldaInput.Cmd_Float.MenuNavVertical);
         Vector2 dir = new Vector2(0, -moveVert);
 
         if (_cursor.TryMoveCursor(dir))

@@ -23,7 +23,7 @@ public class InventoryViewController : MonoBehaviour
         return v;
     }
 
-    #endregion  // View
+    #endregion View
 
 
     Inventory _inventory;
@@ -109,12 +109,13 @@ public class InventoryViewController : MonoBehaviour
             return;
         }
 
-        float moveHorz = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
-        float moveVert = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
+        float moveHorz = ZeldaInput.GetCommand_Float(ZeldaInput.Cmd_Float.MenuNavHorizontal);
+        float moveVert = ZeldaInput.GetCommand_Float(ZeldaInput.Cmd_Float.MenuNavVertical);
         IndexDirection2 dir = new IndexDirection2(moveHorz, moveVert);
 
         View.MoveCursor(dir);
     }
+
     void OnCursorIndexChanged(InventoryView sender)
     {
         if (sender != View)
