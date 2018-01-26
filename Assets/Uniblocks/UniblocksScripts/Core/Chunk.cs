@@ -359,7 +359,7 @@ namespace Uniblocks
                 return;
             }
 
-            if (Application.isWebPlayer == false)
+            //if (Application.isWebPlayer == false)
             {
                 GetComponent<ChunkDataFiles>().SaveData();
             }

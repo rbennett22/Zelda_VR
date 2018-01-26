@@ -37,7 +37,7 @@ public class DungeonInfo : MonoBehaviour
         int numItems = s.roomNames.Length;
         for (int i = 0; i < numItems; i++)
         {
-            Transform room = transform.FindChild(s.roomNames[i]);
+            Transform room = transform.Find(s.roomNames[i]);
             if (room == null) { continue; }
             DungeonRoomInfo drInfo = room.GetComponent<DungeonRoomInfo>();
             drInfo.InitWithSerializable(s.roomInfo[i]);

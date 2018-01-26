@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // SSAO Pro - Unity Asset
 // Copyright (c) 2015 - Thomas Hourdel
 // http://www.thomashourdel.com
@@ -43,7 +45,7 @@ Shader "Hidden/SSAO Pro V2"
 				v_data vert(appdata_img v)
 				{
 					v_data o;
-					o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+					o.pos = UnityObjectToClipPos(v.vertex);
 					o.uv = v.texcoord;        	        	
 					return o; 
 				}

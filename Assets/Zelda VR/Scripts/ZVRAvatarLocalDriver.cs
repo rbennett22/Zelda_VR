@@ -38,8 +38,8 @@ public class ZVRAvatarLocalDriver : OvrAvatarDriver
         pose = new PoseFrame
         {
             voiceAmplitude = _voiceAmplitude,
-            headPosition = UnityEngine.VR.InputTracking.GetLocalPosition(UnityEngine.VR.VRNode.CenterEye),
-            headRotation = UnityEngine.VR.InputTracking.GetLocalRotation(UnityEngine.VR.VRNode.CenterEye),
+            headPosition = UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.CenterEye),
+            headRotation = UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.CenterEye),
             handLeftPosition = OVRInput.GetLocalControllerPosition(OVRInput.Controller.LTouch),
             handLeftRotation = OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch),
             handRightPosition = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch),

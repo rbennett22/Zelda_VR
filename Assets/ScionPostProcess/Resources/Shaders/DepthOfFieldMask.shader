@@ -1,4 +1,6 @@
-﻿
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+
 Shader "Scion/ScionDepthOfFieldMask"
 {
 	Properties 
@@ -33,7 +35,7 @@ Shader "Scion/ScionDepthOfFieldMask"
 			{
 			    v2f o;
 			    
-			    o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+			    o.pos = UnityObjectToClipPos(v.vertex);
 			    
 			    return o;
 			}
@@ -77,7 +79,7 @@ Shader "Scion/ScionDepthOfFieldMask"
 			{
 			    v2f o;
 			    
-			    o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+			    o.pos = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 			    
 			    return o;

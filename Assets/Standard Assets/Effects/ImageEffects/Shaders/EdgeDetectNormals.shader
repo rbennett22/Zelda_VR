@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Hidden/EdgeDetect" {
 	Properties{
 		_MainTex("Base (RGB)", 2D) = "" {}
@@ -39,7 +41,7 @@ Shader "Hidden/EdgeDetect" {
 	v2flum vertLum(appdata_img v)
 	{
 		v2flum o;
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 		float2 uv = MultiplyUV(UNITY_MATRIX_TEXTURE0, v.texcoord);
 		o.uv[0] = uv;
 		o.uv[1] = uv + float2(-_MainTex_TexelSize.x, -_MainTex_TexelSize.y) * _SampleDistance;
@@ -89,7 +91,7 @@ Shader "Hidden/EdgeDetect" {
 	v2f vertRobert(appdata_img v)
 	{
 		v2f o;
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 
 		float2 uv = v.texcoord.xy;
 		o.uv[0] = uv;
@@ -113,7 +115,7 @@ Shader "Hidden/EdgeDetect" {
 	v2f vertThin(appdata_img v)
 	{
 		v2f o;
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 
 		float2 uv = v.texcoord.xy;
 		o.uv[0] = uv;
@@ -136,7 +138,7 @@ Shader "Hidden/EdgeDetect" {
 	v2fd vertD(appdata_img v)
 	{
 		v2fd o;
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 
 		float2 uv = v.texcoord.xy;
 		o.uv[0] = uv;

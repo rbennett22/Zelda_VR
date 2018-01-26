@@ -33,7 +33,6 @@ BUGS:
 * BUG: Can briefly see through OW ground when loading
 * BUG: Paralyze breaks Leevers and RiverZora.
 * BUG: Enemies can push Link off the ground
-* BUG: "Dynamic batching: index buffer source is NULL..." errors.  Need a permanent fix (waiting on Unity update).
 
 - BUG: If you buy Red potion (instead of HeartContainer in special grotto) you can obtain the letter simply by using the red and blue potions.
 - BUG: I saw Enemy Projectiles being shot through blocks (I saw an arrow and a sword near D6 OW Entrance)

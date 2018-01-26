@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Hidden/FastBloom" {
 	Properties{
 		_MainTex("Base (RGB)", 2D) = "white" {}
@@ -34,7 +36,7 @@ Shader "Hidden/FastBloom" {
 	{
 		v2f_simple o;
 
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 		o.uv = v.texcoord;
 
 #if UNITY_UV_STARTS_AT_TOP
@@ -59,7 +61,7 @@ Shader "Hidden/FastBloom" {
 	{
 		v2f_tap o;
 
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 		o.uv20 = v.texcoord + _MainTex_TexelSize.xy;
 		o.uv21 = v.texcoord + _MainTex_TexelSize.xy * half2(-0.5h, -0.5h);
 		o.uv22 = v.texcoord + _MainTex_TexelSize.xy * half2(0.5h, -0.5h);
@@ -116,7 +118,7 @@ Shader "Hidden/FastBloom" {
 	v2f_withBlurCoords8 vertBlurHorizontal(appdata_img v)
 	{
 		v2f_withBlurCoords8 o;
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 
 		o.uv = half4(v.texcoord.xy, 1, 1);
 		o.offs = _MainTex_TexelSize.xy * half2(1.0, 0.0) * _Parameter.x;
@@ -127,7 +129,7 @@ Shader "Hidden/FastBloom" {
 	v2f_withBlurCoords8 vertBlurVertical(appdata_img v)
 	{
 		v2f_withBlurCoords8 o;
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 
 		o.uv = half4(v.texcoord.xy, 1, 1);
 		o.offs = _MainTex_TexelSize.xy * half2(0.0, 1.0) * _Parameter.x;
@@ -155,7 +157,7 @@ Shader "Hidden/FastBloom" {
 		v2f_withBlurCoordsSGX vertBlurHorizontalSGX(appdata_img v)
 	{
 		v2f_withBlurCoordsSGX o;
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 
 		o.uv = v.texcoord.xy;
 		half2 netFilterWidth = _MainTex_TexelSize.xy * half2(1.0, 0.0) * _Parameter.x;
@@ -173,7 +175,7 @@ Shader "Hidden/FastBloom" {
 	v2f_withBlurCoordsSGX vertBlurVerticalSGX(appdata_img v)
 	{
 		v2f_withBlurCoordsSGX o;
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 
 		o.uv = half4(v.texcoord.xy, 1, 1);
 		half2 netFilterWidth = _MainTex_TexelSize.xy * half2(0.0, 1.0) * _Parameter.x;

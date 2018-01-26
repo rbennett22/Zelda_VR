@@ -86,7 +86,7 @@ namespace Cubiquity
         protected override void InitializeEmptyCubiquityVolume(Region region)
         {
             // We check 'mVolumeHandle' instead of 'volumeHandle' as the getter for the latter will in turn call this method.
-            DebugUtils.Assert(mVolumeHandle == null, "Volume handle should be null prior to initializing volume");
+            if (mVolumeHandle != null) { Debug.LogAssertion("Volume handle should be null prior to initializing volume"); return; }
 
             if (!initializeAlreadyFailed) // If it failed before it will fail again - avoid spamming error messages.
             {
@@ -111,7 +111,7 @@ namespace Cubiquity
         protected override void InitializeExistingCubiquityVolume()
         {
             // We check 'mVolumeHandle' instead of 'volumeHandle' as the getter for the latter will in turn call this method.
-            DebugUtils.Assert(mVolumeHandle == null, "Volume handle should be null prior to initializing volume");
+            if (mVolumeHandle != null) { Debug.LogAssertion("Volume handle should be null prior to initializing volume"); return; }
 
             if (!initializeAlreadyFailed) // If it failed before it will fail again - avoid spamming error messages.
             {

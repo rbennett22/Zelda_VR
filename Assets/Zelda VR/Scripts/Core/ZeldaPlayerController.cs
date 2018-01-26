@@ -63,7 +63,7 @@ public class ZeldaPlayerController : OVRPlayerController
 
     public float Height { get { return Controller.height; } }
 
-    /*protected override void Update()
+    protected override void Update()
     {
         //Transform crt = CameraRig.transform;
         if (useProfileData)
@@ -113,7 +113,7 @@ public class ZeldaPlayerController : OVRPlayerController
         // Flying
         if (flyingEnabled)
         {
-            float triggersAxis = ZeldaInput.GetAxis(ZeldaInput.Axis.Triggers);
+            float triggersAxis = ZeldaInput.GetCommand_Float(ZeldaInput.Cmd_Float.Fly);
             if (Mathf.Abs(triggersAxis) > 0.1f)
             {
                 motion.y += triggersAxis * FLY_SPEED;
@@ -155,16 +155,16 @@ public class ZeldaPlayerController : OVRPlayerController
 
         if (predictedXZ != actualXZ)
             MoveThrottle += (actualXZ - predictedXZ) / (SimulationRate * Time.deltaTime);
-    }*/
+    }
     public bool IsGrounded { get { return Controller.isGrounded; } }
 
-    /*public override void UpdateMovement()
+    public override void UpdateMovement()
     {
         if (HaltUpdateMovement)
             return;
 
-        float moveHorzAxis = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveHorizontal);
-        float moveVertAxis = ZeldaInput.GetAxis(ZeldaInput.Axis.MoveVertical);
+        float moveHorzAxis = ZeldaInput.GetCommand_Float(ZeldaInput.Cmd_Float.MoveHorizontal);
+        float moveVertAxis = ZeldaInput.GetCommand_Float(ZeldaInput.Cmd_Float.MoveVertical);
         bool moveForward = moveVertAxis > 0;
         bool moveLeft = moveHorzAxis < 0;
         bool moveBack = moveVertAxis < 0;
@@ -183,7 +183,7 @@ public class ZeldaPlayerController : OVRPlayerController
         float moveInfluence = Acceleration * 0.1f * MoveScale * MoveScaleMultiplier;
 
         // Run
-        if (ZeldaInput.GetButton(ZeldaInput.Button.Run))
+        if (ZeldaInput.GetCommand_Bool(ZeldaInput.Cmd_Bool.Run))
         {
             moveInfluence *= RunMultiplier;
         }
@@ -204,7 +204,7 @@ public class ZeldaPlayerController : OVRPlayerController
             MoveThrottle += ort * (transform.lossyScale.x * moveInfluence * BackAndSideDampen * Vector3.right);
 
         // Jump
-        if (ZeldaInput.GetButtonDown(ZeldaInput.Button.Jump))
+        if (ZeldaInput.GetCommand_Trigger(ZeldaInput.Cmd_Trigger.Jump))
         {
             Jump();
         }
@@ -221,11 +221,12 @@ public class ZeldaPlayerController : OVRPlayerController
 
         moveInfluence = SimulationRate * Time.deltaTime * Acceleration * 0.1f * MoveScale * MoveScaleMultiplier;
 
-        float deltaRotation = ZeldaInput.GetAxis(ZeldaInput.Axis.LookHorizontal) * rotateInfluence * 3.25f;
+        float lookHorzAxis = ZeldaInput.GetCommand_Float(ZeldaInput.Cmd_Float.LookHorizontal);
+        float deltaRotation = lookHorzAxis * rotateInfluence * 3.25f;
         euler.y += deltaRotation;
 
         transform.rotation = Quaternion.Euler(euler);
-    }*/
+    }
 
     new public bool Jump()
     {

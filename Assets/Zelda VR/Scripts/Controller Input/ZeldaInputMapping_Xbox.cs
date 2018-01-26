@@ -84,6 +84,9 @@ public class ZeldaInputMapping_Xbox : ZeldaInputMapping_Base
         { Cmd_Float.MenuNavVertical, new InputControl {
                 axes = new Axis[] { Axis.RightStick_V, Axis.LeftStick_V, Axis.DPad_V } }
         },
+        { Cmd_Float.Fly, new InputControl {
+                axes = new Axis[] { Axis.Triggers } }
+        },
     };
 
     #endregion Input Control Settings

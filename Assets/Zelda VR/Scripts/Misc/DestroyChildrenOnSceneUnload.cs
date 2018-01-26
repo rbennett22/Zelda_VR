@@ -7,6 +7,10 @@ public class DestroyChildrenOnSceneUnload : MonoBehaviour
     {
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
+    void OnDestroy()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
 
     void OnSceneUnloaded(Scene scene)
     {

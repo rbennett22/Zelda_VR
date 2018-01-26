@@ -179,7 +179,7 @@ namespace Cubiquity
         /// \cond
         public void EditModeUpdateHandler() // Public so we can call it from Editor scripts
         {
-            DebugUtils.Assert(Application.isPlaying == false, "EditModeUpdateHandler() should never be called in play mode!");
+            if (Application.isPlaying) { Debug.LogAssertion("EditModeUpdateHandler() should never be called in play mode!"); return; }
 
             if (enabled)
             {

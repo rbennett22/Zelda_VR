@@ -4,6 +4,8 @@ RECENTLY DONE:
 
 - OVRHaptics:  Controllers rumble when collecting an item
 
+- BUG: "Dynamic batching: index buffer source is NULL..." errors.  - FIXED
+
 
 DONE:
 

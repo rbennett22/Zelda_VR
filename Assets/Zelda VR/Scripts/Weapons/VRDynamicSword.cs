@@ -48,7 +48,7 @@ public class VRDynamicSword : MonoBehaviour
             _controllerVelocity = (_controllerPos - _prevControllerPos) / Time.deltaTime;
         }
 
-        UpdateScale(_controllerVelocity);
+        //UpdateScale(_controllerVelocity);
     }
 
     void UpdateScale(Vector3 velocity)

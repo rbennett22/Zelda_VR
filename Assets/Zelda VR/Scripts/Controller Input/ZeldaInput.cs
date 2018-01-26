@@ -1,4 +1,5 @@
 ﻿using Immersio.Utility;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,21 +30,27 @@ public class ZeldaInput : Singleton<ZeldaInput>
     void OnInputModeChanged(InputModeEnum prevMode, InputModeEnum newMode)
     {
         Destroy(_zeldaInputMapping);
+        Type type = null;
 
         switch (newMode)
         {
             case InputModeEnum.MouseAndKeyboard:
-                _zeldaInputMapping = gameObject.AddComponent<ZeldaInputMapping_MouseKeyboard>();
+                type = typeof(ZeldaInputMapping_MouseKeyboard);
+                //_zeldaInputMapping = gameObject.AddComponent<ZeldaInputMapping_MouseKeyboard>();
                 break;
             case InputModeEnum.XBOX_Gamepad:
-                _zeldaInputMapping = gameObject.AddComponent<ZeldaInputMapping_Xbox>();
+                type = typeof(ZeldaInputMapping_Xbox);
+                //_zeldaInputMapping = gameObject.AddComponent<ZeldaInputMapping_Xbox>();
                 break;
             case InputModeEnum.OculusTouch:
-                _zeldaInputMapping = gameObject.AddComponent<ZeldaInputMapping_OculusTouch>();
+                type = typeof(ZeldaInputMapping_OculusTouch);
+                //_zeldaInputMapping = gameObject.AddComponent<ZeldaInputMapping_OculusTouch>();
                 break;
             default:
                 break;
         }
+
+        _zeldaInputMapping = gameObject.AddComponent(type) as ZeldaInputMapping_Base;
     }
 
     ZeldaInputMapping_Base _zeldaInputMapping;
@@ -53,7 +60,8 @@ public class ZeldaInput : Singleton<ZeldaInput>
     {
         MoveHorizontal, MoveVertical,
         LookHorizontal,
-        MenuNavHorizontal, MenuNavVertical
+        MenuNavHorizontal, MenuNavVertical,
+        Fly
     };
     public enum Cmd_Trigger
     {
@@ -73,8 +81,16 @@ public class ZeldaInput : Singleton<ZeldaInput>
     {
         base.Awake();
 
-        _inputMode = InputModeEnum.OculusTouch;
-        _zeldaInputMapping = gameObject.AddComponent<ZeldaInputMapping_OculusTouch>();
+        // TODO
+
+        //_inputMode = InputModeEnum.OculusTouch;
+        //_zeldaInputMapping = gameObject.AddComponent<ZeldaInputMapping_OculusTouch>();
+
+        //_inputMode = InputModeEnum.MouseAndKeyboard;
+        //_zeldaInputMapping = gameObject.AddComponent<ZeldaInputMapping_MouseKeyboard>();
+
+        _inputMode = InputModeEnum.XBOX_Gamepad;
+        _zeldaInputMapping = gameObject.AddComponent<ZeldaInputMapping_Xbox>();
     }
 
 

@@ -79,7 +79,7 @@ public class CommonObjects : Singleton<CommonObjects>
     public static ZeldaCanvas HeadSpaceCanvas { get { return Instance._headSpaceCanvas; } }
     public static ZeldaCanvas HandSpaceCanvas { get { return PlayerAvatar ? PlayerAvatar.MenuContainerLeft.GetComponent<ZeldaCanvas>() : null; } }
 
-    public static ZeldaCanvas ActiveCanvas { get { return HandSpaceCanvas; } }      // TODO
+    public static ZeldaCanvas ActiveCanvas { get { return HeadSpaceCanvas; } }      // TODO: return HandSpaceCanvas if using Oculus Touch Controllers
 
     #endregion // Canvas
 

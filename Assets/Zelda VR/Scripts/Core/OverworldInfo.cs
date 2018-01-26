@@ -55,7 +55,7 @@ public class OverworldInfo : MonoBehaviour
         // Collectible SPs
         foreach (var itemName in s.collectedItems)
         {
-            Transform child = collectibleSPs.FindChild(itemName);
+            Transform child = collectibleSPs.Find(itemName);
             CollectibleSpawnPoint csp = child.GetComponent<CollectibleSpawnPoint>();
             csp.HasBeenCollected = true;
         }

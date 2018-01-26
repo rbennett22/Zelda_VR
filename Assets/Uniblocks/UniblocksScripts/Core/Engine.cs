@@ -128,10 +128,10 @@ namespace Uniblocks
                 ChunkTimeout = lChunkTimeout;
             }
 
-            if (Application.isWebPlayer)
+            /*if (Application.isWebPlayer)
             {
                 lSaveVoxelData = SaveVoxelData = false;
-            }
+            }*/
 
 
             // set layer collision
@@ -253,12 +253,12 @@ namespace Uniblocks
         public static void GetSeed()
         { 
             // reads the world seed from file if it exists, else creates a new seed and saves it to file
-            if (Application.isWebPlayer)
+            /*if (Application.isWebPlayer)
             { 
                 // don't save to file if webplayer
                 WorldSeed = Random.Range(ushort.MinValue, ushort.MaxValue);
                 return;
-            }
+            }*/
 
             if (File.Exists(WorldPath + "seed"))
             {

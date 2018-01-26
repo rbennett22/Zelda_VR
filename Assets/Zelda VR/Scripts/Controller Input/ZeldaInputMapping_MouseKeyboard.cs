@@ -19,6 +19,7 @@ public class ZeldaInputMapping_MouseKeyboard : ZeldaInputMapping_Base
         { Cmd_Float.LookHorizontal, new Axis[] { Axis.LookHorizontal } },
         { Cmd_Float.MenuNavHorizontal, new Axis[] { Axis.LookHorizontal, Axis.MoveHorizontal } },
         { Cmd_Float.MenuNavVertical, new Axis[] { Axis.MenuNavVertical, Axis.MoveVertical } },
+        { Cmd_Float.Fly, new Axis[] { Axis.Triggers } },
     };
     Dictionary<Cmd_Trigger, Button[]> _cmdTriggerToButton = new Dictionary<Cmd_Trigger, Button[]>()
     {
@@ -46,7 +47,6 @@ public class ZeldaInputMapping_MouseKeyboard : ZeldaInputMapping_Base
 
         Axis[] axes = _cmdFloatToAxis[cmd];
 
-        // Axes
         foreach (var axis in axes)
         {
             string axisName = axis.ToString();
