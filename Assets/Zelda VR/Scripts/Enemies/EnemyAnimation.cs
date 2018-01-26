@@ -8,9 +8,10 @@ public class EnemyAnimation : MonoBehaviour
     public Animator AnimatorComponent { get { return _animator ?? (_animator = GetComponent<Animator>()); } }
 
     Enemy _enemy;
-    
-    
-    public bool IsSpawning { get { return AnimatorComponent ? (_animator.gameObject.activeSelf ? AnimatorComponent.GetCurrentAnimatorStateInfo(0).IsTag("Spawn") : false) : false; } }
+
+
+    //public bool IsSpawning { get { return AnimatorComponent ? (_animator.gameObject.activeSelf ? AnimatorComponent.GetCurrentAnimatorStateInfo(0).IsTag("Spawn") : false) : false; } }
+    public bool IsSpawning { get { return AnimatorComponent ? AnimatorComponent.GetCurrentAnimatorStateInfo(0).IsTag("Spawn") : false; } }
     public bool IsDying { get { return AnimatorComponent ? AnimatorComponent.GetCurrentAnimatorStateInfo(0).IsTag("Die") : false; } }
 
 
