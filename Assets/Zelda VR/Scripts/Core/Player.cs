@@ -77,8 +77,8 @@ public class Player : Actor
         _sword = g.GetComponent<Weapon_Melee_Sword>();
 
         SwordProjectilesEnabled = IsAtFullHealth;
-        SwordControlStyle = Weapon_Base.ControlStyleEnum.VR;        // TODO
-        _sword.CollisionIsAllowedWhenRetracted = true;              // TODO
+        SwordControlStyle = Weapon_Base.ControlStyleEnum.Classic;        // TODO
+        //_sword.CollisionIsAllowedWhenRetracted = true;              // TODO
     }
     public void DeequipSword()
     {

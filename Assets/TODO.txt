@@ -26,6 +26,7 @@ NEEDS TESTING:
 
 BUGS:
 
+* BUG: Sword graphic doesn't appear to move when attacking
 * BUG: Sword sometimes appears below you and doesn't track with Controller
 * BUG: PauseMenu text is "whited out"
 * BUG: HUD Hearts are skewed
@@ -45,7 +46,7 @@ High Priority:
 
 * Oculus Touch:  Secondary Weapons
 * Oculus Touch:  Wrist Menu
-* Sword:  Adjust offset of other swords (besides wooden) and make sure they still work with XBOX Gamepad (in "Classic" Sword mode)
+
 * Sword:  In VR mode, Jinx should make sword deal no damage
 
 * VR Composite Layers

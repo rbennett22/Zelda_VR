@@ -2,6 +2,7 @@
 
 RECENTLY DONE:
 
+- Sword:  Adjust offset of other swords (besides wooden) and make sure they still work with XBOX Gamepad (in "Classic" Sword mode)
 - OVRHaptics:  Controllers rumble when collecting an item
 
 - BUG: "Dynamic batching: index buffer source is NULL..." errors.  - FIXED
