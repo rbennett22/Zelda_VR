@@ -63,7 +63,7 @@ public class ZeldaPlayerController : OVRPlayerController
 
     public float Height { get { return Controller.height; } }
 
-    protected override void Update()
+    protected override void UpdateController()
     {
         //Transform crt = CameraRig.transform;
         if (useProfileData)

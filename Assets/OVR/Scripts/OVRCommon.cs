@@ -2,14 +2,14 @@
 
 Copyright   :   Copyright 2014 Oculus VR, LLC. All Rights reserved.
 
-Licensed under the Oculus VR Rift SDK License Version 3.3 (the "License");
+Licensed under the Oculus VR Rift SDK License Version 3.4.1 (the "License");
 you may not use the Oculus VR Rift SDK except in compliance with the License,
 which is provided at the time of installation or download, or which
 otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
 
-http://www.oculus.com/licenses/LICENSE-3.3
+https://developer.oculus.com/licenses/sdk-3.4.1
 
 Unless required by applicable law or agreed to in writing, the Oculus VR SDK
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,10 +35,38 @@ public static class OVRExtensions
 	public static OVRPose ToTrackingSpacePose(this Transform transform)
 	{
 		OVRPose headPose;
+#if UNITY_2017_2_OR_NEWER
 		headPose.position = UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.Head);
 		headPose.orientation = UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.Head);
+#else
+		headPose.position = UnityEngine.VR.InputTracking.GetLocalPosition(UnityEngine.VR.VRNode.Head);
+		headPose.orientation = UnityEngine.VR.InputTracking.GetLocalRotation(UnityEngine.VR.VRNode.Head);
+#endif
 
 		var ret = headPose * transform.ToHeadSpacePose();
+
+		return ret;
+	}
+
+	/// <summary>
+	/// Converts the given pose from tracking-space to world-space.
+	/// </summary>
+	public static OVRPose ToWorldSpacePose(OVRPose trackingSpacePose)
+	{
+		OVRPose headPose;
+#if UNITY_2017_2_OR_NEWER
+		headPose.position = UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.Head);
+		headPose.orientation = UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.Head);
+#else
+		headPose.position = UnityEngine.VR.InputTracking.GetLocalPosition(UnityEngine.VR.VRNode.Head);
+		headPose.orientation = UnityEngine.VR.InputTracking.GetLocalRotation(UnityEngine.VR.VRNode.Head);
+#endif
+
+		// Transform from tracking-Space to head-Space
+		OVRPose poseInHeadSpace = headPose.Inverse() * trackingSpacePose;
+
+		// Transform from head space to world space
+		OVRPose ret = Camera.main.transform.ToOVRPose() * poseInHeadSpace;
 
 		return ret;
 	}
@@ -132,9 +160,19 @@ public static class OVRExtensions
 		return new Quaternion() { x = q.x, y = q.y, z = q.z, w = q.w };
 	}
 
+	internal static Quaternion FromFlippedZQuatf(this OVRPlugin.Quatf q)
+	{
+		return new Quaternion() { x = -q.x, y = -q.y, z = q.z, w = q.w };
+	}
+
 	internal static OVRPlugin.Quatf ToQuatf(this Quaternion q)
 	{
 		return new OVRPlugin.Quatf() { x = q.x, y = q.y, z = q.z, w = q.w };
+	}
+
+	internal static OVRPlugin.Quatf ToFlippedZQuatf(this Quaternion q)
+	{
+		return new OVRPlugin.Quatf() { x = -q.x, y = -q.y, z = q.z, w = q.w };
 	}
 }
 
@@ -232,32 +270,51 @@ public struct OVRPose
 	}
 }
 
+/// <summary>
+/// Encapsulates an 8-byte-aligned of unmanaged memory.
+/// </summary>
 public class OVRNativeBuffer : IDisposable
 {
 	private bool disposed = false;
 	private int m_numBytes = 0;
 	private IntPtr m_ptr = IntPtr.Zero;
 
+	/// <summary>
+	/// Creates a buffer of the specified size.
+	/// </summary>
 	public OVRNativeBuffer(int numBytes)
 	{
 		Reallocate(numBytes);
 	}
 
+	/// <summary>
+	/// Releases unmanaged resources and performs other cleanup operations before the <see cref="OVRNativeBuffer"/> is
+	/// reclaimed by garbage collection.
+	/// </summary>
 	~OVRNativeBuffer()
 	{
 		Dispose(false);
 	}
 
+	/// <summary>
+	/// Reallocates the buffer with the specified new size.
+	/// </summary>
 	public void Reset(int numBytes)
 	{
 		Reallocate(numBytes);
 	}
 
+	/// <summary>
+	/// The current number of bytes in the buffer.
+	/// </summary>
 	public int GetCapacity()
 	{
 		return m_numBytes;
 	}
 
+	/// <summary>
+	/// A pointer to the unmanaged memory in the buffer, starting at the given offset in bytes.
+	/// </summary>
 	public IntPtr GetPointer(int byteOffset = 0)
 	{
 		if (byteOffset < 0 || byteOffset >= m_numBytes)
@@ -265,6 +322,13 @@ public class OVRNativeBuffer : IDisposable
 		return (byteOffset == 0) ? m_ptr : new IntPtr(m_ptr.ToInt64() + byteOffset);
 	}
 
+	/// <summary>
+	/// Releases all resource used by the <see cref="OVRNativeBuffer"/> object.
+	/// </summary>
+	/// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="OVRNativeBuffer"/>. The <see cref="Dispose"/>
+	/// method leaves the <see cref="OVRNativeBuffer"/> in an unusable state. After calling <see cref="Dispose"/>, you must
+	/// release all references to the <see cref="OVRNativeBuffer"/> so the garbage collector can reclaim the memory that
+	/// the <see cref="OVRNativeBuffer"/> was occupying.</remarks>
 	public void Dispose()
 	{
 		Dispose(true);

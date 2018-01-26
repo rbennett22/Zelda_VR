@@ -2,14 +2,14 @@
 
 Copyright   :   Copyright 2014 Oculus VR, LLC. All Rights reserved.
 
-Licensed under the Oculus VR Rift SDK License Version 3.3 (the "License");
+Licensed under the Oculus VR Rift SDK License Version 3.4.1 (the "License");
 you may not use the Oculus VR Rift SDK except in compliance with the License,
 which is provided at the time of installation or download, or which
 otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
 
-http://www.oculus.com/licenses/LICENSE-3.3
+https://developer.oculus.com/licenses/sdk-3.4.1
 
 Unless required by applicable law or agreed to in writing, the Oculus VR SDK
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -132,16 +132,16 @@ public class OVRTracker
 		switch (tracker)
 		{
 			case 0:
-				p = OVRPlugin.GetNodePose(OVRPlugin.Node.TrackerZero, false).ToOVRPose();
+				p = OVRPlugin.GetNodePose(OVRPlugin.Node.TrackerZero, OVRPlugin.Step.Render).ToOVRPose();
 				break;
 			case 1:
-				p = OVRPlugin.GetNodePose(OVRPlugin.Node.TrackerOne, false).ToOVRPose();
+				p = OVRPlugin.GetNodePose(OVRPlugin.Node.TrackerOne, OVRPlugin.Step.Render).ToOVRPose();
 				break;
 			case 2:
-				p = OVRPlugin.GetNodePose(OVRPlugin.Node.TrackerTwo, false).ToOVRPose();
+				p = OVRPlugin.GetNodePose(OVRPlugin.Node.TrackerTwo, OVRPlugin.Step.Render).ToOVRPose();
 				break;
 			case 3:
-				p = OVRPlugin.GetNodePose(OVRPlugin.Node.TrackerThree, false).ToOVRPose();
+				p = OVRPlugin.GetNodePose(OVRPlugin.Node.TrackerThree, OVRPlugin.Step.Render).ToOVRPose();
 				break;
 			default:
 				return OVRPose.identity;

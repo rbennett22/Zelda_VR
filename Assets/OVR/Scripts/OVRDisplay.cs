@@ -2,14 +2,14 @@
 
 Copyright   :   Copyright 2014 Oculus VR, LLC. All Rights reserved.
 
-Licensed under the Oculus VR Rift SDK License Version 3.3 (the "License");
+Licensed under the Oculus VR Rift SDK License Version 3.4.1 (the "License");
 you may not use the Oculus VR Rift SDK except in compliance with the License,
 which is provided at the time of installation or download, or which
 otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
 
-http://www.oculus.com/licenses/LICENSE-3.3
+https://developer.oculus.com/licenses/sdk-3.4.1
 
 Unless required by applicable law or agreed to in writing, the Oculus VR SDK
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,7 +23,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using VR = UnityEngine.VR;
 
 /// <summary>
 /// Manages an Oculus Rift head-mounted display (HMD).
@@ -98,12 +97,18 @@ public class OVRDisplay
 	/// </summary>
 	public void RecenterPose()
 	{
+#if UNITY_2017_2_OR_NEWER
         UnityEngine.XR.InputTracking.Recenter();
-
+#else
+		UnityEngine.VR.InputTracking.Recenter();
+#endif
 		if (RecenteredPose != null)
 		{
 			RecenteredPose();
 		}
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+		OVRMixedReality.RecenterPose();
+#endif
 	}
 
 	/// <summary>
@@ -115,23 +120,21 @@ public class OVRDisplay
 			if (!OVRManager.isHmdPresent)
 				return Vector3.zero;
 
-            OVRPose ret = OVRPlugin.GetEyeAcceleration(OVRPlugin.Eye.None).ToOVRPose();
-            return ret.position;
+			return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.None, OVRPlugin.Step.Render).FromFlippedZVector3f();
 		}
 	}
 
     /// <summary>
     /// Gets the current angular acceleration of the head.
     /// </summary>
-    public Quaternion angularAcceleration
+    public Vector3 angularAcceleration
     {
         get
         {
             if (!OVRManager.isHmdPresent)
-                return Quaternion.identity;
+				return Vector3.zero;
 
-            OVRPose ret = OVRPlugin.GetEyeAcceleration(OVRPlugin.Eye.None).ToOVRPose();
-            return ret.orientation;
+			return OVRPlugin.GetNodeAngularAcceleration(OVRPlugin.Node.None, OVRPlugin.Step.Render).FromFlippedZVector3f() * Mathf.Rad2Deg;
         }
     }
 
@@ -145,29 +148,31 @@ public class OVRDisplay
             if (!OVRManager.isHmdPresent)
                 return Vector3.zero;
 
-            OVRPose ret = OVRPlugin.GetEyeVelocity(OVRPlugin.Eye.None).ToOVRPose();
-            return ret.position;
+			return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.None, OVRPlugin.Step.Render).FromFlippedZVector3f();
         }
     }
 	
 	/// <summary>
 	/// Gets the current angular velocity of the head.
 	/// </summary>
-	public Quaternion angularVelocity
+	public Vector3 angularVelocity
 	{
 		get {
 			if (!OVRManager.isHmdPresent)
-				return Quaternion.identity;
+				return Vector3.zero;
 
-			OVRPose ret = OVRPlugin.GetEyeVelocity(OVRPlugin.Eye.None).ToOVRPose();
-			return ret.orientation;
+			return OVRPlugin.GetNodeAngularVelocity(OVRPlugin.Node.None, OVRPlugin.Step.Render).FromFlippedZVector3f() * Mathf.Rad2Deg;
 		}
 	}
 
 	/// <summary>
 	/// Gets the resolution and field of view for the given eye.
 	/// </summary>
+#if UNITY_2017_2_OR_NEWER
     public EyeRenderDesc GetEyeRenderDesc(UnityEngine.XR.XRNode eye)
+#else
+	public EyeRenderDesc GetEyeRenderDesc(UnityEngine.VR.VRNode eye)
+#endif
 	{
 		return eyeDescs[(int)eye];
 	}
@@ -200,6 +205,20 @@ public class OVRDisplay
 	}
 
 	/// <summary>
+	/// Gets application's frame rate reported by oculus plugin
+	/// </summary>
+	public float appFramerate
+	{
+		get
+		{
+			if (!OVRManager.isHmdPresent)
+				return 0;
+
+			return OVRPlugin.GetAppFramerate();
+		}
+	}
+
+	/// <summary>
 	/// Gets the recommended MSAA level for optimal quality/performance the current device.
 	/// </summary>
 	public int recommendedMSAALevel
@@ -215,13 +234,45 @@ public class OVRDisplay
 		}
 	}
 
-	private void UpdateTextures()
+	/// <summary>
+	/// Gets the list of available display frequencies supported by this hardware.
+	/// </summary>
+	public float[] displayFrequenciesAvailable
 	{
-		ConfigureEyeDesc(UnityEngine.XR.XRNode.LeftEye);
-        ConfigureEyeDesc(UnityEngine.XR.XRNode.RightEye);
+		get { return OVRPlugin.systemDisplayFrequenciesAvailable; }
 	}
 
+	/// <summary>
+	/// Gets and sets the current display frequency.
+	/// </summary>
+	public float displayFrequency
+	{
+		get
+		{
+			return OVRPlugin.systemDisplayFrequency;
+		}
+		set
+		{
+			OVRPlugin.systemDisplayFrequency = value;
+		}
+	}
+
+	private void UpdateTextures()
+	{
+#if UNITY_2017_2_OR_NEWER
+		ConfigureEyeDesc(UnityEngine.XR.XRNode.LeftEye);
+        ConfigureEyeDesc(UnityEngine.XR.XRNode.RightEye);
+#else
+		ConfigureEyeDesc(UnityEngine.VR.VRNode.LeftEye);
+		ConfigureEyeDesc(UnityEngine.VR.VRNode.RightEye);
+#endif
+	}
+
+#if UNITY_2017_2_OR_NEWER
     private void ConfigureEyeDesc(UnityEngine.XR.XRNode eye)
+#else
+	private void ConfigureEyeDesc(UnityEngine.VR.VRNode eye)
+#endif
 	{
 		if (!OVRManager.isHmdPresent)
 			return;
