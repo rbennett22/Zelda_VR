@@ -9,8 +9,11 @@ public class OverworldTerrainEngine : Engine
     public static OverworldTerrainEngine Instance { get { return EngineInstance as OverworldTerrainEngine; } }
 
 
-    public TileMap TileMap { get { return FindObjectOfType<TileMap>(); } }
-    public OverworldChunkLoader ChunkLoader { get { return FindObjectOfType<OverworldChunkLoader>(); } }
+    TileMap _tileMap;
+    public TileMap TileMap { get { return _tileMap ? _tileMap : (_tileMap = FindObjectOfType<TileMap>()); } }
+
+    OverworldChunkLoader _overworldChunkLoader;
+    public OverworldChunkLoader ChunkLoader { get { return _overworldChunkLoader ? _overworldChunkLoader : (FindObjectOfType<OverworldChunkLoader>()); } }
 
     public Chunk GetChunkForSector(Index2 sector)
     {

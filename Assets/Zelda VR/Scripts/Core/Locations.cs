@@ -92,7 +92,8 @@ public class Locations : Singleton<Locations>
         }
 
         // TODO: do this elsewhere
-        ZeldaFog.Instance.enabled = WorldInfo.Instance.IsOverworld;
+        //ZeldaFog.Instance.enabled = WorldInfo.Instance.IsOverworld;
+        ZeldaFog.Instance.enabled = false;
     }
 
 

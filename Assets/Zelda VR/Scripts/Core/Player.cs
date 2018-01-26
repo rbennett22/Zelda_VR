@@ -351,7 +351,7 @@ public class Player : Actor
         UpdateEvents();
 
 
-        if (PauseManager.Instance.IsPaused_Any) { return; }
+        /*if (PauseManager.Instance.IsPaused_Any) { return; }
         if (!IsAlive) { return; }
 
         if (IsInLikeLikeTrap)
@@ -362,7 +362,7 @@ public class Player : Actor
         if (IsParalyzed) { return; }
 
 
-        ProcessUserInput();
+        ProcessUserInput();*/
 
         //EnsureNoWorldFallThrough();
         //EnsureNoFlying();
