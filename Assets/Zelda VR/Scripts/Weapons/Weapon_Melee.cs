@@ -14,7 +14,16 @@ public class Weapon_Melee : Weapon_Base, IDamageDealerDelegate
 
 
     Collider _collider;
-    protected bool CollisionEnabled { get { return _collider.enabled; } set { _collider.enabled = value; } }
+    protected bool CollisionEnabled {
+        get { return _collider.enabled; }
+        set {
+            _collider.enabled = value;
+
+            //Rigidbody rb = GetComponent<Rigidbody>();     // TODO
+            //rb.isKinematic = value;
+            //rb.constraints = !value ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.FreezeRotation;
+        }
+    }
 
     protected Vector3 _originLocal;
     protected Quaternion _origRotLocal;

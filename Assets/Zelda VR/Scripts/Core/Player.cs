@@ -78,7 +78,7 @@ public class Player : Actor
 
         SwordProjectilesEnabled = IsAtFullHealth;
         SwordControlStyle = Weapon_Base.ControlStyleEnum.Classic;        // TODO
-        //_sword.CollisionIsAllowedWhenRetracted = true;              // TODO
+        _sword.CollisionIsAllowedWhenRetracted = false;              // TODO
     }
     public void DeequipSword()
     {

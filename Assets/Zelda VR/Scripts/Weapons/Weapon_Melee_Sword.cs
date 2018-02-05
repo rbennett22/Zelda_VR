@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+
 public class Weapon_Melee_Sword : Weapon_Melee
 {
     const iTween.EaseType STAB_TWEEN_EASE_TYPE = iTween.EaseType.linear;
@@ -103,7 +105,7 @@ public class Weapon_Melee_Sword : Weapon_Melee
             return;
         }
 
-        Vector3 targetPosLocal = transform.localPosition + _attackDirection_Local * _reach;
+        Vector3 targetPosLocal = _originLocal + _attackDirection_Local * _reach;
 
         iTween.MoveTo(gameObject, iTween.Hash(
             "islocal", true,
@@ -169,6 +171,7 @@ public class Weapon_Melee_Sword : Weapon_Melee
         Rigidbody rb = GetComponent<Rigidbody>();
         rb.velocity = Vector3.zero;
 
+        transform.localPosition = _originLocal;
         transform.localRotation = _origRotLocal;
 
         CollectAttachedCollectibles();

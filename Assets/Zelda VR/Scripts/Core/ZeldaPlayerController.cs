@@ -65,21 +65,20 @@ public class ZeldaPlayerController : OVRPlayerController
 
     protected override void UpdateController()
     {
-        //Transform crt = CameraRig.transform;
-        if (useProfileData)
+        Transform crt = CameraRig.transform;
+        if (OVRManager.isHmdPresent && useProfileData)
         {
             if (InitialPose == null)
             {
-                // Save the initial pose so it can be recovered if useProfileData
-                // is turned off later.
+                // Save the initial pose so it can be recovered if useProfileData is turned off later
                 InitialPose = new OVRPose()
                 {
-                    position = CameraRig.transform.localPosition,
-                    orientation = CameraRig.transform.localRotation
+                    position = crt.localPosition,
+                    orientation = crt.localRotation
                 };
             }
 
-            var p = CameraRig.transform.localPosition;
+            var p = crt.localPosition;
             if (OVRManager.instance.trackingOriginType == OVRManager.TrackingOrigin.EyeLevel)
             {
                 p.y = OVRManager.profile.eyeHeight - (0.5f * Controller.height) + Controller.center.y;
@@ -88,15 +87,17 @@ public class ZeldaPlayerController : OVRPlayerController
             {
                 p.y = -(0.5f * Controller.height) + Controller.center.y;
             }
-            CameraRig.transform.localPosition = p;
+            crt.localPosition = p;
         }
         else if (InitialPose != null)
         {
             // Return to the initial pose if useProfileData was turned off at runtime
-            CameraRig.transform.localPosition = InitialPose.Value.position;
-            CameraRig.transform.localRotation = InitialPose.Value.orientation;
+            crt.localPosition = InitialPose.Value.position;
+            crt.localRotation = InitialPose.Value.orientation;
             InitialPose = null;
         }
+
+        SetCameraHeight(CameraRig.centerEyeAnchor.localPosition.y);
 
         UpdateMovement();
 
