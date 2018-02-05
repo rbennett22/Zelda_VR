@@ -76,18 +76,27 @@ public class ZeldaHaptics : Singleton<ZeldaHaptics>
 
     void RumbleSimple(OVRHaptics.OVRHapticsChannel channel)
     {
+        if (channel == null) { return; }
+        
         if (RumbleSimpleClip != null)
         {
             channel.Mix(RumbleSimpleClip);
         }
     }
+
     void Rumble(OVRHaptics.OVRHapticsChannel channel, AudioClip audioClip)
     {
-        OVRHapticsClip clip = new OVRHapticsClip(audioClip);
+        RumbleSimple(channel);      // TODO: remove
+
+        ////////////
+
+        /*if (channel == null) { return; }
+
+        OVRHapticsClip clip = new OVRHapticsClip(audioClip);        // TODO: This line crashes Unity
         for (int i = 0; i < _audioClipAmpMultiplier; i++)
         {
             channel.Mix(clip);
-        }
+        }*/
     }
 
 

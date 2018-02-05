@@ -117,7 +117,7 @@ public class Collectible : MonoBehaviour
         foreach (var clip in sounds)
         {
             sfx.PlayOneShot(clip);
-            ZeldaHaptics.Instance.Rumble_Both(clip);
+            ZeldaHaptics.Instance.RumbleSimple_Both();
         }
     }
 

@@ -26,7 +26,6 @@ NEEDS TESTING:
 
 BUGS:
 
-- BUG: In NonVR View, camera is too low to the ground. -FIXED
 * BUG: Sword doesn't appear to move if you attack while walking (but does if you stand still)
 - BUG: Sword doesn't retract when it collides with a wall (it just goes through the wall)
 * BUG: In VRControlMode, Sword sometimes appears below you and doesn't track with Controller
@@ -42,9 +41,6 @@ BUGS:
 - BUG: I saw Enemy Projectiles being shot through blocks (I saw an arrow and a sword near D6 OW Entrance)
 - BUG: ZeldaVRSettings values dont persist when closing UnityEditor
 - BUG: A Ghini somehow survived the death of its master (possibly spawned right as master died?)
-
-- BUG: Unity crashed unexpectedly shortly after returning to OW after completing Dungeon 1.  
-		Also a crash occurred after walking into a fairy.
 
 
 High Priority: 
