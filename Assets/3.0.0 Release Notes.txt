@@ -2,6 +2,7 @@
 
 RECENTLY DONE:
 
+- BUG: Rupee countdown happens sometimes when you just want an instant change (like when returning to title menu, or using the cheat). -FIXED
 - BUG: Unity crashed when attempting to collect a Collectible Item. -FIXED
 - BUG: In NonVR View, camera is too low to the ground. -FIXED
 

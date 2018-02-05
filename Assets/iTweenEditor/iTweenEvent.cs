@@ -245,12 +245,12 @@ public class iTweenEvent : MonoBehaviour
             case TweenType.AudioUpdate:
                 iTween.AudioUpdate(gameObject, optionsHash);
                 break;
-            case TweenType.CameraFadeFrom:
+            /*case TweenType.CameraFadeFrom:
                 iTween.CameraFadeFrom(optionsHash);
                 break;
             case TweenType.CameraFadeTo:
                 iTween.CameraFadeTo(optionsHash);
-                break;
+                break;*/
             case TweenType.ColorFrom:
                 iTween.ColorFrom(gameObject, optionsHash);
                 break;

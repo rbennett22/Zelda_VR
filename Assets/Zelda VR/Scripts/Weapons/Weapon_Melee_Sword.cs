@@ -192,4 +192,24 @@ public class Weapon_Melee_Sword : Weapon_Melee
     {
         Retract();
     }
+
+
+    #region Manual Tweening  (this is only necessary if iTween.moveto/physics issue is not resolved)
+
+    /*float _manualTweenTimer;
+    void DoManualExtendTween(Vector3 targetPosLocal)
+    {
+
+    }
+
+    void Update()
+    {
+        _manualTweenTimer += Time.deltaTime;
+        if (_isExtending)
+        {
+
+        }
+    }*/
+
+    #endregion Manual Tweening
 }

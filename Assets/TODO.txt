@@ -26,15 +26,16 @@ NEEDS TESTING:
 
 BUGS:
 
-* BUG: Sword doesn't appear to move if you attack while walking (but does if you stand still)
+* BUG: Sword doesn't appear to move if you attack while walking, but works fine if you stand still. (this is an iTween/Rigidbody issue)
 - BUG: Sword doesn't retract when it collides with a wall (it just goes through the wall)
 * BUG: In VRControlMode, Sword sometimes appears below you and doesn't track with Controller
 
-* BUG: PauseMenu text is "whited out"
-* BUG: HUD Hearts are skewed
+* BUG: After using whistle, the world unpauses before Link has been teleported
+* BUG: Pausing while Inventory is displayed results in some Inventory graphic elements rendering in front of pause Menu (in VR HMD only?)
 * BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?  OR use VR Composite Layers?).
 * BUG: Can briefly see through OW ground when loading
 * BUG: Paralyze breaks Leevers and RiverZora.
+* BUG: Leevers are vanishing after one burrow cycle
 * BUG: Enemies can push Link off the ground
 
 - BUG: If you buy Red potion (instead of HeartContainer in special grotto) you can obtain the letter simply by using the red and blue potions.

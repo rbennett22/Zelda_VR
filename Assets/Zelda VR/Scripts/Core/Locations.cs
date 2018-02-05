@@ -104,6 +104,8 @@ public class Locations : Singleton<Locations>
 
         CommonObjects.Player_C.IsParalyzed = true;
         CommonObjects.PlayerController_C.gravityEnabled = false;
+
+        GameplayHUDViewController.Instance.ForceRupeeCountTextToAmount(0);
     }
 
     public void LoadInitialScene()

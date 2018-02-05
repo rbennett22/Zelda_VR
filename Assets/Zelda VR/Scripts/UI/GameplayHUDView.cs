@@ -38,7 +38,7 @@ public class GameplayHUDView : MonoBehaviour
         UpdateTextureForEquippedItemSlotA(null);
         UpdateTextureForEquippedItemSlotB(null);
 
-        UpdateRupeesCountText(0);
+        ForceRupeeCountTextToAmount(0);
         UpdateKeysCountText(0);
         UpdateBombsCountText(0);
 
@@ -75,6 +75,11 @@ public class GameplayHUDView : MonoBehaviour
     int _targetRupeeCount, _displayedRupeeCount;
 
 
+    public void ForceRupeeCountTextToAmount(int amount)
+    {
+        _displayedRupeeCount = _targetRupeeCount = amount;
+        UpdateRupeeCountAnimation();
+    }
     public void UpdateRupeesCountText(int amount)
     {
         _targetRupeeCount = amount;
@@ -88,12 +93,13 @@ public class GameplayHUDView : MonoBehaviour
 
     void Update()
     {
-        UpdateRupeeCountAnimation();
+        if (_displayedRupeeCount != _targetRupeeCount)
+        {
+            UpdateRupeeCountAnimation();
+        }
     }  
     void UpdateRupeeCountAnimation()
     {
-        if (_displayedRupeeCount == _targetRupeeCount) { return; }
-
         if (_displayedRupeeCount > _targetRupeeCount) { _displayedRupeeCount--; }
         else if (_displayedRupeeCount < _targetRupeeCount) { _displayedRupeeCount++; }
 

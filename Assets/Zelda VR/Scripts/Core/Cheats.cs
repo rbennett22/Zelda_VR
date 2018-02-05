@@ -105,6 +105,7 @@ public class Cheats : Singleton<Cheats>
     public void MaxOutInventory()
     {
         Inventory.Instance.MaxOutEverything();
+        MaxOutRupees();
     }
 
     public void ToggleInvincibility()
@@ -224,7 +225,8 @@ public class Cheats : Singleton<Cheats>
     }
     public void SetRupeeCount(int r)
     {
-        Inventory.Instance.ReceiveRupees(r);
+        Inventory.Instance.RupeeCount = r;
+        GameplayHUDViewController.Instance.ForceRupeeCountTextToAmount(r);
     }
 
 
@@ -239,7 +241,7 @@ public class Cheats : Singleton<Cheats>
     }
     public void DamagePlayer()
     {
-        CommonObjects.Player_C.HealthController.TakeDamage(64, gameObject);
+        CommonObjects.Player_C.HealthController.TakeDamage(4, gameObject);
     }
     public void KillPlayer()
     {

@@ -2,7 +2,7 @@
 
 public static class iTweenExtensions
 {
-    public static void SafeStopTweenByName(string name)
+    /*public static void SafeStopTweenByName(string name)
     {
         if (iTween.tweens.Contains(name))
             iTween.StopByName(name);
@@ -16,5 +16,5 @@ public static class iTweenExtensions
     {
         if (iTween.tweens.Contains(name))
             iTween.StopByName(target, name, includeChildren);
-    }
+    }*/
 }

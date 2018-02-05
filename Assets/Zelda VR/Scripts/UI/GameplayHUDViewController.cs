@@ -197,6 +197,12 @@ public class GameplayHUDViewController : Singleton<GameplayHUDViewController>
         }
     }
 
+
+    public void ForceRupeeCountTextToAmount(int amount)
+    {
+        View.ForceRupeeCountTextToAmount(amount);
+    }
+
     /*
     const float Y_BASE_OFFSET = 400;
     public int vertShiftSpeed = 600;
