@@ -476,6 +476,12 @@ public class Inventory : Singleton<Inventory>
 
     public void EquipSword_Cheat(string swordName)
     {
+        if(swordName == null)
+        {
+            EquippedItemA = null;
+            return;
+        }
+
         Item sword = GetItem(swordName);
         sword.count = 1;
         EquippedItemA = sword;
