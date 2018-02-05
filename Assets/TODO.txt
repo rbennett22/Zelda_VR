@@ -46,6 +46,8 @@ BUGS:
 
 High Priority: 
 
+* Shadows: Where'd they go?
+
 * Oculus Touch:  Secondary Weapons
 * Oculus Touch:  Wrist Menu
 
