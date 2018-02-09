@@ -35,6 +35,7 @@ public class EnemySpawnManager : MonoBehaviour, ISpawnManager
         foreach (Transform child in CommonObjects.EnemiesContainer)
         {
             Vector3 toPlayer = playerPos - child.position;
+            toPlayer.y = 0;
             float distToPlayerSq = toPlayer.sqrMagnitude;
             if (distToPlayerSq > _enemyRemovalDistanceSq)
             {

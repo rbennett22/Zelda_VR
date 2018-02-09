@@ -204,7 +204,7 @@ public class EnemyAI_Random : EnemyAI
                         excludeDirections.Add(MoveDirection_Tile.Reversed);
                     }
 
-                    desiredMoveDir = GetRandomTileDirectionExcluding(excludeDirections);
+                    desiredMoveDir = GetRandomTileDirectionExcluding(excludeDirections);  
                 }
                 else if (action == DiscreteAction.Jump)
                 {

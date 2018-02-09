@@ -2,6 +2,7 @@
 
 RECENTLY DONE:
 
+- BUG: Leevers are vanishing after one burrow cycle. -FIXED
 - BUG: Sunlight not casting shadows. -FIXED
 - BUG: Rupee countdown happens sometimes when you just want an instant change (like when returning to title menu, or using the cheat). -FIXED
 - BUG: Unity crashed when attempting to collect a Collectible Item. -FIXED

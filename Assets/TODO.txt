@@ -34,8 +34,8 @@ BUGS:
 * BUG: Pausing while Inventory is displayed results in some Inventory graphic elements rendering in front of pause Menu (in VR HMD only?)
 * BUG: UI Views can get clipped if you are close to a wall (maybe use ImageEffects->ScreenOverlay?  OR use VR Composite Layers?).
 * BUG: Can briefly see through OW ground when loading
+* BUG: Leevers are spawning slightly out of their Boundary, causing them to always move in same direction.
 * BUG: Paralyze breaks Leevers and RiverZora.
-* BUG: Leevers are vanishing after one burrow cycle
 * BUG: Enemies can push Link off the ground
 
 - BUG: If you buy Red potion (instead of HeartContainer in special grotto) you can obtain the letter simply by using the red and blue potions.
@@ -45,8 +45,6 @@ BUGS:
 
 
 High Priority: 
-
-* Shadows: Where'd they go?
 
 * Oculus Touch:  Secondary Weapons
 * Oculus Touch:  Wrist Menu
